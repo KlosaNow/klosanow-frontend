@@ -26,6 +26,6 @@ Use Kebab Case for both folders and file name.
 
 Except for reusable components - always use Pascal case for both components files and folders name.
 
-(More on naming convention here)[https://www.upbeatcode.com/react/react-naming-conventions/]
+[More on naming convention here](https://www.upbeatcode.com/react/react-naming-conventions/)
 
 # Note
