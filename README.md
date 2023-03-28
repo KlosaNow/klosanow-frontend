@@ -18,7 +18,7 @@ run `yarn build` to build the app
 
 Commits not inline with conventional commits would be rejected.
 
-(Git conventional commits)[https://www.conventionalcommits.org/en/v1.0.0/#summary]
+[Git conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary)
 
 ### Note
 
