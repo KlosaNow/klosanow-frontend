@@ -14,6 +14,14 @@ run `yarn start` to start the dev server
 
 run `yarn build` to build the app
 
+### To install
+
+run `yarn add` <packagename>
+
+### To uninstall
+
+run `yarn remove` <packagename>
+
 ### GIT
 
 Commits not inline with conventional commits would be rejected.
