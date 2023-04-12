@@ -30,9 +30,15 @@ Commits not inline with conventional commits would be rejected.
 
 ### Note
 
-Use Kebab Case for both folders and file name.
+The basic structure for the folders have already been set up. Create your files and add assets in the appropriate folders.
 
-Except for reusable components - always use Pascal case for both components files and folders name.
+Regarding casing:
+
+- use Kebab Case for both folders and file name.
+
+- ALWAYS use 'PascalCase' for every files and folders names added in the 'components folder'.
+
+- Name the functions in your files in 'PascalCase'
 
 [More on naming convention here](https://www.upbeatcode.com/react/react-naming-conventions/)
 
