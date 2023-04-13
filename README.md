@@ -22,13 +22,13 @@ run `yarn add` <packagename>
 
 run `yarn remove` <packagename>
 
-### GIT
+## GIT
 
 Commits not inline with conventional commits would be rejected.
 
 [Git conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary)
 
-### Note
+## Note
 
 The basic structure for the folders have already been set up. Create your files and add assets in the appropriate folders.
 
@@ -38,8 +38,14 @@ Regarding casing:
 
 - ALWAYS use 'PascalCase' for every files and folders names added in the 'components folder'.
 
-- Name the functions in your files in 'PascalCase'
+- Name the components in your files in 'PascalCase'. [Learn more here](https://stackoverflow.com/questions/65508199/function-is-declared-but-its-value-is-never-read-react)
 
 [More on naming convention here](https://www.upbeatcode.com/react/react-naming-conventions/)
+
+### Redundant codes
+
+Always remeber to remove any code you're not making use of. This include redundant variables, console.logs, functions, dependencies, imports, etc.
+
+This will prevent our server log from being piled up with unnecessary warnings.
 
 # Note
