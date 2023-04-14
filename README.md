@@ -34,9 +34,7 @@ The basic structure for the folders have already been set up. Create your files 
 
 Regarding casing:
 
-- use Kebab Case for both folders and file name.
-
-- ALWAYS use 'PascalCase' for every files and folders names added in the 'components folder'.
+- use 'PascalCase' for every files and components folder. There's exception for custom hooks which should be done using camelCase.
 
 - Name the components in your files in 'PascalCase'. [Learn more here](https://stackoverflow.com/questions/65508199/function-is-declared-but-its-value-is-never-read-react)
 
