@@ -12,6 +12,8 @@
     "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@fontsource/encode-sans": "^4.5.10",
+    "@fontsource/playfair-display": "^4.5.13",
     "eslint": "^8.38.0",
     "eslint-plugin-react": "^7.32.2",
     "framer-motion": "^10.12.2",
