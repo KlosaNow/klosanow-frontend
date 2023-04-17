@@ -13,6 +13,8 @@ This repository houses the frontend codebase for Klosanow web app.
 - 🚀 Typescript
 - 🚀 Sass
 - 🚀 Vite
+- 🚀 Redux
+
 
 
 
@@ -90,4 +92,17 @@ To know more about Naming Conventions, Checkout the below resources
 Always remeber to remove or comment any code  you're not making use of before pushing . This include redundant variables, console.logs, functions, dependencies, imports, etc.
 
 This will prevent our server log from being piled up with unnecessary warnings.
+
+### Avialable dependecies to help with project build process
+
+| Dependency | Link to Docs | what it is used for |
+| :------------------|:-------------| :-------------------|
+| Chakra UI          |<https://chakra-ui.com> |Chakra UI is a simple, modular and accessible component library that gives you the building blocks you need to build your React applications.|
+| Vite   | <https://vitejs.dev> | a build tool that aims to provide a faster and leaner development experience for modern web projects |
+|React Router | <https://reactrouter.com/en/main> | React Router enables "client side routing".|
+| Typescript         | <https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html>| For strict typing and error handling for type checking|
+|React Icons | <https://react-icons.github.io/react-icons/> | icons libary |
+
+
+
 
