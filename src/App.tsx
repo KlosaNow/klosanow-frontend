@@ -1,11 +1,14 @@
-import React from 'react';
-import { Box, Text } from "@chakra-ui/react"
+import { Route, Routes } from "react-router-dom"
+import { SplashScreen } from './pages/SplashScreen';
+import { Error } from "./pages/ErrorPage";
+
 function App() {
   return (
     <>
-      <Box display='flex' alignItems='center' justifyContent='center'>
-        <Text fontSize='6xl' color="primary.70">KlosaNow</Text>
-      </Box>
+      <Routes>
+        <Route path="/" element={<SplashScreen />} />
+        <Route path="*" element={<Error />} />
+      </Routes>
 
     </>
   );
