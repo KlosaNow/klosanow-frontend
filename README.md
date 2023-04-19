@@ -72,7 +72,9 @@ To learn more about this, see [Git Conventional Commits](https://www.conventiona
 
 ### Folder Structure Rules
 
-The basic structure for the folders have been set up.Create your files/components  and add assets in the appropriate folders.
+ The basic structure for the folders have been set up.Create your files/components  and add assets in the appropriate folders.
+
+
 
 ### Naming Convention Rules
 - Use **PascalCase** for every files and componets folder name. There is an exception  for **custom Hooks** which should be done using **camelCase**
@@ -102,6 +104,7 @@ This will prevent our server log from being piled up with unnecessary warnings.
 |React Router | <https://reactrouter.com/en/main> | React Router enables "client side routing".|
 | Typescript         | <https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html>| For strict typing and error handling for type checking|
 |React Icons | <https://react-icons.github.io/react-icons/> | icons libary |
+
 
 
 
