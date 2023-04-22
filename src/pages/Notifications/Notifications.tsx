@@ -13,7 +13,7 @@ const justifyContent = 'start'
 
 export default function Notifications() {
 	return(
-		<Box>
+		<Box maxW='720px' m='0 auto'>
 			<Box display='flex' justifyContent='start' alignItems="center" h='2em' mb='1em'>
 				<ArrowBackIcon boxSize={6} mr='13px'/>
 				<Text fontSize='18px' fontWeight={700}>Notifications (2)</Text>

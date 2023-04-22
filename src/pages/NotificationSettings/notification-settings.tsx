@@ -5,7 +5,7 @@ const padding = '1.5em'
 
 export default function NotificationSettings() {
 	return(
-		<Box>
+		<Box maxW='720px' m='0 auto'>
 			<Box display='flex' justifyContent='start' alignItems="center" h='2em'>
 				<ArrowBackIcon boxSize={6} mr='13px'/>
 				<Text fontSize='18px' fontWeight={500}>Notifications</Text>
