@@ -1,3 +1,3 @@
-import NotificationSettings from "./notification-settings";
+import NotificationSettings from "./NotificationSettings";
 
 export { NotificationSettings };

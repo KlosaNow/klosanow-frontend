@@ -1,6 +1,6 @@
 import {Box, Text,List, ListItem, Circle } from '@chakra-ui/react'
 import { ArrowBackIcon } from '@chakra-ui/icons'
-import "../../styles/Notifications.css"
+import "../../styles/Notifications.scss"
 import backgroundImage1 from '../../assets/images/notification_1.png'
 import backgroundImage2 from '../../assets/images/notification_2.png'
 import backgroundImage3 from '../../assets/images/notification_3.png'
