@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Onboarding />} />
+        <Route path="/onboarding" element={<Onboarding />} />
         <Route path="*" element={<Error />} />
       </Routes>
 

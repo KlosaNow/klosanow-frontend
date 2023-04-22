@@ -31,7 +31,7 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
         <SlideTemplate {...slides[currentIndex]} />
       </motion.div>
       <Stack direction='column' align='center'>
-      <Button variant='solid' color='white' background='#7B58F4' w='85%' h='50px' onClick={handleNextSlide}>
+      <Button variant='solid' color='primary.70' background='#7B58F4' w='85%' h='50px' onClick={handleNextSlide}>
         {currentIndex === slides.length - 1 ? "Login" : "Next"}
       </Button>
       <Button
