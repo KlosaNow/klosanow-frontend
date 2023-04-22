@@ -1,0 +1,20 @@
+div.list-line {
+	height: 0.5px;
+	width: 90%;
+	margin: 0 auto;
+	background-color: rgb(201, 201, 201);
+}
+
+.notification-image {
+	width: 54px;
+	height: 54px;
+	border-radius: 50%;
+	background-repeat: no-repeat;
+	background-size: cover;
+	margin-right: 1em;
+}
+
+.notification-info-name {
+	color: #7B58F4;
+	font-weight: 500;
+}
