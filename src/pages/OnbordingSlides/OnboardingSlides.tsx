@@ -18,7 +18,13 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
       setCurrentIndex(currentIndex + 1);
     }
   };
-
+  const autoSlide = setInterval(() => {
+    if (currentIndex === slides.length - 1) {
+      clearInterval(autoSlide);
+    } else {
+      setCurrentIndex(currentIndex + 1);
+    }
+  }, 5000)
   return (
     <AnimatePresence  mode="wait">
       <motion.div
