@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { SlideTemplate } from "./SlideTemplate";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -8,8 +8,23 @@ interface OnboardingSlidesProps {
   slides: { image: string; title: string; description: string; id: string }[];
 }
 
+
 const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  useEffect(() => {
+    const autoSlide = setInterval(() => {
+      if (currentIndex === slides.length - 1) {
+         clearInterval(autoSlide);
+         console.log('cleared')
+      } else {
+        setCurrentIndex(currentIndex + 1);
+      }
+    }, 5000)
+    return () => {
+      clearInterval(autoSlide)
+    }
+  }, [currentIndex, slides.length])
+
   const navigate = useNavigate();
   const handleNextSlide = () => {
     if (currentIndex === slides.length - 1) {
@@ -18,15 +33,8 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
       setCurrentIndex(currentIndex + 1);
     }
   };
-  const autoSlide = setInterval(() => {
-    if (currentIndex === slides.length - 1) {
-      clearInterval(autoSlide);
-    } else {
-      setCurrentIndex(currentIndex + 1);
-    }
-  }, 5000)
   return (
-    <AnimatePresence  mode="wait">
+    <AnimatePresence mode='popLayout'>
       <motion.div
         key={currentIndex}
         initial={{ translateX: 200 }}
