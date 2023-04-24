@@ -21,7 +21,7 @@ function App() {
         <Route path="/settings/notifications" element={<NotificationSettings />} />
         <Route path="/help" element={<Help />} />
         <Route path="/help/mail" element={<MailUs />} />
-        <Route path=".help/chat" element={<ChatBot />} />
+        <Route path="/help/chat" element={<ChatBot />} />
 
         <Route path="*" element={<Error />} />
       </Routes>
