@@ -6,7 +6,7 @@ import { slides } from "./SlideData";
 const Onboarding = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
- 
+
   useEffect(() => {
     setTimeout(() => {
       setShowOnboarding(true);
