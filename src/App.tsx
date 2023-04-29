@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom"
 import { SplashScreen } from './pages/SplashScreen';
 import { Error } from "./pages/ErrorPage";
+import SettingPage from "./pages/SettingsPage/SettingsPage";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SplashScreen />} />
         <Route path="*" element={<Error />} />
+        <Route path="/settings" element={<SettingPage />} />
       </Routes>
 
     </>
