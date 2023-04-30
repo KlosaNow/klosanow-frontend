@@ -1,12 +1,6 @@
 
 import { Route, Routes } from "react-router-dom";
-import { Error } from "./pages/ErrorPage";
-
-import { Notifications } from "./pages/Notifications";
-import { NotificationSettings } from "./pages/NotificationSettings";
-
 import { SplashScreen } from "./pages/SplashScreen";
-
 import Onboarding from "./pages/Onboarding";
 import { Notifications } from "./pages/Notifications";
 import { NotificationSettings } from "./pages/NotificationSettings";
