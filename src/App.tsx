@@ -3,7 +3,6 @@ import { SplashScreen } from "./pages/SplashScreen";
 import FreeStorageView from "./pages/StorageView/FreeStorageView";
 import BasicStorageView from "./pages/StorageView/BasicStorageView";
 import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
-
 import { Error } from "./pages/ErrorPage";
 
 function App() {
