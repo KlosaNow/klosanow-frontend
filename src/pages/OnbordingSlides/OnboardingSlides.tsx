@@ -12,19 +12,6 @@ interface OnboardingSlidesProps {
 
 const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  useEffect(() => {
-    const autoSlide = setInterval(() => {
-      if (currentIndex === slides.length - 1) {
-         clearInterval(autoSlide);
-         console.log('cleared')
-      } else {
-        setCurrentIndex(currentIndex + 1);
-      }
-    }, 5000)
-    return () => {
-      clearInterval(autoSlide)
-    }
-  }, [currentIndex, slides.length])
 
   const navigate = useNavigate();
   const handleNextSlide = () => {
