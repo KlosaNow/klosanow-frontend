@@ -33,14 +33,14 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
         <SlideTemplate {...slides[currentIndex]} />
       </motion.div>
       <Stack direction='column' align='center'>
-      <BUTTON variant='solid' color='neutral.50' backgroundColor='primary.50' width='85%' height='50px' action={handleNextSlide}>
+      <BUTTON variant='solid' color='neutral.50' backgroundColor='primary.50' width='85%' paddingY='25px' action={handleNextSlide}>
         {currentIndex === slides.length - 1 ? "Login" : "Next"}
       </BUTTON>
       <BUTTON
       variant='ghost'
       color='#7B58F4'
       action={() => navigate("/login")}
-      backgroundColor='transparent.100' width='85%' height='50px'
+      backgroundColor='transparent.100' width='85%' paddingY='25px'
       >
         {currentIndex === slides.length - 1 ? "Sign into your account" : "skip"}
       </BUTTON>
