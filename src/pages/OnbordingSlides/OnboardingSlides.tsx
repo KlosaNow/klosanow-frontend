@@ -1,9 +1,9 @@
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import { SlideTemplate } from "./SlideTemplate";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Stack } from "@chakra-ui/react";
-import {BTN} from '../../components/Button'
+import {BUTTON} from '../../components/Button'
 
 interface OnboardingSlidesProps {
   slides: { image: string; title: string; description: string; id: string }[];
@@ -33,17 +33,17 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
         <SlideTemplate {...slides[currentIndex]} />
       </motion.div>
       <Stack direction='column' align='center'>
-      <BTN variant='solid' color='neutral.50' backgroundColor='primary.50' width='85%' height='50px' action={handleNextSlide}>
+      <BUTTON variant='solid' color='neutral.50' backgroundColor='primary.50' width='85%' height='50px' action={handleNextSlide}>
         {currentIndex === slides.length - 1 ? "Login" : "Next"}
-      </BTN>
-      <BTN
+      </BUTTON>
+      <BUTTON
       variant='ghost'
       color='#7B58F4'
       action={() => navigate("/login")}
       backgroundColor='transparent.100' width='85%' height='50px'
       >
         {currentIndex === slides.length - 1 ? "Sign into your account" : "skip"}
-      </BTN>
+      </BUTTON>
     </Stack>
     </AnimatePresence>
   );
