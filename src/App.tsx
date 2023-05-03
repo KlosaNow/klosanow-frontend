@@ -1,23 +1,22 @@
-
-import { Route, Routes } from "react-router-dom"
-import { SplashScreen } from './pages/SplashScreen';
-import Onboarding from "./pages/Onboarding";
-import { Notifications } from "./pages/Notifications";
-import { NotificationSettings } from "./pages/NotificationSettings";
+import { Route, Routes } from "react-router-dom";
+import { SplashScreen } from "./pages/SplashScreen";
+// import { Notifications } from "./pages/Notifications";
+// import { NotificationSettings } from "./pages/NotificationSettings";
 import FreeStorageView from "./pages/StorageView/FreeStorageView";
 import BasicStorageView from "./pages/StorageView/BasicStorageView";
 import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
 import { Error } from "./pages/ErrorPage";
 
-
 function App() {
   return (
     <>
       <Routes>
-
         <Route path="/" element={<SplashScreen />} />
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/settings/notifications" element={<NotificationSettings />} />
+        {/* <Route path="/notifications" element={<Notifications />} />
+        <Route
+          path="/settings/notifications"
+          element={<NotificationSettings />}
+        /> */}
 
         <Route path="*" element={<Error />} />
         {/* Storage view Route */}

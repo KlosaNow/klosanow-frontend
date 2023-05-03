@@ -5,8 +5,7 @@ const BasicStorageView: React.FC = () => {
   return (
     <StorageViewComponent
       title="Basic"
-      progressValue={5}
-      spaceUsed="3.5MB"
+      spaceUsed="700MB"
       totalSpace="5GB"
       message="Upgrade for more space"
     />

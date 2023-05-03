@@ -20,29 +20,38 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
   };
 
   return (
-    <AnimatePresence  mode="wait">
+    <AnimatePresence mode="wait">
       <motion.div
         key={currentIndex}
         initial={{ translateX: 200 }}
         animate={{ translateX: 0 }}
-        exit={{ translateX: -400 ,scale: 0.9, opacity: 0 }}
+        exit={{ translateX: -400, scale: 0.9, opacity: 0 }}
         transition={{ delay: 0, duration: 0.5, damping: 80, stiffness: 10 }}
       >
         <SlideTemplate {...slides[currentIndex]} />
       </motion.div>
-      <Stack direction='column' align='center'>
-      <Button variant='solid' color='neutral.50' background='primary.50' w='85%' h='50px' onClick={handleNextSlide}>
-        {currentIndex === slides.length - 1 ? "Login" : "Next"}
-      </Button>
-      <Button
-      variant='ghost'
-      color='#7B58F4'
-        onClick={() => navigate("/login")}
-        disabled={currentIndex === slides.length - 1}
-      >
-        {currentIndex === slides.length - 1 ? "Sign into your account" : "skip"}
-      </Button>
-    </Stack>
+      <Stack direction="column" align="center">
+        <Button
+          variant="solid"
+          color="neutral.50"
+          background="primary.50"
+          w="85%"
+          h="50px"
+          onClick={handleNextSlide}
+        >
+          {currentIndex === slides.length - 1 ? "Login" : "Next"}
+        </Button>
+        <Button
+          variant="ghost"
+          color="#7B58F4"
+          onClick={() => navigate("/login")}
+          disabled={currentIndex === slides.length - 1}
+        >
+          {currentIndex === slides.length - 1
+            ? "Sign into your account"
+            : "skip"}
+        </Button>
+      </Stack>
     </AnimatePresence>
   );
 };

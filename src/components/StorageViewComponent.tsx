@@ -12,19 +12,27 @@ import { GoPrimitiveDot } from "react-icons/go";
 
 interface StorageCardProps {
   title: string;
-  progressValue: number;
-  spaceUsed: string;
+  spaceUsed: string; // Change the name of the prop to 'spaceUsed'
   totalSpace: string;
   message: string;
 }
 
 const StorageViewComponent: React.FC<StorageCardProps> = ({
   title,
-  progressValue,
-  spaceUsed,
+  spaceUsed, // Update the destructured variable name to 'spaceUsed'
   totalSpace,
   message,
 }) => {
+  // Calculate the percentage of used space based on the 'spaceUsed' and 'totalSpace' props
+  const spaceUsedInGB = parseFloat(spaceUsed) / 1024;
+  const totalSpaceInGB = parseFloat(totalSpace);
+  const percentageUsed = Math.round(
+    (spaceUsedInGB * 1000) / totalSpaceInGB / 100
+  );
+
+  // Use the conditional operator to display either 'spaceUsed' or 'percentageUsed'
+  const displayValue = isNaN(percentageUsed) ? spaceUsed : `${percentageUsed}%`;
+
   return (
     <Box bg="white" p="4" fontWeight="500">
       {/* Navigation Section */}
@@ -57,13 +65,15 @@ const StorageViewComponent: React.FC<StorageCardProps> = ({
           gap="40px"
         >
           <Box>
+            {/* Use the calculated percentage for the 'value' prop of the CircularProgress component */}
             <CircularProgress
-              value={progressValue}
+              value={percentageUsed}
               color="primary.50"
               thickness="5px"
               size="200px"
             >
-              <CircularProgressLabel>{progressValue}%</CircularProgressLabel>
+              {/* Use template literals to show the percentage value with one decimal place */}
+              <CircularProgressLabel>{displayValue}</CircularProgressLabel>
             </CircularProgress>
           </Box>
           <Flex
@@ -93,7 +103,9 @@ const StorageViewComponent: React.FC<StorageCardProps> = ({
                   mr="2"
                   textColor="primary.50"
                 />
-                <p>{totalSpace}</p>
+                <div>
+                  <p>{totalSpace}</p>
+                </div>
               </Flex>
             </Flex>
           </Flex>
@@ -107,7 +119,7 @@ const StorageViewComponent: React.FC<StorageCardProps> = ({
         bg="#7B58F4"
         w={{ base: "90%", lg: "20%" }}
         mx="auto"
-        marginTop="6"
+        mt="6"
         borderRadius="md"
         p="5"
         textColor="white"
