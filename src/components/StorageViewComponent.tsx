@@ -12,14 +12,14 @@ import { GoPrimitiveDot } from "react-icons/go";
 
 interface StorageCardProps {
   title: string;
-  spaceUsed: string; // Change the name of the prop to 'spaceUsed'
+  spaceUsed: string;
   totalSpace: string;
   message: string;
 }
 
 const StorageViewComponent: React.FC<StorageCardProps> = ({
   title,
-  spaceUsed, // Update the destructured variable name to 'spaceUsed'
+  spaceUsed,
   totalSpace,
   message,
 }) => {
