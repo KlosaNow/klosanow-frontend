@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: #2A2A2A;
+  font-family: 'Encode Sans', sans-serif;
+}
+
+.heading2 {
+  @include font(18px, 22px, 500);
+}
+
+.heading3 {
+  @include font(16px, 20px, 500);
+}
+
+.p {
+  @include font(14px, 18px, 400);
+}
+
+.page-heading {
+  margin-bottom: 20px;
+}
+
+.icons {
+  font-size: 24px;
+  color: #7B58F4 !important;
+}

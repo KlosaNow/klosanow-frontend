@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@300;400;500;600;700&display=swap');
+@import "./mxins.scss";
+@import "./generalStyling.scss";
+
+.section-heading {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 15px 2%;
+}
+
+.help {
+  padding: 10px 6%;
+
+  .help-content {
+    @include flex(column, flex-start, center, 26px);
+  
+    .help-items {
+      width: 100%;
+      @include flex(row, flex-start, space-between, 10px);
+
+      .help-text {
+        @include flex(row, flex-start, flex-start, 7px);
+        flex: 80%;
+      }
+    }
+  }  
+}
