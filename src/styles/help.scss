@@ -26,3 +26,29 @@
     }
   }  
 }
+
+.mail-container {
+  background: #f6f6f6;
+  min-height: 100vh;
+
+  .mail {
+    padding: 10px 6%;
+
+    .mail-us {
+      @include flex(column, stretch, flex-start, 16px);
+
+      input,
+      textarea {
+        padding-left: 12px;
+        height: 42px;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px;
+      }
+
+      textarea {
+        height: 269px;
+        margin-top: 16px;
+      }
+    }
+  }
+}

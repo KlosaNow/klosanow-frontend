@@ -2,6 +2,7 @@ import Heading from "./Heading";
 import "../styles/help.scss";
 import { MdEmail, MdKeyboardArrowRight } from "react-icons/md";
 import { FaRobot } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Help = () => {
   return (
@@ -11,7 +12,7 @@ const Help = () => {
         <h2 className="heading2 page-heading">How can we help you?</h2>
 
         <div className="help-content">
-          <div className="help-items">
+          <Link to="/help/mail" className="help-items">
             <div className="help-text">
               <div className="icons">
                 <MdEmail />
@@ -25,9 +26,9 @@ const Help = () => {
             <div className="icons">
               <MdKeyboardArrowRight />
             </div>
-          </div>
+          </Link>
 
-          <div className="help-items">
+          <Link to="/help/chat" className="help-items">
             <div className="help-text">
               <div className="icons">
                 <FaRobot />
@@ -41,7 +42,7 @@ const Help = () => {
             <div className="icons">
               <MdKeyboardArrowRight />
             </div>
-          </div>
+          </Link>
         </div>
       </section>
     </>
