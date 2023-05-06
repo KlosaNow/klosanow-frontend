@@ -5,7 +5,7 @@ import { Notifications } from "./pages/Notifications";
 import { NotificationSettings } from "./pages/NotificationSettings";
 
 import { SplashScreen } from './pages/SplashScreen';
-import Onboarding from "./pages/Onboarding";
+// import Onboarding from "./pages/Onboarding";
 
 
 function App() {
