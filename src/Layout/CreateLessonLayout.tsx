@@ -7,7 +7,16 @@ export default function CreateLessonLayout() {
     return (
         <Box p='1rem' minH="100vh">
             <Box height="auto">
-                <Icon as={MdArrowBack} />
+                <Box
+                    pos="fixed"
+                    top='0'
+                    bg='#fff'
+                    w='100%'
+                    h='40px'
+                    zIndex='1'
+                >
+                    <Icon mt='1rem' as={MdArrowBack} />
+                </Box>
 
                 <Outlet />
 

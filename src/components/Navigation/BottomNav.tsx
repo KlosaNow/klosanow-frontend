@@ -12,12 +12,13 @@ const navItems = [
 export default function BottomNav() {
   return (
     <Box
-      pos="absolute"
+      pos="fixed"
       bottom="0"
       left="0"
       borderTop='0.5px solid #CCCCCC'
       p='1rem'
       w="100%"
+      bg='neutral.5'
     >
       <Box display='flex' justifyContent='space-around' alignItems='center'>
         {navItems.map((nav) => (
@@ -26,8 +27,6 @@ export default function BottomNav() {
             <Text fontSize='sm' textColor='black.20'>{nav.title}</Text>
           </Box>
         ))}
-
-
       </Box>
     </Box>
   )
