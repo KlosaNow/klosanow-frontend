@@ -52,3 +52,15 @@
     }
   }
 }
+
+.chat {
+  @include flex(column-reverse, stretch, flex-start, 20px);
+  padding: 10px 6%;
+  min-height: calc(100vh - 52px);
+
+  .chat-text {
+    border: 0.5px solid #AAAAAA;
+    border-radius: 4px;
+    padding: 8px;
+  }
+}
