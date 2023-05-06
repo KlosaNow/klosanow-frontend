@@ -17,7 +17,6 @@ function App() {
           path="/settings/notifications"
           element={<NotificationSettings />}
         />
-
         <Route path="*" element={<Error />} />
       </Routes>
     </>
