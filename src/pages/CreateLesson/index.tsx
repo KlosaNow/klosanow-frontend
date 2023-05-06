@@ -1,14 +1,6 @@
 import { Box, Text } from "@chakra-ui/react"
 import { CreateLessonCard, LessonDraftCard } from "../../components/LessonCards"
-
-const draftData = [
-  { title: "Biology 101", desc: "This course is intended for the student interested in understanding common bi...", src: 'https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60' },
-  { title: "Physics 101", desc: "This course is intended for the student interested in understanding common bi...", src: 'https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60' },
-  { title: "Stat 102", desc: "This course is intended for the student interested in understanding common bi...", src: 'https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60' },
-  { title: "Chemistry 201", desc: "This course is intended for the student interested in understanding common bi...", src: 'https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60' },
-  { title: "Biology 121", desc: "This course is intended for the student interested in understanding common bi...", src: 'https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60' },
-  { title: "Biology 121", desc: "This course is intended for the student interested in understanding common bi...", src: 'https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60' },
-]
+import { draftData } from "./lessonData"
 
 export default function CreateLesson() {
   return (
@@ -20,6 +12,7 @@ export default function CreateLesson() {
           buttonTextColor="#7B58F4"
           cardDesc="Present your lesson using templates"
           cardTitle="Create Lesson"
+          buttonLink='/create-lesson/select-template'
           cardSrc="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
         />
       </Box>

@@ -17,9 +17,7 @@ export default function CreateLessonLayout() {
                 >
                     <Icon mt='1rem' as={MdArrowBack} />
                 </Box>
-
                 <Outlet />
-
                 <BottomNav />
             </Box>
         </Box>

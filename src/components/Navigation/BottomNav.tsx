@@ -1,12 +1,13 @@
-import { Box, Icon, Text } from '@chakra-ui/react'
+import { Box, Icon, Link, Text } from '@chakra-ui/react'
 import { MdOutlineLibraryAdd, MdOutlineChat, MdPersonOutline } from "react-icons/md";
 import { AiOutlineHome } from "react-icons/ai";
+import { NavLink as RouterLink } from "react-router-dom";
 
 const navItems = [
-  { title: "Home", icon: AiOutlineHome },
-  { title: "Create Lesson", icon: MdOutlineLibraryAdd },
-  { title: "Study Chat", icon: MdOutlineChat },
-  { title: "Profile", icon: MdPersonOutline },
+  { title: "Home", icon: AiOutlineHome, link: "/" },
+  { title: "Create Lesson", icon: MdOutlineLibraryAdd, link: '/create-lesson' },
+  { title: "Study Chat", icon: MdOutlineChat, link: "/" },
+  { title: "Profile", icon: MdPersonOutline, link: "/" },
 
 ]
 export default function BottomNav() {
@@ -21,12 +22,19 @@ export default function BottomNav() {
       bg='neutral.5'
     >
       <Box display='flex' justifyContent='space-around' alignItems='center'>
+
         {navItems.map((nav) => (
-          <Box display='flex' flexDir='column' alignItems='center' key='nav.title'>
+          <Link as={RouterLink} to={nav.link} key='nav.title'>
+
+            <Box display='flex' flexDir='column' alignItems='center'>
             <Icon as={nav.icon} />
             <Text fontSize='sm' textColor='black.20'>{nav.title}</Text>
           </Box>
+          </Link>
+
         ))}
+
+
       </Box>
     </Box>
   )

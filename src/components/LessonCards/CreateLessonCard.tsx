@@ -1,4 +1,5 @@
-import { Box, Image, Text, Button } from '@chakra-ui/react'
+import { Box, Image, Text, Button, Link } from '@chakra-ui/react'
+import { NavLink as RouterLink } from "react-router-dom";
 import cardBg from "../../assets/cardBg.svg"
 
 interface LessonCardProps {
@@ -7,7 +8,8 @@ interface LessonCardProps {
     buttonTextColor: string,
     cardTitle: string,
     cardDesc: string,
-    cardSrc: string
+    cardSrc: string,
+    buttonLink?: string
 }
 
 
@@ -17,7 +19,9 @@ export default function CreateLessonCard({
     buttonTextColor,
     cardDesc,
     cardTitle,
-    cardSrc }: LessonCardProps): JSX.Element {
+    cardSrc,
+    buttonLink
+}: LessonCardProps): JSX.Element {
     return (
         <>
             <Box
@@ -44,7 +48,11 @@ export default function CreateLessonCard({
                             {cardDesc}
                         </Text>
                     </Box>
-                    <Button mt='3rem' px='2rem' textColor={buttonTextColor} bgColor='neutral.5'>{buttonText}</Button>
+                    <Button mt='3rem' px='2rem' textColor={buttonTextColor} bgColor='neutral.5'>
+                        <Link as={RouterLink} to={buttonLink} >
+                            {buttonText}
+                        </Link>
+                    </Button>
                 </Box>
             </Box>
         </>

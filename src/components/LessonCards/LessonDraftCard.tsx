@@ -9,7 +9,6 @@ interface LessonDraftProp {
 export default function LessonDraftCard({ draftSrc, draftTitle, draftDescription }: LessonDraftProp): JSX.Element {
     return (
         <Box display='flex' alignContent='center' mb='1rem' border=' 0.5px solid #CCCCCC' h='90px' borderRadius='sm'>
-
             <Image
                 src={draftSrc}
                 borderRadius='md'
