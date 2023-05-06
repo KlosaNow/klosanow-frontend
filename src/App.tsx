@@ -10,6 +10,7 @@ import { NotificationSettings } from "./pages/NotificationSettings";
 
 
 import CreateLesson from "./pages/CreateLesson";
+import LessonTemplate from "./pages/CreateLesson/LessonTemplate";
 
 
 import FreeStorageView from "./pages/StorageView/FreeStorageView";
@@ -28,6 +29,8 @@ function App() {
 
         <Route path="/create-lesson" element={<CreateLessonLayout />}>
           <Route path="" index element={<CreateLesson />} />
+          <Route path="select-template" element={<LessonTemplate />} />
+
         </Route>
 
         <Route path="/notifications" element={<Notifications />} />
