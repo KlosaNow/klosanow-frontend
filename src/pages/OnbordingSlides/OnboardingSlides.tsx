@@ -39,11 +39,11 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
           h="50px"
           onClick={handleNextSlide}
         >
-          {currentIndex === slides.length - 1 ? "Login" : "Next"}
+          {currentIndex === slides.length - 1 ? "Create an account" : "Next"}
         </Button>
         <Button
           variant="ghost"
-          color="#7B58F4"
+          color="primary.50"
           onClick={() => navigate("/login")}
           disabled={currentIndex === slides.length - 1}
         >
