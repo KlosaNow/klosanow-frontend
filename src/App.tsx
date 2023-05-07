@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 
-import CreateLessonLayout from "./Layout/CreateLessonLayout";
+import CreateLessonLayout from "./components/Layout/CreateLessonLayout";
 
 
 import Onboarding from "./pages/Onboarding";
