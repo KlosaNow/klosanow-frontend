@@ -4,7 +4,7 @@ import { Error } from "./pages/ErrorPage";
 import { Notifications } from "./pages/Notifications";
 import { NotificationSettings } from "./pages/NotificationSettings";
 
-import { SplashScreen } from "./pages/SplashScreen";
+import { MainPage } from "./pages/StudyChat";
 import Onboarding from "./pages/Onboarding";
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
           element={<NotificationSettings />}
         />
         <Route path="*" element={<Error />} />
+        <Route path="/studychat" element={<MainPage />} />
       </Routes>
     </>
   );
