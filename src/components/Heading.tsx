@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
-import { HiArrowLeft } from "react-icons/hi"
+import { HiArrowLeft } from "react-icons/hi";
+import PropTypes from 'prop-types';
 
-const Heading = (props) => {
+interface PageName {
+  pageName: string;
+}
+
+const Heading = (props:PageName) => {
   const { pageName } = props;
 
   return (
@@ -13,5 +18,9 @@ const Heading = (props) => {
     </header>
   );
 };
+
+Heading.propTypes = {
+  pageName: PropTypes.string.isRequired,
+}
 
 export default Heading;
