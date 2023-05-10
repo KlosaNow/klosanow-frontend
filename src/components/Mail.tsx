@@ -1,4 +1,5 @@
 import Heading from "./Heading";
+import { ImAttachment } from "react-icons/im";
 
 const MailUs = () => (
   <section className="mail-container">
@@ -12,7 +13,11 @@ const MailUs = () => (
         <input type="text" placeholder="Subject" />
         <textarea name="message" placeholder="Compose your message" id="" cols={30} rows={30}></textarea>
 
-        <div>
+        <div className="file-btn-flex">
+          <button className="file-btn p">
+            <ImAttachment /> Attach file
+          </button>
+          <input type="file" />
           <button type="submit" className="btn heading3">Send</button>
         </div>
       </form>
