@@ -76,46 +76,59 @@
   }
 
   .chats {
-    @include flex(column, stretch, flex-end, 5px);
     flex: calc(100% - 41px);
     overflow-y: auto;
+    position: relative;
 
-    .message {
-      width: 80%;
+    .scroll {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      overflow-y: auto;
 
-      .p {
-        border-radius: 10px;
-        padding: 10px;
-      }
+      .chat-flex {
+        @include flex(column, stretch, flex-end, 5px);
 
-      .name-title {
-        margin-top: 8px;
-        @include font(12px, 15px, 400);
-        @include flex(row, center, flex-start, 3px);
-
-        .bot-icon {
-          border-radius: 50%;
-          color: #fff;
-          background: #7B58F4;
-          padding: 5px 5px 6px;
-          font-size: 15px;
-        }
-      }
-
-      &.bot .p {
-        background: #e5defd;
-      }
-
-      &.user {
-        align-self: flex-end;
-        
-        .p {
-          background: #7B58F4;
-          color: #fff;
-        }
-
-        .name-title {
-          justify-content: flex-end;
+        .message {
+          width: 80%;
+    
+          .p {
+            border-radius: 10px;
+            padding: 10px;
+          }
+    
+          .name-title {
+            margin-top: 8px;
+            @include font(12px, 15px, 400);
+            @include flex(row, center, flex-start, 3px);
+    
+            .bot-icon {
+              border-radius: 50%;
+              color: #fff;
+              background: #7B58F4;
+              padding: 5px 5px 6px;
+              font-size: 15px;
+            }
+          }
+    
+          &.bot .p {
+            background: #e5defd;
+          }
+    
+          &.user {
+            align-self: flex-end;
+            
+            .p {
+              background: #7B58F4;
+              color: #fff;
+            }
+    
+            .name-title {
+              justify-content: flex-end;
+            }
+          }
         }
       }
     }

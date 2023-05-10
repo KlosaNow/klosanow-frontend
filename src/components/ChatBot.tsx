@@ -55,9 +55,13 @@ const ChatBot = () => {
 
       <section className="chat">
         <div className="chats">
-          { messages.map((message) => (
-            <Message owner={message.owner} text={message.text} key={message.id} />
-          ))}
+          <div className="scroll">
+            <div className="chat-flex">
+            { messages.map((message) => (
+              <Message owner={message.owner} text={message.text} key={message.id} />
+            ))}
+            </div>
+          </div>
         </div>
 
         <div className="chat-field">
