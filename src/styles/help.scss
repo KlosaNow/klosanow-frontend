@@ -4,7 +4,7 @@
 
 .section-heading {
   @include flex(row, center, flex-start, 10px);
-  padding: 15px 2%;
+  padding: 18px 3%;
 }
 
 .help {
@@ -54,7 +54,7 @@
 .chat {
   @include flex(column, stretch, flex-end, 20px);
   padding: 10px 6%;
-  min-height: calc(100vh - 52px);
+  height: calc(100vh - 58px);
 
   .chat-text {
     border: 0.5px solid #AAAAAA;
@@ -67,10 +67,18 @@
     border-radius: 4px;
     padding: 10px;
     @include flex(row, center, space-between, 0);
+
+    input {
+      width: 90%;
+      height: 100%;
+      outline: none;
+    }
   }
 
   .chats {
     @include flex(column, stretch, flex-end, 5px);
+    flex: calc(100% - 41px);
+    overflow-y: auto;
 
     .message {
       width: 80%;
