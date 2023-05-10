@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, MouseEvent, MouseEventHandler, useRef, useState } from "react";
 import Heading from "./Heading";
 import { ImAttachment } from "react-icons/im";
 
@@ -16,6 +16,7 @@ const MailUs = () => {
     to: "",
     subject: "",
     message: "",
+    file: undefined,
   });
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -27,6 +28,19 @@ const MailUs = () => {
       [newKey]: val,
     };
     setMail((state) => ({...state, ...newVal}));
+  }
+
+  const clickRedirect = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    inputRef.current?.click();
+  }
+
+  const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log("work")
+    if (e.currentTarget.files) {
+      let newFile = e.currentTarget.files[0];
+      setMail((state) => ({...state, file: newFile}));
+    }
   }
 
   return (
@@ -42,11 +56,11 @@ const MailUs = () => {
           <textarea name="message" placeholder="Compose your message" id="" cols={30} rows={30} onChange={handleChange} value={mailMessage.message}></textarea>
 
           <div className="file-btn-flex">
-            <button className="file-btn p">
+            <button className="file-btn p" onClick={clickRedirect}>
               <ImAttachment /> 
               {mailMessage.file ? `${mailMessage.file.name}` : "Attach file"}
             </button>
-            <input type="file" name="file" ref={inputRef} />
+            <input type="file"  name="file" hidden ref={inputRef} onChange={handleFile} />
             <button type="submit" className="btn heading3">Send</button>
           </div>
         </form>
