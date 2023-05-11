@@ -28,12 +28,12 @@ const MailUs = () => {
       [newKey]: val,
     };
     setMail((state) => ({...state, ...newVal}));
-  }
+  };
 
   const clickRedirect = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     inputRef.current?.click();
-  }
+  };
 
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("work")
@@ -41,7 +41,7 @@ const MailUs = () => {
       let newFile = e.currentTarget.files[0];
       setMail((state) => ({...state, file: newFile}));
     }
-  }
+  };
 
   return (
     <section className="mail-container">

@@ -1,7 +1,7 @@
 import Heading from "./Heading";
 import { BsSend } from "react-icons/bs";
 import Message from "./Message";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Text {
   id: number;
@@ -12,6 +12,7 @@ interface Text {
 const ChatBot = () => {
   const [ messages, setMessage ] = useState<Text[]>([]);
   const [ userInput, setUserInput ] = useState<string>("");
+  const scroll = useRef<HTMLDivElement | null>(null);
 
   const sendMessage = () => {
     setMessage((mes) => ([...mes, {
@@ -48,7 +49,12 @@ const ChatBot = () => {
     }, 300);
 
     return () => (clearTimeout(reply));
-  }, []);
+  }, [messages]);
+
+  useEffect(() => {
+    scroll.current?.scrollTo(0, scroll.current?.scrollHeight);
+  });
+
 
     return (<>
       <Heading pageName="Chat with Bot" />
@@ -57,9 +63,11 @@ const ChatBot = () => {
         <div className="chats">
           <div className="scroll">
             <div className="chat-flex">
-            { messages.map((message) => (
-              <Message owner={message.owner} text={message.text} key={message.id} />
-            ))}
+              <div className="scrollable" ref={scroll}>
+                { messages.map((message) => (
+                  <Message owner={message.owner} text={message.text} key={message.id} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
