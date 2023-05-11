@@ -4,14 +4,15 @@ import PropTypes from 'prop-types';
 
 interface PageName {
   pageName: string;
+  link: string;
 }
 
 const Heading = (props:PageName) => {
-  const { pageName } = props;
+  const { pageName, link } = props;
 
   return (
     <header className="section-heading">
-      <Link to="/">
+      <Link to={link}>
         <HiArrowLeft />
       </Link>
       <h2 className="heading2">{pageName}</h2>

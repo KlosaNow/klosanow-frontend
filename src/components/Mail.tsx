@@ -45,7 +45,7 @@ const MailUs = () => {
 
   return (
     <section className="mail-container">
-      <Heading pageName="Mail Us" />
+      <Heading pageName="Mail Us" link="/help" />
       <div className="mail">
         <h2 className="heading3 page-heading">Compose</h2>
 

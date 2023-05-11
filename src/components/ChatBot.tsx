@@ -57,7 +57,7 @@ const ChatBot = () => {
 
 
     return (<>
-      <Heading pageName="Chat with Bot" />
+      <Heading pageName="Chat with Bot" link="/help" />
 
       <section className="chat">
         <div className="chats">

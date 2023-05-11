@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Help = () => {
   return (
     <>
-      <Heading pageName="Help" />
+      <Heading pageName="Help" link="/" />
       <section className="help">
         <h2 className="heading2 page-heading">How can we help you?</h2>
 
