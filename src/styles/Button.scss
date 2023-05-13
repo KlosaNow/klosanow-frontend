@@ -1,0 +1,41 @@
+:root{
+    --primary-white: #fff;
+    --accent-color: #7B58F4;
+}
+
+.btn{
+     padding:25px 0;
+     border-radius: 2px;
+     outline:none;
+     border: none;
+     cursor: pointer;
+}
+
+.btn--primary{
+    background-color: var(--accent-color);
+    color: var(--primary-white) ;
+    border: 1px solid var(--accent-color);
+}
+.btn--solid{
+    background-color: var(--accent-color);
+    color: var(--primary-white) ;
+    border: 1px solid var(--accent-color);
+}
+.btn--outline{
+    background: transparent;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+}
+.btn--ghost{
+    background:transparent;
+    color:var(--accent-color);
+}
+.btn--medium{
+    padding: 8px 25px;
+    font-size: 1rem;
+}
+
+.btn--large{
+    padding:12px 26px;
+    font-size: 1.125rem;
+}

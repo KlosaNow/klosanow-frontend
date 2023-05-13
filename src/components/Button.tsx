@@ -1,18 +1,36 @@
-import { Button } from "@chakra-ui/react"
+import { FC } from "react";
+import "../styles/Button.scss";
 
 interface buttonProps {
-    variant: string;
-    color: string;
-    backgroundColor: string;
-    width: string;
-    paddingY: string;
-    action: () => void;
-    children: React.ReactNode;
+  children: string;
+  action: () => void;
+  buttonStyle: string;
+  buttonSize: string;
+  width: string;
 }
-export const BUTTON :React.FC<buttonProps> = (props:buttonProps) => {
-    return (
-        <Button variant={props.variant} w={props.width} paddingY={props.paddingY} color={props.color} background={props.backgroundColor} onClick={props.action} >
-            {props.children}
-        </Button>
-    )
-}
+
+const STYLES = ["btn--primary", "btn--solid", "btn--outline", "btn--ghost"];
+const SIZES = ["btn--medium", "btn--large"];
+
+export const Button: FC<buttonProps> = ({
+  children,
+  action,
+  buttonStyle,
+  buttonSize,
+  width,
+}: buttonProps) => {
+  const checkButtonStyle = STYLES.includes(buttonStyle)
+    ? buttonStyle
+    : STYLES[0];
+  const checkButtonSize = SIZES.includes(buttonSize) ? buttonSize : SIZES[0];
+
+  return (
+    <button
+      className={`btn ${checkButtonStyle} ${checkButtonSize}`}
+      onClick={action}
+      style={{ width: `${width}` }}
+    >
+      {children}
+    </button>
+  );
+};
