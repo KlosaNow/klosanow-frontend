@@ -15,7 +15,7 @@ export const SlideTemplate :React.FC<SlideProps> = (props:SlideProps) => {
     <motion.div
       key={props.id}
     >
-    <Container padding="5" marginY='5' maxW="2xl"  centerContent>
+    <Container padding="10" marginY='4' maxW="2xl"  centerContent>
       <VStack spacing='2rem' width='361px'>
           <Image
             htmlWidth= '342px'
@@ -25,9 +25,9 @@ export const SlideTemplate :React.FC<SlideProps> = (props:SlideProps) => {
             alt=" "
           />
           <RadioGroup value={props.id}>
-            <Radio size='sm'  bg="#E5DEFD" marginX='2px' value='1'></Radio>
-            <Radio size='sm'  bg="#E5DEFD" marginX='2px' value='2'></Radio>
-            <Radio size='sm' bg="#E5DEFD" marginX='2px' value='3'></Radio>
+            <Radio size='sm' colorScheme="purple" variant="solid" bg="#E5DEFD" marginX='2px' value='1'></Radio>
+            <Radio size='sm' colorScheme="purple" variant="solid" bg="#E5DEFD" marginX='2px' value='2'></Radio>
+            <Radio size='sm' colorScheme="purple" variant="solid" bg="#E5DEFD" marginX='2px' value='3'></Radio>
           </RadioGroup>
           <Text fontSize="2xl" fontWeight="bold" textAlign="center">
             {props.title}
