@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SlideTemplate } from "./SlideTemplate";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Stack } from "@chakra-ui/react";
+import { Stack, Flex } from "@chakra-ui/react";
 import { Button } from "../../components/Button";
 
 interface OnboardingSlidesProps {
@@ -22,6 +22,7 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
   };
   return (
     <AnimatePresence mode="wait">
+      <Flex direction='column' >
       <motion.div
         key={currentIndex}
         initial={{ translateX: 200, opacity: 0, scale: 0.9 }}
@@ -32,7 +33,7 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
         <SlideTemplate {...slides[currentIndex]} />
       </motion.div>
 
-      <Stack direction="column" align="center">
+      <Stack direction="column" align="center" gap='8px'>
         <Button
           buttonStyle="btn--solid"
           buttonSize="btn--medium"
@@ -42,7 +43,7 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
           {currentIndex === slides.length - 1 ? "Login" : "Next"}
         </Button>
         <Button
-          buttonStyle="btn--ghost"
+          buttonStyle="btn--outline"
           buttonSize="btn--medium"
           width="85%"
           action={() => navigate("/login")}
@@ -52,6 +53,7 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
             : "skip"}
         </Button>
       </Stack>
+      </Flex>
     </AnimatePresence>
   );
 };
