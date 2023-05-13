@@ -5,6 +5,7 @@ import { NotificationSettings } from "./pages/NotificationSettings";
 import FreeStorageView from "./pages/StorageView/FreeStorageView";
 import BasicStorageView from "./pages/StorageView/BasicStorageView";
 import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
+import Subscription from "./pages/SubscriptionPage/Subscription";
 import { Error } from "./pages/ErrorPage";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/free" element={<FreeStorageView />} />
         <Route path="/basic" element={<BasicStorageView />} />
         <Route path="/premium" element={<PremiumStorageView />} />
+        <Route path="/subscription" element={<Subscription />} />
       </Routes>
     </>
   );
