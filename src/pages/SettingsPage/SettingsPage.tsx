@@ -14,7 +14,7 @@ import user from '../../assets/SettingsPageImg/user.png'
 
 export default function SettingsPage(): JSX.Element {
     return (
-        <Box backgroundColor='#D4D4D4' height="100vh" >
+        <Box backgroundColor='neutral.60' height="100vh" >
 			
             <Flex alignItems="center" px="4" py="2">
                 <Icon as={AiOutlineArrowLeft} w="1.8rem" h="1.8rem" ml="3" />
@@ -33,7 +33,7 @@ export default function SettingsPage(): JSX.Element {
 
                 <Box w="93%" >
                     <Flex justifyContent="flex-start" flexDirection="column">
-                        <Box background="#ffffff" marginTop="55" borderRadius="10" >
+                        <Box background="neutral.10" marginTop="55" borderRadius="10" >
                             <Box display="flex" pt="3" pl="3" pb="3" gap="7" alignItems="center" >
                                 <Image src={user } alt='user' w="1.8rem" h="1.8rem"/>
                                 {/* <IoPersonOutline color="#7B58F4" size='2rem'/> */}
@@ -47,7 +47,7 @@ export default function SettingsPage(): JSX.Element {
                     </Flex>
 
                      <Flex justifyContent="flex-start" flexDirection="column" >
-                        <Box  mt="10" background="#ffffff"  borderRadius="10" >
+                        <Box  mt="10" background="neutral.10"  borderRadius="10" >
                                 <Box display="flex" pt="3" pl="3" pb="3" gap="7" alignItems="center">
                                     <IoWalletOutline color="#7B58F4" size='30' display="inline" />
                                     <Text>Subscription</Text>
@@ -63,7 +63,7 @@ export default function SettingsPage(): JSX.Element {
                     
 
                     <Flex display="flex" justifyContent="flex-start" flexDirection="column" >
-                        <Box mt="10" background="#ffffff"  borderRadius="10">
+                        <Box mt="10" background="neutral.10"  borderRadius="10">
                             <Box display="flex" pt="3" pl="3" pb="3" gap="6" alignItems="center">
                                 <IoHelpCircleOutline color="#7B58F4" size='35' />
                                 <Text>Help</Text>
@@ -76,7 +76,7 @@ export default function SettingsPage(): JSX.Element {
                         </Box>
                     </Flex>
 
-                    <Box display="flex" mt="10" pt="3" pl="3" pb="3" background="#ffffff" gap="7" borderRadius="10" alignItems="center" >
+                    <Box display="flex" mt="10" pt="3" pl="3" pb="3" background="neutral.10" gap="7" borderRadius="10" alignItems="center" >
                         <MdOutlineLogout color="#F30B0B" size='30' />
                         <Text>Logout</Text>
                     </Box>
