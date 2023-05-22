@@ -1,8 +1,12 @@
+import { useState } from "react"
 import { Box, FormControl, FormLabel, Input, Text, Link, Button } from '@chakra-ui/react'
 import { Link as RouteLink } from 'react-router-dom'
-import { CountrySelect } from '../../components/Auth'
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 export default function SignIn(): JSX.Element {
+    const [phone, setPhone] = useState<string | undefined>()
+
     return (
         <Box py='2rem' px='1rem' >
             <Box>
@@ -16,10 +20,14 @@ export default function SignIn(): JSX.Element {
                 </FormControl>
                 <FormControl mb='1.5rem'>
                     <FormLabel fontSize='sm' color='black.40'>Phone Number </FormLabel>
-                    <Box display='flex' justifyContent='center' alignItems='center' gap={2}>
-                        <CountrySelect />
-                        <Input type='text' fontSize='sm' placeholder='8023456789' />
-                    </Box>
+                    <PhoneInput
+                        country={'ng'}
+                        regions={['africa']}
+                        containerClass={'10px'}
+                        inputStyle={{ width: '100%', height: '2.5rem', outline: '2px solid transparent' }}
+                        value={phone}
+                        onChange={phone => setPhone(phone)}
+                    />
                 </FormControl>
 
                 <Box display='flex' justifyContent='center'>
