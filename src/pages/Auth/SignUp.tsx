@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { Box, Text, FormControl, FormLabel, Input, Button, Link } from "@chakra-ui/react"
 import { Link as RouteLink } from 'react-router-dom'
+import { useFormik } from "formik";
+import { SignUpSchema } from "./Schema"
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 
