@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { FaRobot } from "react-icons/fa";
 
 interface MessageOwner {
@@ -30,10 +29,5 @@ const Message = (props:MessageOwner) => {
     </article>
   )
 };
-
-Message.propTypes = {
-  owner: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-}
 
 export default Message;
