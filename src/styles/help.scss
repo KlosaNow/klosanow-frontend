@@ -2,11 +2,6 @@
 @import "./mxins.scss";
 @import "./generalStyling.scss";
 
-.section-heading {
-  @include flex(row, center, flex-start, 10px);
-  padding: 18px 3%;
-}
-
 .help {
   padding: 10px 6%;
 

@@ -1,4 +1,4 @@
-import Heading from "./Heading";
+import Header from "./Header";
 import "../styles/help.scss";
 import { MdEmail, MdKeyboardArrowRight } from "react-icons/md";
 import { FaRobot } from "react-icons/fa";
@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Help = () => {
   return (
     <>
-      <Heading pageName="Help" link="/" />
+      <Header pageName="Help" link="/" />
       <section className="help">
         <h2 className="heading2 page-heading">How can we help you?</h2>
 

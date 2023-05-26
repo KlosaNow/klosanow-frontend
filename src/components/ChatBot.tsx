@@ -1,4 +1,4 @@
-import Heading from "./Heading";
+import Header from "./Header";
 import { BsSend } from "react-icons/bs";
 import Message from "./Message";
 import { useEffect, useRef, useState } from "react";
@@ -57,7 +57,7 @@ const ChatBot = () => {
 
 
     return (<>
-      <Heading pageName="Chat with Bot" link="/help" />
+      <Header pageName="Chat with Bot" link="/help" />
 
       <section className="chat">
         <div className="chats">

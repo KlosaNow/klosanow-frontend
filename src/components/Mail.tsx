@@ -1,5 +1,5 @@
 import { ChangeEvent, MouseEvent, MouseEventHandler, useRef, useState } from "react";
-import Heading from "./Heading";
+import Header from "./Header";
 import { ImAttachment } from "react-icons/im";
 
 interface Mail {
@@ -45,7 +45,7 @@ const MailUs = () => {
 
   return (
     <section className="mail-container">
-      <Heading pageName="Mail Us" link="/help" />
+      <Header pageName="Mail Us" link="/help" />
       <div className="mail">
         <h2 className="heading3 page-heading">Compose</h2>
 
