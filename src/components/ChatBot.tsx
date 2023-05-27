@@ -4,14 +4,14 @@ import Message from "./Message";
 import { useEffect, useRef, useState } from "react";
 import { Box, Button, Flex, Input } from "@chakra-ui/react";
 
-interface Text {
+interface messageInterface {
   id: number;
   text: string;
   owner: string;
 }
 
 const ChatBot = () => {
-  const [ messages, setMessage ] = useState<Text[]>([]);
+  const [ messages, setMessage ] = useState<messageInterface[]>([]);
   const [ userInput, setUserInput ] = useState<string>("");
   const scroll = useRef<HTMLDivElement | null>(null);
 
