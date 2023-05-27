@@ -9,12 +9,12 @@ import {
 
 import "./subscription.css"
 
-type Plan = {
+interface planInterface = {
   name: string;
   features: string[];
 };
 
-const plans: Plan[] = [
+const plans: planInterface[] = [
   {
     name: "Free",
     features: ["1.2GB storage", "Create Open Study Group", "Create & Receive Video Lessons", "Free"],
