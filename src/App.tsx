@@ -6,12 +6,14 @@ import FreeStorageView from "./pages/StorageView/FreeStorageView";
 import BasicStorageView from "./pages/StorageView/BasicStorageView";
 import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
 import { Error } from "./pages/ErrorPage";
+import Home from "./pages/Home/Home";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Onboarding />} />
+        <Route path='/home' element={<Home/>}/>
         <Route path="/notifications" element={<Notifications />} />
         <Route
           path="/settings/notifications"
