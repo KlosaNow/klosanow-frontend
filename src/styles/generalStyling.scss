@@ -36,3 +36,20 @@ body {
   color: #fff;
   border-radius: 4px;
 }
+
+.bot .p {
+  background: #e5defd;
+}
+
+.user {
+  align-self: flex-end;
+  
+  .p {
+    background: #7B58F4;
+    color: #fff;
+  }
+
+  .name-title {
+    justify-content: flex-end;
+  }
+}
