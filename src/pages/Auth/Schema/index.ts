@@ -11,4 +11,5 @@ const SignInSchema = yup.object().shape({
   phone: yup.string().required("Phone Number is required"),
 });
 
+
 export { SignInSchema, SignUpSchema };

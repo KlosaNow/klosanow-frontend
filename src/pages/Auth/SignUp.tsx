@@ -31,7 +31,11 @@ export default function SignUp(): JSX.Element {
             <Box as='form' py='2rem' onSubmit={formik.handleSubmit}>
                 <FormControl mb='1.5rem'>
                     <FormLabel fontSize='sm' color='black.40'>Username</FormLabel>
-                    <Input type='text' name="username" id="username" fontSize='sm' placeholder='Enter Username' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.username} />
+                    <Input type='text' name="username"
+                        id="username" fontSize='sm' placeholder='Enter Username'
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.username} />
                     {formik.touched.username && formik.errors.username ? (
                         <Text as='span' mb='1rem' color='secondary.50' >{formik.errors.username}</Text >
                     ) : null}
@@ -39,7 +43,11 @@ export default function SignUp(): JSX.Element {
 
                 <FormControl mb='1.5rem'>
                     <FormLabel fontSize='sm' color='black.40'>Email</FormLabel>
-                    <Input type='text' name="email" id="email" fontSize='sm' placeholder='Enter your Email Address' onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} />
+                    <Input type='text' name="email"
+                        id="email" fontSize='sm' placeholder='Enter your Email Address'
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.email} />
                     {formik.touched.email && formik.errors.email ? (
                         <Text as='span' mb='1rem' color='secondary.50'>{formik.errors.email}</Text >
                     ) : null}
@@ -61,7 +69,10 @@ export default function SignUp(): JSX.Element {
                 </FormControl>
 
                 <Box display='flex' justifyContent='center'>
-                    <Button width='100%' p='1.5rem' color='neutral.50' bgColor='primary.50' type="submit" disabled={!(formik.dirty && formik.isValid)}>Sign up</Button>
+                    <Button width='100%' p='1.5rem'
+                        color='neutral.50' bgColor='primary.50'
+                        type="submit"
+                        disabled={!(formik.dirty && formik.isValid)}>Sign up</Button>
                 </Box>
                 <Box mt='1rem'>
                     <Text textAlign='center'>Already have an account? {' '}
