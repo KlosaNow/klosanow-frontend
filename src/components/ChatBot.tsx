@@ -2,7 +2,7 @@ import Header from "./Header";
 import { BsSend } from "react-icons/bs";
 import Message from "./Message";
 import { useEffect, useRef, useState } from "react";
-import { Box, Button, Flex, Input } from "@chakra-ui/react";
+import { Box, Flex, Input } from "@chakra-ui/react";
 
 interface messageInterface {
   id: number;
