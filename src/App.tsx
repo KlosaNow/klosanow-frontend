@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom"
 import { SplashScreen } from './pages/SplashScreen';
 import { Error } from "./pages/ErrorPage";
-import SettingPage from "./pages/SettingsPage/SettingsPage";
+import SettingPage from "./pages/SettingsPage/SettingsPage1";
 import InfoPage from "./pages/InfoPage/InfoPage";
 
 function App() {

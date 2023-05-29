@@ -1,3 +1,3 @@
-import SettingsPage from "./SettingsPage";
+import SettingsPage from "./SettingsPage1";
 
 export { SettingsPage };
