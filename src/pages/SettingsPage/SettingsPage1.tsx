@@ -9,7 +9,8 @@ import bell from '../../assets/SettingsPageImg/Vector.png'
 import wallet from '../../assets/SettingsPageImg/Wallet.png'
 import help from '../../assets/SettingsPageImg/Help.png'
 import logout from '../../assets/SettingsPageImg/Log-out.png'
-// import SettingsPageComponent from "../../components/SettingsPageComponent";
+
+
 
 export default function SettingsPage(): JSX.Element {
     return (
@@ -31,7 +32,7 @@ export default function SettingsPage(): JSX.Element {
                 </Box>
 
                 <Box w="93%" >
-                    
+                
                     <Flex justifyContent="flex-start" flexDirection="column">
                         <Box background="neutral.10" marginTop="55" borderRadius="10" >
                             <Box display="flex" pt="3" pl="3" pb="3" gap="7" alignItems="center" >
@@ -58,8 +59,7 @@ export default function SettingsPage(): JSX.Element {
                                 </Box>
                         </Box>
                     </Flex>
-                    
-
+            
                     <Flex display="flex" justifyContent="flex-start" flexDirection="column" >
                         <Box mt="10" background="neutral.10"  borderRadius="10">
                             <Box display="flex" pt="3" pl="3" pb="3" gap="6" alignItems="center">
