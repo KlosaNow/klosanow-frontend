@@ -1,6 +1,7 @@
-import { ChangeEvent, MouseEvent, MouseEventHandler, useRef, useState } from "react";
+import { ChangeEvent, MouseEvent, useRef, useState } from "react";
 import Header from "./Header";
 import { ImAttachment } from "react-icons/im";
+import { Box, Button, Flex, Input, Text, Textarea } from "@chakra-ui/react";
 
 interface Mail {
   from: string;
@@ -44,28 +45,28 @@ const MailUs = () => {
   };
 
   return (
-    <section className="mail-container">
+    <Box minH="100vh" bg="#f6f6f6" className="mail-containe">
       <Header pageName="Mail Us" link="/help" />
-      <div className="mail">
-        <h2 className="heading3 page-heading">Compose</h2>
+      <Box p="10px 6%" className="mail">
+        <Text mb="20px"  className="heading3">Compose</Text>
 
         <form className="mail-us">
-          <input type="text" name="from" placeholder="From" onChange={handleChange} value={mailMessage.from} />
-          <input type="text" name="to" placeholder="To" onChange={handleChange} value={mailMessage.to} />
-          <input type="text" name="subject" placeholder="Subject" onChange={handleChange} value={mailMessage.subject} />
-          <textarea name="message" placeholder="Compose your message" id="" cols={30} rows={30} onChange={handleChange} value={mailMessage.message}></textarea>
+          <Input variant="outline" borderColor="black.5" bg="nuetral.50" type="text" name="from" placeholder="From" onChange={handleChange} value={mailMessage.from} />
+          <Input variant="outline" bg="nuetral.50" borderColor="black.5" type="text" name="to" placeholder="To" onChange={handleChange} value={mailMessage.to} />
+          <Input variant="outline" bg="nuetral.50" borderColor="black.5" type="text" name="subject" placeholder="Subject" onChange={handleChange} value={mailMessage.subject} />
+          <Textarea name="message" size="md" rows={10} bg="nuetral.50" borderColor="black.5" placeholder="Compose your message" id="" onChange={handleChange} value={mailMessage.message}></Textarea>
 
-          <div className="file-btn-flex">
-            <button className="file-btn p" onClick={clickRedirect}>
+          <Flex align="center" justify="space-between" className="file-btn-flex">
+            <Button display="flex" alignItems="center" gap="10px" bg="transparent" _hover={{ bg: 'transparent' }} _active={{ bg: 'transparent' }} color="neutral.80" size="sm" className="file-btn" onClick={clickRedirect}>
               <ImAttachment /> 
               {mailMessage.file ? `${mailMessage.file.name}` : "Attach file"}
-            </button>
-            <input type="file"  name="file" hidden ref={inputRef} onChange={handleFile} />
-            <button type="submit" className="btn heading3">Send</button>
-          </div>
+            </Button>
+            <Input type="file" name="file" hidden ref={inputRef} onChange={handleFile} />
+            <Button type="submit" bg="primary.50" borderRadius="4px" size="lg" color="neutral.50" className="heading3">Send</Button>
+          </Flex>
         </form>
-      </div>
-    </section>
+      </Box>
+    </Box>
   );
 };
 
