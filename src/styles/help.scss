@@ -1,152 +1,57 @@
 @import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@300;400;500;600;700&display=swap');
 @import "./mxins.scss";
-@import "./generalStyling.scss";
 
-.help {
-  padding: 10px 6%;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  .help-content {
-    @include flex(column, flex-start, center, 26px);
+body {
+  color: #2A2A2A;
+  font-family: 'Encode Sans', sans-serif;
+}
+
+.heading2 {
+  @include font(18px, 22px, 500);
+}
+
+.heading3 {
+  @include font(16px, 20px, 500);
+}
+
+.p {
+  @include font(14px, 18px, 400);
+}
+
+.icons {
+  font-size: 24px;
+  color: #7B58F4 !important;
+}
+
+.bot .p {
+  background: #e5defd;
+}
+
+.user {
+  align-self: flex-end;
   
-    .help-items {
-      width: 100%;
-      @include flex(row, flex-start, space-between, 10px);
+  .p {
+    background: #7B58F4;
+    color: #fff;
+  }
 
-      .help-text {
-        @include flex(row, flex-start, flex-start, 7px);
-        flex: 80%;
-      }
-    }
-  }  
-}
-
-.mail-container {
-  background: #f6f6f6;
-  min-height: 100vh;
-
-  .mail {
-    padding: 10px 6%;
-
-    .mail-us {
-      @include flex(column, stretch, flex-start, 16px);
-
-      input[type="text"],
-      textarea {
-        padding-left: 12px;
-        height: 42px;
-        border: 1px solid #CCCCCC;
-        border-radius: 4px;
-      }
-
-      textarea {
-        height: 269px;
-        margin-top: 16px;
-      }
-
-      .file-btn-flex {
-        @include flex(row, center, space-between, 0);
-
-        .file-btn {
-          font-weight: 500;
-          @include flex(row, center, flex-start, 10px);
-          color: #555555;
-
-          svg {
-            font-size: 30px;
-          }
-        }
-      }
-    }
+  .name-title {
+    justify-content: flex-end;
   }
 }
 
-.chat {
-  @include flex(column, stretch, flex-end, 20px);
-  padding: 10px 6%;
-  height: calc(100vh - 58px);
+.mail-us {
+  @include flex(column, stretch, flex-start, 16px);
+}
 
-  .chat-text {
-    border: 0.5px solid #AAAAAA;
-    border-radius: 4px;
-    padding: 8px;
-  }
-
-  .chat-field {
-    border: 0.5px solid #AAAAAA;
-    border-radius: 4px;
-    padding: 10px;
-    @include flex(row, center, space-between, 0);
-
-    input {
-      width: 90%;
-      height: 100%;
-      outline: none;
-    }
-  }
-
-  .chats {
-    flex: calc(100% - 41px);
-    overflow-y: auto;
-    position: relative;
-
-    .scroll {
-      position: absolute;
-      top: 0;
-      right: 0;
-      left: 0;
-      bottom: 0;
-
-      .chat-flex {
-        @include flex(column, stretch, flex-end, 5px);
-        width: 100%;
-        height: 100%;
-
-        .scrollable {
-          width: 100%;
-          @include flex(column, stretch, flex-start, 5px);
-          overflow-y: auto;
-        }
-
-        .message {
-          width: 80%;
-    
-          .p {
-            border-radius: 10px;
-            padding: 10px;
-          }
-    
-          .name-title {
-            margin-top: 8px;
-            @include font(12px, 15px, 400);
-            @include flex(row, center, flex-start, 3px);
-    
-            .bot-icon {
-              border-radius: 50%;
-              color: #fff;
-              background: #7B58F4;
-              padding: 5px 5px 6px;
-              font-size: 15px;
-            }
-          }
-    
-          &.bot .p {
-            background: #e5defd;
-          }
-    
-          &.user {
-            align-self: flex-end;
-            
-            .p {
-              background: #7B58F4;
-              color: #fff;
-            }
-    
-            .name-title {
-              justify-content: flex-end;
-            }
-          }
-        }
-      }
-    }
+.file-btn {
+  svg {
+    font-size: 30px;
   }
 }

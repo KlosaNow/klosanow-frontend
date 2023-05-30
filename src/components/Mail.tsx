@@ -45,9 +45,9 @@ const MailUs = () => {
   };
 
   return (
-    <Box minH="100vh" bg="#f6f6f6" className="mail-containe">
+    <Box minH="100vh" bg="#f6f6f6">
       <Header pageName="Mail Us" link="/help" />
-      <Box p="10px 6%" className="mail">
+      <Box p="10px 6%">
         <Text mb="20px"  className="heading3">Compose</Text>
 
         <form className="mail-us">
@@ -56,8 +56,8 @@ const MailUs = () => {
           <Input variant="outline" bg="nuetral.50" borderColor="black.5" type="text" name="subject" placeholder="Subject" onChange={handleChange} value={mailMessage.subject} />
           <Textarea name="message" size="md" rows={10} bg="nuetral.50" borderColor="black.5" placeholder="Compose your message" id="" onChange={handleChange} value={mailMessage.message}></Textarea>
 
-          <Flex align="center" justify="space-between" className="file-btn-flex">
-            <Button display="flex" alignItems="center" gap="10px" bg="transparent" _hover={{ bg: 'transparent' }} _active={{ bg: 'transparent' }} color="neutral.80" size="sm" className="file-btn" onClick={clickRedirect}>
+          <Flex align="center" justify="space-between">
+            <Button display="flex" alignItems="center" justifyContent="flex-start" gap="10px" bg="transparent" _hover={{ bg: 'transparent' }} _active={{ bg: 'transparent' }} color="neutral.80" size="sm" className="file-btn" onClick={clickRedirect}>
               <ImAttachment /> 
               {mailMessage.file ? `${mailMessage.file.name}` : "Attach file"}
             </Button>
