@@ -1,3 +1,3 @@
-import MainPage from "./MainPage/MainPage";
+import ChatPage from "./MainPage/MainPage";
 
-export { MainPage }
+export { ChatPage }

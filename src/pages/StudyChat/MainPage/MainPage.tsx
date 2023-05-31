@@ -2,7 +2,7 @@ import { Box, Text, Flex, Icon } from '@chakra-ui/react';
 import { FiSearch, FiMoreVertical } from "react-icons/fi";
 import ChatDisplay from '../Components/ChatDisplay';
 
-const MainPage = () => {
+const ChatPage = () => {
 
   const messages = [
     {
@@ -44,4 +44,4 @@ const MainPage = () => {
   )
 }
 
-export default MainPage
+export default ChatPage
