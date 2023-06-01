@@ -20,7 +20,11 @@ import BasicStorageView from "./pages/StorageView/BasicStorageView";
 import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
 
 import { Error } from "./pages/ErrorPage";
+import SettingPage from "./pages/SettingsPage/SettingsPage";
+import InfoPage from "./pages/InfoPage/InfoPage";
+
 import { ChatPage } from "./pages/StudyChat";
+
 
 function App() {
   return (
@@ -51,6 +55,11 @@ function App() {
 
         {/* this should always be the last route */}
         <Route path="*" element={<Error />} />
+
+        <Route path="/settings" element={<SettingPage />} />
+        <Route path="/info" element={<InfoPage />} />
+      </Routes>
+
 
       </Routes>
     </>
