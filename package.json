@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@chakra-ui/icons": "^2.0.18",
+    "@chakra-ui/icons": "^2.0.19",
     "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -17,13 +17,17 @@
     "@fontsource/playfair-display": "^4.5.13",
     "eslint": "^8.38.0",
     "eslint-plugin-react": "^7.32.2",
+    "formik": "^2.2.9",
     "framer-motion": "^10.12.2",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
+    "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^6.10.0",
-    "sass": "^1.62.0"
+    "react-select": "^5.7.3",
+    "sass": "^1.62.0",
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

@@ -71,6 +71,9 @@ const theme = extendTheme({
       10: "#D8FCCF",
       5: "#EBFEE7",
     },
+    transparent:{
+      100: "transparent",
+    }
   },
   components: {
     Button: {

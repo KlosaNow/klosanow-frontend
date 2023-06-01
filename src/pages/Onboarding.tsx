@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import SplashScreen from "./SplashScreen/SplashScreen";
 import OnboardingSlides from "./OnbordingSlides/OnboardingSlides";
 import { slides } from "./SlideData";
+import { Box } from "@chakra-ui/react";
 
 const Onboarding = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
- 
+
   useEffect(() => {
     setTimeout(() => {
       setShowOnboarding(true);
