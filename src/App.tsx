@@ -20,6 +20,7 @@ import BasicStorageView from "./pages/StorageView/BasicStorageView";
 import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
 
 import { Error } from "./pages/ErrorPage";
+import { ChatPage } from "./pages/StudyChat";
 
 function App() {
   return (
@@ -37,6 +38,8 @@ function App() {
           <Route path="" index element={<CreateLesson />} />
           <Route path="select-template" element={<LessonTemplate />} />
         </Route>
+
+        <Route path="studychat" element={<ChatPage />} />
 
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/settings/notifications" element={<NotificationSettings />} />
