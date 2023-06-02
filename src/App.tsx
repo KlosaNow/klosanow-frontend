@@ -20,18 +20,17 @@ import BasicStorageView from "./pages/StorageView/BasicStorageView";
 import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
 
 import { Error } from "./pages/ErrorPage";
+import HomePage from "./pages/Home/HomePage";
 
 function App() {
   return (
     <>
       <Routes>
-
         <Route path="/" element={<Onboarding />} />
 
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/otp" element={<Otp />} />
-
 
         <Route path="/create-lesson" element={<CreateLessonLayout />}>
           <Route path="" index element={<CreateLesson />} />
@@ -39,7 +38,10 @@ function App() {
         </Route>
 
         <Route path="/notifications" element={<Notifications />} />
-        <Route path="/settings/notifications" element={<NotificationSettings />} />
+        <Route
+          path="/settings/notifications"
+          element={<NotificationSettings />}
+        />
 
         {/* Storage view Route */}
         <Route path="/free" element={<FreeStorageView />} />
@@ -48,7 +50,7 @@ function App() {
 
         {/* this should always be the last route */}
         <Route path="*" element={<Error />} />
-
+        <Route path="/home" element={<HomePage />} />
       </Routes>
     </>
   );

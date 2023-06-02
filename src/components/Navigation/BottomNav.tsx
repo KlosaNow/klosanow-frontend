@@ -1,13 +1,14 @@
 import { Box, Icon, Link, Text } from '@chakra-ui/react'
-import { MdOutlineLibraryAdd, MdOutlineChat, MdPersonOutline } from "react-icons/md";
-import { AiOutlineHome } from "react-icons/ai";
+import { MdOutlineLibraryAdd, MdOutlineChat } from "react-icons/md";
+import { FiHome } from "react-icons/fi";
+import { BiSearchAlt } from "react-icons/bi";
 import { NavLink as RouterLink } from "react-router-dom";
 
 const navItems = [
-  { title: "Home", icon: AiOutlineHome, link: "/" },
+  { title: "Home", icon: FiHome, link: "/" },
   { title: "Create Lesson", icon: MdOutlineLibraryAdd, link: '/create-lesson' },
   { title: "Study Chat", icon: MdOutlineChat, link: "/" },
-  { title: "Profile", icon: MdPersonOutline, link: "/" },
+  { title: "Channel", icon: BiSearchAlt, link: "/" },
 
 ]
 export default function BottomNav() {
@@ -16,7 +17,6 @@ export default function BottomNav() {
       pos="fixed"
       bottom="0"
       left="0"
-      borderTop='0.5px solid #CCCCCC'
       p='1rem'
       w="100%"
       bg='neutral.5'
@@ -24,11 +24,11 @@ export default function BottomNav() {
       <Box display='flex' justifyContent='space-around' alignItems='center'>
 
         {navItems.map((nav) => (
-          <Link as={RouterLink} to={nav.link} key='nav.title'>
+          <Link as={RouterLink} to={nav.link} key={nav.title}>
 
             <Box display='flex' flexDir='column' alignItems='center'>
-            <Icon as={nav.icon} />
-            <Text fontSize='sm' textColor='black.20'>{nav.title}</Text>
+            <Icon fontSize={25} as={nav.icon} />
+            <Text fontSize='12px' textColor='black.50'>{nav.title}</Text>
           </Box>
           </Link>
 
