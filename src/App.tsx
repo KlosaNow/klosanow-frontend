@@ -53,15 +53,16 @@ function App() {
         <Route path="/basic" element={<BasicStorageView />} />
         <Route path="/premium" element={<PremiumStorageView />} />
 
+        <Route path="/settings" element={<SettingPage />} />
+        <Route path="/info" element={<InfoPage />} />
+
         {/* this should always be the last route */}
         <Route path="*" element={<Error />} />
 
-        <Route path="/settings" element={<SettingPage />} />
-        <Route path="/info" element={<InfoPage />} />
+
       </Routes>
 
 
-      </Routes>
     </>
   );
 }

@@ -2,14 +2,14 @@ import { Box, Image, Flex, Text } from '@chakra-ui/react'
 import SettingsItem from '../../components/SettingsItem/SettingsItem'
 import arrow from '../../assets/SettingsPageImg/Arrow-left.png'
 
-import avatar from '../../assets/SettingsPageImg/Avatar.png'
-import group from '../../assets/SettingsPageImg/Terms.png'
-import cloud from '../../assets/SettingsPageImg/Upload.png'
-import user from '../../assets/SettingsPageImg/User.png'
-import bell from '../../assets/SettingsPageImg/Vector.png'
-import wallet from '../../assets/SettingsPageImg/Wallet.png'
-import help from '../../assets/SettingsPageImg/Help.png'
-import logout from '../../assets/SettingsPageImg/Log-out.png'
+import avatar from "../../assets/SettingsPageImg/Avatar.png"
+import group from "../../assets/SettingsPageImg/Terms.png"
+import cloud from "../../assets/SettingsPageImg/Upload.png"
+import user from "../../assets/SettingsPageImg/user.png"
+import bell from "../../assets/SettingsPageImg/Vector.png"
+import wallet from "../../assets/SettingsPageImg/Wallet.png"
+import help from "../../assets/SettingsPageImg/Help.png"
+import logout from "../../assets/SettingsPageImg/Log-out.png"
 
 
 
@@ -33,11 +33,11 @@ export default function SettingsPage(): JSX.Element {
                 </Box>
 
                 <Box w="93%" >
-                
+
                     <Flex justifyContent="flex-start" flexDirection="column">
                         <Box background="neutral.10" marginTop="55" borderRadius="10" pt="2" pb="1">
                             <SettingsItem imageSrc={user } text="Info" />
-                            <SettingsItem imageSrc={bell } text="Notification" />  
+                            <SettingsItem imageSrc={bell} text="Notification" />
                         </Box>
                     </Flex>
 
@@ -47,7 +47,7 @@ export default function SettingsPage(): JSX.Element {
                             <SettingsItem imageSrc={cloud } text="Storage" />
                         </Box>
                     </Flex>
-            
+
                     <Flex justifyContent="flex-start" flexDirection="column" >
                         <Box mt="10" background="neutral.10"  borderRadius="10" pt="3" pb="2">
                             <SettingsItem imageSrc={help} text="Help" />
