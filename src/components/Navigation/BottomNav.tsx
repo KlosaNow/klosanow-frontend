@@ -5,7 +5,7 @@ import { BiSearchAlt } from "react-icons/bi";
 import { NavLink as RouterLink } from "react-router-dom";
 
 const navItems = [
-  { title: "Home", icon: FiHome, link: "/" },
+  { title: "Home", icon: FiHome, link: "/home" },
   { title: "Create Lesson", icon: MdOutlineLibraryAdd, link: '/create-lesson' },
   { title: "Study Chat", icon: MdOutlineChat, link: "/" },
   { title: "Channel", icon: BiSearchAlt, link: "/" },

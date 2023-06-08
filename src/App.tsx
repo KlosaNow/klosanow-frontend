@@ -21,6 +21,7 @@ import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
 
 import { Error } from "./pages/ErrorPage";
 import HomePage from "./pages/Home/HomePage";
+import HomeLayout from "./components/Layout/HomeLayout";
 
 function App() {
   return (
@@ -32,6 +33,10 @@ function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/otp" element={<Otp />} />
 
+        
+        <Route path="/home" element={<HomeLayout />}>
+          <Route path="" index element={<HomePage />} />
+          </Route>
         <Route path="/create-lesson" element={<CreateLessonLayout />}>
           <Route path="" index element={<CreateLesson />} />
           <Route path="select-template" element={<LessonTemplate />} />
@@ -50,8 +55,8 @@ function App() {
 
         {/* this should always be the last route */}
         <Route path="*" element={<Error />} />
-        <Route path="/home" element={<HomePage />} />
       </Routes>
+
     </>
   );
 }
