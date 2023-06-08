@@ -56,6 +56,7 @@ const CarouselComponent: FC = () => {
       swipeable={true}
       draggable={true}
       centerMode={true}
+      showDots={true}
       responsive={responsive}
     >
       {data.map((cardDetails, index) => {

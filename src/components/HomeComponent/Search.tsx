@@ -5,7 +5,7 @@ import '../../styles/Search.scss'
 export const Search = () => {
   return (
     <Box mb={5}>
-      <form>
+      <form className='search'>
         <button type='submit'>
           <BsSearch />
         </button>
