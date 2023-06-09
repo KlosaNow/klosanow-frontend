@@ -6,7 +6,7 @@ interface CarouselCardProps {
   title: string;
   description: string;
 }
-export const CarouselCard:FC<CarouselCardProps> = ({img,title,description}:CarouselCardProps) => {
+export const CarouselCard:FC = ({img,title,description}:CarouselCardProps) => {
   return (
     <Container width="190px" padding={0}>
       <VStack >
