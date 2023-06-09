@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@300;400;500;600;700&display=swap');
+@import "./mxins.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: #2A2A2A;
+  font-family: 'Encode Sans', sans-serif;
+}
+
+.heading2 {
+  @include font(18px, 22px, 500);
+}
+
+.heading3 {
+  @include font(16px, 20px, 500);
+}
+
+.p {
+  @include font(14px, 18px, 400);
+}
+
+.icons {
+  font-size: 24px;
+  color: #7B58F4 !important;
+}
+
+.bot .p {
+  background: #e5defd;
+}
+
+.user {
+  align-self: flex-end;
+  
+  .p {
+    background: #7B58F4;
+    color: #fff;
+  }
+
+  .name-title {
+    justify-content: flex-end;
+  }
+}
+
+.mail-us {
+  @include flex(column, stretch, flex-start, 16px);
+}
+
+.file-btn {
+  svg {
+    font-size: 30px;
+  }
+}

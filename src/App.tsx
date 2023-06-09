@@ -4,17 +4,15 @@ import { Route, Routes } from "react-router-dom";
 import SignIn from "./pages/Auth/SignIn";
 import SignUp from "./pages/Auth/SignUp";
 import Otp from "./pages/Auth/Otp";
-
 import CreateLessonLayout from "./components/Layout/CreateLessonLayout";
-
-import Onboarding from "./pages/Onboarding";
-
 import { Notifications } from "./pages/Notifications";
 import { NotificationSettings } from "./pages/NotificationSettings";
-
+import Onboarding from "./pages/Onboarding";
+import Help from "./components/Help";
+import MailUs from "./components/Mail";
+import ChatBot from "./components/ChatBot";
 import CreateLesson from "./pages/CreateLesson";
 import LessonTemplate from "./pages/CreateLesson/LessonTemplate";
-
 import FreeStorageView from "./pages/StorageView/FreeStorageView";
 import BasicStorageView from "./pages/StorageView/BasicStorageView";
 import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
@@ -47,6 +45,9 @@ function App() {
 
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/settings/notifications" element={<NotificationSettings />} />
+        <Route path="/help" element={<Help />} />
+        <Route path="/help/mail" element={<MailUs />} />
+        <Route path="/help/chat" element={<ChatBot />} />
 
         {/* Storage view Route */}
         <Route path="/free" element={<FreeStorageView />} />
