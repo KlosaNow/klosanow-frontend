@@ -5,6 +5,7 @@ import { BiBell } from "react-icons/bi";
 import { Search } from "../../components/HomeComponent/Search";
 import { HomeCard } from "../../components/HomeComponent/HomeCard";
 import { BsChevronDown } from "react-icons/bs";
+import {motion} from 'framer-motion'
 import CarouselComponent from "../../components/HomeComponent/CarouselComponent";
 
 const notifications = [
@@ -21,10 +22,16 @@ const notifications = [
     id: 1,
   },
 ];
+const MotionContainer = motion(Container)
+
 const HomePage: FC = () => {
   return (
-    <Container paddingX={1} paddingY={10}>
-      <Flex justify={"space-between"} align={"center"}>
+    <MotionContainer
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.2 }}
+     paddingX={1} paddingY={10}>      <Flex justify={"space-between"} align={"center"}>
         <img style={{ width: "70px", height: "70px" }} src={Img} alt="" />
         <Box pos="relative">
           <BiBell fontSize={25} />
@@ -90,7 +97,7 @@ const HomePage: FC = () => {
         </Text>
       </Box>
         <CarouselComponent />
-    </Container>
+    </MotionContainer>
   );
 };
 

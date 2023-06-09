@@ -1,14 +1,13 @@
 import { Box, Icon, Link, Text } from '@chakra-ui/react'
-import { MdOutlineLibraryAdd, MdOutlineChat } from "react-icons/md";
-import { FiHome } from "react-icons/fi";
-import { BiSearchAlt } from "react-icons/bi";
+import { MdOutlineLibraryAdd, MdOutlineChat,MdPersonOutline } from "react-icons/md";
+import { AiOutlineHome } from "react-icons/ai";
 import { NavLink as RouterLink } from "react-router-dom";
 
 const navItems = [
-  { title: "Home", icon: FiHome, link: "/home" },
+  { title: "Home", icon: AiOutlineHome, link: "/home" },
   { title: "Create Lesson", icon: MdOutlineLibraryAdd, link: '/create-lesson' },
   { title: "Study Chat", icon: MdOutlineChat, link: "/" },
-  { title: "Channel", icon: BiSearchAlt, link: "/" },
+  { title: "Profile", icon: MdPersonOutline, link: "/" },
 
 ]
 export default function BottomNav() {

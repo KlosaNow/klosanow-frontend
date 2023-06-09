@@ -4,9 +4,10 @@ import { Container, VStack, Text, Box } from "@chakra-ui/react";
 interface CarouselCardProps {
   img: string;
   title: string;
+  timestamp:string;
   description: string;
 }
-export const CarouselCard:FC = ({img,title,description}:CarouselCardProps) => {
+export const CarouselCard:FC<CarouselCardProps> = ({img,title,timestamp,description}:CarouselCardProps) => {
   return (
     <Container width="190px" padding={0}>
       <VStack >
@@ -16,10 +17,10 @@ export const CarouselCard:FC = ({img,title,description}:CarouselCardProps) => {
           borderRadius={5}
           overflow="hidden"
           width="100%"
-          height="181px"
+          height="150px"
         >
           <img
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            style={{ width: "100%", height: "150px", objectFit: "cover" }}
             src={img}
             alt=""
           />
@@ -34,7 +35,7 @@ export const CarouselCard:FC = ({img,title,description}:CarouselCardProps) => {
             borderRadius={15}
             color="#fff"
           >
-            2:28
+            {timestamp}
           </Text>
         </Box>
         <Text fontSize={16} fontWeight="600" color="#000">

@@ -18,3 +18,18 @@ div.list-line {
 	color: #7B58F4;
 	font-weight: 600;
 }
+ul.react-multi-carousel-track {
+    gap: 6rem;
+}
+.react-multi-carousel-list {
+    height: 265px;
+}
+.react-multi-carousel-dot--active button {
+    background: #7B58F4 !important;
+}
+.react-multi-carousel-dot button {
+	width: 8px !important;
+	height: 8px !important;
+	border: none !important;  
+  	background: #ccc;
+}

@@ -1,6 +1,5 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import "../../styles/carousel.scss";
 import { FC } from "react";
 import { CarouselCard } from "./CarouselCard";
 
@@ -28,24 +27,28 @@ const CarouselComponent: FC = () => {
     {
       img: "https://picsum.photos/200/300",
       title: "Lesson Title",
+      timestamp:"2:45",
       description:
         "lorem is the e argube aeirub9er gaeurg9oa eug9wurfbia erugb",
     },
     {
       img: "https://picsum.photos/200/300",
       title: "Lesson Title",
+      timestamp:"2:45",
       description:
         "lorem is the e argube aeirub9er gaeurg9oa eug9wurfbia erugb",
     },
     {
       img: "https://picsum.photos/200/300",
       title: "Lesson Title",
+      timestamp:"2:45",
       description:
         "lorem is the e argube aeirub9er gaeurg9oa eug9wurfbia erugb",
     },
     {
       img: "https://picsum.photos/200/300",
       title: "Lesson Title",
+      timestamp:"2:45",
       description:
         "lorem is the e argube aeirub9er gaeurg9oa eug9wurfbia erugb",
     },
@@ -64,6 +67,7 @@ const CarouselComponent: FC = () => {
           <CarouselCard
             key={index}
             img={cardDetails.img}
+            timestamp={cardDetails.timestamp}
             title={cardDetails.title}
             description={cardDetails.description}
           />
