@@ -25,9 +25,9 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
       <Flex direction="column">
         <motion.div
           key={currentIndex}
-          initial={{ translateX: 200, opacity: 0, scale: 0.9 }}
+          initial={{ translateX: 200, opacity: 0}}
           animate={{ translateX: 0, opacity: 1, scale: 1 }}
-          exit={{ translateX: -400, scale: 0.9, opacity: 0 }}
+          exit={{ translateX: -400, opacity: 0 }}
           transition={{ delay: 0, duration: 0.5, damping: 80, stiffness: 10 }}
         >
           <SlideTemplate {...slides[currentIndex]} />

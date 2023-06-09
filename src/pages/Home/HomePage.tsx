@@ -7,6 +7,7 @@ import { HomeCard } from "../../components/HomeComponent/HomeCard";
 import { BsChevronDown } from "react-icons/bs";
 import {motion} from 'framer-motion'
 import CarouselComponent from "../../components/HomeComponent/CarouselComponent";
+import { Link } from "react-router-dom";
 
 const notifications = [
   {
@@ -33,7 +34,7 @@ const HomePage: FC = () => {
     transition={{ duration: 0.2 }}
      paddingX={1} paddingY={10}>      <Flex justify={"space-between"} align={"center"}>
         <img style={{ width: "70px", height: "70px" }} src={Img} alt="" />
-        <Box pos="relative">
+        <Link to='/notifications' style={{position:"relative"}}>
           <BiBell fontSize={25} />
           <span
             style={{
@@ -53,7 +54,7 @@ const HomePage: FC = () => {
           >
             {notifications.length}
           </span>
-        </Box>
+        </Link>
       </Flex>
       <h4
         style={{
