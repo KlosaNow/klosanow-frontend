@@ -6,7 +6,7 @@ import { NavLink as RouterLink } from "react-router-dom";
 const navItems = [
   { title: "Home", icon: AiOutlineHome, link: "/" },
   { title: "Create Lesson", icon: MdOutlineLibraryAdd, link: '/create-lesson' },
-  { title: "Study Chat", icon: MdOutlineChat, link: "/" },
+  { title: "Study Chat", icon: MdOutlineChat, link: "/study-chat" },
   { title: "Profile", icon: MdPersonOutline, link: "/" },
 
 ]

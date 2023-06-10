@@ -1,27 +1,14 @@
 import { Box, Text, Flex, Icon } from '@chakra-ui/react';
 import { FiSearch, FiMoreVertical } from "react-icons/fi";
-import ChatDisplay from '../Components/ChatDisplay';
+import MessageLink from '../Components/ChatLink';
+import { BottomNav } from '../../../components/Navigation';
+import { messageTemplate } from '../Components/MessageData';
 
-const ChatPage = () => {
-
-  const messages = [
-    {
-      chatname: 'Gloria',
-      lastmsg: 'How was your day?',
-      unread_messages: 1,
-      lastmsg_time: "1:00 am"
-    },
-    {
-      chatname: 'Math 101',
-      lastmsg: 'Can we have class by 1',
-      unread_messages: 7,
-      lastmsg_time: "10:00 pm"
-    }
-  ]
+const MessagesPage = () => {
 
   return (
     <Box px="15px" width="100%" height="full">
-      <Box mt="78px" h="24px" display="flex" alignItems="center"
+      <Box mt="24px" h="24px" display="flex" alignItems="center"
         justifyContent="space-between" >
         <Text fontSize={18} fontWeight={600} color="#7B58F4">Klosanow</Text>
 
@@ -33,15 +20,16 @@ const ChatPage = () => {
       </Box>
       <Box mt="20px" display="flex" alignItems="center" justifyContent="center" flexDir="column">
         {
-          messages ? messages.map((message) => {
+          messageTemplate.map((message) => {
             return (
-              <ChatDisplay chatname={message.chatname} lastmsg={message.lastmsg} unread_messages={message.unread_messages} lastmsg_time={message.lastmsg_time} />
+              <MessageLink chatname={message.chatname} lastmsg={message.lastmsg} unread_messages={message.unread_messages} lastmsg_time={message.lastmsg_time} />
             )
-          }) : null
+          })
         }
       </Box>
+      <BottomNav />
     </Box >
   )
 }
 
-export default ChatPage
+export default MessagesPage;
