@@ -2,11 +2,11 @@ import { useState } from "react";
 import { SlideTemplate } from "./SlideTemplate";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Stack, Flex } from "@chakra-ui/react";
+import { Stack, Flex, Container } from "@chakra-ui/react";
 import { Button } from "../../components/Button";
 
 interface OnboardingSlidesProps {
-  slides: { image: string; title: string; description: string; id: string }[];
+  slides: { image: string;imgWidth:string; title: string; description: string; id: string }[];
 }
 
 const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
@@ -22,30 +22,31 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
   };
   return (
     <AnimatePresence mode="wait">
-      <Flex direction="column">
+      <Container height="100vh">
+      <Flex height="100%" paddingY="4rem" paddingX={1} direction="column" justify="space-between">
         <motion.div
           key={currentIndex}
-          initial={{ translateX: 200, opacity: 0}}
+          initial={{ translateX: 100, opacity: 0}}
           animate={{ translateX: 0, opacity: 1, scale: 1 }}
-          exit={{ translateX: -400, opacity: 0 }}
+          exit={{ scale:0, opacity: 0 }}
           transition={{ delay: 0, duration: 0.5, damping: 80, stiffness: 10 }}
         >
           <SlideTemplate {...slides[currentIndex]} />
         </motion.div>
 
-        <Stack direction="column" align="center" gap="8px">
+        <Stack direction="column" align="center">
           <Button
             buttonStyle="btn--solid"
             buttonSize="btn--medium"
             action={handleNextSlide}
-            width="85%"
+            width="100%"
           >
             {currentIndex === slides.length - 1 ? "Create an account" : "Next"}
           </Button>
           <Button
-            buttonStyle="btn--outline"
+            buttonStyle="btn--ghost"
             buttonSize="btn--medium"
-            width="85%"
+            width="100%"
             action={() => navigate("/login")}
           >
             {currentIndex === slides.length - 1
@@ -54,6 +55,7 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
           </Button>
         </Stack>
       </Flex>
+      </Container>
     </AnimatePresence>
   );
 };
