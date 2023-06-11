@@ -17,6 +17,11 @@ import FreeStorageView from "./pages/StorageView/FreeStorageView";
 import BasicStorageView from "./pages/StorageView/BasicStorageView";
 import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
 
+import { useLocation } from "react-router-dom";
+import HomePage from "./pages/Home/HomePage";
+import HomeLayout from "./components/Layout/HomeLayout";
+import { AnimatePresence } from "framer-motion";
+
 import { Error } from "./pages/ErrorPage";
 import SettingPage from "./pages/SettingsPage/SettingsPage";
 import InfoPage from "./pages/InfoPage/InfoPage";
@@ -25,17 +30,20 @@ import { ChatPage } from "./pages/StudyChat";
 
 
 function App() {
+  const location = useLocation()
   return (
-    <>
-      <Routes>
-
+    <AnimatePresence  mode="wait">
+      <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Onboarding />} />
 
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/otp" element={<Otp />} />
 
-
+        
+        <Route path="/home" element={<HomeLayout />}>
+          <Route path="" index element={<HomePage />} />
+          </Route>
         <Route path="/create-lesson" element={<CreateLessonLayout />}>
           <Route path="" index element={<CreateLesson />} />
           <Route path="select-template" element={<LessonTemplate />} />
@@ -59,12 +67,8 @@ function App() {
 
         {/* this should always be the last route */}
         <Route path="*" element={<Error />} />
-
-
       </Routes>
-
-
-    </>
+    </AnimatePresence>
   );
 }
 
