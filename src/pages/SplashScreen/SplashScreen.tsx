@@ -40,7 +40,7 @@ export default function SplashScreen(): JSX.Element {
         exit={{ opacity: 0, translateY: 80, scale: 0.9 }}
       >
         <Box>
-          <Center h="100svh">
+          <Center h="100dvh">
             <Image src={SplashImg} alt="klosanow logo" />
           </Center>
         </Box>

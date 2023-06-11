@@ -22,8 +22,8 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
   };
   return (
     <AnimatePresence mode="wait">
-      <Container height="100svh">
-      <Flex height="100%" paddingY="4rem" paddingX={1} direction="column" justify="space-between">
+      <Container maxWidth='95%' height="100svh">
+      <Flex height="100%" paddingY="10%" direction="column" justify="space-between">
         <motion.div
           key={currentIndex}
           initial={{ translateX: 100, opacity: 0}}
@@ -51,7 +51,7 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
           >
             {currentIndex === slides.length - 1
               ? "Sign into your account"
-              : "skip"}
+              : "Skip"}
           </Button>
         </Stack>
       </Flex>

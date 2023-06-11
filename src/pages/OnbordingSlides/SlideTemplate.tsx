@@ -1,5 +1,4 @@
 import {
-  Container,
   Image,
   Radio,
   RadioGroup,
@@ -20,11 +19,11 @@ interface SlideProps {
 export const SlideTemplate: React.FC<SlideProps> = (props: SlideProps) => {
   const MotionVStack = motion(VStack)
   return (
-        <MotionVStack key={props.id}  width="327px" marginX="auto" marginTop={10} >
+        <MotionVStack key={props.id}  marginX="auto" >
           <Image
-            htmlWidth={props.imgWidth}
-            htmlHeight="285px"
-            objectFit="cover"
+            // htmlWidth={props.imgWidth}
+            boxSize={props.imgWidth}
+            objectFit="contain"
             src={props.image}
             alt=" "
           />
@@ -33,10 +32,10 @@ export const SlideTemplate: React.FC<SlideProps> = (props: SlideProps) => {
             <Radio size="sm" bg="#E5DEFD" marginX="5px" value="2"></Radio>
             <Radio size="sm" bg="#E5DEFD" marginX="5px" value="3"></Radio>
           </RadioGroup>
-          <Text fontSize="24px" fontWeight="bold" textAlign="center">
+          <Text fontSize="6vw" fontWeight="500" textAlign="center">
             {props.title}
           </Text>
-          <Text fontSize="16px" textAlign="center">{props.description}</Text>
+          <Text fontSize="4vw" textAlign="center">{props.description}</Text>
         </MotionVStack>
   );
 };
