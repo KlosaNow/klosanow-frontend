@@ -22,7 +22,7 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
   };
   return (
     <AnimatePresence mode="wait">
-      <Container height="100vh">
+      <Container height="100svh">
       <Flex height="100%" paddingY="4rem" paddingX={1} direction="column" justify="space-between">
         <motion.div
           key={currentIndex}
