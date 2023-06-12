@@ -5,7 +5,7 @@ import { BiBell } from "react-icons/bi";
 import { Search } from "../../components/HomeComponent/Search";
 import { HomeCard } from "../../components/HomeComponent/HomeCard";
 import { BsChevronDown } from "react-icons/bs";
-import {motion} from 'framer-motion'
+import { motion } from "framer-motion";
 import CarouselComponent from "../../components/HomeComponent/CarouselComponent";
 import { Link } from "react-router-dom";
 
@@ -23,18 +23,21 @@ const notifications = [
     id: 1,
   },
 ];
-const MotionContainer = motion(Container)
+const MotionContainer = motion(Container);
 
 const HomePage: FC = () => {
   return (
     <MotionContainer
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.2 }}
-     paddingX={1} paddingY={10}>      <Flex justify={"space-between"} align={"center"}>
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      paddingX={1}
+    >
+      {" "}
+      <Flex justify={"space-between"} align={"center"}>
         <img style={{ width: "70px", height: "70px" }} src={Img} alt="" />
-        <Link to='/notifications' style={{position:"relative"}}>
+        <Link to="/notifications" style={{ position: "relative" }}>
           <BiBell fontSize={25} />
           <span
             style={{
@@ -67,15 +70,11 @@ const HomePage: FC = () => {
       >
         Hello, User.
       </h4>
-
       <Search />
-
       <Text fontSize={12} fontWeight={600} mb={2}>
         Latest Created Lesson
       </Text>
-
       <HomeCard />
-
       <Box
         marginY={6}
         display="flex"
@@ -83,11 +82,7 @@ const HomePage: FC = () => {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Box 
-        display="flex"
-        gap={1}
-        alignItems="center"
-         >
+        <Box display="flex" gap={1} alignItems="center">
           <Text fontSize={12} fontWeight={600}>
             Created Lesson
           </Text>
@@ -97,7 +92,7 @@ const HomePage: FC = () => {
           See All
         </Text>
       </Box>
-        <CarouselComponent />
+      <CarouselComponent />
     </MotionContainer>
   );
 };

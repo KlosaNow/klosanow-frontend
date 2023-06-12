@@ -8,6 +8,7 @@ import backgroundImage4 from "../../assets/images/notification_4.png";
 import backgroundImage5 from "../../assets/images/notification_5.png";
 import backgroundImage6 from "../../assets/images/notification_6.png";
 import NotificationItem from "../../components/NotificationItem/NotificationItem";
+import Header from "../../components/Header/Header";
 
 const notifications = [
   {
@@ -50,20 +51,8 @@ const notifications = [
 
 export default function Notifications() {
   return (
-    <Box maxW="720px" m="0 auto">
-      <Box
-        display="flex"
-        justifyContent="start"
-        alignItems="center"
-        h="2em"
-        mb="1em"
-        padding="2em 20px 0"
-      >
-        <ArrowBackIcon boxSize={6} mr="13px" />
-        <Text fontSize="18px" fontWeight={700}>
-          Notifications (2)
-        </Text>
-      </Box>
+    <Box>
+      <Header pageName="Notification" />
       <Box>
         <List>
           {notifications.map((notificationItem, index) => (

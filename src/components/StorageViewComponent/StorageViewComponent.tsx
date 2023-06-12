@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { GoPrimitiveDot } from "react-icons/go";
+import Header from "../Header/Header";
 
 interface StorageCardProps {
   title: string;
@@ -34,14 +35,9 @@ const StorageViewComponent: React.FC<StorageCardProps> = ({
   const displayValue = isNaN(percentageUsed) ? spaceUsed : `${percentageUsed}%`;
 
   return (
-    <Box bg="white" p="4" fontWeight="500">
+    <Box bg="white" fontWeight="500">
       {/* Navigation Section */}
-      <Flex alignItems="center" px="4" py="2">
-        <Icon as={AiOutlineArrowLeft} fontSize="2xl" mr="2" />
-        <Text fontWeight="medium" style={{ fontWeight: "black" }}>
-          Storage
-        </Text>
-      </Flex>
+      <Header pageName="Storage" />
 
       <Text textAlign="center" fontSize="30px" color="secondary.50">
         {title}
