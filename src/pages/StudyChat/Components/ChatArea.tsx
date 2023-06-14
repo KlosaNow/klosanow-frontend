@@ -3,7 +3,12 @@ import { Flex } from "@chakra-ui/react";
 import { ChatInput } from "../Components"
 
 
+
+
 const ChatArea = () => {
+    const AlwaysScrollToBtm = () => {
+        
+    }
     return (
         <Flex flexDir="column">
 

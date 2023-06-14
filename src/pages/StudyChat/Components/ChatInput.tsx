@@ -19,8 +19,8 @@ const ChatInput = ({ inputMessage, setInputMessage, handleSendMessage }: InputPr
                     
                 />
                 <Flex>
-                    <IconButton aria-label="Send Message" border="none" bg="#fff" icon={<BsSend />} fontSize="20px" color="#7858F4" />
-                    <IconButton aria-label="Record voice messagea" border="none" bg="#fff" icon={<HiOutlineMicrophone />} fontSize="20px"  color="#7858F4" />
+                    <IconButton aria-label="Send Message" border="none" bg="none" icon={<BsSend />} fontSize="20px" color="#7858F4" />
+                    <IconButton aria-label="Record voice messagea" border="none" bg="none" icon={<HiOutlineMicrophone />} fontSize="20px"  color="#7858F4" />
                 </Flex>
                 
             </Flex>
