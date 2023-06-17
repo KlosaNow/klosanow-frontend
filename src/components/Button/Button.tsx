@@ -1,5 +1,5 @@
 import { FC } from "react";
-import "../styles/Button.scss";
+import "../../styles/Button.scss";
 
 interface buttonProps {
   children: string;

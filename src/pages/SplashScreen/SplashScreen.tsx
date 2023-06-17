@@ -12,12 +12,12 @@ export default function SplashScreen(): JSX.Element {
 
     if (value === null) {
       setTimeout(() => {
-        navigate("/onboarding");
+        navigate("/");
         localStorage.setItem("isFirstVisit", "true");
       }, 3000);
     } else if (value === "true") {
       setTimeout(() => {
-        navigate("/");
+        navigate("/sign-in");
       }, 3000);
     }
   };
@@ -40,7 +40,7 @@ export default function SplashScreen(): JSX.Element {
         exit={{ opacity: 0, translateY: 80, scale: 0.9 }}
       >
         <Box>
-          <Center h="100vh">
+          <Center h="100dvh">
             <Image src={SplashImg} alt="klosanow logo" />
           </Center>
         </Box>

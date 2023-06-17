@@ -1,5 +1,5 @@
-import MessagesPage from "./MainPage/MainPage";
+import ChatPage from "./MainPage/MainPage";
 
-import ChatPage from "./ChatPage/ChatPage";
+import MessagesPage from "./ChatPage/MessagesPage";
 
 export { MessagesPage, ChatPage }

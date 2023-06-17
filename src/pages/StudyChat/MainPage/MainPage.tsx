@@ -1,35 +1,51 @@
-import { Box, Text, Flex, Icon } from '@chakra-ui/react';
+import { Box, Text, Flex, IconButton, Link } from "@chakra-ui/react";
 import { FiSearch, FiMoreVertical } from "react-icons/fi";
-import MessageLink from '../Components/ChatLink';
-import { BottomNav } from '../../../components/Navigation';
-import { messageTemplate } from '../Components/MessageData';
+import { BottomNav } from "../../../components/Navigation";
+import ChatDisplay from '../Components/ChatDisplay';
+import { motion } from "framer-motion";
+import { messageTemplate } from "../Components/MessageData";
 
-const MessagesPage = () => {
+
+const ChatPage = () => {
+
+  const MotionContainer = motion(Box)
 
   return (
-    <Box px="15px" width="100%" height="full">
-      <Box mt="24px" h="24px" display="flex" alignItems="center"
+    <MotionContainer
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+
+      pos={"relative"}
+      width={"100%"}
+      height="full"
+    >
+      
+      <Box top={"74px"} w={"100%"} h={"24px"} 
+        pos={"absolute"} display={"flex" } alignItems={"center"}
         justifyContent="space-between" >
+
         <Text fontSize={18} fontWeight={600} color="#7B58F4">Klosanow</Text>
 
-        <Flex w="57px" flexDir="row"
-          justifyContent="space-between" >
-          <Icon as={FiSearch} boxSize={5} />
-          <Icon as={FiMoreVertical} boxSize={5} />
+        <Flex flexDir="row" justifyContent="space-between">
+          <IconButton aria-label="Search" icon={<FiSearch />} bg="none" fontSize="16px" size={"xs"} />
+        <IconButton aria-label="Settings" icon={<FiMoreVertical />} bg="none" fontSize="16px" size={"xs"} />
         </Flex>
       </Box>
-      <Box mt="20px" display="flex" alignItems="center" justifyContent="center" flexDir="column">
+      <Box top={"122px"} pos={"absolute"} width={"100%"}
+        display="flex" alignItems={"flex-start"} justifyContent="center" flexDir="column">  
         {
           messageTemplate.map((message) => {
             return (
-              <MessageLink chatname={message.chatname} lastmsg={message.lastmsg} unread_messages={message.unread_messages} lastmsg_time={message.lastmsg_time} />
+                <ChatDisplay chatId={message.key} chatname={message.chatname} lastmsg={message.lastmsg} unread_messages={message.unread_messages} lastmsg_time={message.lastmsg_time} />
             )
           })
         }
       </Box>
       <BottomNav />
-    </Box >
+    </MotionContainer>
   )
 }
 
-export default MessagesPage;
+export default ChatPage

@@ -10,6 +10,7 @@
      border: none;
      cursor: pointer;
      border-radius: 4px;
+     margin:0;
 }
 
 .btn--primary{
@@ -30,11 +31,11 @@
 .btn--ghost{
     background:transparent;
     color:var(--accent-color);
+    font-weight: 600;
 }
 .btn--medium{
-    padding: 15px 20px;
-    height:56px;
-    font-size: 1rem;
+    padding: 3%;
+    font-size: 4vw;
 }
 
 .btn--large{
