@@ -10,10 +10,10 @@ import {
 import { Link as RouteLink } from "react-router-dom";
 import { useFormik } from "formik";
 import { SignUpSchema } from "./ValidationSchema";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
+// import PhoneInput from "react-phone-input-2";
+// import "react-phone-input-2/lib/style.css";
 
-export default function SignUp(): JSX.Element {
+export default function SignUp() {
   const handleOnSubmit = (values: any, actions: any) => {
     console.log(values);
     actions.resetForm({ values: "" });
@@ -80,7 +80,7 @@ export default function SignUp(): JSX.Element {
             </Text>
           ) : null}
         </FormControl>
-
+        {/*
         <FormControl mb="1.5rem">
           <FormLabel fontSize="sm" color="black.40">
             Phone Number{" "}
@@ -103,7 +103,7 @@ export default function SignUp(): JSX.Element {
               {formik.errors.phone}
             </Text>
           ) : null}
-        </FormControl>
+        </FormControl> */}
 
         <Box display="flex" justifyContent="center">
           <Button

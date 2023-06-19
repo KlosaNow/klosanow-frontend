@@ -1,12 +1,13 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
 // Auth Pages
 import SignIn from "./pages/Authentication/SignIn";
 import SignUp from "./pages/Authentication/SignUp";
 import Otp from "./pages/Authentication/Otp";
 import CreateLessonLayout from "./components/Layout/CreateLessonLayout";
-import { Notifications } from "./pages/Notifications";
-import { NotificationSettings } from "./pages/NotificationSettings";
+import Notifications from "./pages/Notifications";
+import NotificationSettings from "./pages/NotificationSettings";
 import Onboarding from "./pages/Onboarding";
 import Help from "./pages/Help/Help";
 import MailUs from "./pages/Mail/Mail";
@@ -16,14 +17,12 @@ import LessonTemplate from "./pages/CreateLesson/LessonTemplate";
 import FreeStorageView from "./pages/StorageView/FreeStorageView";
 import BasicStorageView from "./pages/StorageView/BasicStorageView";
 import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
-import { useLocation } from "react-router-dom";
 import HomePage from "./pages/Home/HomePage";
 import HomeLayout from "./components/Layout/HomeLayout";
-import { AnimatePresence } from "framer-motion";
-import { Error } from "./pages/ErrorPage";
+import Error from "./pages/ErrorPage";
 import SettingPage from "./pages/SettingsPage/SettingsPage";
 import InfoPage from "./pages/InfoPage/InfoPage";
-import { ChatPage } from "./pages/StudyChat";
+import ChatPage from "./pages/StudyChat";
 import { GeneralLayout as Layout } from "./components/Layout/GenralLayout";
 
 function App() {
