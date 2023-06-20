@@ -11,8 +11,11 @@ import {
 import { Link as RouteLink } from "react-router-dom";
 import { useFormik } from "formik";
 
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
+// import PhoneInput from "react-phone-input-2";
+import PhoneInput from 'react-phone-input-2'
+
+
+// import "react-phone-input-2/lib/style.css";
 import { SignInSchema } from "./ValidationSchema";
 
 export default function SignIn() {
@@ -70,7 +73,7 @@ export default function SignIn() {
           </FormLabel>
           <PhoneInput
             country={"ng"}
-            regions={["africa"]}
+            // regions={["africa"]}
             containerClass={"10px"}
             inputStyle={{
               width: "100%",
