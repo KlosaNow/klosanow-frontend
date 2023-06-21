@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 
 // Auth Pages
-import SignIn from "./pages/Auth/SignIn";
-import SignUp from "./pages/Auth/SignUp";
-import Otp from "./pages/Auth/Otp";
+import SignIn from "./pages/Authentication/SignIn";
+import SignUp from "./pages/Authentication/SignUp";
+import Otp from "./pages/Authentication/Otp";
 import CreateLessonLayout from "./components/Layout/CreateLessonLayout";
 import { Notifications } from "./pages/Notifications";
 import { NotificationSettings } from "./pages/NotificationSettings";
