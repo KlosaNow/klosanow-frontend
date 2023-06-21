@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Flex, Input, Link, IconButton } from "@chakra-ui/react";
+import { Box, Flex, Input, FormControl, IconButton } from "@chakra-ui/react";
 import{ BsSend } from "react-icons/bs"
 import { HiOutlineMicrophone} from "react-icons/hi"
 
@@ -13,9 +13,12 @@ const ChatInput = ({ inputMessage, setInputMessage, handleSendMessage }: InputPr
         <Box position="fixed" w="100%" bottom="0px" left="0px" right="0px" padding={"10px"} display="flex" justifyContent="center" alignItems="center">
             <Flex position="relative" border="1px" borderRadius="4px" borderColor="#AAAAAA"  alignItems="center" justifyContent="space-between" padding="8px" w="367px" h="48px">
                 <Input
+                    type="text"
                     placeholder="Type your message"
                     border="none"
                     focusBorderColor="#fff"
+                    value={inputMessage}
+                    onChange={(e) => setInputMessage(e.target.value)}
                     
                 />
                 <Flex>
