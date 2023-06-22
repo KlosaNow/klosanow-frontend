@@ -13,12 +13,16 @@ import { useFormik } from "formik";
 
 // import PhoneInput from "react-phone-input-2";
 import PhoneInput from 'react-phone-input-2'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore 
+const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput
 
-
-// import "react-phone-input-2/lib/style.css";
+import "react-phone-input-2/lib/style.css";
 import { SignInSchema } from "./ValidationSchema";
+// import PhoneInput from "react-phone-input-2";
 
 export default function SignIn() {
+
   const [phone, setPhone] = useState<string | undefined>();
 
   const handleOnSubmit = (values: any, actions: any) => {
@@ -71,7 +75,7 @@ export default function SignIn() {
           <FormLabel fontSize="sm" color="black.40">
             Phone Number{" "}
           </FormLabel>
-          <PhoneInput
+          <MyPhoneInput
             country={"ng"}
             // regions={["africa"]}
             containerClass={"10px"}
@@ -81,7 +85,7 @@ export default function SignIn() {
               outline: "2px solid transparent",
             }}
             value={formik.values.phone}
-            onChange={(e) => formik.setFieldValue("phone", e)}
+            onChange={(e: any) => formik.setFieldValue("phone", e)}
             onBlur={formik.handleBlur("phone")}
           />
           {formik.touched && formik.errors.phone ? (
