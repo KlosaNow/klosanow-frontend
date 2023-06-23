@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Box,
   FormControl,
@@ -11,14 +10,18 @@ import {
 import { Link as RouteLink } from "react-router-dom";
 import { useFormik } from "formik";
 
-import PhoneInput from "react-phone-input-2";
+import PhoneInput from 'react-phone-input-2'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore 
+const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput
+
 import "react-phone-input-2/lib/style.css";
 import { SignInSchema } from "./ValidationSchema";
 
-export default function SignIn(): JSX.Element {
-  const [phone, setPhone] = useState<string | undefined>();
+export default function SignIn() {
 
-  const handleOnSubmit = (values: any, actions: any) => {
+
+  const handleOnSubmit = (values: object, actions: any) => {
     console.log(values);
     actions.resetForm({ values: "" });
   };
@@ -68,9 +71,9 @@ export default function SignIn(): JSX.Element {
           <FormLabel fontSize="sm" color="black.40">
             Phone Number{" "}
           </FormLabel>
-          <PhoneInput
+          <MyPhoneInput
             country={"ng"}
-            regions={["africa"]}
+            // regions={["africa"]}
             containerClass={"10px"}
             inputStyle={{
               width: "100%",
@@ -78,7 +81,7 @@ export default function SignIn(): JSX.Element {
               outline: "2px solid transparent",
             }}
             value={formik.values.phone}
-            onChange={(e) => formik.setFieldValue("phone", e)}
+            onChange={(e: () => void) => formik.setFieldValue("phone", e)}
             onBlur={formik.handleBlur("phone")}
           />
           {formik.touched && formik.errors.phone ? (

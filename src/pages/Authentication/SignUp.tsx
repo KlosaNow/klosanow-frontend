@@ -11,10 +11,14 @@ import { Link as RouteLink } from "react-router-dom";
 import { useFormik } from "formik";
 import { SignUpSchema } from "./ValidationSchema";
 import PhoneInput from "react-phone-input-2";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore 
+const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput
+
 import "react-phone-input-2/lib/style.css";
 
-export default function SignUp(): JSX.Element {
-  const handleOnSubmit = (values: any, actions: any) => {
+export default function SignUp() {
+  const handleOnSubmit = (values: object, actions: any) => {
     console.log(values);
     actions.resetForm({ values: "" });
   };
@@ -85,7 +89,7 @@ export default function SignUp(): JSX.Element {
           <FormLabel fontSize="sm" color="black.40">
             Phone Number{" "}
           </FormLabel>
-          <PhoneInput
+          <MyPhoneInput
             country={"ng"}
             regions={["africa"]}
             containerClass={"10px"}
@@ -95,7 +99,7 @@ export default function SignUp(): JSX.Element {
               outline: "2px solid transparent",
             }}
             value={formik.values.phone}
-            onChange={(e) => formik.setFieldValue("phone", e)}
+            onChange={(e: () => void) => formik.setFieldValue("phone", e)}
             onBlur={formik.handleBlur("phone")}
           />
           {formik.touched && formik.errors.phone ? (
