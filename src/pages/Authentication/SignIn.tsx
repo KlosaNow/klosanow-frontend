@@ -89,16 +89,18 @@ export default function SignIn(): JSX.Element {
         </FormControl>
 
         <Box display="flex" justifyContent="center">
-          <Button
-            width="100%"
-            p="1.5rem"
-            color="neutral.50"
-            bgColor="primary.50"
-            type="submit"
-            disabled={!(formik.dirty && formik.isValid)}
-          >
-            Sign In
-          </Button>
+          <RouteLink to="/home">
+            <Button
+              width="100%"
+              p="1.5rem"
+              color="neutral.50"
+              bgColor="primary.50"
+              type="submit"
+              disabled={!(formik.dirty && formik.isValid)}
+            >
+              Sign In
+            </Button>
+          </RouteLink>
         </Box>
         <Box mt="1rem">
           <Text textAlign="center">

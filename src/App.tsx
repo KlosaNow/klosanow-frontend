@@ -51,7 +51,6 @@ function App() {
 
         <Route path="" element={<Layout />}>
           <Route path="/studychat" element={<ChatPage />} />
-
           <Route path="/notifications" element={<Notifications />} />
           <Route
             path="/settings/notifications"
@@ -59,17 +58,15 @@ function App() {
           />
           <Route path="/help" element={<Help />} />
           <Route path="/help/chat" element={<ChatBot />} />
-
           {/* Storage view Route */}
           <Route path="/free" element={<FreeStorageView />} />
           <Route path="/basic" element={<BasicStorageView />} />
           <Route path="/premium" element={<PremiumStorageView />} />
-
           <Route path="/info" element={<InfoPage />} />
 
           {/* this should always be the last route */}
-          <Route path="*" element={<Error />} />
         </Route>
+        <Route path="*" element={<Error />} />
       </Routes>
     </AnimatePresence>
   );
