@@ -10,17 +10,15 @@ import {
 import { Link as RouteLink } from "react-router-dom";
 import { useFormik } from "formik";
 
-import PhoneInput from 'react-phone-input-2'
+import PhoneInput from "react-phone-input-2";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore 
-const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput
+// @ts-ignore
+const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 
 import "react-phone-input-2/lib/style.css";
 import { SignInSchema } from "./ValidationSchema";
 
 export default function SignIn() {
-
-
   const handleOnSubmit = (values: object, actions: any) => {
     console.log(values);
     actions.resetForm({ values: "" });
@@ -90,9 +88,8 @@ export default function SignIn() {
             </Text>
           ) : null}
         </FormControl>
-
-        <Box display="flex" justifyContent="center">
-          <RouteLink to="/home">
+        <RouteLink to="/home">
+          <Box display="flex" justifyContent="center">
             <Button
               width="100%"
               p="1.5rem"
@@ -103,8 +100,9 @@ export default function SignIn() {
             >
               Sign In
             </Button>
-          </RouteLink>
-        </Box>
+          </Box>
+        </RouteLink>
+
         <Box mt="1rem">
           <Text textAlign="center">
             Don’t have an account?{" "}
