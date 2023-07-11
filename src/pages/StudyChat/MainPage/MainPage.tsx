@@ -1,6 +1,6 @@
 import { Box, Text, Flex, Icon } from "@chakra-ui/react";
 import { FiSearch, FiMoreVertical } from "react-icons/fi";
-import { BottomNav } from "../../../components/Navigation";
+import { BottomNav } from "../../../components/BottomNav";
 import ChatDisplay from "../Components/ChatDisplay";
 
 const ChatPage = () => {

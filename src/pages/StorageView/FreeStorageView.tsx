@@ -1,5 +1,5 @@
 import React from "react";
-import StorageViewComponent from "../../components/StorageViewComponent/StorageViewComponent";
+import StorageViewComponent from "../../components/StorageView/StorageView";
 
 const FreeStorageView: React.FC = () => {
   return (

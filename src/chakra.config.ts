@@ -1,6 +1,15 @@
 import { extendTheme } from "@chakra-ui/react";
 
+const breakpoints = {
+  sm: "30em", // 480px
+  md: "48em", // 768px
+  lg: "62em", // 992px
+  xl: "80em", // 1280px
+  "2xl": "96em", // 1536px
+};
+
 const theme = extendTheme({
+  breakpoints,
   fonts: {
     heading: `'Playfair Display', serif`,
     body: `'Encode Sans', sans-serif`,
@@ -71,10 +80,11 @@ const theme = extendTheme({
       10: "#D8FCCF",
       5: "#EBFEE7",
     },
-    transparent:{
+    transparent: {
       100: "transparent",
-    }
+    },
   },
+
   components: {
     Button: {
       // 1. We can update the base styles

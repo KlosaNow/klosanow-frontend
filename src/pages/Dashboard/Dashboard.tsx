@@ -2,11 +2,11 @@ import { FC } from "react";
 import { Container, Box, Flex, Text } from "@chakra-ui/react";
 import Img from "../../assets/images/notification_1.png";
 import { BiBell } from "react-icons/bi";
-import { Search } from "../../components/HomeComponent/Search";
-import { HomeCard } from "../../components/HomeComponent/HomeCard";
+import { Search } from "../../components/HomeComponents/Search";
+import { HomeCard } from "../../components/HomeComponents/HomeCard";
 import { BsChevronDown } from "react-icons/bs";
 import { motion } from "framer-motion";
-import CarouselComponent from "../../components/HomeComponent/CarouselComponent";
+import CarouselComponent from "../../components/HomeComponents/Carousel";
 import { Link } from "react-router-dom";
 
 const notifications = [

@@ -1,24 +1,17 @@
 import { FC } from "react";
 import "../../styles/Button.scss";
-
-interface buttonProps {
-  children: string;
-  action: () => void;
-  buttonStyle: string;
-  buttonSize: string;
-  width: string;
-}
+import { buttonInterface } from "../../types/components/componetInterface";
 
 const STYLES = ["btn--primary", "btn--solid", "btn--outline", "btn--ghost"];
 const SIZES = ["btn--medium", "btn--large"];
 
-export const Button: FC<buttonProps> = ({
+export const Button: FC<buttonInterface> = ({
   children,
   action,
   buttonStyle,
   buttonSize,
   width,
-}: buttonProps) => {
+}: buttonInterface) => {
   const checkButtonStyle = STYLES.includes(buttonStyle)
     ? buttonStyle
     : STYLES[0];

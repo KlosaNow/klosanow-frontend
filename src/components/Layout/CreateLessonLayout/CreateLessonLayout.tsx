@@ -1,8 +1,8 @@
 import { Link, Outlet } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
 import { Box, Icon } from "@chakra-ui/react";
-import { BottomNav } from "../Navigation";
-import Header from "../Header/Header";
+import { BottomNav } from "../../BottomNav";
+import Header from "../../Header/Header";
 
 export default function CreateLessonLayout() {
   return (
