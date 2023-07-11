@@ -5,7 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import SignIn from "./pages/Authentication/SignIn";
 import SignUp from "./pages/Authentication/SignUp";
 import Otp from "./pages/Authentication/Otp";
-import CreateLessonLayout from "./components/Layout/CreateLessonLayout";
+import CreateLessonLayout from "./components/Layout/CreateLessonLayout/CreateLessonLayout";
 import Notifications from "./pages/Notifications";
 import NotificationSettings from "./pages/NotificationSettings";
 import Onboarding from "./pages/Onboarding";
@@ -17,13 +17,14 @@ import LessonTemplate from "./pages/CreateLesson/LessonTemplate";
 import FreeStorageView from "./pages/StorageView/FreeStorageView";
 import BasicStorageView from "./pages/StorageView/BasicStorageView";
 import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
-import HomePage from "./pages/Home/HomePage";
-import HomeLayout from "./components/Layout/HomeLayout";
-import Error from "./pages/ErrorPage";
-import SettingPage from "./pages/SettingsPage/SettingsPage";
-import InfoPage from "./pages/InfoPage/InfoPage";
+import HomePage from "./pages/Dashboard/Dashboard";
+import HomeLayout from "./components/Layout/HomeLayout/HomeLayout";
+import Error from "./pages/Error";
+import SettingPage from "./pages/Settings/Settings";
+import InfoPage from "./pages/Info/Info";
 import ChatPage from "./pages/StudyChat";
-import { GeneralLayout as Layout } from "./components/Layout/GenralLayout";
+import { GeneralLayout as Layout } from "./components/Layout/GeneralLayout/GenralLayout";
+import { DashboardLayout } from "./components";
 
 function App() {
   const location = useLocation();
@@ -36,36 +37,36 @@ function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/otp" element={<Otp />} />
 
-        <Route path="/home" element={<HomeLayout />}>
-          <Route path="" index element={<HomePage />} />
+        <Route path="" element={<DashboardLayout />}>
+          <Route path="/dashboard" index element={<HomePage />} />
+
+          <Route path="/create-lesson" element={<CreateLessonLayout />}>
+            <Route path="" index element={<CreateLesson />} />
+            <Route path="select-template" element={<LessonTemplate />} />
+          </Route>
+          <Route path="" element={<Layout />}>
+            <Route path="/studychat" element={<ChatPage />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route
+              path="/settings/notifications"
+              element={<NotificationSettings />}
+            />
+            <Route path="/help" element={<Help />} />
+            <Route path="/help/chat" element={<ChatBot />} />
+            {/* Storage view Route */}
+            <Route path="/free" element={<FreeStorageView />} />
+            <Route path="/basic" element={<BasicStorageView />} />
+            <Route path="/premium" element={<PremiumStorageView />} />
+            <Route path="/info" element={<InfoPage />} />
+
+            {/* this should always be the last route */}
+          </Route>
+
+          <Route path="/help/mail" element={<MailUs />} />
+          <Route path="/settings" element={<SettingPage />} />
+
+          <Route path="*" element={<Error />} />
         </Route>
-
-        <Route path="/create-lesson" element={<CreateLessonLayout />}>
-          <Route path="" index element={<CreateLesson />} />
-          <Route path="select-template" element={<LessonTemplate />} />
-        </Route>
-
-        <Route path="/help/mail" element={<MailUs />} />
-        <Route path="/settings" element={<SettingPage />} />
-
-        <Route path="" element={<Layout />}>
-          <Route path="/studychat" element={<ChatPage />} />
-          <Route path="/notifications" element={<Notifications />} />
-          <Route
-            path="/settings/notifications"
-            element={<NotificationSettings />}
-          />
-          <Route path="/help" element={<Help />} />
-          <Route path="/help/chat" element={<ChatBot />} />
-          {/* Storage view Route */}
-          <Route path="/free" element={<FreeStorageView />} />
-          <Route path="/basic" element={<BasicStorageView />} />
-          <Route path="/premium" element={<PremiumStorageView />} />
-          <Route path="/info" element={<InfoPage />} />
-
-          {/* this should always be the last route */}
-        </Route>
-        <Route path="*" element={<Error />} />
       </Routes>
     </AnimatePresence>
   );

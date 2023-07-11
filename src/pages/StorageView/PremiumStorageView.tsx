@@ -1,5 +1,5 @@
 import React from "react";
-import StorageViewComponent from "../../components/StorageViewComponent/StorageViewComponent";
+import StorageViewComponent from "../../components/StorageView/StorageView";
 
 const PremiumStorageView: React.FC = () => {
   return (

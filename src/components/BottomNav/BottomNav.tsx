@@ -8,14 +8,22 @@ import { AiOutlineHome } from "react-icons/ai";
 import { NavLink as RouterLink } from "react-router-dom";
 
 const navItems = [
-  { title: "Home", icon: AiOutlineHome, link: "/home" },
+  { title: "Home", icon: AiOutlineHome, link: "/dashboard" },
   { title: "Create Lesson", icon: MdOutlineLibraryAdd, link: "/create-lesson" },
   { title: "Study Chat", icon: MdOutlineChat, link: "/studychat" },
   { title: "Profile", icon: MdPersonOutline, link: "/settings" },
 ];
 export default function BottomNav() {
   return (
-    <Box pos="fixed" bottom="0" left="0" p="1rem" w="100%" bg="neutral.5">
+    <Box
+      pos="fixed"
+      bottom="0"
+      left="0"
+      p="1rem"
+      w="100%"
+      bg="neutral.5"
+      display={["block", "none"]}
+    >
       <Box display="flex" justifyContent="space-around" alignItems="center">
         {navItems.map((nav) => (
           <Link as={RouterLink} to={nav.link} key={nav.title}>
