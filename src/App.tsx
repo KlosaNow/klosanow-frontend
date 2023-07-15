@@ -24,6 +24,7 @@ import SettingPage from "./pages/Settings/Settings";
 import InfoPage from "./pages/Info/Info";
 import ChatPage from "./pages/StudyChat";
 import { GeneralLayout as Layout } from "./components/Layout/GeneralLayout/GenralLayout";
+
 import { DashboardLayout } from "./components";
 
 function App() {
