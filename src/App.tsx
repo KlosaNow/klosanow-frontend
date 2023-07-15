@@ -25,6 +25,7 @@ import SettingPage from "./pages/SettingsPage/SettingsPage";
 import InfoPage from "./pages/InfoPage/InfoPage";
 import { ChatPage, MessagesPage } from "./pages/StudyChat";
 import { GeneralLayout as Layout } from "./components/Layout/GenralLayout";
+import SearchPage from "./pages/StudyChat/ContactSearchPage";
 
 function App() {
   const location = useLocation();
@@ -52,6 +53,7 @@ function App() {
         <Route path="" element={<Layout />}>
           <Route path="/studychat" element={<ChatPage />} />
           <Route path={`/studychat/:chatkey`} element={<MessagesPage />} />
+          <Route path="/studychat/search-contacts" element={<SearchPage />} />
 
           <Route path="/notifications" element={<Notifications />} />
           <Route

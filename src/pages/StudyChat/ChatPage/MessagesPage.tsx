@@ -3,7 +3,7 @@ import { Flex, Box, Text } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 
 import { ChatInput, ChatHeader, ChatArea } from '../Components';
-import { messageTemplate } from '../Components/MessageData';
+import { messageTemplate } from '../Components/Data/MessageData';
 
 interface Messages {
     from: string;
@@ -55,15 +55,13 @@ const MessagesPage = () => {
         setMessageObj(message[0])
     }, [messageObj])
 
-    useEffect(() => {
-        scroll.current?.scrollTo(0, scroll.current?.scrollHeight);
-      });
 
     return (
         <Flex flexDir="column">
             <ChatHeader chatname={messageObj.chatname}/>
                 <Flex flexDir="column" mt={"74px"} px={"10px"} pt={4}
-                 align={"flex-end"} ref={scroll} width={"100%"}>
+                    overflowY={"auto"} alignItems={"flex-end"}
+                    minHeight={"100vh"} width={"100%"}>
                     {
                         messages.map((msg) => 
                             (

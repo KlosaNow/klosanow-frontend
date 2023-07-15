@@ -10,7 +10,10 @@ interface InputProps {
 }
 const ChatInput = ({ inputMessage, setInputMessage, handleSendMessage }: InputProps) => {
     return (
-        <Box position="fixed" w="100%" bottom="0px" left="0px" right="0px" padding={"10px"} display="flex" justifyContent="center" alignItems="center">
+        <Box position="fixed" w="100%" bottom="0px" left="0px" right="0px" 
+            padding={"10px"} background="#fff"
+            display="flex" justifyContent="center" alignItems="center"
+        >
             <Flex position="relative" border="1px" borderRadius="4px" borderColor="#AAAAAA"  alignItems="center" justifyContent="space-between" padding="8px" w="367px" h="48px">
                 <Input
                     type="text"

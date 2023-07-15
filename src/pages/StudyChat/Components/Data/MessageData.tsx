@@ -7,7 +7,7 @@ export const messageTemplate = [
         key: "1"
       },
       {
-        chatname: 'Math 101',
+        chatname: 'Math101 group',
         lastmsg: 'How can I solve this question?',
         unread_messages: 2,
         lastmsg_time: "10:49 am",

@@ -26,8 +26,7 @@ const ChatDisplay = ({
       display="flex"
       alignItems="center"
       justifyContent="space-between"
-      borderBottomWidth="0.2px"
-      borderBottomColor="neutral.70"
+      borderBottom={"0.2px solid #CCC"}
       py={"8px"}
     >
       <Flex justifyContent="space-between" gap="8px">
@@ -56,7 +55,7 @@ const ChatDisplay = ({
         <Text
           fontSize={12}
           fontWeight={400}
-          color="#555555"
+          color="#808080"
           lineHeight="15px"
           marginBottom="5px"
         >
