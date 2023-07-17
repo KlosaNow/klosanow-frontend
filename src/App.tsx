@@ -8,7 +8,7 @@ import Otp from "./pages/Authentication/Otp";
 import CreateLessonLayout from "./components/Layout/CreateLessonLayout/CreateLessonLayout";
 import Notifications from "./pages/Notifications";
 import NotificationSettings from "./pages/NotificationSettings";
-import Onboarding from "./pages/Onboarding";
+import Onboarding from "./pages/Onboarding/Onboarding";
 import Help from "./pages/Help/Help";
 import MailUs from "./pages/Mail/Mail";
 import ChatBot from "./pages/ChatBot/ChatBot";
@@ -17,15 +17,15 @@ import LessonTemplate from "./pages/CreateLesson/LessonTemplate";
 import FreeStorageView from "./pages/StorageView/FreeStorageView";
 import BasicStorageView from "./pages/StorageView/BasicStorageView";
 import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
-import HomePage from "./pages/Dashboard/Dashboard";
 import HomeLayout from "./components/Layout/HomeLayout/HomeLayout";
 import Error from "./pages/Error";
 import SettingPage from "./pages/Settings/Settings";
 import InfoPage from "./pages/Info/Info";
-import ChatPage from "./pages/StudyChat";
+
 import { GeneralLayout as Layout } from "./components/Layout/GeneralLayout/GenralLayout";
 
 import { DashboardLayout } from "./components";
+import { Dashboard, StudyChat } from "./pages";
 
 function App() {
   const location = useLocation();
@@ -39,14 +39,14 @@ function App() {
         <Route path="/otp" element={<Otp />} />
 
         <Route path="" element={<DashboardLayout />}>
-          <Route path="/dashboard" index element={<HomePage />} />
+          <Route path="/dashboard" index element={<Dashboard />} />
 
           <Route path="/create-lesson" element={<CreateLessonLayout />}>
             <Route path="" index element={<CreateLesson />} />
             <Route path="select-template" element={<LessonTemplate />} />
           </Route>
           <Route path="" element={<Layout />}>
-            <Route path="/studychat" element={<ChatPage />} />
+            <Route path="/studychat" element={<StudyChat />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route
               path="/settings/notifications"

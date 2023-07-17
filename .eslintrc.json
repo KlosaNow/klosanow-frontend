@@ -7,8 +7,7 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/jsx-runtime",
-    "plugin:prettier/recommended"
+    "plugin:react/jsx-runtime"
   ],
   "overrides": [],
 
@@ -20,7 +19,7 @@
       "jsx": true
     }
   },
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": ["react", "@typescript-eslint"],
   "rules": {
     "no-unreachable": "warn",
     "no-unused-vars": [
@@ -28,17 +27,13 @@
       { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
     ],
     "eqeqeq": ["warn", "always"],
-    "no-empty": "warn",
-    "no-empty-function": "warn",
+    "no-empty": 0,
+    "no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": "off",
     "no-unused-expressions": "warn",
     "no-useless-rename": "warn",
     "no-var": "warn",
-    "semi": ["warn", "always"],
-    "prettier/prettier": [
-      "error",
-      {
-        "endOfLine": "auto"
-      }
-    ]
+    "semi": ["off", "always"],
+    "react/jsx-key": "off"
   }
 }

@@ -11,6 +11,7 @@ import logout from "../../assets/SettingsPageImg/Log-out.png";
 import Header from "../../components/Header/Header";
 
 export default function SettingsPage(): JSX.Element {
+  const getSome = () => {};
   return (
     <Box backgroundColor="#f6f6f6" paddingBottom="30px">
       <Header />

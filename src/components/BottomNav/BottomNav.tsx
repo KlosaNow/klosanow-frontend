@@ -19,6 +19,7 @@ export default function BottomNav() {
       pos="fixed"
       bottom="0"
       left="0"
+      right="0"
       p="1rem"
       w="100%"
       bg="neutral.5"
