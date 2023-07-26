@@ -7,7 +7,13 @@ const Header = (props: headerInterface) => {
   const { pageName, link } = props;
 
   return (
-    <Flex alignItems="center" gap="10px" p="16px 10px" width="full">
+    <Flex
+      alignItems="center"
+      gap="10px"
+      p="16px 10px"
+      width="full"
+      display={["block", "none"]}
+    >
       {link ? (
         <Link as={ReachLink} to={link}>
           <HiArrowLeft fontSize={24} />

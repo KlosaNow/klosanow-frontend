@@ -12,12 +12,11 @@ import Onboarding from "./pages/Onboarding/Onboarding";
 import Help from "./pages/Help/Help";
 import MailUs from "./pages/Mail/Mail";
 import ChatBot from "./pages/ChatBot/ChatBot";
-import CreateLesson from "./pages/CreateLesson";
+
 import LessonTemplate from "./pages/CreateLesson/LessonTemplate";
 import FreeStorageView from "./pages/StorageView/FreeStorageView";
 import BasicStorageView from "./pages/StorageView/BasicStorageView";
 import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
-import HomeLayout from "./components/Layout/HomeLayout/HomeLayout";
 import Error from "./pages/Error";
 import SettingPage from "./pages/Settings/Settings";
 import InfoPage from "./pages/Info/Info";
@@ -25,7 +24,7 @@ import InfoPage from "./pages/Info/Info";
 import { GeneralLayout as Layout } from "./components/Layout/GeneralLayout/GenralLayout";
 
 import { DashboardLayout } from "./components";
-import { Dashboard, StudyChat } from "./pages";
+import { Dashboard, StudyChat, CreateLesson } from "./pages";
 
 function App() {
   const location = useLocation();

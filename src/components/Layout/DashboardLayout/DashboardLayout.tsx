@@ -8,7 +8,7 @@ const DashboardLayout = () => {
   return (
     <Box display="flex">
       <SideBar />
-      <Box paddingLeft={["1rem", "264px"]}>
+      <Box paddingLeft={["0px", "264px"]} width="full">
         <NavBar />
         <Box
           width="full"

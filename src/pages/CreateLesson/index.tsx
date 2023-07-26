@@ -7,8 +7,11 @@ import { draftData } from "./lessonData";
 
 export default function CreateLesson() {
   return (
-    <Box py="2rem">
+    <Box py={["2rem", "0px"]} width="full">
       <Box>
+        <Text fontWeight={600} display={["none", "block"]} fontSize="32px">
+          Create a lesson
+        </Text>
         <CreateLessonCard
           bgColor="#7B58F4"
           buttonText="Start creating"
@@ -26,7 +29,9 @@ export default function CreateLesson() {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Text fontWeight={500}>Your Drafts</Text>
+        <Text fontWeight={500} fontSize={["16px", "24px"]}>
+          Your Drafts
+        </Text>
         <Text textColor="primary.50">See all</Text>
       </Box>
       <Box mt="2rem">
