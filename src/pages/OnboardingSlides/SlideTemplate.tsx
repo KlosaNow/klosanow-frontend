@@ -10,7 +10,6 @@ import { motion } from "framer-motion";
 
 interface SlideProps {
   image: string;
-  imgWidth:string;
   title: string;
   description: string;
   id: string;
@@ -22,7 +21,7 @@ export const SlideTemplate: React.FC<SlideProps> = (props: SlideProps) => {
         <MotionVStack key={props.id}  marginX="auto" >
           <Image
             // htmlWidth={props.imgWidth}
-            boxSize={props.imgWidth}
+            boxSize={{lg:"18vw",sm:"70vw"}}
             objectFit="contain"
             src={props.image}
             alt=" "
@@ -32,10 +31,10 @@ export const SlideTemplate: React.FC<SlideProps> = (props: SlideProps) => {
             <Radio size="sm" bg="#E5DEFD" marginX="5px" value="2"></Radio>
             <Radio size="sm" bg="#E5DEFD" marginX="5px" value="3"></Radio>
           </RadioGroup>
-          <Text fontSize="6vw" fontWeight="500" textAlign="center">
+          <Text fontSize={{lg:"1.5vw",sm:"6vw"}} fontWeight="500" textAlign="center">
             {props.title}
           </Text>
-          <Text fontSize="4vw" textAlign="center">{props.description}</Text>
+          <Text fontSize={{lg:"1vw",sm:"4vw"}} textAlign="center">{props.description}</Text>
         </MotionVStack>
   );
 };

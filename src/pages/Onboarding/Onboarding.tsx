@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import SplashScreen from "./SplashScreen/SplashScreen";
-import OnboardingSlides from "./OnbordingSlides/OnboardingSlides";
-import { slides } from "./SlideData";
-import { Box } from "@chakra-ui/react";
+import SplashScreen from "../SplashScreen/SplashScreen";
+import OnboardingSlides from "../OnboardingSlides/OnboardingSlides";
+import { slides } from "../SlideData";
 
 const Onboarding = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);
