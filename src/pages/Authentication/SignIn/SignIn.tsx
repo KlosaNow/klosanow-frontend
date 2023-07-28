@@ -16,7 +16,7 @@ import PhoneInput from "react-phone-input-2";
 const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 
 import "react-phone-input-2/lib/style.css";
-import { SignInSchema } from "./ValidationSchema";
+import { SignInSchema } from "../utils";
 
 export default function SignIn() {
   const handleOnSubmit = (values: object, actions: any) => {

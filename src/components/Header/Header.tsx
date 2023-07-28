@@ -1,6 +1,6 @@
 import { Link as ReachLink } from "react-router-dom";
 import { HiArrowLeft } from "react-icons/hi";
-import { Flex, Text, Link } from "@chakra-ui/react";
+import { Flex, Text, Link, Box } from "@chakra-ui/react";
 import { headerInterface } from "../../types/components/componetInterface";
 
 const Header = (props: headerInterface) => {
@@ -13,19 +13,22 @@ const Header = (props: headerInterface) => {
       p="16px 10px"
       width="full"
       display={["block", "none"]}
+      // display="none"
     >
-      {link ? (
-        <Link as={ReachLink} to={link}>
-          <HiArrowLeft fontSize={24} />
-        </Link>
-      ) : (
-        <HiArrowLeft
-          fontSize={24}
-          onClick={() => {
-            history.back();
-          }}
-        />
-      )}
+      <Box display="none">
+        {link ? (
+          <Link as={ReachLink} to={link}>
+            <HiArrowLeft fontSize={24} />
+          </Link>
+        ) : (
+          <HiArrowLeft
+            fontSize={24}
+            onClick={() => {
+              history.back();
+            }}
+          />
+        )}
+      </Box>
 
       {pageName && (
         <Text fontSize="18px" fontWeight="500" color="#2a2a2a" size="md">

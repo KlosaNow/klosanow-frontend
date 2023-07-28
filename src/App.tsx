@@ -2,9 +2,9 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
 // Auth Pages
-import SignIn from "./pages/Authentication/SignIn";
-import SignUp from "./pages/Authentication/SignUp";
-import Otp from "./pages/Authentication/Otp";
+import SignIn from "./pages/Authentication/SignIn/SignIn";
+import SignUp from "./pages/Authentication/SignUp/SignUp";
+import Otp from "./pages/Authentication/Otp/Otp";
 import CreateLessonLayout from "./components/Layout/CreateLessonLayout/CreateLessonLayout";
 import Notifications from "./pages/Notifications";
 import NotificationSettings from "./pages/NotificationSettings";
@@ -13,7 +13,7 @@ import Help from "./pages/Help/Help";
 import MailUs from "./pages/Mail/Mail";
 import ChatBot from "./pages/ChatBot/ChatBot";
 
-import LessonTemplate from "./pages/CreateLesson/LessonTemplate";
+import LessonTemplate from "./pages/CreateLesson/components/LessonTemplate";
 import FreeStorageView from "./pages/StorageView/FreeStorageView";
 import BasicStorageView from "./pages/StorageView/BasicStorageView";
 import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
@@ -24,7 +24,7 @@ import InfoPage from "./pages/Info/Info";
 import { GeneralLayout as Layout } from "./components/Layout/GeneralLayout/GenralLayout";
 
 import { DashboardLayout } from "./components";
-import { Dashboard, StudyChat, CreateLesson } from "./pages";
+import { Dashboard, StudyChat, Drafts, CreateLesson } from "./pages";
 
 function App() {
   const location = useLocation();
@@ -42,6 +42,7 @@ function App() {
 
           <Route path="/create-lesson" element={<CreateLessonLayout />}>
             <Route path="" index element={<CreateLesson />} />
+            <Route path="drafts" index element={<Drafts />} />
             <Route path="select-template" element={<LessonTemplate />} />
           </Route>
           <Route path="" element={<Layout />}>

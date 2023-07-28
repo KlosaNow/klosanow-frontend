@@ -9,11 +9,11 @@ import {
 } from "@chakra-ui/react";
 import { Link as RouteLink } from "react-router-dom";
 import { useFormik } from "formik";
-import { SignUpSchema } from "./ValidationSchema";
+import { SignUpSchema } from "../utils";
 import PhoneInput from "react-phone-input-2";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore 
-const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput
+// @ts-ignore
+const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 
 import "react-phone-input-2/lib/style.css";
 
