@@ -6,10 +6,15 @@ import {
   Text,
   Link,
   Button,
+  Flex,
+  VStack,
+  Image
 } from "@chakra-ui/react";
+import logo from "../../assets/SplashScreenImg/SplashLogo.png"
+import {slides} from "../SlideData";
 import { Link as RouteLink } from "react-router-dom";
 import { useFormik } from "formik";
-
+import  OnboardingSlides  from "../OnboardingSlides";
 import PhoneInput from "react-phone-input-2";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -34,16 +39,28 @@ export default function SignIn() {
   });
 
   return (
-    <Box py="2rem" px="1rem">
-      <Box>
-        <Text color="secondary.50" fontSize="2xl">
+    <>
+      <svg style={{position:"absolute",zIndex:"-1"}} width="568" height="160" viewBox="0 0 568 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+<ellipse cx="-14.5" cy="-240.5" rx="582.5" ry="400.5" fill="#E5DEFD"/>
+</svg>
+    <Flex>
+    <VStack width={{lg:"50%",sm:"0%"}} hideBelow="md" display="flex" py="2rem" px="1rem">
+    <Box style={{position:"absolute",top:"5%",left:"5%"}} width='8rem'>
+  <Image src={logo} alt='Dan Abramov' />
+</Box>
+      <OnboardingSlides slides={slides} />
+    </VStack>
+    <Box width={{lg:"50%",sm:"100%"}} bg="#fafafa" py="2rem" px="1rem">
+      <VStack width={{lg:"70%",sm:"100%"}} margin="auto">
+      <Box width="100%" >
+        <Text color="secondary.50" fontSize={{lg:"1rem",sm:"2xl"}}>
           Welcome Back
         </Text>
-        <Text fontSize="sm" color="black.40">
-          Login to your account
+        <Text fontSize={{lg:"2.1rem",sm:"1rem"}} fontFamily="primary" color="black.40">
+          Login To Your Account
         </Text>
       </Box>
-      <Box as="form" py="2rem" onSubmit={formik.handleSubmit}>
+      <Box as="form" py="1rem" width="100%" onSubmit={formik.handleSubmit}>
         <FormControl mb="1.5rem">
           <FormLabel fontSize="sm" color="black.40">
             Email
@@ -53,6 +70,9 @@ export default function SignIn() {
             name="email"
             id="email"
             fontSize="sm"
+            padding="1.6rem 1rem"
+            bg="#fff"
+            borderColor="#eee"
             placeholder="Enter your Email Address"
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -71,13 +91,32 @@ export default function SignIn() {
           </FormLabel>
           <MyPhoneInput
             country={"ng"}
+            enableAreaCodeStretch
             // regions={["africa"]}
-            containerClass={"10px"}
-            inputStyle={{
-              width: "100%",
-              height: "2.5rem",
-              outline: "2px solid transparent",
+            containerStyle={{
+              display: 'flex',
+              gap: '1rem',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'row-reverse'
             }}
+            inputStyle={{
+              width: '100%',
+              height: '2.5rem',
+              outline: 'transparent solid 2px',
+              padding: '1.6rem 1rem',
+              borderColor: '#eee'
+
+            }}
+            buttonStyle={{            
+              position: 'static',
+              height: '100%',
+              padding: '1.6rem',
+              backgroundColor: '#fff',
+              borderRadius: '5px',
+              borderColor: '#eee'
+            }}
+           
             value={formik.values.phone}
             onChange={(e: () => void) => formik.setFieldValue("phone", e)}
             onBlur={formik.handleBlur("phone")}
@@ -92,7 +131,8 @@ export default function SignIn() {
           <Box display="flex" justifyContent="center">
             <Button
               width="100%"
-              p="1.5rem"
+              p="1.7rem"
+              fontWeight="300"
               color="neutral.50"
               bgColor="primary.50"
               type="submit"
@@ -104,7 +144,7 @@ export default function SignIn() {
         </RouteLink>
 
         <Box mt="1rem">
-          <Text textAlign="center">
+          <Text textAlign="center" fontWeight={500}>
             Don’t have an account?{" "}
             <Link as={RouteLink} to="/sign-up" color="primary.50">
               Sign up
@@ -112,6 +152,25 @@ export default function SignIn() {
           </Text>
         </Box>
       </Box>
+      </VStack>
     </Box>
+    </Flex>
+    <Box style={{ position: "absolute", zIndex: "-2",bottom:"0",overflow:"hidden",width:"50%",height: "5rem"}}>
+      <svg
+        style={{ position: "absolute", bottom: "-20px" }}
+        width="708"
+        height="85"
+        viewBox="0 0 708 85"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <ellipse cx="353.5" cy="400.5" rx="582.5" ry="400.5" fill="#E5DEFD" />
+      </svg>
+      </Box>
+
+    </>
   );
 }
+
+
+
