@@ -8,7 +8,7 @@ import Otp from "./pages/Authentication/Otp";
 import CreateLessonLayout from "./components/Layout/CreateLessonLayout/CreateLessonLayout";
 import Notifications from "./pages/Notifications";
 import NotificationSettings from "./pages/NotificationSettings";
-import Onboarding from "./pages/Onboarding";
+import Onboarding from "./pages/Onboarding/Onboarding";
 import Help from "./pages/Help/Help";
 import MailUs from "./pages/Mail/Mail";
 import ChatBot from "./pages/ChatBot/ChatBot";
