@@ -68,7 +68,7 @@ export default function SignUp() {
           </Box>
           <OnboardingSlides slides={slides} />
         </VStack>
-        <Box w={{ base: "100%", lg: "50%" }} bg={{base:"#fafafa"}} py="2rem" px="1rem">
+        <Box w={{ base: "100%", lg: "50%" }} bg={{lg:"#fafafa"}} py="2rem" px="1rem">
           <VStack width={{  md: "100%",lg: "70%" }} margin="auto">
 
           <Box width="100%">
