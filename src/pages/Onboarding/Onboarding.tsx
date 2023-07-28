@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import SplashScreen from "../SplashScreen/SplashScreen";
-import { Box } from "@chakra-ui/react";
 import OnboardingSlides from "../OnboardingSlides/OnboardingSlides";
 import { slides } from "../SlideData";
 
