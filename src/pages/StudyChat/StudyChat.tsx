@@ -1,9 +1,9 @@
 import { Box, Text, Flex, Icon } from "@chakra-ui/react";
 import { FiSearch, FiMoreVertical } from "react-icons/fi";
-import { BottomNav } from "../../../components/BottomNav";
-import ChatDisplay from "../Components/ChatDisplay";
+import { BottomNav } from "../../components";
+import ChatDisplay from "./Components/ChatDisplay";
 
-const ChatPage = () => {
+const StudyChat = () => {
   const messages = [
     {
       chatname: "Gloria",
@@ -56,4 +56,4 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default StudyChat;

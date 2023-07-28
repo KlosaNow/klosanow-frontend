@@ -9,7 +9,11 @@ import { NavLink as RouterLink } from "react-router-dom";
 
 const navItems = [
   { title: "Home", icon: AiOutlineHome, link: "/dashboard" },
-  { title: "Create Lesson", icon: MdOutlineLibraryAdd, link: "/create-lesson" },
+  {
+    title: "Create Lesson",
+    icon: MdOutlineLibraryAdd,
+    link: "/create-lesson/draft",
+  },
   { title: "Study Chat", icon: MdOutlineChat, link: "/studychat" },
   { title: "Profile", icon: MdPersonOutline, link: "/settings" },
 ];
@@ -19,6 +23,7 @@ export default function BottomNav() {
       pos="fixed"
       bottom="0"
       left="0"
+      right="0"
       p="1rem"
       w="100%"
       bg="neutral.5"
