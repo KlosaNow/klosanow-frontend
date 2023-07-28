@@ -15,7 +15,7 @@ import { useFormik } from "formik";
 import { SignUpSchema } from "../utils";
 import PhoneInput from "react-phone-input-2";
 import { OnboardingSlides } from "../../";
-import logo from "../../assets/SplashScreenImg/SplashLogo.png";
+import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../SlideData";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

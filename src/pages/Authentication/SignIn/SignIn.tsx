@@ -10,7 +10,7 @@ import {
   VStack,
   Image,
 } from "@chakra-ui/react";
-import logo from "../../assets/SplashScreenImg/SplashLogo.png";
+import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../SlideData";
 import { Link as RouteLink } from "react-router-dom";
 import { useFormik } from "formik";
