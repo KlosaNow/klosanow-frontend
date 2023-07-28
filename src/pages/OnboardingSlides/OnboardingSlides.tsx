@@ -19,16 +19,25 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
 
   const navigate = useNavigate();
   const handleNextSlide = () => {
-    if (currentIndex === slides.length - 1) {
-      navigate("/sign-up");
+    if (currentIndex === slides.length - 1 ) {
+      if(btnState){
+        return
+      }else{
+        navigate("/sign-up");
+
+      }
     } else {
       setCurrentIndex(currentIndex + 1);
     }
   };
   const handlePrevSlide = () => {
-   
-      setCurrentIndex(currentIndex - 1);
-    
+    console.log(currentIndex)
+    if (currentIndex === 0) {
+      return;
+    }
+    else{
+    setCurrentIndex(currentIndex - 1);
+    }
   }
   const [btnstyle, setBtnstyle] = useState("");
   const [btnsize, setBtnsize] = useState("");
@@ -74,7 +83,7 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
             <SlideTemplate {...slides[currentIndex]} />
           </motion.div>
 
-          <Stack direction={{ lg: "row", sm: "column" }} my={10} justify="space-between" align="center">
+          <Stack direction={{ lg: "row", base: "column" }} my={10} justify="space-between" align="center">
             <Button
               buttonStyle={btnstyle}
               buttonSize={btnsize}

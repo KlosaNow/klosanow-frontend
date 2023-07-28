@@ -40,6 +40,7 @@ export default function SignUp() {
   });
   return (
     <>
+      <Box hideBelow="lg">
       <svg
         style={{ position: "absolute", zIndex: "-1" }}
         width="568"
@@ -50,9 +51,10 @@ export default function SignUp() {
       >
         <ellipse cx="-14.5" cy="-240.5" rx="582.5" ry="400.5" fill="#E5DEFD" />
       </svg>
-      <Flex>
+      </Box>
+      <Flex height={{base:"100dvh",lg:"100%"}}>
         <VStack
-          width={{ lg: "50%", sm: "0%" }}
+          width={{ lg: "50%", "md": "0%" }}
           hideBelow="md"
           display="flex"
           py="2rem"
@@ -66,14 +68,14 @@ export default function SignUp() {
           </Box>
           <OnboardingSlides slides={slides} />
         </VStack>
-        <Box  width={{lg:"50%",sm:"100%"}} zIndex="10" bg="#fafafa" py="2rem" px="1rem">
-      <VStack width={{lg:"70%",sm:"100%"}} margin="auto">
+        <Box w={{ base: "100%", lg: "50%" }} bg={{base:"#fafafa"}} py="2rem" px="1rem">
+          <VStack width={{  md: "100%",lg: "70%" }} margin="auto">
 
           <Box width="100%">
-            <Text color="secondary.50"  fontSize={{lg:"1rem",sm:"2xl"}}>
+            <Text color="secondary.50"  fontSize={{lg:"1rem",base:"1.5rem"}}>
               Welcome to easy learning
             </Text>
-            <Text fontSize={{lg:"2.1rem",sm:"1rem"}} fontFamily="primary" color="black.40">
+            <Text fontSize={{lg:"2.1rem",sm:"1rem"}} fontFamily={{lg:"primary"}} color="black.40">
               Let’s get you signed up
             </Text>
           </Box>
@@ -89,7 +91,7 @@ export default function SignUp() {
                 fontSize="sm"
                 padding="1.6rem 1rem"
                 bg="#fff"
-                borderColor="#eee"
+                borderColor="#ddd"
                 placeholder="Enter Username"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -113,7 +115,7 @@ export default function SignUp() {
                 fontSize="sm"
                 padding="1.6rem 1rem"
                 bg="#fff"
-                borderColor="#eee"
+                borderColor="#ddd"
                 placeholder="Enter your Email Address"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -146,7 +148,7 @@ export default function SignUp() {
                   height: '2.5rem',
                   outline: 'transparent solid 2px',
                   padding: '1.6rem 1rem',
-                  borderColor: '#eee'
+                  borderColor: '#ddd'
     
                 }}
                 buttonStyle={{            
@@ -155,7 +157,7 @@ export default function SignUp() {
                   padding: '1.6rem',
                   backgroundColor: '#fff',
                   borderRadius: '5px',
-                  borderColor: '#eee'
+                  borderColor: '#ddd'
                 }}
                 value={formik.values.phone}
                 onChange={(e: () => void) => formik.setFieldValue("phone", e)}
@@ -192,7 +194,7 @@ export default function SignUp() {
 </VStack>
         </Box>
       </Flex>
-      <Box style={{ position: "absolute", zIndex: "-2",bottom:"0",overflow:"hidden",width:"50%",height: "5rem"}}>
+      <Box hideBelow="lg" style={{ position: "absolute", zIndex: "-2",bottom:"0",overflow:"hidden",width:"50%",height: "5rem"}}>
       <svg
         style={{ position: "absolute", bottom: "-20px" }}
         width="708"
