@@ -19,39 +19,45 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
 
   const navigate = useNavigate();
   const handleNextSlide = () => {
-    if (currentIndex === slides.length - 1) {
-      navigate("/sign-up");
+    if (currentIndex === slides.length - 1 ) {
+      if(mobBtn){
+        navigate("/sign-up");
+      }else{
+        return
+
+      }
     } else {
       setCurrentIndex(currentIndex + 1);
     }
   };
   const handlePrevSlide = () => {
-   
-      setCurrentIndex(currentIndex - 1);
-    
+    console.log(currentIndex)
+    if (currentIndex === 0) {
+      return;
+    }
+    else{
+    setCurrentIndex(currentIndex - 1);
+    }
   }
-  const [btnstyle, setBtnstyle] = useState("");
-  const [btnsize, setBtnsize] = useState("");
-  const [btnState, setBtnState] = useState(true);
+
+  const [mobBtn, setMobBtn] = useState<boolean>();
   const [btnWidth, setBtnWidth] = useState("50%");
   const screenWidth = window.innerWidth;
   useEffect(() => {
     const handleBtn = () =>{
       if (screenWidth < 960) {
-        setBtnstyle("btn--solid");
-        setBtnsize("btn--medium");
+        console.log("less than 960")
+        setMobBtn(true);
         setBtnWidth("100%");
-        setBtnState(false);
       } else {
-        setBtnstyle("btn--desktop");
-        setBtnsize("btn--small");
+        console.log("more than 960")
+        setMobBtn(false);
         setBtnWidth("30%");
-        setBtnState(true);
       }
 
-      console.log(btnstyle,btnsize,btnState)
     }
     handleBtn();
+    console.log(mobBtn, btnWidth)
     window.addEventListener("resize",handleBtn);
     window.removeEventListener("resize",handleBtn);
   }, [screenWidth]);
@@ -62,7 +68,7 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
           height="100%"
           paddingY={{sm:"10%",lg:"20%"}}
           direction="column"
-          justify={{lg:"flex-start",sm:"space-between"}}
+          justify={{lg:"flex-start",base:"space-around"}}
         >
           <motion.div
             key={currentIndex}
@@ -74,33 +80,51 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
             <SlideTemplate {...slides[currentIndex]} />
           </motion.div>
 
-          <Stack direction={{ lg: "row", sm: "column" }} my={10} justify="space-between" align="center">
-            <Button
-              buttonStyle={btnstyle}
-              buttonSize={btnsize}
-              action={btnState?handlePrevSlide:  handleNextSlide}
-              width={btnWidth}
-            >
-              { (btnState ? (
-               "Prev") : (
-                currentIndex === slides.length - 1
-                  ? "Next": "Next")
-                  )
-              }
-            </Button>
-            <Button
-              buttonStyle={btnstyle==="btn--desktop"?"btn--desktop": "btn--ghost"}
-              buttonSize={btnsize}
-              width={btnWidth}
-              action={btnState?handleNextSlide:() => navigate("/sign-in")}
-            >
-              {(btnState ? (
-               "Next") : (
-                 currentIndex === slides.length - 1
+          <Stack direction={{ lg: "row", base: "column" }} my={10} justify="space-between" align="center">
+            {mobBtn?(
+              <>
+                 <Button
+                 buttonStyle="btn--solid"
+                 buttonSize="btn--medium"
+                 action={handleNextSlide}
+                 width="100%"
+               >
+                 {currentIndex === slides.length - 1
+                   ? "Create an account"
+                   : "Next"}
+               </Button>
+               <Button
+                 buttonStyle="btn--ghost"
+                 buttonSize="btn--medium"
+                 width="100%"
+                 action={() => navigate("/sign-in")}
+               >
+                 {currentIndex === slides.length - 1
                    ? "Sign into your account"
-                   : "Skip"))}                
-                  
+                   : "Skip"}
+               </Button>
+               </>
+            ):(
+              <>
+               <Button
+               buttonStyle="btn--desktop"
+               buttonSize="btn--small"
+              action={handlePrevSlide}
+              width={btnWidth}
+            >
+            Prev
             </Button>
+            <Button
+              buttonStyle="btn--desktop"
+              buttonSize="btn--small"
+              width={btnWidth}
+              action={handleNextSlide}
+            >
+             Next
+            </Button>
+              </>
+            )}
+           
           </Stack>
         </Flex>
       </Container>
