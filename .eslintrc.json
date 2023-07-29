@@ -10,6 +10,7 @@
     "plugin:react/jsx-runtime"
   ],
   "overrides": [],
+
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -19,5 +20,22 @@
     }
   },
   "plugins": ["react", "@typescript-eslint"],
-  "rules": {}
+  "rules": {
+    "no-unreachable": "warn",
+    "no-unused-vars": [
+      "warn",
+      { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
+    ],
+    "eqeqeq": ["warn", "always"],
+    "no-empty": 0,
+    "no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "no-unused-expressions": "warn",
+    "no-useless-rename": "warn",
+    "no-var": "warn",
+    "semi": ["off", "always"],
+    "react/jsx-key": "off"
+  }
 }

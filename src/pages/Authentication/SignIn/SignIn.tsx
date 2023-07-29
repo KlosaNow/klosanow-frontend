@@ -10,18 +10,18 @@ import {
   VStack,
   Image,
 } from "@chakra-ui/react";
-import logo from "../../assets/SplashScreenImg/SplashLogo.png";
-import { slides } from "../SlideData";
+import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
+import { slides } from "../../SlideData";
 import { Link as RouteLink } from "react-router-dom";
 import { useFormik } from "formik";
-import OnboardingSlides from "../OnboardingSlides";
+import { OnboardingSlides } from "../../";
 import PhoneInput from "react-phone-input-2";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 
 import "react-phone-input-2/lib/style.css";
-import { SignInSchema } from "./ValidationSchema";
+import { SignInSchema } from "../utils";
 
 export default function SignIn() {
   const handleOnSubmit = (values: object, actions: any) => {
@@ -40,7 +40,6 @@ export default function SignIn() {
 
   return (
     <>
-    <Box hideBelow="lg">
       <svg
         style={{ position: "absolute", zIndex: "-1" }}
         width="568"
@@ -51,12 +50,10 @@ export default function SignIn() {
       >
         <ellipse cx="-14.5" cy="-240.5" rx="582.5" ry="400.5" fill="#E5DEFD" />
       </svg>
-      </Box>
-
-      <Flex width="100%" height={{base:"100dvh",lg:"100%"}}>
+      <Flex>
         <VStack
-          width={{ lg: "50%", md: "0%" }}
-          hideBelow="lg"
+          width={{ lg: "50%", sm: "0%" }}
+          hideBelow="md"
           display="flex"
           py="2rem"
           px="1rem"
@@ -69,15 +66,15 @@ export default function SignIn() {
           </Box>
           <OnboardingSlides slides={slides} />
         </VStack>
-        <Box w={{ base: "100%", lg: "50%" }} bg={{lg:"#fafafa"}} py="2rem" px="1rem">
-          <VStack width={{  md: "100%",lg: "70%" }} margin="auto">
+        <Box width={{ lg: "50%", sm: "100%" }} bg="#fafafa" py="2rem" px="1rem">
+          <VStack width={{ lg: "70%", sm: "100%" }} margin="auto">
             <Box width="100%">
-              <Text color="secondary.50" fontSize={{ lg: "1rem", base: "1.5rem" }}>
+              <Text color="secondary.50" fontSize={{ lg: "1rem", sm: "2xl" }}>
                 Welcome Back
               </Text>
               <Text
-                fontSize={{ lg: "2.1rem", base: "1rem" }}
-                fontFamily={{lg:"primary"}}
+                fontSize={{ lg: "2.1rem", sm: "1rem" }}
+                fontFamily="primary"
                 color="black.40"
               >
                 Login To Your Account
@@ -100,9 +97,7 @@ export default function SignIn() {
                   fontSize="sm"
                   padding="1.6rem 1rem"
                   bg="#fff"
-                  borderColor={{base:"#ddd",lg:"#eee"}}
-                  border="1px solid"
-                  outline="none"
+                  borderColor="#eee"
                   placeholder="Enter your Email Address"
                   value={formik.values.email}
                   onChange={formik.handleChange}
@@ -135,7 +130,7 @@ export default function SignIn() {
                     height: "2.5rem",
                     outline: "transparent solid 2px",
                     padding: "1.6rem 1rem",
-                    borderColor: "#ddd",
+                    borderColor: "#eee",
                   }}
                   buttonStyle={{
                     position: "static",
@@ -143,7 +138,7 @@ export default function SignIn() {
                     padding: "1.6rem",
                     backgroundColor: "#fff",
                     borderRadius: "5px",
-                    borderColor: "#ddd",
+                    borderColor: "#eee",
                   }}
                   value={formik.values.phone}
                   onChange={(e: () => void) => formik.setFieldValue("phone", e)}
@@ -183,9 +178,7 @@ export default function SignIn() {
           </VStack>
         </Box>
       </Flex>
-
       <Box
-        hideBelow="lg"
         style={{
           position: "absolute",
           zIndex: "-2",

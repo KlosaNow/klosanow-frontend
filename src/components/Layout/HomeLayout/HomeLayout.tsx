@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
-import { BottomNav } from "../../BottomNav";
+import { BottomNav } from "../..";
 
 export default function HomeLayout(): JSX.Element {
   return (

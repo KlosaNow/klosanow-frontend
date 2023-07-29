@@ -1,7 +1,5 @@
 import { Box, Image, Flex, Text } from "@chakra-ui/react";
 import SettingsItem from "../../components/SettingsItem/SettingsItem";
-import arrow from "../../assets/SettingsPageImg/Arrow-left.png";
-
 import avatar from "../../assets/SettingsPageImg/Avatar.png";
 import group from "../../assets/SettingsPageImg/Terms.png";
 import cloud from "../../assets/SettingsPageImg/Upload.png";
@@ -13,6 +11,7 @@ import logout from "../../assets/SettingsPageImg/Log-out.png";
 import Header from "../../components/Header/Header";
 
 export default function SettingsPage(): JSX.Element {
+  const getSome = () => {};
   return (
     <Box backgroundColor="#f6f6f6" paddingBottom="30px">
       <Header />
