@@ -14,7 +14,7 @@ import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../SlideData";
 import { Link as RouteLink } from "react-router-dom";
 import { useFormik } from "formik";
-import {OnboardingSlides} from "../../";
+import { OnboardingSlides } from "../../";
 import PhoneInput from "react-phone-input-2";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -22,17 +22,19 @@ const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 
 import "react-phone-input-2/lib/style.css";
 import { SignInSchema } from "../utils";
+import useSignin from "../../../hooks/auth-hooks/useSignin";
 
 export default function SignIn() {
+  const { mutate } = useSignin();
   const handleOnSubmit = (values: object, actions: any) => {
-    console.log(values);
+    mutate(values);
     actions.resetForm({ values: "" });
   };
 
   const formik = useFormik({
     initialValues: {
       email: " ",
-      phone: "",
+      phoneNumber: "",
     },
     validationSchema: SignInSchema,
     onSubmit: handleOnSubmit,
@@ -40,20 +42,26 @@ export default function SignIn() {
 
   return (
     <>
-    <Box hideBelow="lg">
-      <svg
-        style={{ position: "absolute", zIndex: "-1" }}
-        width="568"
-        height="160"
-        viewBox="0 0 568 160"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <ellipse cx="-14.5" cy="-240.5" rx="582.5" ry="400.5" fill="#E5DEFD" />
-      </svg>
+      <Box hideBelow="lg">
+        <svg
+          style={{ position: "absolute", zIndex: "-1" }}
+          width="568"
+          height="160"
+          viewBox="0 0 568 160"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <ellipse
+            cx="-14.5"
+            cy="-240.5"
+            rx="582.5"
+            ry="400.5"
+            fill="#E5DEFD"
+          />
+        </svg>
       </Box>
 
-      <Flex width="100%" height={{base:"100dvh",lg:"100%"}}>
+      <Flex width="100%" height={{ base: "100dvh", lg: "100%" }}>
         <VStack
           width={{ lg: "50%", md: "0%" }}
           hideBelow="lg"
@@ -69,15 +77,23 @@ export default function SignIn() {
           </Box>
           <OnboardingSlides slides={slides} />
         </VStack>
-        <Box w={{ base: "100%", lg: "50%" }} bg={{lg:"#fafafa"}} py="2rem" px="1rem">
-          <VStack width={{  md: "100%",lg: "70%" }} margin="auto">
+        <Box
+          w={{ base: "100%", lg: "50%" }}
+          bg={{ lg: "#fafafa" }}
+          py="2rem"
+          px="1rem"
+        >
+          <VStack width={{ md: "100%", lg: "70%" }} margin="auto">
             <Box width="100%">
-              <Text color="secondary.50" fontSize={{ lg: "1rem", base: "1.5rem" }}>
+              <Text
+                color="secondary.50"
+                fontSize={{ lg: "1rem", base: "1.5rem" }}
+              >
                 Welcome Back
               </Text>
               <Text
                 fontSize={{ lg: "2.1rem", base: "1rem" }}
-                fontFamily={{lg:"primary"}}
+                fontFamily={{ lg: "primary" }}
                 color="black.40"
               >
                 Login To Your Account
@@ -100,7 +116,7 @@ export default function SignIn() {
                   fontSize="sm"
                   padding="1.6rem 1rem"
                   bg="#fff"
-                  borderColor={{base:"#ddd",lg:"#eee"}}
+                  borderColor={{ base: "#ddd", lg: "#eee" }}
                   border="1px solid"
                   outline="none"
                   placeholder="Enter your Email Address"
@@ -145,31 +161,32 @@ export default function SignIn() {
                     borderRadius: "5px",
                     borderColor: "#ddd",
                   }}
-                  value={formik.values.phone}
-                  onChange={(e: () => void) => formik.setFieldValue("phone", e)}
-                  onBlur={formik.handleBlur("phone")}
+                  value={formik.values.phoneNumber}
+                  onChange={(e: () => void) =>
+                    formik.setFieldValue("phoneNumber", e)
+                  }
+                  onBlur={formik.handleBlur("phoneNumber")}
                 />
-                {formik.touched && formik.errors.phone ? (
+                {formik.touched && formik.errors.phoneNumber ? (
                   <Text as="span" mb="1rem" color="secondary.50">
-                    {formik.errors.phone}
+                    {formik.errors.phoneNumber}
                   </Text>
                 ) : null}
               </FormControl>
-              <RouteLink to="/home">
-                <Box display="flex" justifyContent="center">
-                  <Button
-                    width="100%"
-                    p="1.7rem"
-                    fontWeight="300"
-                    color="neutral.50"
-                    bgColor="primary.50"
-                    type="submit"
-                    disabled={!(formik.dirty && formik.isValid)}
-                  >
-                    Sign In
-                  </Button>
-                </Box>
-              </RouteLink>
+
+              <Box display="flex" justifyContent="center">
+                <Button
+                  width="100%"
+                  p="1.7rem"
+                  fontWeight="300"
+                  color="neutral.50"
+                  bgColor="primary.50"
+                  type="submit"
+                  disabled={!(formik.dirty && formik.isValid)}
+                >
+                  Sign In
+                </Button>
+              </Box>
 
               <Box mt="1rem">
                 <Text textAlign="center" fontWeight={500}>
