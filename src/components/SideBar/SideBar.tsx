@@ -45,6 +45,7 @@ const SideBar = () => {
             padding="10px 0px"
             margin="10px 0px"
             cursor="pointer"
+            key={nav.name}
           >
             <Box fontSize="20px">{nav.icon}</Box>
 

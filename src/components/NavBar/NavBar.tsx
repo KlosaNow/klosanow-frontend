@@ -12,9 +12,7 @@ const NavBar = () => {
       backgroundColor="#fff"
       padding="0px 50px"
       zIndex="50"
-    >
-      NavBar
-    </Box>
+    ></Box>
   );
 };
 

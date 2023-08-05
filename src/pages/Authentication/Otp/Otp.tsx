@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   HStack,
@@ -22,6 +22,13 @@ export default function Otp(): JSX.Element {
     mutate(pin);
   };
 
+  useEffect(() => {
+    const localStoragePin = localStorage.getItem("otp");
+    if (localStoragePin !== undefined || null) {
+      // @ts-ignore
+      setPin(localStoragePin);
+    }
+  }, []);
   return (
     <Box py="2rem" px="1rem">
       <Box

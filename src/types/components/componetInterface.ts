@@ -51,3 +51,20 @@ export interface FormikStepComponentProps {
   step?: number;
   setStep?: React.Dispatch<React.SetStateAction<number>>;
 }
+
+export interface InputErrorInterface {
+  error: string;
+}
+
+export interface LessonDraftProp {
+  draftSrc: string;
+  draftTitle: string;
+  draftDescription: string;
+}
+export interface LessonCardInterface {
+  title: string;
+  duration: string;
+  thumbnail: string;
+  description?: string;
+  author?: string;
+}

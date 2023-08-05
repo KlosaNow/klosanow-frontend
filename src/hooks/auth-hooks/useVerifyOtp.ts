@@ -5,10 +5,16 @@ import { AxiosError } from "axios";
 const useVerifyOtp = () => {
   const verifyOtp = async (otp: string) => {
     try {
-      const { data } = await axiosBaseInstance.post("/auth/verify-otp", {
-        otp: otp,
-      });
-
+      const { data } = await axiosBaseInstance.post(
+        "/auth/verify-otp",
+        {
+          otp: otp,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data);
       return data;
     } catch (err) {
       return err;

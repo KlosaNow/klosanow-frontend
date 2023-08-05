@@ -23,16 +23,17 @@ const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 import "react-phone-input-2/lib/style.css";
 import useSignup from "../../../hooks/auth-hooks/useSignup";
 import { useEffect } from "react";
+import { InputError } from "../../../components";
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const { mutate, data, isError, error, isSuccess } = useSignup();
+  const { mutate, data, isError, error } = useSignup();
 
-  const handleOnSubmit = (values: any, actions: any) => {
+  const handleOnSubmit = (values: any) => {
     mutate(values);
     localStorage.setItem("phoneNumber", values?.phoneNumber);
 
-    actions.resetForm({ values: "" });
+    // actions.resetForm({ values: "" });
   };
 
   const formik = useFormik({
@@ -46,8 +47,11 @@ export default function SignUp() {
   });
 
   useEffect(() => {
+    console.log(data);
+
     if (data?.otp !== undefined) {
       localStorage.setItem("otp", data?.otp);
+
       navigate("/otp");
     } else if (isError) {
       console.log(error);
@@ -135,9 +139,7 @@ export default function SignUp() {
                   value={formik.values.name.trim()}
                 />
                 {formik.touched.name && formik.errors.name ? (
-                  <Text as="span" mb="1rem" color="secondary.50">
-                    {formik.errors.name}
-                  </Text>
+                  <InputError error={formik.errors.name} />
                 ) : null}
               </FormControl>
 
@@ -159,9 +161,7 @@ export default function SignUp() {
                   value={formik.values.email.trim()}
                 />
                 {formik.touched.email && formik.errors.email ? (
-                  <Text as="span" mb="1rem" color="secondary.50">
-                    {formik.errors.email}
-                  </Text>
+                  <InputError error={formik.errors.email} />
                 ) : null}
               </FormControl>
 
@@ -202,9 +202,7 @@ export default function SignUp() {
                   onBlur={formik.handleBlur("phoneNumber")}
                 />
                 {formik.touched && formik.errors.phoneNumber ? (
-                  <Text as="span" mb="1rem" color="secondary.50">
-                    {formik.errors.phoneNumber}
-                  </Text>
+                  <InputError error={formik.errors.phoneNumber} />
                 ) : null}
               </FormControl>
 

@@ -27,28 +27,28 @@ const CarouselComponent: FC = () => {
     {
       img: "https://picsum.photos/200/300",
       title: "Lesson Title",
-      timestamp:"2:45",
+      timestamp: "2:45",
       description:
         "lorem is the e argube aeirub9er gaeurg9oa eug9wurfbia erugb",
     },
     {
       img: "https://picsum.photos/200/300",
       title: "Lesson Title",
-      timestamp:"2:45",
+      timestamp: "2:45",
       description:
         "lorem is the e argube aeirub9er gaeurg9oa eug9wurfbia erugb",
     },
     {
       img: "https://picsum.photos/200/300",
       title: "Lesson Title",
-      timestamp:"2:45",
+      timestamp: "2:45",
       description:
         "lorem is the e argube aeirub9er gaeurg9oa eug9wurfbia erugb",
     },
     {
       img: "https://picsum.photos/200/300",
       title: "Lesson Title",
-      timestamp:"2:45",
+      timestamp: "2:45",
       description:
         "lorem is the e argube aeirub9er gaeurg9oa eug9wurfbia erugb",
     },

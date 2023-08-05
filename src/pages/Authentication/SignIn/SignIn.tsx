@@ -23,6 +23,7 @@ const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 import "react-phone-input-2/lib/style.css";
 import { SignInSchema } from "../utils";
 import useSignin from "../../../hooks/auth-hooks/useSignin";
+import { InputError } from "../../../components";
 
 export default function SignIn() {
   const { mutate } = useSignin();
@@ -125,9 +126,7 @@ export default function SignIn() {
                   onBlur={formik.handleBlur}
                 />
                 {formik.touched.email && formik.errors.email ? (
-                  <Text as="span" mb="1rem" color="secondary.50">
-                    {formik.errors.email}
-                  </Text>
+                  <InputError error={formik.errors.email} />
                 ) : null}
               </FormControl>
 
@@ -168,9 +167,7 @@ export default function SignIn() {
                   onBlur={formik.handleBlur("phoneNumber")}
                 />
                 {formik.touched && formik.errors.phoneNumber ? (
-                  <Text as="span" mb="1rem" color="secondary.50">
-                    {formik.errors.phoneNumber}
-                  </Text>
+                  <InputError error={formik.errors.phoneNumber} />
                 ) : null}
               </FormControl>
 

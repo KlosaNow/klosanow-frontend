@@ -3,7 +3,7 @@ import { NavLink as RouterLink } from "react-router-dom";
 import cardBg from "../../assets/cardBg.svg";
 import { LessonCardProps } from "../../types/components/componetInterface";
 
-export default function CreateLessonCard({
+const LessonTemplateCard = ({
   bgColor,
   buttonText,
   buttonTextColor,
@@ -12,7 +12,7 @@ export default function CreateLessonCard({
   cardSrc,
   buttonLink,
   onClick,
-}: LessonCardProps): JSX.Element {
+}: LessonCardProps) => {
   return (
     <>
       <Box
@@ -76,4 +76,6 @@ export default function CreateLessonCard({
       </Box>
     </>
   );
-}
+};
+
+export default LessonTemplateCard;
