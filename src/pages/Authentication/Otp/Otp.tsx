@@ -14,7 +14,6 @@ import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../SlideData";
 import { OnboardingSlides } from "../../";
 import { useEffect, useState } from "react";
-
 import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
 export default function Otp(): JSX.Element {
   const [pin, setPin] = useState("");
@@ -37,7 +36,6 @@ export default function Otp(): JSX.Element {
       setPin(localStoragePin);
     }
   }, []);
- 
   return (
     <>
       <Box hideBelow="lg">
@@ -122,24 +120,15 @@ export default function Otp(): JSX.Element {
               </Box>
             </Box>
             <Box mt="4rem">
-            <Box mt="4rem">
-        <Text textAlign="center" fontSize="sm" fontWeight="medium">
-          OTP has been sent to {phoneNumber ? phoneNumber : "your phone number"}
-        </Text>
+              <Text textAlign="center" fontSize="sm" fontWeight="medium">
+                OTP has been sent to{" "}
+                {phoneNumber ? phoneNumber : "your phone number"}
+              </Text>
             </Box>
 
-      <Box as="form" py="2rem" onSubmit={handleOnSubmit}>
-        <HStack display="flex" justifyContent="center">
-          <PinInput size="lg" otp value={pin} onChange={handlePinChange}>
-            <PinInputField />
-            <PinInputField />
-            <PinInputField />
-            <PinInputField />
-          </PinInput>
-        </HStack>
-            <Box as="form" py="2rem" width="100%">
+            <Box as="form" py="2rem" width="100%" onSubmit={handleOnSubmit}>
               <HStack display="flex" justifyContent="center">
-                <PinInput size="lg" otp>
+                <PinInput size="lg" otp value={pin} onChange={handlePinChange}>
                   <PinInputField />
                   <PinInputField />
                   <PinInputField />
@@ -192,8 +181,6 @@ export default function Otp(): JSX.Element {
           <ellipse cx="353.5" cy="400.5" rx="582.5" ry="400.5" fill="#E5DEFD" />
         </svg>
       </Box>
-
- 
     </>
   );
 }
