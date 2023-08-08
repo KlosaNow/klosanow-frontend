@@ -13,7 +13,30 @@ import {
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../SlideData";
 import { OnboardingSlides } from "../../";
+import { useEffect, useState } from "react";
+import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
 export default function Otp(): JSX.Element {
+  const [pin, setPin] = useState("");
+  const [phoneNumber] = useState(localStorage.getItem("phoneNumber"));
+
+  // Handle change event for the PinInputField
+  const handlePinChange = (value: any) => {
+    setPin(value);
+  };
+  const { mutate } = useVerifyOtp();
+
+  const handleOnSubmit = (e: any) => {
+    e.preventDefault();
+    mutate(pin);
+  };
+
+  useEffect(() => {
+    const localStoragePin = localStorage.getItem("otp");
+    if (localStoragePin !== undefined || null) {
+      // @ts-ignore
+      setPin(localStoragePin);
+    }
+  }, []);
   return (
     <>
       <Box hideBelow="lg">
@@ -99,13 +122,14 @@ export default function Otp(): JSX.Element {
             </Box>
             <Box mt="4rem">
               <Text textAlign="center" fontSize="sm" fontWeight="medium">
-                OTP has been sent to 08039309767
+                OTP has been sent to{" "}
+                {phoneNumber ? phoneNumber : "your phone number"}
               </Text>
             </Box>
 
-            <Box as="form" py="2rem" width="100%">
+            <Box as="form" py="2rem" width="100%" onSubmit={handleOnSubmit}>
               <HStack display="flex" justifyContent="center">
-                <PinInput size="lg" otp>
+                <PinInput size="lg" otp value={pin} onChange={handlePinChange}>
                   <PinInputField />
                   <PinInputField />
                   <PinInputField />
@@ -119,6 +143,7 @@ export default function Otp(): JSX.Element {
                   p="1.5rem"
                   color="neutral.50"
                   bgColor="primary.50"
+                  type="submit"
                 >
                   Verify OTP
                 </Button>

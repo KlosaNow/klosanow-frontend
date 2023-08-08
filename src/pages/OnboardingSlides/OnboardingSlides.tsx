@@ -19,56 +19,50 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
 
   const navigate = useNavigate();
   const handleNextSlide = () => {
-    if (currentIndex === slides.length - 1 ) {
-      if(mobBtn){
+    if (currentIndex === slides.length - 1) {
+      if (mobBtn) {
         navigate("/sign-up");
-      }else{
-        return
-
+      } else {
+        return;
       }
     } else {
       setCurrentIndex(currentIndex + 1);
     }
   };
   const handlePrevSlide = () => {
-    console.log(currentIndex)
     if (currentIndex === 0) {
       return;
+    } else {
+      setCurrentIndex(currentIndex - 1);
     }
-    else{
-    setCurrentIndex(currentIndex - 1);
-    }
-  }
+  };
 
   const [mobBtn, setMobBtn] = useState<boolean>();
   const [btnWidth, setBtnWidth] = useState("50%");
   const screenWidth = window.innerWidth;
   useEffect(() => {
-    const handleBtn = () =>{
+    const handleBtn = () => {
       if (screenWidth < 960) {
-        console.log("less than 960")
         setMobBtn(true);
         setBtnWidth("100%");
       } else {
-        console.log("more than 960")
         setMobBtn(false);
         setBtnWidth("30%");
       }
-
-    }
+    };
     handleBtn();
-    console.log(mobBtn, btnWidth)
-    window.addEventListener("resize",handleBtn);
-    window.removeEventListener("resize",handleBtn);
+
+    window.addEventListener("resize", handleBtn);
+    window.removeEventListener("resize", handleBtn);
   }, [screenWidth]);
   return (
     <AnimatePresence mode="wait">
-      <Container maxWidth={{ lg: "60%", sm: "95%" }}  height="100svh">
+      <Container maxWidth={{ lg: "60%", sm: "95%" }} height="100svh">
         <Flex
           height="100%"
-          paddingY={{sm:"10%",lg:"20%"}}
+          paddingY={{ sm: "10%", lg: "20%" }}
           direction="column"
-          justify={{lg:"flex-start",base:"space-around"}}
+          justify={{ lg: "flex-start", base: "space-around" }}
         >
           <motion.div
             key={currentIndex}
@@ -80,51 +74,55 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
             <SlideTemplate {...slides[currentIndex]} />
           </motion.div>
 
-          <Stack direction={{ lg: "row", base: "column" }} my={10} justify="space-between" align="center">
-            {mobBtn?(
+          <Stack
+            direction={{ lg: "row", base: "column" }}
+            my={10}
+            justify="space-between"
+            align="center"
+          >
+            {mobBtn ? (
               <>
-                 <Button
-                 buttonStyle="btn--solid"
-                 buttonSize="btn--medium"
-                 action={handleNextSlide}
-                 width="100%"
-               >
-                 {currentIndex === slides.length - 1
-                   ? "Create an account"
-                   : "Next"}
-               </Button>
-               <Button
-                 buttonStyle="btn--ghost"
-                 buttonSize="btn--medium"
-                 width="100%"
-                 action={() => navigate("/sign-in")}
-               >
-                 {currentIndex === slides.length - 1
-                   ? "Sign into your account"
-                   : "Skip"}
-               </Button>
-               </>
-            ):(
+                <Button
+                  buttonStyle="btn--solid"
+                  buttonSize="btn--medium"
+                  action={handleNextSlide}
+                  width="100%"
+                >
+                  {currentIndex === slides.length - 1
+                    ? "Create an account"
+                    : "Next"}
+                </Button>
+                <Button
+                  buttonStyle="btn--ghost"
+                  buttonSize="btn--medium"
+                  width="100%"
+                  action={() => navigate("/sign-in")}
+                >
+                  {currentIndex === slides.length - 1
+                    ? "Sign into your account"
+                    : "Skip"}
+                </Button>
+              </>
+            ) : (
               <>
-               <Button
-               buttonStyle="btn--desktop"
-               buttonSize="btn--small"
-              action={handlePrevSlide}
-              width={btnWidth}
-            >
-            Prev
-            </Button>
-            <Button
-              buttonStyle="btn--desktop"
-              buttonSize="btn--small"
-              width={btnWidth}
-              action={handleNextSlide}
-            >
-             Next
-            </Button>
+                <Button
+                  buttonStyle="btn--desktop"
+                  buttonSize="btn--small"
+                  action={handlePrevSlide}
+                  width={btnWidth}
+                >
+                  Prev
+                </Button>
+                <Button
+                  buttonStyle="btn--desktop"
+                  buttonSize="btn--small"
+                  width={btnWidth}
+                  action={handleNextSlide}
+                >
+                  Next
+                </Button>
               </>
             )}
-           
           </Stack>
         </Flex>
       </Container>
