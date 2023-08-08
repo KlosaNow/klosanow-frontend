@@ -24,6 +24,7 @@ export default function Otp(): JSX.Element {
     setPin(value);
   };
   const { mutate } = useVerifyOtp();
+
   const handleOnSubmit = (e: any) => {
     e.preventDefault();
     mutate(pin);
@@ -142,6 +143,7 @@ export default function Otp(): JSX.Element {
                   p="1.5rem"
                   color="neutral.50"
                   bgColor="primary.50"
+                  type="submit"
                 >
                   Verify OTP
                 </Button>

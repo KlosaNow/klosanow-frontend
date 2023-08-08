@@ -27,7 +27,7 @@ import { InputError } from "../../../components";
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const { mutate, data, isError, error } = useSignup();
+  const { mutate, data } = useSignup();
 
   const handleOnSubmit = (values: any) => {
     mutate(values);
@@ -38,23 +38,19 @@ export default function SignUp() {
 
   const formik = useFormik({
     initialValues: {
-      name: " ",
-      email: " ",
-      phoneNumber: " ",
+      name: "",
+      email: "",
+      phoneNumber: "",
     },
     validationSchema: SignUpSchema,
     onSubmit: handleOnSubmit,
   });
 
   useEffect(() => {
-    console.log(data);
-
     if (data?.otp !== undefined) {
       localStorage.setItem("otp", data?.otp);
 
       navigate("/otp");
-    } else if (isError) {
-      console.log(error);
     }
   }, [data]);
   return (

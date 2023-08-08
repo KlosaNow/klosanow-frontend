@@ -34,7 +34,7 @@ export default function SignIn() {
 
   const formik = useFormik({
     initialValues: {
-      email: " ",
+      email: "",
       phoneNumber: "",
     },
     validationSchema: SignInSchema,

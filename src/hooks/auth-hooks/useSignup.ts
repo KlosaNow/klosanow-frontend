@@ -6,9 +6,12 @@ import { AxiosError } from "axios";
 const useSignup = () => {
   const signup = async (values: FormikValues) => {
     try {
-      const { data } = await axiosBaseInstance.post("/auth/sign-up", values);
+      const res: any = await axiosBaseInstance.post("/auth/sign-up", values);
 
-      return data.data;
+      // @ts-ignore
+      console.log(res);
+      // console.log(res.headers);
+      return res.data.data;
     } catch (err) {
       throw Error;
     }
