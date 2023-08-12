@@ -19,7 +19,7 @@ export const NavItem = ({ icon, children, to }: IProps) => {
       to={to}
       display={"flex"}
       alignItems={"center"}
-      mb={"1.50rem"}
+      mb="30px"
       w="full"
       textAlign={"left"}
       justifyContent={"space-between"}
