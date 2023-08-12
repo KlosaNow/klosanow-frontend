@@ -14,6 +14,7 @@ import { TbLogout } from "react-icons/tb";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { IoMdSettings } from "react-icons/io";
 import { MdAppSettingsAlt } from "react-icons/md";
+import {IoMdHelpCircle} from "react-icons/io"
 const Links = [
   {
     name: "Dashboard",
@@ -104,8 +105,8 @@ const SideBar = () => {
           textColor={"#808080"}
         >
           <Box display={"flex"} alignItems={"center"}>
-            <Text mr={"0.5rem"}>
-              <TbLogout />
+            <Text mr={"0.5rem"} color={"#808080"} fontSize={"1.4rem"}>
+              <IoMdHelpCircle />
             </Text>
             <Link to="/help" color="red">
               Help
