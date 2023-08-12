@@ -77,7 +77,7 @@ const SideBar = () => {
         cursor={"pointer"}
       >
         <Box>
-          <CircularProgress value={30} size={"140px"} color="green.400">
+          <CircularProgress value={30} size={"140px"} color="green.400" >
             <CircularProgressLabel fontSize={"0.9rem"} borderRadius={"3rem"}>
               Used <br /> 41Gb/1TB
             </CircularProgressLabel>
