@@ -20,6 +20,7 @@ const NavBar = () => {
       backgroundColor="#fff"
       padding={{ base: "0px 20px", lg: "0px 50px" }}
       zIndex="50"
+<<<<<<< HEAD
     >
       <Box mt={"1rem"}>
         <Search />
@@ -72,6 +73,9 @@ const NavBar = () => {
         </Box>
       </Box>
     </Box>
+=======
+    ></Box>
+>>>>>>> b2fde632dc9c0b97f37a3731a21fba1c11e09c43
   );
 };
 

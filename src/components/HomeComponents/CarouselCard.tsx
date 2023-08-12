@@ -4,13 +4,18 @@ import { Container, VStack, Text, Box } from "@chakra-ui/react";
 interface CarouselCardProps {
   img: string;
   title: string;
-  timestamp:string;
+  timestamp: string;
   description: string;
 }
-export const CarouselCard:FC<CarouselCardProps> = ({img,title,timestamp,description}:CarouselCardProps) => {
+export const CarouselCard: FC<CarouselCardProps> = ({
+  img,
+  title,
+  timestamp,
+  description,
+}: CarouselCardProps) => {
   return (
     <Container width="190px" padding={0}>
-      <VStack >
+      <VStack>
         <Box
           pos="relative"
           padding={0}
