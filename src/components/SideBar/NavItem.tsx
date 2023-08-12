@@ -28,7 +28,7 @@ export const NavItem = ({ icon, children, to }: IProps) => {
         content: '""',
         height: `${isActive ? "2px" : ""}`,
         borderStyle: `${isActive ? "solid" : ""}`,
-        borderWidth: `${isActive ? "10px 0 10px 15px" : ""}`,
+        borderWidth: `${isActive ? "10px 0 10px 7px" : ""}`,
         borderColor: `${
           isActive ? "transparent transparent transparent #7B58F4" : ""
         }`,
