@@ -1,6 +1,5 @@
-import { Box ,Text,Image} from "@chakra-ui/react";
+import { Box, Text, Image } from "@chakra-ui/react";
 import { Search } from "../HomeComponents/Search";
-import NotificationItem from "../NotificationItem/NotificationItem";
 import { Link } from "react-router-dom";
 import { BiBell } from "react-icons/bi";
 
@@ -26,9 +25,11 @@ const NavBar = () => {
         <Search />
       </Box>
       <Box display={"flex"} alignItems={"center"}>
-        <Link to="/notifications"
-          style={{ position: "relative" , marginLeft: "5px"}}>
-          <BiBell fontSize={25}  />
+        <Link
+          to="/notifications"
+          style={{ position: "relative", marginLeft: "5px" }}
+        >
+          <BiBell fontSize={25} />
           <span
             style={{
               display: "flex",
@@ -48,7 +49,12 @@ const NavBar = () => {
             2
           </span>
         </Link>
-        <Text width={"0.1rem"} height={"2.7rem"} bg={"#CCCCCC"} mx={"0.8rem"}></Text>
+        <Text
+          width={"0.1rem"}
+          height={"2.7rem"}
+          bg={"#CCCCCC"}
+          mx={"0.8rem"}
+        ></Text>
         <Box display={"flex"} alignItems={"center"}>
           <Image
             borderRadius="full"
