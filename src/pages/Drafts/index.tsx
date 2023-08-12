@@ -1,8 +1,5 @@
 import { Box, Text } from "@chakra-ui/react";
-import {
-  CreateLessonCard,
-  LessonDraftCard,
-} from "../../components/LessonCards";
+import { LessonDraftCard, LessonTemplateCard } from "../../components";
 import { draftData } from "./components/lessonData";
 
 export default function Drafts() {
@@ -12,7 +9,7 @@ export default function Drafts() {
         <Text fontWeight={600} display={["none", "block"]} fontSize="32px">
           Create a lesson
         </Text>
-        <CreateLessonCard
+        <LessonTemplateCard
           bgColor="#7B58F4"
           buttonText="Start creating"
           buttonTextColor="#7B58F4"

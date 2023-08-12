@@ -1,15 +1,11 @@
 import { Box, Image, Text } from "@chakra-ui/react";
+import { LessonDraftProp } from "../../types/components/componetInterface";
 
-interface LessonDraftProp {
-  draftSrc: string;
-  draftTitle: string;
-  draftDescription: string;
-}
-export default function LessonDraftCard({
+const LessonDraftCard = ({
   draftSrc,
   draftTitle,
   draftDescription,
-}: LessonDraftProp): JSX.Element {
+}: LessonDraftProp): JSX.Element => {
   return (
     <Box
       display="flex"
@@ -36,4 +32,6 @@ export default function LessonDraftCard({
       </Box>
     </Box>
   );
-}
+};
+
+export default LessonDraftCard;
