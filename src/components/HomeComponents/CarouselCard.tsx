@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Container, VStack, Text, Box } from "@chakra-ui/react";
+import { Container, VStack, Text, Box, Image } from "@chakra-ui/react";
 
 interface CarouselCardProps {
   img: string;
@@ -22,9 +22,8 @@ export const CarouselCard: FC<CarouselCardProps> = ({
           borderRadius={5}
           overflow="hidden"
           width="100%"
-          height="150px"
         >
-          <img
+          <Image
             style={{ width: "100%", height: "150px", objectFit: "cover" }}
             src={img}
             alt=""

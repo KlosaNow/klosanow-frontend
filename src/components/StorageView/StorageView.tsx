@@ -8,7 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import { GoPrimitiveDot } from "react-icons/go";
+import { GoDotFill } from "react-icons/go";
 import Header from "../Header/Header";
 
 interface StorageCardProps {
@@ -82,7 +82,7 @@ const StorageViewComponent: React.FC<StorageCardProps> = ({
               <Text fontWeight="bold">Space used</Text>
               <Flex>
                 <Icon
-                  as={GoPrimitiveDot}
+                  as={GoDotFill}
                   fontSize="2xl"
                   mr="2"
                   textColor="secondary.50"
@@ -94,7 +94,7 @@ const StorageViewComponent: React.FC<StorageCardProps> = ({
               <Text fontWeight="bold">Total Space</Text>
               <Flex justifyContent="center">
                 <Icon
-                  as={GoPrimitiveDot}
+                  as={GoDotFill}
                   fontSize="2xl"
                   mr="2"
                   textColor="primary.50"
