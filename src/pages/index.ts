@@ -4,3 +4,4 @@ export { default as Drafts } from "./Drafts";
 export { default as StudyChat } from "./StudyChat/StudyChat";
 export { default as Onboarding } from "./Onboarding/Onboarding";
 export { default as OnboardingSlides } from "./OnboardingSlides/OnboardingSlides";
+export {default as Notifications} from './Notifications'
