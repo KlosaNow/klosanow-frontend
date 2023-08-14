@@ -14,9 +14,10 @@ const DashboardLayout = () => {
           width="full"
           height="auto"
           margin="auto"
-          padding={["0px", "80px 30px"]}
+          padding={["10px", "100px 30px"]}
         >
           <Outlet />
+
           {pathname === "/dashboard" && <BottomNav />}
         </Box>
       </Box>

@@ -1,25 +1,29 @@
 import { FC } from "react";
-import { Container, VStack, Text, Box } from "@chakra-ui/react";
+import { Container, VStack, Text, Box, Image } from "@chakra-ui/react";
 
 interface CarouselCardProps {
   img: string;
   title: string;
-  timestamp:string;
+  timestamp: string;
   description: string;
 }
-export const CarouselCard:FC<CarouselCardProps> = ({img,title,timestamp,description}:CarouselCardProps) => {
+export const CarouselCard: FC<CarouselCardProps> = ({
+  img,
+  title,
+  timestamp,
+  description,
+}: CarouselCardProps) => {
   return (
     <Container width="190px" padding={0}>
-      <VStack >
+      <VStack>
         <Box
           pos="relative"
           padding={0}
           borderRadius={5}
           overflow="hidden"
           width="100%"
-          height="150px"
         >
-          <img
+          <Image
             style={{ width: "100%", height: "150px", objectFit: "cover" }}
             src={img}
             alt=""

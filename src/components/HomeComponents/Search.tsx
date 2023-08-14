@@ -1,37 +1,23 @@
-import { Box } from "@chakra-ui/react";
-import { BsSearch } from "react-icons/bs";
+import { Box, Button } from "@chakra-ui/react";
+import { CiSearch } from "react-icons/ci";
 import { Input } from "@chakra-ui/react";
 
 export const Search = () => {
   return (
     <Box mb={5}>
-      <form
-        className="search"
-        style={{
-          position: "relative",
-          width: " 100%",
-        }}
-      >
-        <button
+      <Box as="form" className="search" width="full" position="relative">
+        <Button
           type="submit"
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "0%",
-            transform: "translate(100%, -50%)",
-            border: "none",
-            cursor:"pointer"
-          }}
+          position="absolute"
+          top="0px"
+          left="-5px"
+          border="none"
+          cursor="pointer"
+          background="transparent"
         >
-          <BsSearch style={{
-              position:"absolute",
-              fontSize:"1.3rem",
-              top: '50%',
-              left: '0%',
-              transform: "translate(50%, -50%)",
-              color: "#333",
-          }} />
-        </button>
+          <CiSearch color="#333" fontSize="1.5rem" />
+        </Button>
+
         <Input
           paddingX={10}
           width="100%"
@@ -42,7 +28,7 @@ export const Search = () => {
           placeholder="Search for a lesson"
           _placeholder={{ fontSize: "14px" }}
         />
-      </form>
+      </Box>
     </Box>
   );
 };
