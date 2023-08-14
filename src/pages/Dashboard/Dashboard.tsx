@@ -1,21 +1,20 @@
 import { FC } from "react";
-import {
-  Container,
-  Box,
-  Flex,
-  Text,
+
+import { Container, Box, 
+ 
   Tabs,
   TabList,
   Tab,
   TabPanels,
-  TabPanel,
-} from "@chakra-ui/react";
+  TabPanel, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, useDisclosure, VStack, Flex, Text } from "@chakra-ui/react";
+
 import Img from "../../assets/images/notification_1.png";
 import { BiBell } from "react-icons/bi";
 import { Search } from "../../components/HomeComponents/Search";
 import { HomeCard } from "../../components/HomeComponents/HomeCard";
 import { BsChevronDown } from "react-icons/bs";
 import { motion } from "framer-motion";
+import Notifications from "../Notifications";
 import CarouselComponent from "../../components/HomeComponents/Carousel";
 import { Link } from "react-router-dom";
 import DesktopView from "./components/DesktopView";
@@ -38,24 +37,29 @@ const notifications = [
 const MotionContainer = motion(Container);
 
 const HomePage: FC = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
   return (
-    // <MotionContainer
-    //   initial={{ opacity: 0 }}
-    //   animate={{ opacity: 1 }}
-    //   exit={{ opacity: 0 }}
-    //   transition={{ duration: 0.2 }}
-    //   paddingX={1}
-    //   margin={["auto", "0px"]}
-    //   style={{ width: "100%", position: "relative" }}
-    // >
+
+   <MotionContainer
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      paddingX={1}
+      position="relative"
+    >
+      {" "}
+      <Flex justify={"space-between"} align={"center"}>
     <Box width="full" paddingX={1} margin={["auto", "0px"]}>
       <Flex
         justify={"space-between"}
         align={"center"}
         display={["flex", "none"]}
       >
+
         <img style={{ width: "70px", height: "70px" }} src={Img} alt="" />
-        <Link to="/notifications" style={{ position: "relative" }}>
+        <Button onClick={onOpen} style={{ position: "relative" }}>
           <BiBell fontSize={25} />
           <span
             style={{
@@ -75,7 +79,7 @@ const HomePage: FC = () => {
           >
             {notifications.length}
           </span>
-        </Link>
+        </Button>
       </Flex>
       <Text
         fontSize={["20px", "32px"]}
@@ -141,8 +145,23 @@ const HomePage: FC = () => {
         </Box>
         <CarouselComponent />
       </Box>
+
+      <CarouselComponent />
+
+      <Modal isOpen={isOpen}  onClose={onClose} size="xl" isCentered={false}>
+        <ModalOverlay bg="#ffffff5a"/>
+        <ModalContent  maxH="90vh" overflowY="auto" marginLeft="auto">
+          <ModalHeader>Notifications</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+             <Notifications/>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </MotionContainer>
+
     </Box>
-    // </MotionContainer>
+
   );
 };
 
