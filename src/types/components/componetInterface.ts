@@ -10,6 +10,10 @@ export interface headerInterface {
   link?: string;
 }
 
+export interface navBarProps {
+  notificationCtrl: () => void;
+}
+
 export interface buttonInterface {
   children: string;
   action: () => void;

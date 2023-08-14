@@ -23,7 +23,7 @@ const Links = [
   },
   {
     name: "Created Lessons",
-    href: "/create-lesson",
+    href: "/drafts",
     icon: MdAppSettingsAlt,
   },
   {
