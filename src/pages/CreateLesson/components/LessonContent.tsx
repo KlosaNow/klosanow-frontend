@@ -58,6 +58,9 @@ const LessonContent = () => {
           <TabPanel>
             <p>two!</p>
           </TabPanel>
+          <TabPanel>
+            <p>Third!</p>
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </Box>
