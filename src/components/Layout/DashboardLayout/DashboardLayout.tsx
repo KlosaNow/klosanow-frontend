@@ -27,18 +27,43 @@ const DashboardLayout = () => {
           height="auto"
           margin="auto"
           padding={["10px", "100px 30px"]}
-          onClick={onOpen}
         >
-          <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered={false}>
-            <ModalOverlay bg="#ffffff5a" />
-            <ModalContent maxH="90vh" overflowY="auto" marginLeft="auto">
-              <ModalHeader>Notifications</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <Notifications />
-              </ModalBody>
-            </ModalContent>
-          </Modal>
+          <Box position="relative">
+            <Modal
+              isOpen={isOpen}
+              onClose={onClose}
+              size="xl"
+              isCentered={false}
+            >
+              <ModalOverlay bg="#ffffff5a" />
+              <ModalContent
+                maxH="100vh"
+                overflowY="auto"
+                marginLeft="auto"
+                position="fixed"
+                height="100%"
+                right="20px"
+                top="10px"
+                css={{
+                  "&::-webkit-scrollbar": {
+                    width: "4px",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    width: "6px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    borderRadius: "24px",
+                  },
+                }}
+              >
+                <ModalHeader>Notifications</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <Notifications />
+                </ModalBody>
+              </ModalContent>
+            </Modal>
+          </Box>
           <Outlet />
 
           {pathname === "/dashboard" && <BottomNav />}

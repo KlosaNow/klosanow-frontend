@@ -9,7 +9,6 @@ export default function CreateLessonLayout() {
       <Box height="auto">
         <Header />
         <Outlet />
-        <BottomNav />
       </Box>
     </Box>
   );
