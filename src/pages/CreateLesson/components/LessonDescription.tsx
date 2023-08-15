@@ -1,6 +1,7 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
+import { FormikStepComponentProps } from "../../../types/components/componetInterface";
 
-const LessonDescription = () => {
+const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
   return (
     <Box>
       <Text
@@ -11,6 +12,8 @@ const LessonDescription = () => {
       >
         Create your lessons
       </Text>
+
+      <Button onClick={nextFunc}>Next</Button>
     </Box>
   );
 };
