@@ -6,7 +6,6 @@ import {
   Stack,
   Button,
   Image,
-  Highlight,
   Flex,
 } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
@@ -27,14 +26,13 @@ const LessonDescription = () => {
     <Box>
       <Text
         fontSize="32px"
-        display={["none", "block"]}
         fontWeight="500"
         textColor="black.100"
         mb={2}
       >
         Create your lessons
       </Text>
-      <Stack direction={"row"} spacing={6}>
+      <Stack direction={"row"} spacing={6} display={["none", "flex"]}>
         <Box>
           <Image
             src={file}
@@ -84,38 +82,96 @@ const LessonDescription = () => {
           </Box>
         </Box>
       </Stack>
-      <Stack spacing={5} mt={"1rem"}>
+      <Stack spacing={5} mt={"1rem"} as={"form"}>
         <Box>
           <Box>
             <Text mb="8px">Course title: </Text>
-            <Input placeholder="Lesson Title" size="lg" />
+            <Input placeholder="Lesson Title" size="lg" required />
           </Box>
         </Box>
         <Box>
           <Text mb="8px">Description</Text>
-          <Textarea placeholder="Tell us about your lesson" size="sm" />
+          <Textarea
+            placeholder="Tell us about your lesson"
+            size="sm"
+            required
+          />
         </Box>
         <Box>
           <Box>
             <Text mb="8px">Tutors name: </Text>
-            <Input placeholder="Lesson Title" size="lg" />
+            <Input placeholder="Lesson Title" size="lg" required />
           </Box>
         </Box>
         <Box>
           <Text mb="8px" cursor={"pointer"}>
             Description
           </Text>
-          <Textarea placeholder="Tell us about your lesson" size="sm" />
+          <Textarea
+            placeholder="Tell us about your lesson"
+            size="sm"
+            required
+          />
         </Box>
         <Flex justify={"space-between"} color={"#BA1A1A"} fontSize={"0.7rem"}>
           <Text>You exceeded limit</Text>
           <Text>-126 words</Text>
         </Flex>
-
+        <Stack
+          direction={"row"}
+          borderStyle={"dashed"}
+          borderRadius={"0.7rem"}
+          borderWidth="2px"
+          position={"relative"}
+          p={2}
+          display={["flex", "none"]}
+        >
+          <Input
+            type="file"
+            h={"full"}
+            opacity={0}
+            position={"absolute"}
+            cursor={"pointer"}
+            onChange={handleFileChange}
+            accept="image/*"
+          />
+          <Image
+            boxSize="100px"
+            objectFit="cover"
+            alt="Dan Abramov"
+            src={file}
+            h={"70px"}
+            w={"70px"}
+            fallbackSrc={dummyImg}
+          />
+          <Box>
+            <Text>Add a thumbnail for your lesson</Text>
+            <Text fontWeight={"bold"} mt={"0.5rem"}>
+              Browse your files
+            </Text>
+          </Box>
+        </Stack>
+        <Stack display={["flex", "none"]}>
+          <Button
+            colorScheme="#7B58F4;"
+            variant="solid"
+            width={"100px"}
+            h={"50px"}
+            type="submit"
+          >
+            Next
+          </Button>
+        </Stack>
         <Text color={"#7B58F4"} cursor={"pointer"}>
           Add tag
         </Text>
-        <Stack direction="row" spacing={4} align="center" justify={"right"}>
+        <Stack
+          direction="row"
+          spacing={4}
+          align="center"
+          justify={"right"}
+          display={["none", "flex"]}
+        >
           <Button
             colorScheme="#7B58F4;"
             variant="outline"
@@ -130,6 +186,7 @@ const LessonDescription = () => {
             variant="solid"
             width={"200px"}
             h={"50px"}
+            type="submit"
           >
             Next
           </Button>
