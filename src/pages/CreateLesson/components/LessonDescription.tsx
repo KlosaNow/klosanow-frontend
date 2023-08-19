@@ -1,3 +1,4 @@
+
 import {
   Box,
   Text,
@@ -10,8 +11,9 @@ import {
 } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
 import dummyImg from "../../../assets/images/dummy image.png";
-
-const LessonDescription = () => {
+import { FormikStepComponentProps } from "../../../types/components/componetInterface";
+        
+const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
   const [file, setFile] = useState<any>(null);
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const selectedFile = e.target.files?.[0];
@@ -22,6 +24,8 @@ const LessonDescription = () => {
       console.log("Please select an image file.");
     }
   };
+
+
   return (
     <Box>
       <Text
@@ -32,6 +36,7 @@ const LessonDescription = () => {
       >
         Create your lessons
       </Text>
+
       <Stack direction={"row"} spacing={6} display={["none", "flex"]}>
         <Box>
           <Image
@@ -192,6 +197,10 @@ const LessonDescription = () => {
           </Button>
         </Stack>
       </Stack>
+
+
+      <Button onClick={nextFunc}>Next</Button>
+
     </Box>
   );
 };

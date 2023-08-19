@@ -14,7 +14,7 @@ import { TbLogout } from "react-icons/tb";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { IoMdSettings } from "react-icons/io";
 import { MdAppSettingsAlt } from "react-icons/md";
-import {IoMdHelpCircle} from "react-icons/io"
+import { IoMdHelpCircle } from "react-icons/io";
 const Links = [
   {
     name: "Dashboard",
@@ -23,7 +23,7 @@ const Links = [
   },
   {
     name: "Created Lessons",
-    href: "/create-lesson",
+    href: "/drafts",
     icon: MdAppSettingsAlt,
   },
   {
@@ -44,17 +44,23 @@ const SideBar = () => {
       borderRight="0.3px solid #C8C8C8"
       backgroundColor="#fff"
       position="fixed"
-      height="full"
+      height="100%"
       zIndex="50"
       display={["none", "flex"]}
       flexDirection={"column"}
       justifyContent={"space-between"}
-      py={"1rem"}
+      py={"2rem"}
+      overflowY="auto"
+      css={{
+        "&::-webkit-scrollbar": {
+          display: "none",
+        },
+      }}
     >
       <Box paddingLeft="50px">
         <Box paddingRight={"30px"}>
-          <Image src={logo} alt="Klosanaw logo" />
-          <Text w="full" h={"0.05rem"} my={"2rem"} bg="#CCCCCC"></Text>
+          <Image src={logo} alt="Klosanaw logo" width="120px" margin="auto" />
+          <Box w="full" h={"0.05rem"} my={"2rem"} bg="#CCCCCC" />
         </Box>
 
         <Box>
@@ -74,10 +80,10 @@ const SideBar = () => {
         px={"10px"}
         borderRadius={"0.5rem"}
         bg={"#FAFAFA"}
-        cursor={"pointer"}
+        marginY="70px"
       >
         <Box>
-          <CircularProgress value={30} size={"140px"} color="green.400" >
+          <CircularProgress value={30} size={"140px"} color="green.400">
             <CircularProgressLabel fontSize={"0.9rem"} borderRadius={"3rem"}>
               Used <br /> 41Gb/1TB
             </CircularProgressLabel>
@@ -93,37 +99,27 @@ const SideBar = () => {
           </Button>
         </Box>
       </Box>
-      <Box paddingLeft="50px">
+      <Box paddingLeft="50px" marginBottom="80px">
         <Box
           color={"red"}
           display={"flex"}
           alignItems={"center"}
-          mb={"1.5rem"}
-          justifyContent={"space-between"}
-          w="full"
+          mb={"2rem"}
           cursor={"pointer"}
           textColor={"#808080"}
         >
-          <Box display={"flex"} alignItems={"center"}>
-            <Text mr={"0.5rem"} color={"#808080"} fontSize={"1.4rem"}>
-              <IoMdHelpCircle />
-            </Text>
-            <Link to="/help" color="red">
-              Help
-            </Link>
-          </Box>
-        </Box>
-        <Box
-          color={"red"}
-          fontWeight={600}
-          display={"flex"}
-          alignItems={"center"}
-        >
-          <Text mr={"0.5rem"}>
-            <TbLogout />
+          <Text mr={"0.5rem"} fontSize={"1.4rem"}>
+            <IoMdHelpCircle />
           </Text>
-
-          <Button color="red" variant="link">
+          <Link to="/help" color="red">
+            Help
+          </Link>
+        </Box>
+        <Box color={"red"} display={"flex"} alignItems={"center"}>
+          <Button color="red" variant="link" fontWeight="500">
+            <Box mr={"0.5rem"}>
+              <TbLogout />
+            </Box>
             Logout
           </Button>
         </Box>
