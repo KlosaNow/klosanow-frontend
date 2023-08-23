@@ -103,8 +103,9 @@ const HomePage: FC = () => {
           width="100%"
           justifyContent="space-between"
           alignItems="center"
+         
         >
-          <Box display={["none", "block"]} mb="20px">
+          <Box display={["none", "block"]} mb="25px">
             <Tabs width="full">
               <TabList gap="20px">
                 <Tab onClick={() => setShowLessons(true)} padding="0px">
