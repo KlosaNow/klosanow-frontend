@@ -54,10 +54,7 @@ const LessonContent = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <Box
-              w={[400, 600, 850]}
-              h={[80, 150, 450]}
-            >
+            <Box w={[400, 600, 850]} h={[80, 150, 450]}>
               <FroalaRichTextEditor />
               <Box
                 display={["flex"]}
@@ -65,7 +62,7 @@ const LessonContent = () => {
                 marginTop="1.5"
                 marginRight="1"
               >
-                <Button 
+                <Button
                   colorScheme="purple"
                   color="#fff"
                   variant="solid"
