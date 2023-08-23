@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 const useSignup = () => {
   const signup = async (values: FormikValues) => {
     try {
-      const res: any = await axiosBaseInstance.post("/auth/sign-up", values);
+      const res: any = await axiosBaseInstance.post(`/auth/sign-up`, values);
 
       // @ts-ignore
       console.log(res);
