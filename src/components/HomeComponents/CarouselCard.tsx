@@ -2,13 +2,13 @@ import { FC } from "react";
 import { Container, VStack, Text, Box, Image } from "@chakra-ui/react";
 
 interface CarouselCardProps {
-  img: string;
+  thumbnail: string;
   title: string;
   timestamp: string;
   description: string;
 }
-export const CarouselCard: FC<CarouselCardProps> = ({
-  img,
+const CarouselCard: FC<CarouselCardProps> = ({
+  thumbnail,
   title,
   timestamp,
   description,
@@ -25,7 +25,7 @@ export const CarouselCard: FC<CarouselCardProps> = ({
         >
           <Image
             style={{ width: "100%", height: "150px", objectFit: "cover" }}
-            src={img}
+            src="https://picsum.photos/200/300"
             alt=""
           />
           <Text
@@ -52,3 +52,5 @@ export const CarouselCard: FC<CarouselCardProps> = ({
     </Container>
   );
 };
+
+export default CarouselCard;

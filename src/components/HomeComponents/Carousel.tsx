@@ -1,7 +1,8 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { FC } from "react";
-import { CarouselCard } from "./CarouselCard";
+import CarouselCard  from "./CarouselCard";
+
 
 const responsive = {
   superLargeDesktop: {
@@ -11,7 +12,7 @@ const responsive = {
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 4,
+    items: 3,
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
@@ -19,7 +20,7 @@ const responsive = {
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 2,
+    items: 0.5,
   },
 };
 const CarouselComponent: FC = () => {
@@ -52,7 +53,17 @@ const CarouselComponent: FC = () => {
       description:
         "lorem is the e argube aeirub9er gaeurg9oa eug9wurfbia erugb",
     },
+    {
+      img: "https://picsum.photos/200/300",
+      title: "Lesson Title",
+      timestamp: "2:45",
+      description:
+        "lorem is the e argube aeirub9er gaeurg9oa eug9wurfbia erugb",
+    },
   ];
+
+
+
   return (
     <Carousel
       arrows={false}
@@ -61,12 +72,13 @@ const CarouselComponent: FC = () => {
       centerMode={true}
       showDots={true}
       responsive={responsive}
+      renderDotsOutside={true}
     >
       {data.map((cardDetails, index) => {
         return (
           <CarouselCard
             key={index}
-            img={cardDetails.img}
+            thumbnail={cardDetails.img}
             timestamp={cardDetails.timestamp}
             title={cardDetails.title}
             description={cardDetails.description}

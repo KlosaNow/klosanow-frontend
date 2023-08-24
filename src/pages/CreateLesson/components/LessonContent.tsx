@@ -8,6 +8,7 @@ import {
   Tabs,
   Text,
 } from "@chakra-ui/react";
+import FroalaRichTextEditor from "./Content/RichTextEditor/FroalaTextEditor";
 
 const LessonContent = () => {
   const selectedStyle = {
@@ -18,7 +19,7 @@ const LessonContent = () => {
     <Box>
       <Text
         fontSize="32px"
-        display={["none", "block"]}
+        // display={["none", "block"]}
         fontWeight="500"
         textColor="black.100"
         marginBottom="30px"
@@ -53,7 +54,27 @@ const LessonContent = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <p>one!</p>
+            <Box
+              w={[400, 600, 850]}
+              h={[80, 150, 450]}
+            >
+              <FroalaRichTextEditor />
+              <Box
+                display={["flex"]}
+                justifyContent="flex-end"
+                marginTop="1.5"
+                marginRight="1"
+              >
+                <Button 
+                  colorScheme="purple"
+                  color="#fff"
+                  variant="solid"
+                  paddingInline="10"
+                >
+                  Save
+                </Button>
+              </Box>
+            </Box>
           </TabPanel>
           <TabPanel>
             <p>two!</p>
