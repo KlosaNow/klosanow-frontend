@@ -15,19 +15,28 @@ import { slides } from "../../SlideData";
 import { OnboardingSlides } from "../../";
 import { useEffect, useState } from "react";
 import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
+import { useNavigate } from "react-router-dom";
 export default function Otp(): JSX.Element {
+
   const [pin, setPin] = useState("");
   const [phoneNumber] = useState(localStorage.getItem("phoneNumber"));
 
+  const navigate = useNavigate();
   // Handle change event for the PinInputField
   const handlePinChange = (value: any) => {
     setPin(value);
   };
-  const { mutate } = useVerifyOtp();
+  const { mutate, data } = useVerifyOtp();
 
   const handleOnSubmit = (e: any) => {
     e.preventDefault();
     mutate(pin);
+
+    if (data?.otp === pin) {
+      navigate('/sign-in');
+    } else {
+      alert('Invalid OTP');
+    }
   };
 
   useEffect(() => {
@@ -35,8 +44,10 @@ export default function Otp(): JSX.Element {
     if (localStoragePin !== undefined || null) {
       // @ts-ignore
       setPin(localStoragePin);
-    }
+    } 
   }, []);
+
+  
   return (
     <>
       <Box hideBelow="lg">

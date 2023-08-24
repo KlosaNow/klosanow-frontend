@@ -23,7 +23,7 @@ const responsive = {
     items: 0.5,
   },
 };
-const CarouselComponent: FC = () => {
+const CreatedLessonsCarosals: FC = () => {
   const data = [
     {
       img: "https://picsum.photos/200/300",
@@ -62,8 +62,6 @@ const CarouselComponent: FC = () => {
     },
   ];
 
-
-
   return (
     <Carousel
       arrows={false}
@@ -89,4 +87,4 @@ const CarouselComponent: FC = () => {
   );
 };
 
-export default CarouselComponent;
+export default CreatedLessonsCarosals;

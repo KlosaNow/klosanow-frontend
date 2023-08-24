@@ -16,7 +16,7 @@ import Img from "../../assets/images/notification_1.png";
 import { BiBell } from "react-icons/bi";
 import { Search } from "../../components/HomeComponents/Search";
 import { BsChevronDown } from "react-icons/bs";
-import CarouselComponent from "../../components/HomeComponents/CreatedLessons";
+import CreatedLessonsCarosals from "../../components/HomeComponents/CreatedLessonsCarosals";
 import { Link } from "react-router-dom";
 import { LessonCard } from "../../components";
 import SavedLessonsCarosal from "../../components/HomeComponents/SavedLessonCarosal";
@@ -103,7 +103,6 @@ const HomePage: FC = () => {
           width="100%"
           justifyContent="space-between"
           alignItems="center"
-          
         >
           <Box display={["none", "block"]} mb="25px">
             <Tabs width="full">
@@ -115,8 +114,8 @@ const HomePage: FC = () => {
               </TabList>
             </Tabs>
           </Box>
-          <Box display={["block", "none"]} mb={5}>
-            <Menu >
+          <Box display={["block", "none"]}>
+            <Menu>
               <MenuButton
                 as={Button}
                 rightIcon={<BsChevronDown />}
@@ -126,9 +125,7 @@ const HomePage: FC = () => {
                 {showLessons ? "Created Lessons" : "Saved Lessons"}
               </MenuButton>
               <MenuList>
-                <MenuItem 
-                  onClick={() => setShowLessons(true)} 
-                  bg="transparent">
+                <MenuItem onClick={() => setShowLessons(true)} bg="transparent">
                   Created Lessons
                 </MenuItem>
                 <MenuItem
@@ -140,7 +137,7 @@ const HomePage: FC = () => {
               </MenuList>
             </Menu>
           </Box>
-          {showLessons ? <CarouselComponent /> : <SavedLessonsCarosal />}
+          {showLessons ? <CreatedLessonsCarosals /> : <SavedLessonsCarosal />}
         </Box>
       </Box>
     </Box>

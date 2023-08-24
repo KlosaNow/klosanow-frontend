@@ -12,7 +12,7 @@ const navItems = [
   {
     title: "Create Lesson",
     icon: MdOutlineLibraryAdd,
-    link: "/create-lesson/draft",
+    link: "/drafts",
   },
   { title: "Study Chat", icon: MdOutlineChat, link: "/studychat" },
   { title: "Profile", icon: MdPersonOutline, link: "/settings" },

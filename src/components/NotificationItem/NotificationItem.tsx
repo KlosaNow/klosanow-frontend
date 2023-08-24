@@ -11,11 +11,7 @@ interface NotificationItemProps {
 const padding = "2em";
 const justifyContent = "start";
 
-export default function NotificationItem({
-  notificationItem,
-}: {
-  notificationItem: NotificationItemProps;
-}) {
+export default function NotificationItem({  notificationItem,}: { notificationItem: NotificationItemProps;}) {
   return (
     <div>
       <ListItem p={padding}>
