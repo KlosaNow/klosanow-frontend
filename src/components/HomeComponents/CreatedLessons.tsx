@@ -1,7 +1,7 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { FC } from "react";
-import CarouselCard  from "./CarouselCard";
+import LessonCard from "../LessonCard/LessonCard";
 
 
 const responsive = {
@@ -76,10 +76,10 @@ const CarouselComponent: FC = () => {
     >
       {data.map((cardDetails, index) => {
         return (
-          <CarouselCard
+          <LessonCard
             key={index}
             thumbnail={cardDetails.img}
-            timestamp={cardDetails.timestamp}
+            duration={cardDetails.timestamp}
             title={cardDetails.title}
             description={cardDetails.description}
           />

@@ -16,7 +16,7 @@ import Img from "../../assets/images/notification_1.png";
 import { BiBell } from "react-icons/bi";
 import { Search } from "../../components/HomeComponents/Search";
 import { BsChevronDown } from "react-icons/bs";
-import CarouselComponent from "../../components/HomeComponents/Carousel";
+import CarouselComponent from "../../components/HomeComponents/CreatedLessons";
 import { Link } from "react-router-dom";
 import { LessonCard } from "../../components";
 import SavedLessonsCarosal from "../../components/HomeComponents/SavedLessonCarosal";
@@ -103,7 +103,7 @@ const HomePage: FC = () => {
           width="100%"
           justifyContent="space-between"
           alignItems="center"
-         
+          
         >
           <Box display={["none", "block"]} mb="25px">
             <Tabs width="full">
@@ -115,8 +115,8 @@ const HomePage: FC = () => {
               </TabList>
             </Tabs>
           </Box>
-          <Box display={["block", "none"]}>
-            <Menu>
+          <Box display={["block", "none"]} mb={5}>
+            <Menu >
               <MenuButton
                 as={Button}
                 rightIcon={<BsChevronDown />}
@@ -144,7 +144,6 @@ const HomePage: FC = () => {
         </Box>
       </Box>
     </Box>
-    // </MotionContainer>
   );
 };
 
