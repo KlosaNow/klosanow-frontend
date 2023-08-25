@@ -1,7 +1,7 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { FC } from "react";
-import CarouselCard  from "./CarouselCard";
+import LessonCard from "../LessonCard/LessonCard";
 
 
 const responsive = {
@@ -23,7 +23,7 @@ const responsive = {
     items: 0.5,
   },
 };
-const CarouselComponent: FC = () => {
+const CreatedLessonsCarosals: FC = () => {
   const data = [
     {
       img: "https://picsum.photos/200/300",
@@ -62,8 +62,6 @@ const CarouselComponent: FC = () => {
     },
   ];
 
-
-
   return (
     <Carousel
       arrows={false}
@@ -76,10 +74,10 @@ const CarouselComponent: FC = () => {
     >
       {data.map((cardDetails, index) => {
         return (
-          <CarouselCard
+          <LessonCard
             key={index}
             thumbnail={cardDetails.img}
-            timestamp={cardDetails.timestamp}
+            duration={cardDetails.timestamp}
             title={cardDetails.title}
             description={cardDetails.description}
           />
@@ -89,4 +87,4 @@ const CarouselComponent: FC = () => {
   );
 };
 
-export default CarouselComponent;
+export default CreatedLessonsCarosals;

@@ -1,6 +1,6 @@
 import { FC } from "react"
 import Carousel from "react-multi-carousel";
-import CarouselCard  from "./CarouselCard";
+import LessonCard from "../LessonCard/LessonCard";
 
 const responsive = {
     superLargeDesktop: {
@@ -25,35 +25,35 @@ const responsive = {
 const SavedLessonsCarosal:FC = () => {
     const data = [
         {
-          img: "https://picsum.photos/200/300",
+          img: "https://picsum.photos/200",
           title: "Saved Titles",
           timestamp: "2:45",
           description:
             "lorem is the e argube aeirub9er gaeurg9oa eug9wurfbia erugb",
         },
         {
-          img: "https://picsum.photos/200/300",
+          img: "https://picsum.photos/200",
           title: "Saved Titles",
           timestamp: "2:45",
           description:
             "lorem is the e argube aeirub9er gaeurg9oa eug9wurfbia erugb",
         },
         {
-          img: "https://picsum.photos/200/300",
+          img: "https://picsum.photos/200",
           title: "Saved Titles",
           timestamp: "2:45",
           description:
             "lorem is the e argube aeirub9er gaeurg9oa eug9wurfbia erugb",
         },
         {
-          img: "https://picsum.photos/200/300",
+          img: "https://picsum.photos/200",
           title: "Saved Titles",
           timestamp: "2:45",
           description:
             "lorem is the e argube aeirub9er gaeurg9oa eug9wurfbia erugb",
         },
         {
-          img: "https://picsum.photos/200/300",
+          img: "https://picsum.photos/200",
           title: "Saved Titles",
           timestamp: "2:45",
           description:
@@ -77,10 +77,10 @@ const SavedLessonsCarosal:FC = () => {
       >
         {data.map((cardDetails, index) => {
           return (
-            <CarouselCard
+            <LessonCard
               key={index}
               thumbnail={cardDetails.img}
-              timestamp={cardDetails.timestamp}
+              duration={cardDetails.timestamp}
               title={cardDetails.title}
               description={cardDetails.description}
             />
