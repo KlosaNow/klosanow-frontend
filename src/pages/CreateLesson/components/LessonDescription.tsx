@@ -1,3 +1,4 @@
+
 import {
   Box,
   Text,
@@ -11,7 +12,7 @@ import {
 import { ChangeEvent, useState } from "react";
 import dummyImg from "../../../assets/images/dummy image.png";
 import { FormikStepComponentProps } from "../../../types/components/componetInterface";
-
+        
 const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
   const [file, setFile] = useState<any>(null);
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -24,9 +25,15 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
     }
   };
 
+
   return (
     <Box>
-      <Text fontSize="32px" fontWeight="500" textColor="black.100" mb={2}>
+      <Text
+        fontSize="32px"
+        fontWeight="500"
+        textColor="black.100"
+        mb={2}
+      >
         Create your lessons
       </Text>
 
@@ -103,9 +110,13 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
         </Box>
         <Box>
           <Text mb="8px" cursor={"pointer"}>
-            Bio
+            Description
           </Text>
-          <Textarea placeholder="Tell us about yourself" size="sm" required />
+          <Textarea
+            placeholder="Tell us about your lesson"
+            size="sm"
+            required
+          />
         </Box>
         <Flex justify={"space-between"} color={"#BA1A1A"} fontSize={"0.7rem"}>
           <Text>You exceeded limit</Text>
@@ -187,7 +198,9 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
         </Stack>
       </Stack>
 
+
       <Button onClick={nextFunc}>Next</Button>
+
     </Box>
   );
 };
