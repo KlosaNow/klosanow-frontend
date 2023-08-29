@@ -39,7 +39,7 @@ const LessonContent = () => {
       </Text>
       <Tabs
         variant="unstyled"
-        position={["fixed", "initial"]}
+        // position={["fixed", "initial"]}
         bottom="0"
         left="0"
         width="100%"
@@ -66,8 +66,8 @@ const LessonContent = () => {
         <TabPanels>
           <TabPanel>
             <Box
-              w={[400, 600, 850]}
-              h={[80, 150, 450]}
+              // w={[400, 600, 850]}
+              // h={[80, 150, 450]}
             >
               <FroalaRichTextEditor />
               <SaveButton title="Save" />
@@ -75,8 +75,8 @@ const LessonContent = () => {
           </TabPanel>
           <TabPanel>
             <Box
-              w={[400, 600, 850]}
-              h={[80, 150, 450]}
+              // w={[400, 600, 850]}
+              // h={[80, 150, 450]}
             >
                 <Box>
                   <Text mb='8px'>Description</Text>
@@ -96,8 +96,8 @@ const LessonContent = () => {
           </TabPanel>
           <TabPanel>
             <Box
-              w={[400, 600, 850]}
-              h={[80, 150, 450]}
+              // w={[400, 600, 850]}
+              // h={[80, 150, 450]}
             >
               <Box>
                 <Text mb='8px'>Description</Text>
