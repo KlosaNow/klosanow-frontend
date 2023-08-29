@@ -9,7 +9,7 @@ const startAnimation = () => controls.start("hover");
 const stopAnimation = () => controls.stop();
   return (
     <Box my="12" >
-        <AspectRatio height={204} width="100%" ratio={1}>
+        <AspectRatio height={204} width="" ratio={1}>
             <Box
                 borderColor="gray.300"
                 borderStyle="dashed"
