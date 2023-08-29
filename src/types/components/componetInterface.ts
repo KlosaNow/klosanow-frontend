@@ -72,3 +72,7 @@ export interface LessonCardInterface {
   description?: string;
   author?: string;
 }
+
+export interface SaveButtonInterface {
+  title: string
+}

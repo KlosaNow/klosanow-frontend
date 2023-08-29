@@ -12,6 +12,7 @@ import {
 import { ChangeEvent, useState } from "react";
 import dummyImg from "../../../assets/images/dummy image.png";
 import { FormikStepComponentProps } from "../../../types/components/componetInterface";
+import LessonContent from "./LessonContent";
         
 const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
   const [file, setFile] = useState<any>(null);
@@ -27,17 +28,9 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
 
 
   return (
-    <Box>
-      <Text
-        fontSize="32px"
-        fontWeight="500"
-        textColor="black.100"
-        mb={2}
-      >
-        Create your lessons
-      </Text>
-
-      <Stack direction={"row"} spacing={6} display={["none", "flex"]}>
+    <Box>      
+      <LessonContent />
+      {/* <Stack direction={"row"} spacing={6} display={["none", "flex"]}>
         <Box>
           <Image
             src={file}
@@ -196,7 +189,7 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
             Next
           </Button>
         </Stack>
-      </Stack>
+      </Stack> */}
 
 
       <Button onClick={nextFunc}>Next</Button>
