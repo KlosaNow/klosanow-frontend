@@ -1,5 +1,4 @@
 import { Container, Box, Text, Image } from "@chakra-ui/react";
-// import img from "../../assets/images/dummyImg.png";
 import { LessonCardInterface } from "../../types/components/componetInterface";
 
 const LessonCard = ({
