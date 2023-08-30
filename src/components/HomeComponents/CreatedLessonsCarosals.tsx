@@ -33,7 +33,7 @@ const CreatedLessonsCarosals: FC = () => {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 0.5,
+          slidesToShow: 0.6,
           slidesToScroll: 1,
         },
       },
