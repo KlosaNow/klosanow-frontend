@@ -1,28 +1,65 @@
 import { FC } from "react"
-import Carousel from "react-multi-carousel";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "../../styles/Carosal.scss"
+import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import LessonCard from "../LessonCard/LessonCard";
 
-const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 3,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 0.5,
-    },
-  };
+
 
 const SavedLessonsCarosal:FC = () => {
+
+   var settings = {
+     dots: true,
+     infinite: false,
+     speed: 500,
+     slidesToShow: 3,
+     slidesToScroll: 1,
+     initialSlide: 0,
+     nextArrow: (
+       <div>
+         <div className="next-slick-arrow">
+           <BiSolidRightArrow />
+         </div>
+       </div>
+     ),
+     prevArrow: (
+       <div>
+         <div className="prev-slick-arrow">
+           <BiSolidLeftArrow />
+         </div>
+       </div>
+     ),
+     responsive: [
+       {
+         breakpoint: 1024,
+         settings: {
+           slidesToShow: 1,
+           slidesToScroll: 1,
+           infinite: true,
+           dots: true,
+         },
+       },
+       {
+         breakpoint: 600,
+         settings: {
+           slidesToShow: 2,
+           slidesToScroll: 1,
+           initialSlide: 2,
+         },
+       },
+       {
+         breakpoint: 480,
+          prevArrow: false,
+          nextArrow: false,
+         settings: {
+           slidesToShow: 1,
+           slidesToScroll: 1,
+         },
+       },
+     ],
+   };
     const data = [
         {
           img: "https://picsum.photos/200",
@@ -61,20 +98,8 @@ const SavedLessonsCarosal:FC = () => {
         },
       ];
 
-    return(
-        <Carousel
-        arrows={false}
-        swipeable={true}
-        draggable={true}
-        centerMode={true}
-        showDots={true}
-        responsive={responsive}
-        renderDotsOutside={true}
-        itemClass="padding-right: 40px;"
-  
-        // partialVisible={true}
-        
-      >
+    return (
+      <Slider {...settings}>
         {data.map((cardDetails, index) => {
           return (
             <LessonCard
@@ -86,8 +111,8 @@ const SavedLessonsCarosal:FC = () => {
             />
           );
         })}
-      </Carousel>
-    )
+      </Slider>
+    );
 }
 
 export default SavedLessonsCarosal
