@@ -1,0 +1,17 @@
+.slick-prev {
+  left: -2.3rem !important;
+  top: 7rem !important;
+}
+.slick-next {
+    right: -0.3rem !important;
+     top: 7rem !important;
+}
+.slick-next:before,
+.slick-prev:before {
+  content: "" !important;
+}
+.next-slick-arrow,
+.prev-slick-arrow {
+  color: #7B58F4;
+  font-size: 35px;
+}

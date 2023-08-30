@@ -3,7 +3,7 @@ import axiosBaseInstance from "../../services/axiosBaseInstance";
 import { AxiosError } from "axios";
 
 const useVerifyOtp = () => {
-  const verifyOtp = async (otp: string) => {
+  const verifyOtp = async (otp: number) => {
     try {
       const { data } = await axiosBaseInstance.post(
         `/auth/verify-otp`,
@@ -21,7 +21,7 @@ const useVerifyOtp = () => {
     }
   };
 
-  return useMutation<any, AxiosError, string>(
+  return useMutation<any, AxiosError, number>(
     ["verify OTP"],
     (otp) => verifyOtp(otp),
     {

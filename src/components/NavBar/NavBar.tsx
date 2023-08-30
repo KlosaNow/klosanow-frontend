@@ -1,5 +1,5 @@
 import { Box, Text, Image } from "@chakra-ui/react";
-import { Search } from "../HomeComponents/Search";
+import { Search } from "../Search/Search";
 
 import { BiBell } from "react-icons/bi";
 

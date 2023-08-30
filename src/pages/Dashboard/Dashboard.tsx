@@ -14,12 +14,15 @@ import {
 } from "@chakra-ui/react";
 import Img from "../../assets/images/notification_1.png";
 import { BiBell } from "react-icons/bi";
-import { Search } from "../../components/HomeComponents/Search";
+import { Search } from "../../components/Search/Search";
 import { BsChevronDown } from "react-icons/bs";
-import CreatedLessonsCarosals from "../../components/HomeComponents/CreatedLessonsCarosals";
+import {
+  CreatedLessonsCarousel,
+  SavedLessonsCarousel,
+} from "../../components/Carousels";
+
 import { Link } from "react-router-dom";
 import { LessonCard } from "../../components";
-import SavedLessonsCarosal from "../../components/HomeComponents/SavedLessonCarosal";
 
 const notifications = [
   {
@@ -135,7 +138,7 @@ const HomePage: FC = () => {
               </MenuList>
             </Menu>
           </Box>
-          {showLessons ? <CreatedLessonsCarosals /> : <SavedLessonsCarosal />}
+          {showLessons ? <CreatedLessonsCarousel /> : <SavedLessonsCarousel />}
         </Box>
       </Box>
     </Box>

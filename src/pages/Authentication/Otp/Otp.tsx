@@ -17,7 +17,6 @@ import { useEffect, useState } from "react";
 import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
 import { useNavigate } from "react-router-dom";
 export default function Otp(): JSX.Element {
-
   const [pin, setPin] = useState("");
   const [phoneNumber] = useState(localStorage.getItem("phoneNumber"));
 
@@ -30,12 +29,12 @@ export default function Otp(): JSX.Element {
 
   const handleOnSubmit = (e: any) => {
     e.preventDefault();
-    mutate(pin);
+    mutate(Number(pin));
 
     if (data?.otp === pin) {
-      navigate('/sign-in');
+      navigate("/sign-in");
     } else {
-      alert('Invalid OTP');
+      alert("Invalid OTP");
     }
   };
 
@@ -44,10 +43,9 @@ export default function Otp(): JSX.Element {
     if (localStoragePin !== undefined || null) {
       // @ts-ignore
       setPin(localStoragePin);
-    } 
+    }
   }, []);
 
-  
   return (
     <>
       <Box hideBelow="lg">
