@@ -2,25 +2,25 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { FC } from "react";
 import LessonCard from "../LessonCard/LessonCard";
-
+import { Box } from "@chakra-ui/react";
 
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 3000 },
-    items: 5,
+    items: 3,
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 3,
+    items: 1.8,
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
-    items: 3,
+    items: 1.1,
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 0.5,
+    items: 1,
   },
 };
 const CreatedLessonsCarosals: FC = () => {
@@ -70,6 +70,7 @@ const CreatedLessonsCarosals: FC = () => {
       centerMode={true}
       showDots={true}
       responsive={responsive}
+      itemClass="carousel-item-padding-40-px"
       renderDotsOutside={true}
     >
       {data.map((cardDetails, index) => {

@@ -39,8 +39,6 @@ const notifications = [
 const HomePage: FC = () => {
   const [showLessons, setShowLessons] = useState<boolean>(true);
 
-  
-
   return (
     <Box width="full" paddingX={1} height="full" margin={["auto", "0px"]}>
       <Flex
@@ -90,7 +88,7 @@ const HomePage: FC = () => {
             Latest Created Lesson
           </Text>
         </Box>
-        <Box display="flex" gap="20px" marginBottom="20px">
+        <Box display="flex">
           <LessonCard
             title="Animal Kingdom"
             thumbnail="https://picsum.photos/200/300"
