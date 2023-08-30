@@ -10,7 +10,7 @@ const LessonCard = ({
   author,
 }: LessonCardInterface) => {
   return (
-    <Container padding={0} width={["100%", "375px"]} margin="0px" mb={10}>
+    <Container padding={0} width={["100%", "375px"]} margin="0px" >
       <Box position="relative" >
         <Image
           width="full"
@@ -36,7 +36,7 @@ const LessonCard = ({
         </Text>
       </Box>
 
-      <Box padding="8px 0px" width="full" pb={10}>
+      <Box padding="8px 0px" width="full">
         <Text fontSize={16} fontWeight="500" color="#000" marginBottom="3px">
           {title}
         </Text>
