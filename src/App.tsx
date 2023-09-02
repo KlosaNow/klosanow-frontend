@@ -20,7 +20,7 @@ import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
 import Error from "./pages/Error";
 import SettingPage from "./pages/Settings/Settings";
 import InfoPage from "./pages/Info/Info";
-import  CreatedLessons from "./pages/CreateLesson/components/CreatedLessons"
+import  CreatedLessons from "./pages/CreatedLessons"
 
 import { GeneralLayout as Layout } from "./components/Layout/GeneralLayout/GenralLayout";
 
