@@ -10,6 +10,10 @@ export interface headerInterface {
   link?: string;
 }
 
+export interface navBarProps {
+  notificationCtrl: () => void;
+}
+
 export interface buttonInterface {
   children: string;
   action: () => void;
@@ -67,4 +71,8 @@ export interface LessonCardInterface {
   thumbnail: string;
   description?: string;
   author?: string;
+}
+
+export interface SaveButtonInterface {
+  title: string
 }

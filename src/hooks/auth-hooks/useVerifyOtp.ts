@@ -6,7 +6,7 @@ const useVerifyOtp = () => {
   const verifyOtp = async (otp: string) => {
     try {
       const { data } = await axiosBaseInstance.post(
-        `${process.env.VITE_APP_BASE_URL}auth/verify-otp`,
+        `/auth/verify-otp`,
         {
           otp: otp,
         },

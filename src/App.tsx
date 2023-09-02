@@ -41,10 +41,13 @@ function App() {
         <Route path="" element={<DashboardLayout />}>
           <Route path="/dashboard" index element={<Dashboard />} />
 
-          <Route path="/create-lesson" element={<CreateLessonLayout />}>
-            <Route path="" index element={<CreateLesson />} />
-            <Route path="drafts" index element={<Drafts />} />
-            <Route path="select-template" element={<LessonTemplate />} />
+          <Route path="" element={<CreateLessonLayout />}>
+            <Route path="/create-lesson" index element={<CreateLesson />} />
+            <Route path="/drafts" index element={<Drafts />} />
+            <Route
+              path="/create-lesson/select-template"
+              element={<LessonTemplate />}
+            />
           </Route>
           <Route path="" element={<Layout />}>
             <Route path="/studychat" element={<StudyChat />} />

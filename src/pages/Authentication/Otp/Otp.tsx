@@ -45,7 +45,7 @@ export default function Otp(): JSX.Element {
       // @ts-ignore
       setPin(localStoragePin);
     } 
-  }, [localStorage]);
+  }, []);
 
   
   return (

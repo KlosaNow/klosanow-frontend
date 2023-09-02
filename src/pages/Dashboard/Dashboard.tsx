@@ -1,25 +1,25 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
-  Container,
   Box,
   Flex,
   Text,
   Tabs,
   TabList,
   Tab,
-  TabPanels,
-  TabPanel,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Button,
 } from "@chakra-ui/react";
 import Img from "../../assets/images/notification_1.png";
 import { BiBell } from "react-icons/bi";
 import { Search } from "../../components/HomeComponents/Search";
-import { HomeCard } from "../../components/HomeComponents/HomeCard";
 import { BsChevronDown } from "react-icons/bs";
-import { motion } from "framer-motion";
-import CarouselComponent from "../../components/HomeComponents/Carousel";
+import CreatedLessonsCarosals from "../../components/HomeComponents/CreatedLessonsCarosals";
 import { Link } from "react-router-dom";
-import DesktopView from "./components/DesktopView";
 import { LessonCard } from "../../components";
+import SavedLessonsCarosal from "../../components/HomeComponents/SavedLessonCarosal";
 
 const notifications = [
   {
@@ -35,20 +35,14 @@ const notifications = [
     id: 1,
   },
 ];
-const MotionContainer = motion(Container);
 
 const HomePage: FC = () => {
+  const [showLessons, setShowLessons] = useState<boolean>(true);
+
+  
+
   return (
-    // <MotionContainer
-    //   initial={{ opacity: 0 }}
-    //   animate={{ opacity: 1 }}
-    //   exit={{ opacity: 0 }}
-    //   transition={{ duration: 0.2 }}
-    //   paddingX={1}
-    //   margin={["auto", "0px"]}
-    //   style={{ width: "100%", position: "relative" }}
-    // >
-    <Box width="full" paddingX={1} margin={["auto", "0px"]}>
+    <Box width="full" paddingX={1} height="full" margin={["auto", "0px"]}>
       <Flex
         justify={"space-between"}
         align={"center"}
@@ -96,7 +90,7 @@ const HomePage: FC = () => {
             Latest Created Lesson
           </Text>
         </Box>
-        <Box display="flex" gap="20px" marginBottom="30px">
+        <Box display="flex" gap="20px" marginBottom="20px">
           <LessonCard
             title="Animal Kingdom"
             thumbnail="https://picsum.photos/200/300"
@@ -104,45 +98,49 @@ const HomePage: FC = () => {
           />
         </Box>
 
-        <Box display={["none", "block"]}>
-          <Tabs width="full">
-            <TabList gap="20px">
-              <Tab padding="0px">Created Lessons</Tab>
-              <Tab>Saved Lessons</Tab>
-            </TabList>
-
-            <TabPanels>
-              <TabPanel>
-                <p>one!</p>
-              </TabPanel>
-              <TabPanel>
-                <p>two!</p>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </Box>
-
         <Box
           marginY={6}
-          display="flex"
           width="100%"
           justifyContent="space-between"
           alignItems="center"
         >
-          <Box display="flex" gap={1} alignItems="center">
-            <Text fontSize={12} fontWeight={600}>
-              Created Lesson
-            </Text>
-            <BsChevronDown />
+          <Box display={["none", "block"]} mb="25px">
+            <Tabs width="full">
+              <TabList gap="20px">
+                <Tab onClick={() => setShowLessons(true)} padding="0px">
+                  Created Lessons
+                </Tab>
+                <Tab onClick={() => setShowLessons(false)}>Saved Lessons</Tab>
+              </TabList>
+            </Tabs>
           </Box>
-          <Text fontSize={12} fontWeight={600}>
-            See All
-          </Text>
+          <Box display={["block", "none"]}>
+            <Menu>
+              <MenuButton
+                as={Button}
+                rightIcon={<BsChevronDown />}
+                bg="transparent"
+                p={0}
+              >
+                {showLessons ? "Created Lessons" : "Saved Lessons"}
+              </MenuButton>
+              <MenuList>
+                <MenuItem onClick={() => setShowLessons(true)} bg="transparent">
+                  Created Lessons
+                </MenuItem>
+                <MenuItem
+                  onClick={() => setShowLessons(false)}
+                  bg="transparent"
+                >
+                  Saved Lessons
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </Box>
+          {showLessons ? <CreatedLessonsCarosals /> : <SavedLessonsCarosal />}
         </Box>
-        <CarouselComponent />
       </Box>
     </Box>
-    // </MotionContainer>
   );
 };
 

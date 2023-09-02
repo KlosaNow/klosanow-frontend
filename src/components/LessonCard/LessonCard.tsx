@@ -1,5 +1,4 @@
 import { Container, Box, Text, Image } from "@chakra-ui/react";
-// import img from "../../assets/images/dummyImg.png";
 import { LessonCardInterface } from "../../types/components/componetInterface";
 
 const LessonCard = ({
@@ -10,15 +9,15 @@ const LessonCard = ({
   author,
 }: LessonCardInterface) => {
   return (
-    <Container padding={0} width={["100%", "375px"]} margin="0px">
-      <Box position="relative">
+    <Container padding={0} width={["100%", "375px"]} margin="0px" >
+      <Box position="relative" >
         <Image
           width="full"
           height={["181px", "219px"]}
           objectFit="cover"
           src={thumbnail}
           alt={title}
-          borderRadius={5}
+          borderRadius="md"
         />
         <Text
           fontSize={12}
@@ -38,7 +37,7 @@ const LessonCard = ({
 
       <Box padding="8px 0px" width="full">
         <Text fontSize={16} fontWeight="500" color="#000" marginBottom="3px">
-          Lesson Title
+          {title}
         </Text>
 
         {description && (
