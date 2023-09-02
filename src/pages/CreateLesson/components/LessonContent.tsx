@@ -14,8 +14,9 @@ import { useState } from "react";
 import UploadUnit from "./UploadFile";
 import SaveButton from "./SaveButton";
 import OcrUpload from "./OcrUpload";
+import { FormikStepComponentProps } from "../../../types/components/componetInterface";
 
-const LessonContent = () => {
+const LessonContent = ({nextFunc}: FormikStepComponentProps ) => {
   const selectedStyle = {
     borderTop: "3px solid #7B58F4",
     color: "#7B58F4",
@@ -66,8 +67,8 @@ const LessonContent = () => {
         <TabPanels>
           <TabPanel>
             <Box
-              // w={[400, 600, 850]}
-              // h={[80, 150, 450]}
+            // w={[400, 600, 850]}
+            // h={[80, 150, 450]}
             >
               <FroalaRichTextEditor />
               <SaveButton title="Save" />
@@ -75,42 +76,41 @@ const LessonContent = () => {
           </TabPanel>
           <TabPanel>
             <Box
-              // w={[400, 600, 850]}
-              // h={[80, 150, 450]}
+            // w={[400, 600, 850]}
+            // h={[80, 150, 450]}
             >
-                <Box>
-                  <Text mb='8px'>Description</Text>
-                  <Textarea
-                    value={value}
-                    onChange={handleInputChange}
-                    placeholder='Here is a sample placeholder'
-                    size='lg'
-                    height={318}
-                  />
-                </Box>
-                <Box>
-                  <UploadUnit />
-                </Box>
-                <SaveButton title="Save" />
+              <Box>
+                <Text mb="8px">Description</Text>
+                <Textarea
+                  value={value}
+                  onChange={handleInputChange}
+                  placeholder="Here is a sample placeholder"
+                  size="lg"
+                  height={318}
+                />
+              </Box>
+              <Box>
+                <UploadUnit />
+              </Box>
+              <SaveButton title="Save" />
             </Box>
           </TabPanel>
           <TabPanel>
             <Box
-              // w={[400, 600, 850]}
-              // h={[80, 150, 450]}
+            // w={[400, 600, 850]}
+            // h={[80, 150, 450]}
             >
               <Box>
-                <Text mb='8px'>Description</Text>
+                <Text mb="8px">Description</Text>
                 <Textarea
                   value={value}
                   onChange={handleInputChange}
-                  placeholder='Here is a sample placeholder'
-                  size='lg'
+                  placeholder="Here is a sample placeholder"
+                  size="lg"
                   height={318}
                 />
               </Box>
-              <Box
-              >
+              <Box>
                 <OcrUpload />
               </Box>
               <SaveButton title="Save" />
@@ -118,6 +118,7 @@ const LessonContent = () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
+      <Button onClick={nextFunc}>Next</Button>
     </Box>
   );
 };

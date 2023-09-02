@@ -29,8 +29,7 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
 
   return (
     <Box>      
-      <LessonContent />
-      {/* <Stack direction={"row"} spacing={6} display={["none", "flex"]}>
+      <Stack direction={"row"} spacing={6} display={["none", "flex"]}>
         <Box>
           <Image
             src={file}
@@ -189,7 +188,7 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
             Next
           </Button>
         </Stack>
-      </Stack> */}
+      </Stack>
 
 
       <Button onClick={nextFunc}>Next</Button>
