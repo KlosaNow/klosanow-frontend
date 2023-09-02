@@ -33,9 +33,7 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
   };
 
 
-  return (
-    <Box>
-    
+
 
 
   return (
