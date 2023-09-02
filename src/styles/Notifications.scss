@@ -38,3 +38,7 @@ ul.react-multi-carousel-track {
 	border: none !important;  
   	background: #ccc;
 }
+*::-webkit-scrollbar-thumb{
+	background-color: #ccc;
+	width:5px;
+}
