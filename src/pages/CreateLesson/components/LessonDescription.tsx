@@ -7,10 +7,11 @@ import {
   Button,
   Image,
   Flex,
+ 
 } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
 import dummyImg from "../../../assets/images/dummy image.png";
-
+import { Link } from "react-router-dom";
 const LessonDescription = () => {
   const [file, setFile] = useState<any>(null);
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -22,14 +23,10 @@ const LessonDescription = () => {
       console.log("Please select an image file.");
     }
   };
+
   return (
     <Box>
-      <Text
-        fontSize="32px"
-        fontWeight="500"
-        textColor="black.100"
-        mb={2}
-      >
+      <Text fontSize="32px" fontWeight="500" textColor="black.100" mb={2}>
         Create your lessons
       </Text>
       <Stack direction={"row"} spacing={6} display={["none", "flex"]}>
@@ -86,7 +83,11 @@ const LessonDescription = () => {
         <Box>
           <Box>
             <Text mb="8px">Course title: </Text>
-            <Input placeholder="Lesson Title" size="lg" required />
+            <Input
+              placeholder="Lesson Title"
+              size="lg"
+              // required
+            />
           </Box>
         </Box>
         <Box>
@@ -94,13 +95,17 @@ const LessonDescription = () => {
           <Textarea
             placeholder="Tell us about your lesson"
             size="sm"
-            required
+            // required
           />
         </Box>
         <Box>
           <Box>
             <Text mb="8px">Tutors name: </Text>
-            <Input placeholder="Lesson Title" size="lg" required />
+            <Input
+              placeholder="Lesson Title"
+              size="lg"
+              // required
+            />
           </Box>
         </Box>
         <Box>
@@ -110,7 +115,7 @@ const LessonDescription = () => {
           <Textarea
             placeholder="Tell us about your lesson"
             size="sm"
-            required
+            // required
           />
         </Box>
         <Flex justify={"space-between"} color={"#BA1A1A"} fontSize={"0.7rem"}>
@@ -187,6 +192,8 @@ const LessonDescription = () => {
             width={"200px"}
             h={"50px"}
             type="submit"
+            as={Link}
+            to={"/created-lessons"}
           >
             Next
           </Button>

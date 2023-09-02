@@ -20,6 +20,7 @@ import PremiumStorageView from "./pages/StorageView/PremiumStorageView";
 import Error from "./pages/Error";
 import SettingPage from "./pages/Settings/Settings";
 import InfoPage from "./pages/Info/Info";
+import  CreatedLessons from "./pages/CreateLesson/components/CreatedLessons"
 
 import { GeneralLayout as Layout } from "./components/Layout/GeneralLayout/GenralLayout";
 
@@ -48,6 +49,7 @@ function App() {
           <Route path="" element={<Layout />}>
             <Route path="/studychat" element={<StudyChat />} />
             <Route path="/notifications" element={<Notifications />} />
+            <Route path="/created-lessons" element={<CreatedLessons />} />
             <Route
               path="/settings/notifications"
               element={<NotificationSettings />}
