@@ -56,7 +56,8 @@ export default function SettingsPage(): JSX.Element {
           </Box>
 
           <Box mt="5" background="neutral.10" borderRadius="10" padding="10px">
-            <SettingsItem imageSrc={help} text="Help" link="/help" />
+            <SettingsItem imageSrc={help} text="Help" link="/help"
+            />
             <SettingsItem
               imageSrc={group}
               text="Terms and Condition"

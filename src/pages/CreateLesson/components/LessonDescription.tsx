@@ -8,13 +8,19 @@ import {
   Button,
   Image,
   Flex,
+ 
 } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
 import dummyImg from "../../../assets/images/dummy image.png";
+
+import { Link } from "react-router-dom";
+
+
 import { FormikStepComponentProps } from "../../../types/components/componetInterface";
-import LessonContent from "./LessonContent";
+
         
 const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
+
   const [file, setFile] = useState<any>(null);
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const selectedFile = e.target.files?.[0];
@@ -27,10 +33,17 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
   };
 
 
+
+
+
   return (
     <Box>      
-      <LessonContent />
-      {/* <Stack direction={"row"} spacing={6} display={["none", "flex"]}>
+      <Text fontSize="32px" fontWeight="500" textColor="black.100" mb={2}>
+        Create your lessons
+      </Text>
+      <Stack direction={"row"} spacing={6} display={["none", "flex"]}>
+    
+
         <Box>
           <Image
             src={file}
@@ -84,7 +97,11 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
         <Box>
           <Box>
             <Text mb="8px">Course title: </Text>
-            <Input placeholder="Lesson Title" size="lg" required />
+            <Input
+              placeholder="Lesson Title"
+              size="lg"
+              // required
+            />
           </Box>
         </Box>
         <Box>
@@ -92,13 +109,17 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
           <Textarea
             placeholder="Tell us about your lesson"
             size="sm"
-            required
+            // required
           />
         </Box>
         <Box>
           <Box>
             <Text mb="8px">Tutors name: </Text>
-            <Input placeholder="Lesson Title" size="lg" required />
+            <Input
+              placeholder="Lesson Title"
+              size="lg"
+              // required
+            />
           </Box>
         </Box>
         <Box>
@@ -108,7 +129,7 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
           <Textarea
             placeholder="Tell us about your lesson"
             size="sm"
-            required
+            // required
           />
         </Box>
         <Flex justify={"space-between"} color={"#BA1A1A"} fontSize={"0.7rem"}>
@@ -185,11 +206,13 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
             width={"200px"}
             h={"50px"}
             type="submit"
+            as={Link}
+            to={"/created-lessons"}
           >
             Next
           </Button>
         </Stack>
-      </Stack> */}
+      </Stack> 
 
 
       <Button onClick={nextFunc}>Next</Button>
