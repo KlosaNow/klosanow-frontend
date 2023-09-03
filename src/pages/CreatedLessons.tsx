@@ -67,9 +67,11 @@ const LessonDescription = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef<HTMLButtonElement | null>(null);
   return (
-    <Box>
+    <Box fontFamily="inherit">
       <Flex align={"center"} rowGap={3}>
-        <Heading mr={2}>Created Lesson</Heading>
+        <Heading mr={2} fontFamily="inherit">
+          Created Lesson
+        </Heading>
         <Box mt={2}>
           <BsChevronDown />
         </Box>
@@ -91,7 +93,7 @@ const LessonDescription = () => {
           const { id, title, description, tutor } = lesson;
           return (
             <GridItem w="100%">
-              <Card maxW={"100%"} pb={"1rem"}>
+              <Card maxW={"100%"} pb={"1rem"} fontFamily="inherit">
                 <CardHeader p={0}>
                   <Flex>
                     <Flex

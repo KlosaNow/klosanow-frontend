@@ -1,8 +1,7 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Component, FC } from "react";
-import "../../styles/Carosal.scss";
+import "../../styles/Carousel.scss";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import LessonCard from "../LessonCard/LessonCard";
 
