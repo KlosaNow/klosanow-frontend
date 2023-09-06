@@ -40,7 +40,7 @@ const LessonContent = () => {
           display="flex"
           justifyContent="center"
           gap="10%"
-        >
+        > 
           <Tab fontWeight={600} _selected={selectedStyle}>
             Content
           </Tab>
