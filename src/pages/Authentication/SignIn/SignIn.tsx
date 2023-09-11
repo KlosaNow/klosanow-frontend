@@ -11,7 +11,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
-import { slides } from "../../SlideData";
+import { slides } from "../../Onboarding/utils/SlideData";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { OnboardingSlides } from "../../";

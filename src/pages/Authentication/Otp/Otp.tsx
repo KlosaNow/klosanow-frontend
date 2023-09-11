@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
-import { slides } from "../../SlideData";
+import { slides } from "../../Onboarding/utils/SlideData";
 import { OnboardingSlides } from "../../";
 import { useEffect, useState } from "react";
 import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";

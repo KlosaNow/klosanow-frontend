@@ -11,6 +11,7 @@ import {
   MenuItem,
   MenuList,
   Button,
+  Image,
 } from "@chakra-ui/react";
 import Img from "../../assets/images/notification_1.png";
 import { BiBell } from "react-icons/bi";
@@ -49,10 +50,10 @@ const HomePage: FC = () => {
         align={"center"}
         display={["flex", "none"]}
       >
-        <img style={{ width: "70px", height: "70px" }} src={Img} alt="" />
+        <Image style={{ width: "70px", height: "70px" }} src={Img} alt="" />
         <Link to="/notifications" style={{ position: "relative" }}>
           <BiBell fontSize={25} />
-          <span
+          <Text
             style={{
               display: "flex",
               position: "absolute",
@@ -69,7 +70,7 @@ const HomePage: FC = () => {
             }}
           >
             {notifications.length}
-          </span>
+          </Text>
         </Link>
       </Flex>
       <Text

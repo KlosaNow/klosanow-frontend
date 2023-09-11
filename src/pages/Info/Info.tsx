@@ -3,7 +3,7 @@ import { FormControl, FormLabel, Input, Stack, Button } from "@chakra-ui/react";
 import arrow from "../../assets/SettingsPageImg/Arrow-left.png";
 import Header from "../../components/Header/Header";
 
-export default function InfoPage(): JSX.Element {
+export default function Info(): JSX.Element {
   return (
     <Box>
       <Header pageName="Info " />

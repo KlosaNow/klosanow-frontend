@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import SplashScreen from "../SplashScreen/SplashScreen";
 import OnboardingSlides from "../OnboardingSlides/OnboardingSlides";
-import { slides } from "../SlideData";
+import { slides } from "./utils/SlideData";
 
 const Onboarding = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);

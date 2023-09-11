@@ -16,7 +16,7 @@ import { SignUpSchema } from "../utils";
 import PhoneInput from "react-phone-input-2";
 import { OnboardingSlides } from "../../";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
-import { slides } from "../../SlideData";
+import { slides } from "../../Onboarding/utils/SlideData";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
