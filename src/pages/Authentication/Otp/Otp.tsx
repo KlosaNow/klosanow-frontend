@@ -16,7 +16,9 @@ import { OnboardingSlides } from "../../";
 import { useEffect, useState } from "react";
 import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
 import { useNavigate } from "react-router-dom";
+import { authResponseInterface } from "../../../types/auth/authInterface";
 export default function Otp(): JSX.Element {
+  const [authResponse, setAuthResponse] = useState({} as authResponseInterface);
   const [pin, setPin] = useState("");
   const [phoneNumber] = useState(localStorage.getItem("phoneNumber"));
 
@@ -25,20 +27,22 @@ export default function Otp(): JSX.Element {
   const handlePinChange = (value: any) => {
     setPin(value);
   };
-  const { mutate, data } = useVerifyOtp();
+  const { mutate, data, isSuccess } = useVerifyOtp();
 
   const handleOnSubmit = (e: any) => {
     e.preventDefault();
-    mutate(Number(pin));
+    mutate(authResponse);
 
-    if (data?.otp === pin) {
-      navigate("/sign-in");
-    } else {
-      alert("Invalid OTP");
-    }
+    navigate("/dashboard");
   };
 
   useEffect(() => {
+    const localStorageRes = localStorage.getItem("authResponse");
+    if (localStorageRes !== undefined || null) {
+      // @ts-ignore
+      setAuthResponse(JSON.parse(localStorageRes));
+    }
+
     const localStoragePin = localStorage.getItem("otp");
     if (localStoragePin !== undefined || null) {
       // @ts-ignore

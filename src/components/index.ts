@@ -6,3 +6,4 @@ export { default as InputError } from "./core/InputError/InputError";
 export { default as LessonCard } from "./LessonCard/LessonCard";
 export { default as LessonTemplateCard } from "./LessonTemplateCard/LessonTemplateCard";
 export { default as LessonDraftCard } from "./LessonDraftCard/LessonDraftCard";
+export { default as NotificationItem } from "./NotificationItem/NotificationItem";

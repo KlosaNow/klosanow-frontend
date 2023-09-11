@@ -5,7 +5,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./chakra.config";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import store from "./redux";
+import store from "./redux/store";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();

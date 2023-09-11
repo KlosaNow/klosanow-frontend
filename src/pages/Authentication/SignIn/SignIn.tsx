@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../SlideData";
-import { Link as RouteLink } from "react-router-dom";
+import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { OnboardingSlides } from "../../";
 import PhoneInput from "react-phone-input-2";
@@ -24,12 +24,17 @@ import "react-phone-input-2/lib/style.css";
 import { SignInSchema } from "../utils";
 import useSignin from "../../../hooks/auth-hooks/useSignin";
 import { InputError } from "../../../components";
+import { useEffect } from "react";
 
 export default function SignIn() {
-  const { mutate } = useSignin();
+  const navigate = useNavigate();
+  const { mutate, data } = useSignin();
   const handleOnSubmit = (values: object, actions: any) => {
+    // @ts-ignore
+    localStorage.setItem("email", values?.email);
+
     mutate(values);
-    actions.resetForm({ values: "" });
+    // actions.resetForm({ values: "" });
   };
 
   const formik = useFormik({
@@ -40,6 +45,14 @@ export default function SignIn() {
     validationSchema: SignInSchema,
     onSubmit: handleOnSubmit,
   });
+
+  useEffect(() => {
+    if (data?.otp !== undefined) {
+      localStorage.setItem("authResponse", JSON.stringify(data));
+
+      navigate("/otp");
+    }
+  }, [data]);
 
   return (
     <>

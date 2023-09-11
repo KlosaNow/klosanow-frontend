@@ -1,44 +1,38 @@
-div.list-line {
-	height: 0.5px;
-	width: 90%;
-	margin: 0 auto;
-	background-color: rgb(201, 201, 201);
-}
-
 .notification-image {
-	width: 54px;
-	height: 54px;
-	border-radius: 50%;
-	background-repeat: no-repeat;
-	background-size: cover;
-	margin-right: 1em;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-right: 1em;
 }
 
 .notification-info-name {
-	color: #7B58F4;
-	font-weight: 600;
+  color: #7b58f4;
+  font-weight: 600;
 }
 ul.react-multi-carousel-track {
-    gap: 6rem;
+  gap: 6rem;
 }
-.css-1aqaro1[aria-checked="true"], .css-1aqaro1[data-checked] {
-    background: #7b58f4 !important;
-    border-color: #7b58f4 !important;
-    color: #7b58f4 !important;
+.css-1aqaro1[aria-checked="true"],
+.css-1aqaro1[data-checked] {
+  background: #7b58f4 !important;
+  border-color: #7b58f4 !important;
+  color: #7b58f4 !important;
 }
 .react-multi-carousel-list {
-    height: 265px;
+  height: 265px;
 }
 .react-multi-carousel-dot--active button {
-    background: #7B58F4 !important;
+  background: #7b58f4 !important;
 }
 .react-multi-carousel-dot button {
-	width: 8px !important;
-	height: 8px !important;
-	border: none !important;  
-  	background: #ccc;
+  width: 8px !important;
+  height: 8px !important;
+  border: none !important;
+  background: #ccc;
 }
-*::-webkit-scrollbar-thumb{
-	background-color: #ccc;
-	width:5px;
+*::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  width: 5px;
 }

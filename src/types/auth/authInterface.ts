@@ -6,3 +6,8 @@ export interface userInterface {
   isAuth: boolean;
   data: any;
 }
+
+export interface authResponseInterface {
+  token: string;
+  otp: number;
+}

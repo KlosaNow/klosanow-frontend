@@ -9,7 +9,7 @@ import backgroundImage6 from "../../assets/images/notification_6.png";
 import NotificationItem from "../../components/NotificationItem/NotificationItem";
 import Header from "../../components/Header/Header";
 
-const notifications = [
+export const sampleNotifications = [
   {
     name: "Jessi Akpa",
     action: "added you to a group",
@@ -54,7 +54,7 @@ export default function Notifications() {
       <Header pageName="Notification" />
       <Box>
         <List>
-          {notifications.map((notificationItem, index) => (
+          {sampleNotifications.map((notificationItem, index) => (
             <NotificationItem key={index} notificationItem={notificationItem} />
           ))}
         </List>

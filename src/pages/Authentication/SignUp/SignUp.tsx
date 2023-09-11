@@ -49,6 +49,7 @@ export default function SignUp() {
   useEffect(() => {
     if (data?.otp !== undefined) {
       localStorage.setItem("otp", data?.otp);
+      localStorage.setItem("authResponse", JSON.stringify(data));
 
       navigate("/otp");
     }
