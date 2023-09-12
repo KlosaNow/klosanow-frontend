@@ -1,10 +1,16 @@
 export interface userDataInterface {
+  email: string;
   name: string;
+  phoneNumber: string;
+  role: string;
+  // savedLessons: []
+  // createdLessons: []
+  // notifications: []
 }
 export interface userInterface {
   token: string;
   isAuth: boolean;
-  data: any;
+  data: userDataInterface | null;
 }
 
 export interface authResponseInterface {

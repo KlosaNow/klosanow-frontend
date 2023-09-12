@@ -9,6 +9,7 @@ import {
   VStack,
   Image,
   Flex,
+  Spinner,
 } from "@chakra-ui/react";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -27,13 +28,11 @@ import { InputError } from "../../../components";
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const { mutate, data } = useSignup();
+  const { mutate, data, isLoading, isSuccess } = useSignup();
 
   const handleOnSubmit = (values: any) => {
     mutate(values);
     localStorage.setItem("phoneNumber", values?.phoneNumber);
-
-    // actions.resetForm({ values: "" });
   };
 
   const formik = useFormik({
@@ -47,13 +46,10 @@ export default function SignUp() {
   });
 
   useEffect(() => {
-    if (data?.otp !== undefined) {
-      localStorage.setItem("otp", data?.otp);
-      localStorage.setItem("authResponse", JSON.stringify(data));
-
-      navigate("/otp");
+    if (isSuccess) {
+      navigate("/sign-in");
     }
-  }, [data]);
+  }, [isSuccess]);
   return (
     <>
       <Box hideBelow="lg">
@@ -212,7 +208,7 @@ export default function SignUp() {
                   type="submit"
                   disabled={!(formik.dirty && formik.isValid)}
                 >
-                  Sign up
+                  {isLoading ? <Spinner size="sm" /> : "Sign up"}
                 </Button>
               </Box>
               <Box mt="1rem">

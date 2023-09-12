@@ -2,13 +2,13 @@ import axios from "axios";
 
 // const { REACT_APP_BASE_URL } = process.env;
 const axiosBaseInstance = axios.create({
-  baseURL: import.meta.env.VITE_APP_BASE_URL,
+  baseURL: import.meta.env.VITE_APP_BASE_URL_MVP,
 });
 
 axiosBaseInstance.interceptors.request.use(
   (config) => {
     //  Do something before request is sent
-    console.log(config.headers["Authorization"]);
+
     return config;
   },
   (error) => {

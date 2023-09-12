@@ -8,9 +8,6 @@ const useSignup = () => {
     try {
       const res: any = await axiosBaseInstance.post(`/auth/sign-up`, values);
 
-      // @ts-ignore
-      console.log(res);
-      // console.log(res.headers);
       return res.data.data;
     } catch (err) {
       throw Error;

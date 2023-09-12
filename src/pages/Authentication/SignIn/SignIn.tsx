@@ -9,6 +9,7 @@ import {
   Flex,
   VStack,
   Image,
+  Spinner,
 } from "@chakra-ui/react";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
@@ -28,7 +29,7 @@ import { useEffect } from "react";
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const { mutate, data } = useSignin();
+  const { mutate, data, isLoading } = useSignin();
   const handleOnSubmit = (values: object, actions: any) => {
     // @ts-ignore
     localStorage.setItem("email", values?.email);
@@ -194,7 +195,7 @@ export default function SignIn() {
                   type="submit"
                   disabled={!(formik.dirty && formik.isValid)}
                 >
-                  Sign In
+                  {isLoading ? <Spinner size="sm" /> : "Sign In"}
                 </Button>
               </Box>
 

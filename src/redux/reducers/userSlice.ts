@@ -14,7 +14,11 @@ const userSlice = createSlice({
     updateToken(state, action: PayloadAction<userInterface>) {
       return { ...state, token: action.payload.token };
     },
+
+    updateUserData(state, action: PayloadAction<userInterface>) {
+      return { ...state, data: action.payload.data };
+    },
   },
 });
-export const { updateToken } = userSlice.actions;
+export const { updateToken, updateUserData } = userSlice.actions;
 export const { actions: userActions, reducer: userReducer } = userSlice;

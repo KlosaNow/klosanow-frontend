@@ -11,9 +11,7 @@ const DashboardLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { mutate } = useGetUserData();
 
-  useEffect(() => {
-    mutate();
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Box display="flex">

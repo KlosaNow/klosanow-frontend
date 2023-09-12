@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Box,
   HStack,
@@ -8,32 +9,35 @@ import {
   Flex,
   VStack,
   Image,
+  Spinner,
 } from "@chakra-ui/react";
-
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
 import { OnboardingSlides } from "../../";
-import { useEffect, useState } from "react";
-import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
-import { useNavigate } from "react-router-dom";
 import { authResponseInterface } from "../../../types/auth/authInterface";
+import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
+import useGetUserData from "../../../hooks/user-hooks/useGetUserData";
+import { updateToken } from "../../../redux/reducers/userSlice";
+
 export default function Otp(): JSX.Element {
+  const dispatch = useDispatch();
+  const { mutate: verifyOtp, data: OtpResponse, isLoading } = useVerifyOtp();
+  const { mutate: getUserData, isSuccess: isUserSuccess } = useGetUserData();
   const [authResponse, setAuthResponse] = useState({} as authResponseInterface);
-  const [pin, setPin] = useState("");
   const [phoneNumber] = useState(localStorage.getItem("phoneNumber"));
 
   const navigate = useNavigate();
+
   // Handle change event for the PinInputField
   const handlePinChange = (value: any) => {
-    setPin(value);
+    setAuthResponse({ ...authResponse, otp: value });
   };
-  const { mutate, data, isSuccess } = useVerifyOtp();
 
   const handleOnSubmit = (e: any) => {
     e.preventDefault();
-    mutate(authResponse);
-
-    navigate("/dashboard");
+    verifyOtp(authResponse);
   };
 
   useEffect(() => {
@@ -42,14 +46,20 @@ export default function Otp(): JSX.Element {
       // @ts-ignore
       setAuthResponse(JSON.parse(localStorageRes));
     }
-
-    const localStoragePin = localStorage.getItem("otp");
-    if (localStoragePin !== undefined || null) {
-      // @ts-ignore
-      setPin(localStoragePin);
-    }
   }, []);
 
+  useEffect(() => {
+    const userId = OtpResponse?.user?._id;
+    if (userId) {
+      getUserData(userId);
+    }
+  }, [OtpResponse]);
+
+  useEffect(() => {
+    if (isUserSuccess) {
+      navigate("/dashboard");
+    }
+  }, [isUserSuccess]);
   return (
     <>
       <Box hideBelow="lg">
@@ -142,7 +152,12 @@ export default function Otp(): JSX.Element {
 
             <Box as="form" py="2rem" width="100%" onSubmit={handleOnSubmit}>
               <HStack display="flex" justifyContent="center">
-                <PinInput size="lg" otp value={pin} onChange={handlePinChange}>
+                <PinInput
+                  size="lg"
+                  otp
+                  value={`${authResponse.otp}`}
+                  onChange={handlePinChange}
+                >
                   <PinInputField />
                   <PinInputField />
                   <PinInputField />
@@ -158,7 +173,7 @@ export default function Otp(): JSX.Element {
                   bgColor="primary.50"
                   type="submit"
                 >
-                  Verify OTP
+                  {isLoading ? <Spinner size="sm" /> : "Verify OTP"}
                 </Button>
               </Box>
               <Text

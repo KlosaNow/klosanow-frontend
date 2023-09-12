@@ -1,38 +1,42 @@
 import { useMutation } from "@tanstack/react-query";
 import axiosBaseInstance from "../../services/axiosBaseInstance";
 import { FormikValues } from "formik";
-import { AxiosError } from "axios";
-import { useSelector } from "react-redux";
+import axios, { AxiosError } from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { updateUserData } from "../../redux/reducers/userSlice";
 
 const useGetUserData = () => {
   const user = useSelector((state: RootState) => state.user);
-  const emailAddrees = localStorage.getItem("email");
-  const getUserData = async () => {
+  const dispatch = useDispatch();
+  const getUserData = async (userId: string) => {
     try {
-      const res: any = await axiosBaseInstance.get(`/user/get-user/`, {
+      const res: any = await axiosBaseInstance.get(`/user/${userId}`, {
         headers: {
           Authorization: "Bearer " + user.token,
         },
-        params: {
-          email: emailAddrees,
-        },
       });
 
-      // @ts-ignore
       console.log(res);
-      // console.log(res.headers);
+      if (res.data) {
+        dispatch(updateUserData(res.data));
+      }
+
       return res.data.data;
     } catch (err) {
       throw Error;
     }
   };
 
-  return useMutation<any, AxiosError>(["user data"], () => getUserData(), {
-    onError: (err: AxiosError) => {
-      return err;
-    },
-  });
+  return useMutation<any, AxiosError, string>(
+    ["user data"],
+    (userId) => getUserData(userId),
+    {
+      onError: (err: AxiosError) => {
+        return err;
+      },
+    }
+  );
 };
 
 export default useGetUserData;

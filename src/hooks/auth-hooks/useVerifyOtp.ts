@@ -5,10 +5,11 @@ import { authResponseInterface } from "../../types/auth/authInterface";
 import { useDispatch, useSelector } from "react-redux";
 import { updateToken } from "../../redux/reducers/userSlice";
 import { RootState } from "../../redux/store";
+import useGetUserData from "../user-hooks/useGetUserData";
 
 const useVerifyOtp = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
+
   const verifyOtp = async (authResponse: authResponseInterface) => {
     try {
       const { data } = await axiosBaseInstance.post(
@@ -22,11 +23,14 @@ const useVerifyOtp = () => {
           },
         }
       );
-      if (data.data.token) {
+
+      const token = data?.data?.token;
+
+      if (token) {
         dispatch(updateToken(data.data));
       }
 
-      return data;
+      return data.data;
     } catch (err) {
       return err;
     }
