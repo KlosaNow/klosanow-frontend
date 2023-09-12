@@ -3,7 +3,7 @@ import axiosBaseInstance from "../../services/axiosBaseInstance";
 import { AxiosError } from "axios";
 import { authResponseInterface } from "../../types/auth/authInterface";
 import { useDispatch, useSelector } from "react-redux";
-import { updateToken } from "../../redux/reducers/userSlice";
+import { updateToken } from "../../redux/reducers/userReducer";
 import { RootState } from "../../redux/store";
 import useGetUserData from "../user-hooks/useGetUserData";
 

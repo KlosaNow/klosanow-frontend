@@ -19,7 +19,7 @@ import { OnboardingSlides } from "../../";
 import { authResponseInterface } from "../../../types/auth/authInterface";
 import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
 import useGetUserData from "../../../hooks/user-hooks/useGetUserData";
-import { updateToken } from "../../../redux/reducers/userSlice";
+import { updateToken } from "../../../redux/reducers/userReducer";
 
 export default function Otp(): JSX.Element {
   const dispatch = useDispatch();

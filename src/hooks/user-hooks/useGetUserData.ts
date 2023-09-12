@@ -4,7 +4,7 @@ import { FormikValues } from "formik";
 import axios, { AxiosError } from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { updateUserData } from "../../redux/reducers/userSlice";
+import { updateUserData } from "../../redux/reducers/userReducer";
 
 const useGetUserData = () => {
   const user = useSelector((state: RootState) => state.user);
