@@ -9,10 +9,12 @@ import {
   Flex,
   VStack,
   Image,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
-import { slides } from "../../SlideData";
-import { Link as RouteLink } from "react-router-dom";
+import { slides } from "../../Onboarding/utils/SlideData";
+import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { OnboardingSlides } from "../../";
 import PhoneInput from "react-phone-input-2";
@@ -23,13 +25,18 @@ const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 import "react-phone-input-2/lib/style.css";
 import { SignInSchema } from "../utils";
 import useSignin from "../../../hooks/auth-hooks/useSignin";
-import { InputError } from "../../../components";
+import { InputError, ToastAlert } from "../../../components";
+import { useEffect } from "react";
 
 export default function SignIn() {
-  const { mutate } = useSignin();
+  const navigate = useNavigate();
+  const toast = useToast();
+  const { mutate, data, isLoading, error, isError } = useSignin();
+
   const handleOnSubmit = (values: object, actions: any) => {
+    // @ts-ignore
+    localStorage.setItem("email", values?.email);
     mutate(values);
-    actions.resetForm({ values: "" });
   };
 
   const formik = useFormik({
@@ -40,6 +47,51 @@ export default function SignIn() {
     validationSchema: SignInSchema,
     onSubmit: handleOnSubmit,
   });
+
+  useEffect(() => {
+    const otpData = data?.data;
+
+    if (data?.message !== undefined) {
+      toast({
+        position: "top-right",
+        isClosable: true,
+        duration: 5000,
+        render: () => (
+          <ToastAlert
+            variant="success"
+            closeFunc={() => {
+              toast.closeAll();
+            }}
+            message="Login successful. Verify OTP"
+          />
+        ),
+      });
+    }
+
+    if (otpData?.otp !== undefined) {
+      localStorage.setItem("authResponse", JSON.stringify(otpData));
+      navigate("/otp");
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (isError === true && error?.message !== undefined) {
+      toast({
+        position: "top-right",
+        isClosable: true,
+        duration: 5000,
+        render: () => (
+          <ToastAlert
+            variant="warning"
+            closeFunc={() => {
+              toast.closeAll();
+            }}
+            message={error?.message}
+          />
+        ),
+      });
+    }
+  }, [isError]);
 
   return (
     <>
@@ -181,7 +233,7 @@ export default function SignIn() {
                   type="submit"
                   disabled={!(formik.dirty && formik.isValid)}
                 >
-                  Sign In
+                  {isLoading ? <Spinner size="sm" /> : "Sign In"}
                 </Button>
               </Box>
 

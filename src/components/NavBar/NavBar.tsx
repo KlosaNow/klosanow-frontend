@@ -1,11 +1,14 @@
 import { Box, Text, Image } from "@chakra-ui/react";
-import { Search } from "../HomeComponents/Search";
+import { Search } from "../Search/Search";
 
 import { BiBell } from "react-icons/bi";
 
 import { navBarProps } from "../../types/components/componetInterface";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const NavBar = ({ notificationCtrl }: navBarProps) => {
+  const user = useSelector((state: RootState) => state.user);
   return (
     <>
       <Box
@@ -73,9 +76,12 @@ const NavBar = ({ notificationCtrl }: navBarProps) => {
             />
             <Box>
               <Text fontWeight={600} fontSize={"0.9rem"}>
-                Emmanuel Oluseyi
+                {user.data?.name ? user.data?.name : "user"}
               </Text>
-              <Text fontSize={"0.8rem"}>emmanuel@gmail.com</Text>
+              <Text fontSize={"0.8rem"}>
+                {" "}
+                {user.data?.email ? user.data?.email : ""}
+              </Text>
             </Box>
           </Box>
         </Box>

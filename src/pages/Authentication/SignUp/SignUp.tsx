@@ -9,6 +9,8 @@ import {
   VStack,
   Image,
   Flex,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -16,24 +18,23 @@ import { SignUpSchema } from "../utils";
 import PhoneInput from "react-phone-input-2";
 import { OnboardingSlides } from "../../";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
-import { slides } from "../../SlideData";
+import { slides } from "../../Onboarding/utils/SlideData";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 import "react-phone-input-2/lib/style.css";
 import useSignup from "../../../hooks/auth-hooks/useSignup";
 import { useEffect } from "react";
-import { InputError } from "../../../components";
+import { InputError, ToastAlert } from "../../../components";
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const { mutate, data } = useSignup();
+  const toast = useToast();
+  const { mutate, data, isLoading, isSuccess, isError, error } = useSignup();
 
   const handleOnSubmit = (values: any) => {
     mutate(values);
     localStorage.setItem("phoneNumber", values?.phoneNumber);
-
-    // actions.resetForm({ values: "" });
   };
 
   const formik = useFormik({
@@ -47,12 +48,48 @@ export default function SignUp() {
   });
 
   useEffect(() => {
-    if (data?.otp !== undefined) {
-      localStorage.setItem("otp", data?.otp);
-
-      navigate("/otp");
+    if (data?.message !== undefined) {
+      toast({
+        position: "top-right",
+        isClosable: true,
+        duration: 5000,
+        render: () => (
+          <ToastAlert
+            variant="success"
+            closeFunc={() => {
+              toast.closeAll();
+            }}
+            message={data?.message}
+          />
+        ),
+      });
     }
   }, [data]);
+
+  useEffect(() => {
+    if (isError === true && error?.message !== undefined) {
+      toast({
+        position: "top-right",
+        isClosable: true,
+        duration: 5000,
+        render: () => (
+          <ToastAlert
+            variant="warning"
+            closeFunc={() => {
+              toast.closeAll();
+            }}
+            message={error?.message}
+          />
+        ),
+      });
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/sign-in");
+    }
+  }, [isSuccess]);
   return (
     <>
       <Box hideBelow="lg">
@@ -211,7 +248,7 @@ export default function SignUp() {
                   type="submit"
                   disabled={!(formik.dirty && formik.isValid)}
                 >
-                  Sign up
+                  {isLoading ? <Spinner size="sm" /> : "Sign up"}
                 </Button>
               </Box>
               <Box mt="1rem">

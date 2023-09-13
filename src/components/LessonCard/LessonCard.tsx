@@ -9,8 +9,8 @@ const LessonCard = ({
   author,
 }: LessonCardInterface) => {
   return (
-    <Container padding={0} width={["100%", "375px"]} margin="0px" >
-      <Box position="relative" >
+    <Box padding={0} width={["100%", "375px"]} margin={0}>
+      <Box position="relative">
         <Image
           width="full"
           height={["181px", "219px"]}
@@ -49,7 +49,7 @@ const LessonCard = ({
           </Text>
         )}
       </Box>
-    </Container>
+    </Box>
   );
 };
 

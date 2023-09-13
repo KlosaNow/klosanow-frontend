@@ -1,29 +1,46 @@
 import { useMutation } from "@tanstack/react-query";
 import axiosBaseInstance from "../../services/axiosBaseInstance";
 import { AxiosError } from "axios";
+import { authResponseInterface } from "../../types/auth/authInterface";
+import { useDispatch, useSelector } from "react-redux";
+import { updateToken } from "../../redux/reducers/userReducer";
+import { RootState } from "../../redux/store";
+import useGetUserData from "../user-hooks/useGetUserData";
 
 const useVerifyOtp = () => {
-  const verifyOtp = async (otp: string) => {
-    try {
-      const { data } = await axiosBaseInstance.post(
-        `/auth/verify-otp`,
-        {
-          otp: otp,
+  const dispatch = useDispatch();
+
+  const verifyOtp = async (authResponse: authResponseInterface) => {
+    const res = await axiosBaseInstance.post(
+      `/auth/verify-otp`,
+      {
+        otp: authResponse.otp,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + authResponse.token,
         },
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(data);
-      return data;
-    } catch (err) {
-      return err;
+      }
+    );
+
+    // @ts-ignore
+    if (res?.response?.data?.status === "error") {
+      // @ts-ignore
+      throw new Error(res?.response.data.message);
+    } else {
+      const token = res?.data?.data?.token;
+
+      if (token) {
+        dispatch(updateToken(res?.data.data));
+      }
+
+      return res?.data;
     }
   };
 
-  return useMutation<any, AxiosError, string>(
+  return useMutation<any, AxiosError, authResponseInterface>(
     ["verify OTP"],
-    (otp) => verifyOtp(otp),
+    (authResponse) => verifyOtp(authResponse),
     {
       onError: (err: AxiosError) => {
         return err;

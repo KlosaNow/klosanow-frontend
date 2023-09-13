@@ -1,6 +1,6 @@
 import { Box, Image, Text, Button, Link } from "@chakra-ui/react";
 import { NavLink as RouterLink } from "react-router-dom";
-import cardBg from "../../assets/cardBg.svg";
+import cardBg from "../../assets/svgs/cardBg.svg";
 import { LessonCardProps } from "../../types/components/componetInterface";
 
 const LessonTemplateCard = ({

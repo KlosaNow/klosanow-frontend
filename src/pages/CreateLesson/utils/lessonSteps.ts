@@ -1,6 +1,7 @@
 import LessonContent from "../components/LessonContent";
 import LessonDescription from "../components/LessonDescription";
 import LessonTemplate from "../components/LessonTemplate";
+import RecordLesson from "../components/RecordLesson";
 
 export const createLessonSteps = [
   {
@@ -17,6 +18,11 @@ export const createLessonSteps = [
     name: "content",
     validationSchema: "",
     Component: LessonContent,
+  },
+  {
+    name: "Record",
+    validationSchema: "",
+    Component: RecordLesson,
   },
 ];
 

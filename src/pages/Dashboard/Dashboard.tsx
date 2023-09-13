@@ -11,15 +11,19 @@ import {
   MenuItem,
   MenuList,
   Button,
+  Image,
 } from "@chakra-ui/react";
 import Img from "../../assets/images/notification_1.png";
 import { BiBell } from "react-icons/bi";
-import { Search } from "../../components/HomeComponents/Search";
+import { Search } from "../../components/Search/Search";
 import { BsChevronDown } from "react-icons/bs";
-import CreatedLessonsCarosals from "../../components/HomeComponents/CreatedLessonsCarosals";
+import {
+  CreatedLessonsCarousel,
+  SavedLessonsCarousel,
+} from "../../components/Carousels";
+
 import { Link } from "react-router-dom";
 import { LessonCard } from "../../components";
-import SavedLessonsCarosal from "../../components/HomeComponents/SavedLessonCarosal";
 
 const notifications = [
   {
@@ -39,8 +43,6 @@ const notifications = [
 const HomePage: FC = () => {
   const [showLessons, setShowLessons] = useState<boolean>(true);
 
-  
-
   return (
     <Box width="full" paddingX={1} height="full" margin={["auto", "0px"]}>
       <Flex
@@ -48,10 +50,10 @@ const HomePage: FC = () => {
         align={"center"}
         display={["flex", "none"]}
       >
-        <img style={{ width: "70px", height: "70px" }} src={Img} alt="" />
+        <Image style={{ width: "70px", height: "70px" }} src={Img} alt="" />
         <Link to="/notifications" style={{ position: "relative" }}>
           <BiBell fontSize={25} />
-          <span
+          <Text
             style={{
               display: "flex",
               position: "absolute",
@@ -68,7 +70,7 @@ const HomePage: FC = () => {
             }}
           >
             {notifications.length}
-          </span>
+          </Text>
         </Link>
       </Flex>
       <Text
@@ -90,7 +92,7 @@ const HomePage: FC = () => {
             Latest Created Lesson
           </Text>
         </Box>
-        <Box display="flex" gap="20px" marginBottom="20px">
+        <Box display="flex">
           <LessonCard
             title="Animal Kingdom"
             thumbnail="https://picsum.photos/200/300"
@@ -137,7 +139,7 @@ const HomePage: FC = () => {
               </MenuList>
             </Menu>
           </Box>
-          {showLessons ? <CreatedLessonsCarosals /> : <SavedLessonsCarosal />}
+          {showLessons ? <CreatedLessonsCarousel /> : <SavedLessonsCarousel />}
         </Box>
       </Box>
     </Box>

@@ -11,7 +11,7 @@ const breakpoints = {
 const theme = extendTheme({
   breakpoints,
   fonts: {
-    heading: `'Playfair Display', serif`,
+    heading: `'Encode Sans', serif`,
     body: `'Encode Sans', sans-serif`,
   },
   colors: {

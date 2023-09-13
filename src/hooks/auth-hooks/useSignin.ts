@@ -5,23 +5,20 @@ import { AxiosError } from "axios";
 
 const useSignin = () => {
   const signin = async (values: FormikValues) => {
-    try {
-      const { data } = await axiosBaseInstance.post(`/auth/sign-in`, values);
+    const res = await axiosBaseInstance.post(`/auth/sign-in`, values);
 
-      return data.data;
-    } catch (err) {
-      return err;
+    // @ts-ignore
+    if (res?.response?.data?.status === "error") {
+      // @ts-ignore
+      throw new Error(res?.response.data.message);
+    } else {
+      return res.data;
     }
   };
 
   return useMutation<any, AxiosError, FormikValues>(
     ["log in"],
-    (FormikValues) => signin(FormikValues),
-    {
-      onError: (err: AxiosError) => {
-        return err;
-      },
-    }
+    (FormikValues) => signin(FormikValues)
   );
 };
 

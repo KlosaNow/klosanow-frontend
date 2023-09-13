@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Box,
   HStack,
@@ -8,46 +9,102 @@ import {
   Flex,
   VStack,
   Image,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
-
-import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
-import { slides } from "../../SlideData";
-import { OnboardingSlides } from "../../";
-import { useEffect, useState } from "react";
-import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-export default function Otp(): JSX.Element {
+import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
+import { slides } from "../../Onboarding/utils/SlideData";
+import { OnboardingSlides } from "../../";
+import { authResponseInterface } from "../../../types/auth/authInterface";
+import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
+import useGetUserData from "../../../hooks/user-hooks/useGetUserData";
+import { updateToken } from "../../../redux/reducers/userReducer";
+import { ToastAlert } from "../../../components";
 
-  const [pin, setPin] = useState("");
+export default function Otp(): JSX.Element {
+  const dispatch = useDispatch();
+  const toast = useToast();
+  const {
+    mutate: verifyOtp,
+    data: OtpResponse,
+    isLoading,
+    isError,
+    error,
+  } = useVerifyOtp();
+  const { mutate: getUserData, isSuccess: isUserSuccess } = useGetUserData();
+  const [authResponse, setAuthResponse] = useState({} as authResponseInterface);
   const [phoneNumber] = useState(localStorage.getItem("phoneNumber"));
 
   const navigate = useNavigate();
+
   // Handle change event for the PinInputField
   const handlePinChange = (value: any) => {
-    setPin(value);
+    setAuthResponse({ ...authResponse, otp: value });
   };
-  const { mutate, data } = useVerifyOtp();
 
   const handleOnSubmit = (e: any) => {
     e.preventDefault();
-    mutate(pin);
-
-    if (data?.otp === pin) {
-      navigate('/sign-in');
-    } else {
-      alert('Invalid OTP');
-    }
+    verifyOtp(authResponse);
   };
 
   useEffect(() => {
-    const localStoragePin = localStorage.getItem("otp");
-    if (localStoragePin !== undefined || null) {
-      // @ts-ignore
-      setPin(localStoragePin);
-    } 
-  }, []);
+    if (isError === true && error?.message !== undefined) {
+      toast({
+        position: "top-right",
+        isClosable: true,
+        duration: 5000,
+        render: () => (
+          <ToastAlert
+            variant="warning"
+            closeFunc={() => {
+              toast.closeAll();
+            }}
+            message={error?.message}
+          />
+        ),
+      });
+    }
+  }, [isError]);
 
-  
+  useEffect(() => {
+    const userId = OtpResponse?.data?.user?._id;
+    if (userId) {
+      getUserData(userId);
+    }
+
+    if (OtpResponse?.message !== undefined) {
+      toast({
+        position: "top-right",
+        isClosable: true,
+        duration: 5000,
+        render: () => (
+          <ToastAlert
+            variant="success"
+            closeFunc={() => {
+              toast.closeAll();
+            }}
+            message={OtpResponse?.message}
+          />
+        ),
+      });
+    }
+  }, [OtpResponse]);
+
+  useEffect(() => {
+    if (isUserSuccess) {
+      navigate("/dashboard");
+    }
+  }, [isUserSuccess]);
+
+  useEffect(() => {
+    const localStorageRes = localStorage.getItem("authResponse");
+    if (localStorageRes !== undefined || null) {
+      // @ts-ignore
+      setAuthResponse(JSON.parse(localStorageRes));
+    }
+  }, []);
   return (
     <>
       <Box hideBelow="lg">
@@ -140,7 +197,12 @@ export default function Otp(): JSX.Element {
 
             <Box as="form" py="2rem" width="100%" onSubmit={handleOnSubmit}>
               <HStack display="flex" justifyContent="center">
-                <PinInput size="lg" otp value={pin} onChange={handlePinChange}>
+                <PinInput
+                  size="lg"
+                  otp
+                  value={`${authResponse.otp}`}
+                  onChange={handlePinChange}
+                >
                   <PinInputField />
                   <PinInputField />
                   <PinInputField />
@@ -156,7 +218,7 @@ export default function Otp(): JSX.Element {
                   bgColor="primary.50"
                   type="submit"
                 >
-                  Verify OTP
+                  {isLoading ? <Spinner size="sm" /> : "Verify OTP"}
                 </Button>
               </Box>
               <Text

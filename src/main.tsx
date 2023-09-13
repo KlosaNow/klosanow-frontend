@@ -5,18 +5,24 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./chakra.config";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import store from "./redux";
+import store from "./redux/store";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import persistStore from "redux-persist/es/persistStore";
+import { PersistGate } from "redux-persist/integration/react";
 
 const queryClient = new QueryClient();
+const persistor = persistStore(store);
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <BrowserRouter>
         <Provider store={store}>
-          <QueryClientProvider client={queryClient}>
-            <App />
-          </QueryClientProvider>
+          <PersistGate loading={null} persistor={persistor}>
+            <QueryClientProvider client={queryClient}>
+              <App />
+            </QueryClientProvider>
+          </PersistGate>
         </Provider>
       </BrowserRouter>
     </ChakraProvider>

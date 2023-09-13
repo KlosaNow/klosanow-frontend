@@ -74,5 +74,18 @@ export interface LessonCardInterface {
 }
 
 export interface SaveButtonInterface {
-  title: string
+  title: string;
+}
+
+export interface NotificationItemProps {
+  name?: string;
+  action: string;
+  time: string;
+  backgroundImageUrl: string;
+}
+
+export interface toastProps {
+  variant?: "success" | "warning";
+  message?: string;
+  closeFunc: () => void;
 }
