@@ -10,6 +10,7 @@ import {
   VStack,
   Image,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -20,10 +21,18 @@ import { authResponseInterface } from "../../../types/auth/authInterface";
 import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
 import useGetUserData from "../../../hooks/user-hooks/useGetUserData";
 import { updateToken } from "../../../redux/reducers/userReducer";
+import { ToastAlert } from "../../../components";
 
 export default function Otp(): JSX.Element {
   const dispatch = useDispatch();
-  const { mutate: verifyOtp, data: OtpResponse, isLoading } = useVerifyOtp();
+  const toast = useToast();
+  const {
+    mutate: verifyOtp,
+    data: OtpResponse,
+    isLoading,
+    isError,
+    error,
+  } = useVerifyOtp();
   const { mutate: getUserData, isSuccess: isUserSuccess } = useGetUserData();
   const [authResponse, setAuthResponse] = useState({} as authResponseInterface);
   const [phoneNumber] = useState(localStorage.getItem("phoneNumber"));
@@ -41,17 +50,45 @@ export default function Otp(): JSX.Element {
   };
 
   useEffect(() => {
-    const localStorageRes = localStorage.getItem("authResponse");
-    if (localStorageRes !== undefined || null) {
-      // @ts-ignore
-      setAuthResponse(JSON.parse(localStorageRes));
+    if (isError === true && error?.message !== undefined) {
+      toast({
+        position: "top-right",
+        isClosable: true,
+        duration: 5000,
+        render: () => (
+          <ToastAlert
+            variant="warning"
+            closeFunc={() => {
+              toast.closeAll();
+            }}
+            message={error?.message}
+          />
+        ),
+      });
     }
-  }, []);
+  }, [isError]);
 
   useEffect(() => {
-    const userId = OtpResponse?.user?._id;
+    const userId = OtpResponse?.data?.user?._id;
     if (userId) {
       getUserData(userId);
+    }
+
+    if (OtpResponse?.message !== undefined) {
+      toast({
+        position: "top-right",
+        isClosable: true,
+        duration: 5000,
+        render: () => (
+          <ToastAlert
+            variant="success"
+            closeFunc={() => {
+              toast.closeAll();
+            }}
+            message={OtpResponse?.message}
+          />
+        ),
+      });
     }
   }, [OtpResponse]);
 
@@ -60,6 +97,14 @@ export default function Otp(): JSX.Element {
       navigate("/dashboard");
     }
   }, [isUserSuccess]);
+
+  useEffect(() => {
+    const localStorageRes = localStorage.getItem("authResponse");
+    if (localStorageRes !== undefined || null) {
+      // @ts-ignore
+      setAuthResponse(JSON.parse(localStorageRes));
+    }
+  }, []);
   return (
     <>
       <Box hideBelow="lg">

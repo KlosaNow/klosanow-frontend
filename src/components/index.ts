@@ -11,3 +11,4 @@ export { default as LessonTemplateCard } from "./LessonTemplateCard/LessonTempla
 export { default as LessonDraftCard } from "./LessonDraftCard/LessonDraftCard";
 export { default as NotificationItem } from "./NotificationItem/NotificationItem";
 export { default as SettingsItem } from "./SettingsItem/SettingsItem";
+export { default as ToastAlert } from "./ToastAlert/ToastAlert";

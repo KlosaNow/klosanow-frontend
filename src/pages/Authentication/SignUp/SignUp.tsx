@@ -10,6 +10,7 @@ import {
   Image,
   Flex,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -24,11 +25,12 @@ const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 import "react-phone-input-2/lib/style.css";
 import useSignup from "../../../hooks/auth-hooks/useSignup";
 import { useEffect } from "react";
-import { InputError } from "../../../components";
+import { InputError, ToastAlert } from "../../../components";
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const { mutate, data, isLoading, isSuccess } = useSignup();
+  const toast = useToast();
+  const { mutate, data, isLoading, isSuccess, isError, error } = useSignup();
 
   const handleOnSubmit = (values: any) => {
     mutate(values);
@@ -44,6 +46,44 @@ export default function SignUp() {
     validationSchema: SignUpSchema,
     onSubmit: handleOnSubmit,
   });
+
+  useEffect(() => {
+    if (data?.message !== undefined) {
+      toast({
+        position: "top-right",
+        isClosable: true,
+        duration: 5000,
+        render: () => (
+          <ToastAlert
+            variant="success"
+            closeFunc={() => {
+              toast.closeAll();
+            }}
+            message={data?.message}
+          />
+        ),
+      });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (isError === true && error?.message !== undefined) {
+      toast({
+        position: "top-right",
+        isClosable: true,
+        duration: 5000,
+        render: () => (
+          <ToastAlert
+            variant="warning"
+            closeFunc={() => {
+              toast.closeAll();
+            }}
+            message={error?.message}
+          />
+        ),
+      });
+    }
+  }, [isError]);
 
   useEffect(() => {
     if (isSuccess) {

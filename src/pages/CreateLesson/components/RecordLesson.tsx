@@ -12,6 +12,7 @@ const RecordLesson: FC = () => {
 
   const startRecording = async () => {
     const mediaDevices = navigator.mediaDevices;
+
     const stream: MediaStream = await mediaDevices.getDisplayMedia({
       video: {
         displaySurface: "monitor",

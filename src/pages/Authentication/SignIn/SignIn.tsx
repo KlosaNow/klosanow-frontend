@@ -10,6 +10,7 @@ import {
   VStack,
   Image,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
@@ -24,18 +25,18 @@ const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 import "react-phone-input-2/lib/style.css";
 import { SignInSchema } from "../utils";
 import useSignin from "../../../hooks/auth-hooks/useSignin";
-import { InputError } from "../../../components";
+import { InputError, ToastAlert } from "../../../components";
 import { useEffect } from "react";
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const { mutate, data, isLoading } = useSignin();
+  const toast = useToast();
+  const { mutate, data, isLoading, error, isError } = useSignin();
+
   const handleOnSubmit = (values: object, actions: any) => {
     // @ts-ignore
     localStorage.setItem("email", values?.email);
-
     mutate(values);
-    // actions.resetForm({ values: "" });
   };
 
   const formik = useFormik({
@@ -48,12 +49,49 @@ export default function SignIn() {
   });
 
   useEffect(() => {
-    if (data?.otp !== undefined) {
-      localStorage.setItem("authResponse", JSON.stringify(data));
+    const otpData = data?.data;
 
+    if (data?.message !== undefined) {
+      toast({
+        position: "top-right",
+        isClosable: true,
+        duration: 5000,
+        render: () => (
+          <ToastAlert
+            variant="success"
+            closeFunc={() => {
+              toast.closeAll();
+            }}
+            message="Login successful. Verify OTP"
+          />
+        ),
+      });
+    }
+
+    if (otpData?.otp !== undefined) {
+      localStorage.setItem("authResponse", JSON.stringify(otpData));
       navigate("/otp");
     }
   }, [data]);
+
+  useEffect(() => {
+    if (isError === true && error?.message !== undefined) {
+      toast({
+        position: "top-right",
+        isClosable: true,
+        duration: 5000,
+        render: () => (
+          <ToastAlert
+            variant="warning"
+            closeFunc={() => {
+              toast.closeAll();
+            }}
+            message={error?.message}
+          />
+        ),
+      });
+    }
+  }, [isError]);
 
   return (
     <>

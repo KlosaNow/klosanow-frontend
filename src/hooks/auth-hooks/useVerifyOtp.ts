@@ -11,28 +11,30 @@ const useVerifyOtp = () => {
   const dispatch = useDispatch();
 
   const verifyOtp = async (authResponse: authResponseInterface) => {
-    try {
-      const { data } = await axiosBaseInstance.post(
-        `/auth/verify-otp`,
-        {
-          otp: authResponse.otp,
+    const res = await axiosBaseInstance.post(
+      `/auth/verify-otp`,
+      {
+        otp: authResponse.otp,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + authResponse.token,
         },
-        {
-          headers: {
-            Authorization: "Bearer " + authResponse.token,
-          },
-        }
-      );
+      }
+    );
 
-      const token = data?.data?.token;
+    // @ts-ignore
+    if (res?.response?.data?.status === "error") {
+      // @ts-ignore
+      throw new Error(res?.response.data.message);
+    } else {
+      const token = res?.data?.data?.token;
 
       if (token) {
-        dispatch(updateToken(data.data));
+        dispatch(updateToken(res?.data.data));
       }
 
-      return data.data;
-    } catch (err) {
-      return err;
+      return res?.data;
     }
   };
 

@@ -83,3 +83,9 @@ export interface NotificationItemProps {
   time: string;
   backgroundImageUrl: string;
 }
+
+export interface toastProps {
+  variant?: "success" | "warning";
+  message?: string;
+  closeFunc: () => void;
+}
