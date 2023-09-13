@@ -15,7 +15,6 @@ const RecordLesson: FC = () => {
 
     const stream: MediaStream = await mediaDevices.getDisplayMedia({
       video: {
-        // @ts-ignore
         displaySurface: "monitor",
       },
     });
