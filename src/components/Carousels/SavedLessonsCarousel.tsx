@@ -68,6 +68,7 @@ const SavedLessonsCarosal: FC = () => {
       },
     ],
   };
+
   const data = [
     {
       img: "https://picsum.photos/200",

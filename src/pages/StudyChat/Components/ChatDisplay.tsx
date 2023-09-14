@@ -20,11 +20,11 @@ const ChatDisplay = ({
         justifyContent="space-between"
         borderBottomWidth="0.2px"
         borderBottomColor="neutral.70"
-        padding="10px"
+        padding="10px 0px"
       >
         <Flex justifyContent="space-between" gap="8px">
-          <Circle size="40px" bg="#b1b1b1">
-            <Image />
+          <Circle size="40px" bg="#b1b1b1" overflow="hidden">
+            <Image src="https://picsum.photos/40/40" />
           </Circle>
           <Flex alignItems="Circle" justifyContent="center" flexDir="column">
             <Text

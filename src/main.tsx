@@ -9,6 +9,7 @@ import store from "./redux/store";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import persistStore from "redux-persist/es/persistStore";
 import { PersistGate } from "redux-persist/integration/react";
+import ScrollToTop from "./hooks/useScrollToTop";
 
 const queryClient = new QueryClient();
 const persistor = persistStore(store);
@@ -20,6 +21,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <QueryClientProvider client={queryClient}>
+              <ScrollToTop />
+
               <App />
             </QueryClientProvider>
           </PersistGate>

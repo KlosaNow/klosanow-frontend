@@ -21,14 +21,19 @@ const StudyChat = () => {
 
   return (
     <Box>
-      <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Text fontSize={18} fontWeight={600} color="#7B58F4">
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        padding="15px 0px 0px"
+      >
+        <Text fontSize={18} fontWeight={500} color="primary.50">
           Klosanow
         </Text>
 
         <Flex flexDir="row" justifyContent="space-between">
-          <Icon as={FiSearch} boxSize={5} />
-          <Icon as={FiMoreVertical} boxSize={5} />
+          <Icon as={FiSearch} fontSize="24px" marginRight="10px" />
+          <Icon as={FiMoreVertical} fontSize="24px" />
         </Flex>
       </Box>
       <Box

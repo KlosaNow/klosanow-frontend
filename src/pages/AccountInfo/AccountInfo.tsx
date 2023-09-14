@@ -3,12 +3,12 @@ import { FormControl, FormLabel, Input, Stack, Button } from "@chakra-ui/react";
 import arrow from "../../assets/SettingsPageImg/Arrow-left.png";
 import Header from "../../components/Header/Header";
 
-export default function Info(): JSX.Element {
+export default function AccountInfo(): JSX.Element {
   return (
     <Box>
-      <Header pageName="Info " />
+      <Header pageName="Info" />
 
-      <Stack spacing={1} px="8">
+      <Stack spacing={1} px="2">
         <FormControl>
           <FormLabel pt="5" color="black.30">
             First Name

@@ -6,6 +6,7 @@ import { BiBell } from "react-icons/bi";
 import { navBarProps } from "../../types/components/componetInterface";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { HiUserCircle } from "react-icons/hi";
 
 const NavBar = ({ notificationCtrl }: navBarProps) => {
   const user = useSelector((state: RootState) => state.user);
@@ -67,12 +68,18 @@ const NavBar = ({ notificationCtrl }: navBarProps) => {
             mx={"0.8rem"}
           ></Text>
           <Box display={"flex"} alignItems={"center"}>
-            <Image
+            {/* <Image
               borderRadius="full"
               boxSize="45px"
               src="https://bit.ly/dan-abramov"
               alt="Klosanaw images"
               mr={"0.8rem"}
+            /> */}
+            <HiUserCircle
+              fontSize="40px"
+              style={{
+                marginRight: "0.8rem",
+              }}
             />
             <Box>
               <Text fontWeight={600} fontSize={"0.9rem"}>
