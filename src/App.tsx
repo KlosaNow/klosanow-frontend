@@ -27,7 +27,7 @@ import {
   BasicStorageView,
   PremiumStorageView,
   Error,
-  Info,
+  AccountInfo,
   CreatedLessons,
 } from "./pages";
 
@@ -67,7 +67,7 @@ function App() {
             <Route path="/free" element={<FreeStorageView />} />
             <Route path="/basic" element={<BasicStorageView />} />
             <Route path="/premium" element={<PremiumStorageView />} />
-            <Route path="/info" element={<Info />} />
+            <Route path="/info" element={<AccountInfo />} />
 
             {/* this should always be the last route */}
           </Route>

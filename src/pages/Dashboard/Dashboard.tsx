@@ -24,6 +24,9 @@ import {
 
 import { Link } from "react-router-dom";
 import { LessonCard } from "../../components";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { HiUserCircle } from "react-icons/hi";
 
 const notifications = [
   {
@@ -41,6 +44,7 @@ const notifications = [
 ];
 
 const HomePage: FC = () => {
+  const user = useSelector((state: RootState) => state.user);
   const [showLessons, setShowLessons] = useState<boolean>(true);
 
   return (
@@ -50,7 +54,8 @@ const HomePage: FC = () => {
         align={"center"}
         display={["flex", "none"]}
       >
-        <Image style={{ width: "70px", height: "70px" }} src={Img} alt="" />
+        <HiUserCircle fontSize="70px" />
+        {/* <Image style={{ width: "70px", height: "70px" }} src={Img} alt="" /> */}
         <Link to="/notifications" style={{ position: "relative" }}>
           <BiBell fontSize={25} />
           <Text
@@ -80,7 +85,7 @@ const HomePage: FC = () => {
         margin="0.5rem 0 1rem"
         color={["#D9927B", "#000"]}
       >
-        Hello Oluseyi,
+        Hello {user.data?.name},
       </Text>
       <Text color="#000" display={["none", "block"]} marginBottom="20px">
         Your latest lesson is here

@@ -22,7 +22,7 @@ const DashboardLayout = () => {
           width="full"
           height="auto"
           margin="auto"
-          padding={["10px", "100px 30px"]}
+          padding={["10px 10px 100px", "100px 30px"]}
         >
           <Box position="relative">
             <NotificationModal isOpen={isOpen} onClose={onClose} />

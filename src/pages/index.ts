@@ -9,7 +9,7 @@ export { default as Otp } from "./Authentication/Otp/Otp";
 export { default as StudyChat } from "./StudyChat/StudyChat";
 export { default as Onboarding } from "./Onboarding/Onboarding";
 export { default as Help } from "./Help/Help";
-export { default as Info } from "./Info/Info";
+export { default as AccountInfo } from "./AccountInfo/AccountInfo";
 export { default as MailUs } from "./Mail/Mail";
 export { default as ChatBot } from "./ChatBot/ChatBot";
 export { default as OnboardingSlides } from "./OnboardingSlides/OnboardingSlides";

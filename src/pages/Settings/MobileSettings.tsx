@@ -3,15 +3,28 @@ import { Header, SettingsItem } from "../../components";
 import avatar from "../../assets/SettingsPageImg/Avatar.png";
 import group from "../../assets/SettingsPageImg/Terms.png";
 import cloud from "../../assets/SettingsPageImg/Upload.png";
-import user from "../../assets/SettingsPageImg/user.png";
+import userImg from "../../assets/SettingsPageImg/user.png";
 import bell from "../../assets/SettingsPageImg/Vector.png";
 import wallet from "../../assets/SettingsPageImg/Wallet.png";
 import help from "../../assets/SettingsPageImg/Help.png";
 import logout from "../../assets/SettingsPageImg/Log-out.png";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { HiUserCircle } from "react-icons/hi";
 
 const MobileSettings = () => {
+  const user = useSelector((state: RootState) => state.user);
   return (
-    <Box backgroundColor="#f6f6f6" paddingBottom="30px">
+    <Box
+      backgroundColor="#f6f6f6"
+      width="full"
+      minHeight="100vh"
+      margin="auto"
+      padding="15px 15px 50px"
+      position="absolute"
+      top="0"
+      left="0"
+    >
       <Header />
 
       <Flex alignItems="center" justifyContent="center" flexDirection="column">
@@ -19,34 +32,39 @@ const MobileSettings = () => {
           display="flex"
           alignItems="center"
           justifyContent="flex-start"
-          gap="7"
+          width="100%"
         >
-          <Image src={avatar} alt="lady" ml="9" boxSize="20%" />
+          <HiUserCircle
+            fontSize="70px"
+            style={{
+              marginLeft: "20px",
+              marginRight: "10px",
+            }}
+          />
+          {/* <Image src={avatar} alt="lady" ml="9" boxSize="20%" /> */}
 
-          <Flex flexDirection="column">
-            <Text fontSize="xl">Olivia Rhye</Text>
-            <Text color="#667085" fontSize="xl">
-              olivia@untitledui.com
+          <Box>
+            <Text fontSize="xl">{user?.data?.name}</Text>
+            <Text color="#667085" fontSize="12px">
+              {user?.data?.email}
             </Text>
-          </Flex>
+          </Box>
         </Box>
 
-        <Box w="93%">
-          <Flex justifyContent="flex-start" flexDirection="column">
-            <Box
-              background="neutral.10"
-              marginTop="55"
-              borderRadius="10"
-              padding="10px"
-            >
-              <SettingsItem imageSrc={user} text="Info" link="/info" />
-              <SettingsItem
-                imageSrc={bell}
-                text="Notification"
-                link="/settings/notifications"
-              />
-            </Box>
-          </Flex>
+        <Box w="100%">
+          <Box
+            background="neutral.10"
+            marginTop="30"
+            borderRadius="10"
+            padding="10px"
+          >
+            <SettingsItem imageSrc={userImg} text="Info" link="/info" />
+            <SettingsItem
+              imageSrc={bell}
+              text="Notification"
+              link="/settings/notifications"
+            />
+          </Box>
 
           <Box mt="5" background="neutral.10" borderRadius="10" padding="10px">
             <SettingsItem imageSrc={wallet} text="Subscription" link="#" />
