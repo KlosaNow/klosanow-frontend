@@ -20,7 +20,7 @@ const MobileSettings = () => {
       width="full"
       minHeight="100vh"
       margin="auto"
-      padding="15px 15px 50px"
+      padding="15px 15px 100px"
       position="absolute"
       top="0"
       left="0"
