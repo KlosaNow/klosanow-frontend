@@ -8,6 +8,7 @@ const RecordLesson:FC = () => {
   const [recorder, setRecorder] =
     useState<RecordRTC.RecordRTCPromisesHandler | null>(null);
   const [videoBlob, setVideoBlob] = useState<Blob | null>(null);
+  const [stream, setStream] = useState<boolean>(false)
   const [timestamp, setTimeStamp] = useState<string>("")
   const [isPaused, setIsPuased] = useState<boolean>(false)
 
@@ -26,8 +27,7 @@ const RecordLesson:FC = () => {
          });
        await recorder.startRecording();
        setRecorder(recorder);
-     
-    
+       setStream(true)
  };
 
  const stopRecording = async () => {
@@ -36,8 +36,11 @@ const RecordLesson:FC = () => {
        const blob:Blob = await recorder.getBlob()
        setVideoBlob(blob)
        setRecorder(null)
+       setStream(false);
+       setIsPuased(false);
      }
-     setIsPuased(false)
+     
+     
  }
 
 
@@ -53,16 +56,18 @@ const RecordLesson:FC = () => {
  const pauseRecording = async () => {
     if(recorder){
       await recorder.pauseRecording()
+      setIsPuased(true);
     }
-    setIsPuased(true)
+
  }
 
  const resumeRecord = async () => {
   if(recorder){
-    await recorder.resumeRecording()
+    await recorder.resumeRecording();
+    setIsPuased(false);
   }
-  setIsPuased(false)
- }
+  }
+
 
  const handlePauseRecord = () =>{
   if(isPaused){
@@ -164,6 +169,7 @@ const RecordLesson:FC = () => {
           gap="2"
           py="1"
           onClick={handlePauseRecord}
+          disabled={!!stream}
         >
           <FaPauseCircle color="yellow" />
           <Text fontSize="10px" textColor="#AAAAAA">
