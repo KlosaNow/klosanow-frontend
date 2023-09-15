@@ -9,7 +9,7 @@ const RecordLesson:FC = () => {
     useState<RecordRTC.RecordRTCPromisesHandler | null>(null);
   const [videoBlob, setVideoBlob] = useState<Blob | null>(null);
   const [timestamp, setTimeStamp] = useState<string>("")
-
+  const [isPaused, setIsPuased] = useState<boolean>(false)
 
  const startRecording = async () => {
 
@@ -18,11 +18,11 @@ const RecordLesson:FC = () => {
          video: {
            displaySurface: "monitor"
          },
+         audio: true
        });
        const recorder: RecordRTC.RecordRTCPromisesHandler =
          new RecordRTCPromisesHandler(stream, {
            type: "video",
-           timeSlice: 1000
          });
        await recorder.startRecording();
        setRecorder(recorder);
@@ -37,7 +37,9 @@ const RecordLesson:FC = () => {
        setVideoBlob(blob)
        setRecorder(null)
      }
+     setIsPuased(false)
  }
+
 
  const handleRecording = () => {
   if(recorder){
@@ -52,6 +54,22 @@ const RecordLesson:FC = () => {
     if(recorder){
       await recorder.pauseRecording()
     }
+    setIsPuased(true)
+ }
+
+ const resumeRecord = async () => {
+  if(recorder){
+    await recorder.resumeRecording()
+  }
+  setIsPuased(false)
+ }
+
+ const handlePauseRecord = () =>{
+  if(isPaused){
+    resumeRecord()
+  } else {
+    pauseRecording()
+  }
  }
 
 
@@ -103,7 +121,11 @@ const RecordLesson:FC = () => {
           </Box>
         </Box>
       ) : (
-        <video style={{marginBottom: "20px"}} controls src={window.URL.createObjectURL(videoBlob)}></video>
+        <video
+          style={{ marginBottom: "20px" }}
+          controls
+          src={window.URL.createObjectURL(videoBlob)}
+        ></video>
       )}
       <Box
         width={["full", "60%"]}
@@ -141,11 +163,11 @@ const RecordLesson:FC = () => {
           bg="none"
           gap="2"
           py="1"
-          onClick={pauseRecording}
+          onClick={handlePauseRecord}
         >
           <FaPauseCircle color="yellow" />
           <Text fontSize="10px" textColor="#AAAAAA">
-            pause
+            {isPaused ? "Resume" : "pause"}
           </Text>
         </Button>
         <Button display="flex" flexDirection="column" bg="none" gap="2" py="1">
