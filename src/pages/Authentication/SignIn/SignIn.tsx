@@ -189,7 +189,7 @@ export default function SignIn() {
                 <MyPhoneInput
                   country={"ng"}
                   enableAreaCodeStretch
-                  // regions={["africa"]}
+                  regions={["africa"]}
                   containerStyle={{
                     display: "flex",
                     gap: "1rem",
