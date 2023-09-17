@@ -1,8 +1,6 @@
 import {
   Box,
   Text,
-  Input,
-  Stack,
   Button,
   Image,
   Flex,
@@ -14,18 +12,7 @@ import {
   CardFooter,
   IconButton,
   Heading,
-  Avatar,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
   useDisclosure,
-  InputGroup,
-  InputLeftElement,
-  Divider,
   Menu,
   MenuButton,
   MenuList,
@@ -33,11 +20,11 @@ import {
 } from "@chakra-ui/react";
 import { BiChat, BiLike, BiSearch, BiShare } from "react-icons/bi";
 import { BsChevronDown, BsThreeDotsVertical } from "react-icons/bs";
-import React from "react";
-// import { IoShareOutline } from "react-icons/io";
+import React, { useState } from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { AiOutlineArrowRight, AiOutlineCloseCircle } from "react-icons/ai";
 import { TbShare2 } from "react-icons/tb";
+import SideModal from "../../components/SideModal/SideModal";
 
 const Lessons = [
   {
@@ -65,6 +52,7 @@ const Lessons = [
 
 const LessonDescription = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const btnRef = React.useRef<HTMLButtonElement | null>(null);
   return (
     <Box fontFamily="inherit">
@@ -139,39 +127,44 @@ const LessonDescription = () => {
                             icon={<BsThreeDotsVertical />}
                           />
                         </MenuButton>
-                        <MenuList>
-                          <MenuItem _hover={{ background: "none" }}>
-                            <Flex align={"center"} gap={2}>
-                              <Box color="#7B58F4;">
-                                <TbShare2 color="#7B58F4;" />
-                              </Box>
+                        <Box>
+                          <MenuList>
+                            <Box>
+                              <MenuItem
+                                onClick={onOpen}
+                                _hover={{ background: "none" }}
+                              >
+                                <Flex align={"center"} gap={2}>
+                                  <Box color="#7B58F4;">
+                                    <TbShare2 color="#7B58F4;" />
+                                  </Box>
 
-                              <Text onClick={onOpen}> Share Course</Text>
-                            </Flex>
-                          </MenuItem>
-                          <MenuItem>
-                            <Flex align={"center"} gap={2}>
-                              <Box color="#7B58F4;">
-                                <RiDeleteBin5Line color="red" />
-                              </Box>
+                                  <Text> Share Course</Text>
+                                </Flex>
+                              </MenuItem>
+                            </Box>
 
-                              <Text>Delete course</Text>
-                            </Flex>
-                          </MenuItem>
-                        </MenuList>
+                            <MenuItem>
+                              <Flex align={"center"} gap={2}>
+                                <Box color="#7B58F4;">
+                                  <RiDeleteBin5Line color="red" />
+                                </Box>
+
+                                <Text>Delete course</Text>
+                              </Flex>
+                            </MenuItem>
+                          </MenuList>
+                        </Box>
                       </Menu>
                     </Box>
                   </Flex>
                 </CardHeader>
                 <CardBody>
-                  <Heading size="md">Biology 101</Heading>
+                  <Heading size="md">{title}</Heading>
 
                   <Text>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Et
-                    odio, ut error magni quae inventore eaque dolores harum esse
-                    repellat. Ad accusamus enim a ut adipisci. Assumenda alias
-                    eaque totam....
-                    <span style={{ fontWeight: "bold" }}>Prof Peter</span>
+                    {description}
+                    <span style={{ fontWeight: "bold" }}></span>
                   </Text>
                 </CardBody>
 
@@ -201,74 +194,7 @@ const LessonDescription = () => {
           );
         })}
       </Grid>
-
-      <Drawer
-        isOpen={isOpen}
-        placement="right"
-        onClose={onClose}
-        finalFocusRef={btnRef}
-      >
-        <DrawerOverlay />
-        <DrawerContent pt={"3rem"}>
-          <Flex align={"center"} ml={"0.5rem"}>
-            <AiOutlineCloseCircle
-              fontSize={"1.6rem"}
-              cursor={"pointer"}
-              onClick={onClose}
-            />
-            <Text
-              textAlign={"center"}
-              mx={"auto"}
-              cursor={"pointer"}
-              fontWeight={"bold"}
-            >
-              Share to
-            </Text>
-          </Flex>
-
-          <DrawerBody mt={"2rem"}>
-            <InputGroup>
-              <InputLeftElement pointerEvents="none">
-                <BiSearch fontSize={"20px"} color="gray.300" />
-              </InputLeftElement>
-              <Input type="tel" placeholder="Search group" />
-            </InputGroup>
-
-            <Box
-              lineHeight={"40px"}
-              mt={"1rem"}
-              color={"#7B58F4;"}
-              fontWeight={"semibold"}
-            >
-              <Text>Outside Klosanaw</Text>
-              <Divider />
-              <Text>Create New Group</Text>
-              <Divider />
-            </Box>
-
-            <Stack direction={"row"} spacing={4} mt={"1.2rem"}>
-              <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
-              <Box>
-                <Heading size={"md"}>Social Study 101</Heading>
-                <Text fontSize={"12px"}>
-                  Hello,drop a tutorial on how to create
-                </Text>
-              </Box>
-            </Stack>
-          </DrawerBody>
-
-          <DrawerFooter w={"100%"} display={"flex"} justifyContent={"center"}>
-            <Box
-              background={"#7B58F4;"}
-              p={4}
-              borderRadius={"100%"}
-              cursor={"pointer"}
-            >
-              <AiOutlineArrowRight fontSize={"25px"} color="white" />
-            </Box>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+      <SideModal isOpen={isOpen} onClose={onClose} title="Share to" />
     </Box>
   );
 };
