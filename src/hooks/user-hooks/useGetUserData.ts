@@ -17,7 +17,6 @@ const useGetUserData = () => {
         },
       });
 
-      console.log(res);
       if (res.data) {
         dispatch(updateUserData(res.data));
       }

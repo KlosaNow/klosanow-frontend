@@ -1,4 +1,10 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
 import {
@@ -31,9 +37,20 @@ import {
   AccountInfo,
   CreatedLessons,
 } from "./pages";
+import { useSelector } from "react-redux";
+import { RootState } from "./redux/store";
+import { useEffect } from "react";
 
 function App() {
+  const user = useSelector((state: RootState) => state.user);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user.token == "") {
+      navigate("/sign-in");
+    }
+  }, [user]);
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
