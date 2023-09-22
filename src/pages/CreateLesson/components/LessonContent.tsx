@@ -77,6 +77,16 @@ const LessonContent = ({ nextFunc }: FormikStepComponentProps) => {
           <TabPanel>
             <Box>
               <Box>
+                <Text mb="8px">Description</Text>
+                <Textarea
+                  value={value}
+                  onChange={handleInputChange}
+                  placeholder="Here is a sample placeholder"
+                  size="lg"
+                  height={318}
+                />
+              </Box>
+              <Box>
                 <UploadUnit />
               </Box>
               <SaveButton title="Save" />
@@ -84,6 +94,16 @@ const LessonContent = ({ nextFunc }: FormikStepComponentProps) => {
           </TabPanel>
           <TabPanel>
             <Box>
+              <Box>
+                <Text mb="8px">Description</Text>
+                <Textarea
+                  value={value}
+                  onChange={handleInputChange}
+                  placeholder="Here is a sample placeholder"
+                  size="lg"
+                  height={318}
+                />
+              </Box>
               <Box>
                 <OcrUpload />
               </Box>
