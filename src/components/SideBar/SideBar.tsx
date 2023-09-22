@@ -15,6 +15,8 @@ import { BsFillChatTextFill } from "react-icons/bs";
 import { IoMdSettings } from "react-icons/io";
 import { MdAppSettingsAlt } from "react-icons/md";
 import { IoMdHelpCircle } from "react-icons/io";
+import { useDispatch } from "react-redux";
+import { removeUser } from "../../redux/reducers/userReducer";
 const Links = [
   {
     name: "Dashboard",
@@ -38,6 +40,7 @@ const Links = [
   },
 ];
 const SideBar = () => {
+  const dispatch = useDispatch();
   return (
     <Box
       width="264px"
@@ -116,10 +119,15 @@ const SideBar = () => {
           </Link>
         </Box>
         <Box color={"red"} display={"flex"} alignItems={"center"}>
-          <Button color="red" variant="link" fontWeight="500">
-            <Box mr={"0.5rem"}>
-              <TbLogout />
-            </Box>
+          <Button
+            color="red"
+            variant="link"
+            fontWeight="500"
+            onClick={() => {
+              dispatch(removeUser());
+            }}
+          >
+            <TbLogout style={{ marginRight: "0.5rem" }} />
             Logout
           </Button>
         </Box>

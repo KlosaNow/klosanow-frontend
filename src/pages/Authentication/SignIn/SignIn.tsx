@@ -27,8 +27,11 @@ import { SignInSchema } from "../utils";
 import useSignin from "../../../hooks/auth-hooks/useSignin";
 import { InputError, ToastAlert } from "../../../components";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 export default function SignIn() {
+  const user = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
   const toast = useToast();
   const { mutate, data, isLoading, error, isError } = useSignin();
@@ -92,6 +95,14 @@ export default function SignIn() {
       });
     }
   }, [isError]);
+
+  useEffect(() => {
+    const token = user?.token;
+
+    if (token !== "") {
+      navigate("/dashboard");
+    }
+  }, []);
 
   return (
     <>

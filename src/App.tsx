@@ -5,6 +5,7 @@ import {
   CreateLessonLayout,
   DashboardLayout,
   GeneralLayout as Layout,
+  PrivateRoute,
 } from "./components";
 
 import {
@@ -74,9 +75,8 @@ function App() {
 
           <Route path="/help/mail" element={<MailUs />} />
           <Route path="/settings" element={<Settings />} />
-
-          <Route path="*" element={<Error />} />
         </Route>
+        <Route path="*" element={<Error />} />
       </Routes>
     </AnimatePresence>
   );
