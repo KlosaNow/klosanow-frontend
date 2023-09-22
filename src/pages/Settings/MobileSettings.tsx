@@ -8,12 +8,14 @@ import bell from "../../assets/SettingsPageImg/Vector.png";
 import wallet from "../../assets/SettingsPageImg/Wallet.png";
 import help from "../../assets/SettingsPageImg/Help.png";
 import logout from "../../assets/SettingsPageImg/Log-out.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { HiUserCircle } from "react-icons/hi";
+import { removeUser } from "../../redux/reducers/userReducer";
 
 const MobileSettings = () => {
   const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
   return (
     <Box
       backgroundColor="#f6f6f6"
@@ -81,7 +83,14 @@ const MobileSettings = () => {
           </Box>
 
           <Box mt="5" background="neutral.10" borderRadius="10" padding="10px">
-            <SettingsItem imageSrc={logout} text="Logout" link="/" />
+            <SettingsItem
+              imageSrc={logout}
+              text="Logout"
+              link="#"
+              onclick={() => {
+                dispatch(removeUser());
+              }}
+            />
           </Box>
         </Box>
       </Flex>
