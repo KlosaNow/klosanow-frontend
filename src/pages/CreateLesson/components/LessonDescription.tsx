@@ -14,9 +14,12 @@ import dummyImg from "../../../assets/images/dummy image.png";
 import { Link } from "react-router-dom";
 
 import { FormikStepComponentProps } from "../../../types/components/componetInterface";
+import { useFormikContext } from "formik";
 
 const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
   const [file, setFile] = useState<any>(null);
+  const {} = useFormikContext<{}>();
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile && selectedFile.type.startsWith("image/")) {
@@ -105,7 +108,7 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
           <Box>
             <Text mb="8px">Tutors name: </Text>
             <Input
-              placeholder="Lesson Title"
+              placeholder="Tell us your name"
               size="lg"
               // required
             />
@@ -113,7 +116,7 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
         </Box>
         <Box>
           <Text mb="8px" cursor={"pointer"}>
-            Description
+            Bio
           </Text>
           <Textarea
             placeholder="Tell us about your lesson"
