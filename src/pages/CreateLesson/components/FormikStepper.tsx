@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import React from "react";
 import {
   FormikStepProps,
@@ -27,6 +27,7 @@ export function FormikStepper({ ...props }: TWizardProps) {
         {...props}
         validationSchema={currentChild.props.validationSchema}
         onSubmit={(values, helpers) => {
+          console.log("sumbit");
           helpers.setSubmitting(true);
           if (props.isError === true) {
             props.setStep(0);
@@ -39,7 +40,7 @@ export function FormikStepper({ ...props }: TWizardProps) {
           helpers.setSubmitting(false);
         }}
       >
-        <form>{currentChild}</form>
+        <Form>{currentChild}</Form>
       </Formik>
     </Box>
   );

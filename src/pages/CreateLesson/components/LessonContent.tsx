@@ -16,7 +16,7 @@ import SaveButton from "./SaveButton";
 import OcrUpload from "./OcrUpload";
 import { FormikStepComponentProps } from "../../../types/components/componetInterface";
 
-const LessonContent = ({ nextFunc }: FormikStepComponentProps) => {
+const LessonContent = ({nextFunc}:FormikStepComponentProps ) => {
   const selectedStyle = {
     borderTop: "3px solid #7B58F4",
     color: "#7B58F4",
@@ -75,25 +75,31 @@ const LessonContent = ({ nextFunc }: FormikStepComponentProps) => {
             </Box>
           </TabPanel>
           <TabPanel>
-            <Box>
-              <Box>
-                <Text mb="8px">Description</Text>
-                <Textarea
-                  value={value}
-                  onChange={handleInputChange}
-                  placeholder="Here is a sample placeholder"
-                  size="lg"
-                  height={318}
-                />
-              </Box>
-              <Box>
-                <UploadUnit />
-              </Box>
-              <SaveButton title="Save" />
+            <Box
+              // w={[400, 600, 850]}
+              // h={[80, 150, 450]}
+            >
+                <Box>
+                  <Text mb='8px'>Description</Text>
+                  <Textarea
+                    value={value}
+                    onChange={handleInputChange}
+                    placeholder='Here is a sample placeholder'
+                    size='lg'
+                    height={318}
+                  />
+                </Box>
+                <Box>
+                  <UploadUnit />
+                </Box>
+                <SaveButton title="Save" />
             </Box>
           </TabPanel>
           <TabPanel>
-            <Box>
+            <Box
+              // w={[400, 600, 850]}
+              // h={[80, 150, 450]}
+            >
               <Box>
                 <Text mb="8px">Description</Text>
                 <Textarea

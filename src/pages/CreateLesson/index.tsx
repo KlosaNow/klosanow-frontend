@@ -12,7 +12,9 @@ export default function CreateLesson() {
     <>
       <FormikStepper
         initialValues={initialValues}
-        onSubmit={() => {}}
+        onSubmit={(values) => {
+          console.log(values);
+        }}
         isError={false}
         isLoading={false}
         step={step}
@@ -22,7 +24,9 @@ export default function CreateLesson() {
           <FormikStep
             key={name}
             name={name}
-            onSubmit={() => {}}
+            onSubmit={() => {
+              console.log("something went wrong");
+            }}
             validationSchema={validationSchema}
           >
             <Component nextFunc={nextStep} />

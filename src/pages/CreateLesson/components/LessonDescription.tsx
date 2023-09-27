@@ -18,16 +18,36 @@ import { useFormikContext } from "formik";
 
 const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
   const [file, setFile] = useState<any>(null);
-  const {} = useFormikContext<{}>();
+  const { values, setFieldValue } = useFormikContext<{
+    title: string;
+    about: string;
+    thumbnail: string;
+    tutor: {
+      name: string;
+      bio: string;
+    };
+  }>();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const selectedFile = e.target.files?.[0];
+
     if (selectedFile && selectedFile.type.startsWith("image/")) {
       setFile(URL.createObjectURL(selectedFile));
-      console.log(file);
+      setFieldValue("thumbnail", selectedFile.toString());
+
+      console.log(values);
     } else {
       console.log("Please select an image file.");
     }
+  };
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const fieldName = e.target.name;
+    const fieldValue = e.target.value;
+    setFieldValue(fieldName, fieldValue);
+    console.log(values);
   };
 
   return (
@@ -71,7 +91,7 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
               <Input
                 pr="4.5rem"
                 type="file"
-                placeholder="Enter password"
+                placeholder="Upload image"
                 zIndex={"revert"}
                 h={"full"}
                 w={"full"}
@@ -79,20 +99,22 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
                 opacity={0}
                 accept="image/*"
                 cursor={"pointer"}
+                name="thumbnail"
                 onChange={handleFileChange}
               />
             </Button>
           </Box>
         </Box>
       </Stack>
-      <Stack spacing={5} mt={"1rem"} as={"form"}>
+      <Stack spacing={5} mt={"1rem"}>
         <Box>
           <Box>
             <Text mb="8px">Course title: </Text>
             <Input
               placeholder="Lesson Title"
               size="lg"
-              // required
+              name="title"
+              onChange={handleInputChange}
             />
           </Box>
         </Box>
@@ -101,6 +123,9 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
           <Textarea
             placeholder="Tell us about your lesson"
             size="sm"
+            name="about"
+            onChange={handleInputChange}
+
             // required
           />
         </Box>
@@ -110,7 +135,13 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
             <Input
               placeholder="Tell us your name"
               size="lg"
-              // required
+              name="name"
+              onChange={(e) => {
+                setFieldValue("tutor", {
+                  ...values.tutor,
+                  name: e.target.value,
+                });
+              }}
             />
           </Box>
         </Box>
@@ -121,7 +152,10 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
           <Textarea
             placeholder="Tell us about your lesson"
             size="sm"
-            // required
+            name="bio"
+            onChange={(e) => {
+              setFieldValue("tutor", { ...values.tutor, bio: e.target.value });
+            }}
           />
         </Box>
         <Flex justify={"space-between"} color={"#BA1A1A"} fontSize={"0.7rem"}>
@@ -198,8 +232,7 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
             width={"200px"}
             h={"50px"}
             type="submit"
-            as={Link}
-            to={"/created-lessons"}
+            onClick={nextFunc}
           >
             Next
           </Button>
