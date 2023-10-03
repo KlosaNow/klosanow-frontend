@@ -211,7 +211,7 @@ const SubscriptionPlans = ({ openModal }: props) => {
       <Box
         backgroundColor="#f4f4f44d"
         padding={10}
-        marginTop={92}
+        marginTop={50}
         borderRadius="10px"
       >
         <Text fontSize="24px" marginBottom={5} fontWeight="semibold">
