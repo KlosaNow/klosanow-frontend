@@ -11,9 +11,12 @@ const useGetUserData = () => {
   const dispatch = useDispatch();
   const getUserData = async (userId: string) => {
     try {
-      const res: any = await axiosBaseInstance.get(`/user/${userId}`, {
+      const res: any = await axiosBaseInstance.get(`/user`, {
         headers: {
           Authorization: "Bearer " + user.token,
+        },
+        params: {
+          id: userId,
         },
       });
 

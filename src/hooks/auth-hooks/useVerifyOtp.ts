@@ -9,12 +9,12 @@ import useGetUserData from "../user-hooks/useGetUserData";
 
 const useVerifyOtp = () => {
   const dispatch = useDispatch();
-
+  const user = useSelector((state: RootState) => state.user);
   const verifyOtp = async (authResponse: authResponseInterface) => {
     const res = await axiosBaseInstance.post(
-      `/auth/verify-otp`,
+      `/auth/verify-otp/${authResponse.token}`,
       {
-        otp: authResponse.otp,
+        otp: `${authResponse.otp}`,
       },
       {
         headers: {
