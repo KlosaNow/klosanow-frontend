@@ -17,12 +17,22 @@ axiosBaseInstance.interceptors.request.use(
   }
 );
 
+// axiosBaseInstance.interceptors.response.use(
+//   (response) => {
+//     return response;
+//   },
+//   (error) => {
+//     if(error?.response)
+//     return error;
+//   }
 axiosBaseInstance.interceptors.response.use(
-  (response) => {
-    return response;
+  function (config) {
+    return config;
   },
-  (error) => {
-    return error;
+  function (error) {
+    if (error?.response?.status === 401) {
+      window.location.replace("/sign-in");
+    }
   }
 );
 
