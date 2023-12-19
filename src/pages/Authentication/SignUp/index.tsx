@@ -27,7 +27,7 @@ import { slides } from "../../Onboarding/utils/SlideData";
 const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 import "react-phone-input-2/lib/style.css";
 
-interface values {
+interface SignUpValues {
   name: string;
   email: string;
   phoneNumber: string;
@@ -47,7 +47,7 @@ export default function SignUp() {
     }
   })
 
-  const handleOnSubmit = (values: values) => {
+  const handleOnSubmit = (values: SignUpValues) => {
     mutate(values);
     localStorage.setItem("phoneNumber", values?.phoneNumber);
   };
