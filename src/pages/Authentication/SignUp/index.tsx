@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import {
   Box,
   Text,
@@ -15,11 +16,10 @@ import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { SignUpSchema } from "../utils/Schema/auth.schema";
 import { InputError } from "../../../components";
-import { useMutation } from "@tanstack/react-query";
 import { signUpApi } from "../../../api-endpoints/auth/auth.api";
 import toast from 'react-hot-toast';
 import PhoneInput from "react-phone-input-2";
-import { OnboardingSlides } from "../../";
+import { OnboardingSlides } from "../..";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -27,6 +27,12 @@ import { slides } from "../../Onboarding/utils/SlideData";
 const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 import "react-phone-input-2/lib/style.css";
 
+interface values {
+  name: string;
+  email: string;
+  phoneNumber: string;
+
+}
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -41,7 +47,7 @@ export default function SignUp() {
     }
   })
 
-  const handleOnSubmit = (values: any) => {
+  const handleOnSubmit = (values: values) => {
     mutate(values);
     localStorage.setItem("phoneNumber", values?.phoneNumber);
   };
