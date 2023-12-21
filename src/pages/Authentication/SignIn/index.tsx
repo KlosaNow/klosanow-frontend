@@ -21,6 +21,7 @@ import { OnboardingSlides } from "../..";
 import { SignInSchema } from "../utils";
 import { InputError, ToastAlert } from "../../../components";
 import toast from "react-hot-toast";
+import { AxiosError } from "axios";
 
 import PhoneInput from "react-phone-input-2";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -41,11 +42,22 @@ export default function SignIn() {
   const { mutate, isLoading } = useMutation(signInApi, {
     onSuccess: data => {
       toast.success(data?.message)
+      const otpData = data?.data;
+
+
+      // if (otpData?.otp !== undefined) {
+      localStorage.setItem("authResponse", JSON.stringify(otpData));
+      navigate("/otp");
+      // }
       navigate("/otp");
 
     },
-    onError: error => {
-      toast.error(error?.message)
+    onError: (error: AxiosError) => {
+      if (error.response) {
+        toast.error(error?.response?.data?.message)
+      } else {
+        toast.error(error?.message)
+      }
     }
   })
 

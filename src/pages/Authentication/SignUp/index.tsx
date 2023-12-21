@@ -18,14 +18,18 @@ import { SignUpSchema } from "../utils/Schema/auth.schema";
 import { InputError } from "../../../components";
 import { signUpApi } from "../../../api-endpoints/auth/auth.api";
 import toast from 'react-hot-toast';
-import PhoneInput from "react-phone-input-2";
+import { AxiosError } from "axios";
+
 import { OnboardingSlides } from "../..";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
+
+import PhoneInput from "react-phone-input-2";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 import "react-phone-input-2/lib/style.css";
+
 
 interface SignUpValues {
   name: string;
@@ -42,8 +46,13 @@ export default function SignUp() {
       navigate("/sign-in")
 
     },
-    onError: error => {
-      toast.error(error?.message)
+    onError: (error: AxiosError) => {
+      if (error.response) {
+        // @ts-ignore
+        toast.error(error?.response?.data?.message)
+      } else {
+        toast.error(error?.message) 
+      }
     }
   })
 
