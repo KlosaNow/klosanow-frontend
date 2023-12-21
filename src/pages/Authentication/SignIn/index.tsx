@@ -19,7 +19,7 @@ import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { OnboardingSlides } from "../..";
 import { SignInSchema } from "../utils";
-import { InputError, ToastAlert } from "../../../components";
+import { InputError } from "../../../components";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 
@@ -43,17 +43,15 @@ export default function SignIn() {
     onSuccess: data => {
       toast.success(data?.message)
       const otpData = data?.data;
-
-
-      // if (otpData?.otp !== undefined) {
+      // set otp to local storage
+      // this otp should be sent to user registered phone number
       localStorage.setItem("authResponse", JSON.stringify(otpData));
-      navigate("/otp");
-      // }
       navigate("/otp");
 
     },
     onError: (error: AxiosError) => {
       if (error.response) {
+        // @ts-ignore
         toast.error(error?.response?.data?.message)
       } else {
         toast.error(error?.message)
@@ -76,50 +74,6 @@ export default function SignIn() {
     onSubmit: handleOnSubmit,
   });
 
-  // useEffect(() => {
-  //   const otpData = data?.data;
-
-  //   if (data?.message !== undefined) {
-  //     toast({
-  //       position: "top-right",
-  //       isClosable: true,
-  //       duration: 5000,
-  //       render: () => (
-  //         <ToastAlert
-  //           variant="success"
-  //           closeFunc={() => {
-  //             toast.closeAll();
-  //           }}
-  //           message="Login successful. Verify OTP"
-  //         />
-  //       ),
-  //     });
-  //   }
-
-  //   if (otpData?.otp !== undefined) {
-  //     localStorage.setItem("authResponse", JSON.stringify(otpData));
-  //     navigate("/otp");
-  //   }
-  // }, [data]);
-
-  // useEffect(() => {
-  //   if (isError === true && error?.message !== undefined) {
-  //     toast({
-  //       position: "top-right",
-  //       isClosable: true,
-  //       duration: 5000,
-  //       render: () => (
-  //         <ToastAlert
-  //           variant="warning"
-  //           closeFunc={() => {
-  //             toast.closeAll();
-  //           }}
-  //           message={error?.message}
-  //         />
-  //       ),
-  //     });
-  //   }
-  // }, [isError]);
 
   return (
     <>

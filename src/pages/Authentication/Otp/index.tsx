@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
-import { OnboardingSlides } from "../../";
+import { OnboardingSlides } from "../..";
 import { authResponseInterface } from "../../../types/auth/authInterface";
 import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
 import useGetUserData from "../../../hooks/user-hooks/useGetUserData";
