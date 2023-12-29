@@ -13,34 +13,24 @@ import {
   VStack,
   Image,
   Spinner,
-  useToast,
 } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
 import { OnboardingSlides } from "../..";
 import { authResponseInterface } from "../../../types/auth/authInterface";
 import useGetUserData from "../../../hooks/user-hooks/useGetUserData";
-import { updateToken } from "../../../redux/reducers/userReducer";
 import toast from "react-hot-toast";
 
 
 export default function Otp(): JSX.Element {
-  const dispatch = useDispatch();
-  // const toast = useToast();
-  // const {
-  //   mutate: verifyOtp,
-  //   data: OtpResponse,
-  //   isLoading,
-  //   isError,
-  //   error,
-  // } = useVerifyOtp();
-  const { mutate: getUserData, isSuccess: isUserSuccess } = useGetUserData();
+  const { mutate: getUserData } = useGetUserData();
   const [authResponse, setAuthResponse] = useState({} as authResponseInterface);
-  const [phoneNumber] = useState(localStorage.getItem("phoneNumber"));
+
+  const phoneNumber = localStorage.getItem("phoneNumber")
 
   const navigate = useNavigate();
+
   const { mutate, isLoading } = useMutation(verifyOtpApi, {
     onSuccess: data => {
       const userId = data?.data?.user?._id
@@ -48,7 +38,7 @@ export default function Otp(): JSX.Element {
         getUserData(userId)
       }
       toast.success(data?.message)
-      // navigate("/dashboard");
+      navigate("/dashboard");
 
     },
     onError: (error: AxiosError) => {
@@ -71,15 +61,6 @@ export default function Otp(): JSX.Element {
     mutate(authResponse)
   };
 
-
-
-
-
-  useEffect(() => {
-    if (isUserSuccess) {
-      navigate("/dashboard");
-    }
-  }, [isUserSuccess]);
 
   useEffect(() => {
     const localStorageRes = localStorage.getItem("authResponse");
@@ -173,7 +154,7 @@ export default function Otp(): JSX.Element {
             </Box>
             <Box mt="4rem">
               <Text textAlign="center" fontSize="sm" fontWeight="medium">
-                OTP has been sent to{" "}
+                OTP has been sent to{" "} {"+"}
                 {phoneNumber ? phoneNumber : "your phone number"}
               </Text>
             </Box>
@@ -183,7 +164,7 @@ export default function Otp(): JSX.Element {
                 <PinInput
                   size="lg"
                   otp
-                  value={`${authResponse.otp}`}
+                  value={`${authResponse?.otp}`}
                   onChange={handlePinChange}
                 >
                   <PinInputField />

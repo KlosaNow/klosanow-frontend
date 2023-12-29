@@ -6,6 +6,8 @@ import {
   OtpInterface,
 } from "./interface";
 
+
+
 export const signUpApi = async (
   signUpPayload: object
 ): Promise<AuthResponseInterface> => {
@@ -32,5 +34,8 @@ export const verifyOtpApi = async (
       },
     }
   );
+  const userToken = data?.data?.token;
+  console.log({ userToken });
+
   return data;
 };

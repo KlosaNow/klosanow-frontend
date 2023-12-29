@@ -62,6 +62,7 @@ export default function SignIn() {
   const handleOnSubmit = (values: SignInValues) => {
     // @ts-ignore
     localStorage.setItem("email", values?.email);
+    localStorage.setItem("phoneNumber", values?.phoneNumber)
     mutate(values);
   };
 
