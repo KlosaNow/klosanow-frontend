@@ -32,7 +32,7 @@ export default function Otp(): JSX.Element {
 
 
   const { mutate: singleUserData } = useMutation({
-    mutationFn: (userId: string) => getSingleUser(userId, user.token),
+    mutationFn: (userId: string) => getSingleUser(userId, user?.token as string),
   }
   )
   const [authResponse, setAuthResponse] = useState({} as authResponseInterface);

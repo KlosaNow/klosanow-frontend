@@ -2,14 +2,11 @@ import { useEffect } from "react";
 import { Box, useDisclosure } from "@chakra-ui/react";
 import { Outlet, useLocation } from "react-router-dom";
 import { SideBar, NavBar, BottomNav } from "../../";
-import { Notifications } from "../../../pages";
 import NotificationModal from "../../Modals/NotificationModal/NotificationModal";
-import useGetUserData from "../../../hooks/user-hooks/useGetUserData";
 
 const DashboardLayout = () => {
   const { pathname } = useLocation();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { mutate } = useGetUserData();
 
   useEffect(() => {}, []);
 
