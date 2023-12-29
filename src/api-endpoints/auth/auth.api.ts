@@ -1,10 +1,9 @@
 import api from "../../services/axiosBaseInstance";
-import { authResponseInterface } from "../../types/auth/authInterface";
-
 import {
   AuthResponseInterface,
   SignInResponse,
   VerifyOtpResponse,
+  OtpInterface,
 } from "./interface";
 
 export const signUpApi = async (
@@ -22,7 +21,7 @@ export const signInApi = async (
 };
 
 export const verifyOtpApi = async (
-  verifyPayload: authResponseInterface
+  verifyPayload: OtpInterface
 ): Promise<VerifyOtpResponse> => {
   const { data } = await api.post(
     `/auth/verify-otp/${verifyPayload.token}`,

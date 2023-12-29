@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { AxiosError } from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { verifyOtpApi } from "../../../api-endpoints/auth/auth.api";
 import {
   Box,
   HStack,
@@ -22,17 +25,19 @@ import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
 import useGetUserData from "../../../hooks/user-hooks/useGetUserData";
 import { updateToken } from "../../../redux/reducers/userReducer";
 import { ToastAlert } from "../../../components";
+import toast from "react-hot-toast";
+
 
 export default function Otp(): JSX.Element {
   const dispatch = useDispatch();
-  const toast = useToast();
-  const {
-    mutate: verifyOtp,
-    data: OtpResponse,
-    isLoading,
-    isError,
-    error,
-  } = useVerifyOtp();
+  // const toast = useToast();
+  // const {
+  //   mutate: verifyOtp,
+  //   data: OtpResponse,
+  //   isLoading,
+  //   isError,
+  //   error,
+  // } = useVerifyOtp();
   const { mutate: getUserData, isSuccess: isUserSuccess } = useGetUserData();
   const [authResponse, setAuthResponse] = useState({} as authResponseInterface);
   const [phoneNumber] = useState(localStorage.getItem("phoneNumber"));

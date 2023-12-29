@@ -27,3 +27,9 @@ export interface VerifyOtpResponse {
   message: string;
   data: Otp[];
 }
+
+
+export interface OtpInterface {
+  token: string;
+  otp: number;
+}
