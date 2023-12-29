@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { verifyOtpApi } from "../../../api-endpoints/auth/auth.api";
+import { getSingleUser } from "../../../api-endpoints/user/user.api";
+import { useSelector } from "react-redux";
 import {
   Box,
   HStack,
@@ -19,12 +21,20 @@ import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
 import { OnboardingSlides } from "../..";
 import { authResponseInterface } from "../../../types/auth/authInterface";
-import useGetUserData from "../../../hooks/user-hooks/useGetUserData";
 import toast from "react-hot-toast";
+import { RootState } from '../../../redux/store';
+
 
 
 export default function Otp(): JSX.Element {
-  const { mutate: getUserData } = useGetUserData();
+  const user = useSelector((state: RootState) => state.user);
+  console.log({ user });
+
+
+  const { mutate: singleUserData } = useMutation({
+    mutationFn: (userId: string) => getSingleUser(userId, user.token),
+  }
+  )
   const [authResponse, setAuthResponse] = useState({} as authResponseInterface);
 
   const phoneNumber = localStorage.getItem("phoneNumber")
@@ -35,7 +45,8 @@ export default function Otp(): JSX.Element {
     onSuccess: data => {
       const userId = data?.data?.user?._id
       if (userId) {
-        getUserData(userId)
+        singleUserData(userId)
+
       }
       toast.success(data?.message)
       navigate("/dashboard");

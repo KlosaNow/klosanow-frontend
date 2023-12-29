@@ -34,8 +34,6 @@ export const verifyOtpApi = async (
       },
     }
   );
-  const userToken = data?.data?.token;
-  console.log({ userToken });
 
   return data;
 };
