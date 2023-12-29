@@ -21,10 +21,8 @@ import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
 import { OnboardingSlides } from "../..";
 import { authResponseInterface } from "../../../types/auth/authInterface";
-import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
 import useGetUserData from "../../../hooks/user-hooks/useGetUserData";
 import { updateToken } from "../../../redux/reducers/userReducer";
-import { ToastAlert } from "../../../components";
 import toast from "react-hot-toast";
 
 
@@ -43,6 +41,25 @@ export default function Otp(): JSX.Element {
   const [phoneNumber] = useState(localStorage.getItem("phoneNumber"));
 
   const navigate = useNavigate();
+  const { mutate, isLoading } = useMutation(verifyOtpApi, {
+    onSuccess: data => {
+      const userId = data?.data?.user?._id
+      if (userId) {
+        getUserData(userId)
+      }
+      toast.success(data?.message)
+      // navigate("/dashboard");
+
+    },
+    onError: (error: AxiosError) => {
+      if (error.response) {
+        //@ts-ignore
+        toast.error(error?.response?.data?.message)
+      } else {
+        toast.error(error?.message)
+      }
+    }
+  })
 
   // Handle change event for the PinInputField
   const handlePinChange = (value: any) => {
@@ -51,51 +68,12 @@ export default function Otp(): JSX.Element {
 
   const handleOnSubmit = (e: any) => {
     e.preventDefault();
-    verifyOtp(authResponse);
+    mutate(authResponse)
   };
 
-  useEffect(() => {
-    if (isError === true && error?.message !== undefined) {
-      toast({
-        position: "top-right",
-        isClosable: true,
-        duration: 5000,
-        render: () => (
-          <ToastAlert
-            variant="warning"
-            closeFunc={() => {
-              toast.closeAll();
-            }}
-            message={error?.message}
-          />
-        ),
-      });
-    }
-  }, [isError]);
 
-  useEffect(() => {
-    const userId = OtpResponse?.data?.user?._id;
-    if (userId) {
-      getUserData(userId);
-    }
 
-    if (OtpResponse?.message !== undefined) {
-      toast({
-        position: "top-right",
-        isClosable: true,
-        duration: 5000,
-        render: () => (
-          <ToastAlert
-            variant="success"
-            closeFunc={() => {
-              toast.closeAll();
-            }}
-            message={OtpResponse?.message}
-          />
-        ),
-      });
-    }
-  }, [OtpResponse]);
+
 
   useEffect(() => {
     if (isUserSuccess) {

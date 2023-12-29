@@ -25,7 +25,7 @@ export interface Otp {
 export interface VerifyOtpResponse {
   status: string;
   message: string;
-  data: Otp[];
+  data: Otp;
 }
 
 
