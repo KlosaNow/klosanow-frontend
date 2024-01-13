@@ -10,5 +10,10 @@ export const getSingleUser = async (
       Authorization: "Bearer " + bearerToken,
     },
   });
+  // check if data is returned then dispatch to store
+  // if(data.data){
+  //         dispatch(updateUserData(data.data));
+
+  // }
   return data;
 };

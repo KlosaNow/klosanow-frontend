@@ -216,7 +216,7 @@ export default function SignIn() {
                   type="submit"
                   disabled={!(formik.dirty && formik.isValid)}
                 >
-                  {isLoading ? <Spinner size="sm" /> : "Sign In"}
+                  {isLoading ? <Spinner size="sm" thickness='4px' /> : "Sign In"}
                 </Button>
               </Box>
 

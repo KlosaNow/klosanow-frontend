@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { verifyOtpApi } from "../../../api-endpoints/auth/auth.api";
 import { getSingleUser } from "../../../api-endpoints/user/user.api";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Box,
   HStack,
@@ -23,33 +23,44 @@ import { OnboardingSlides } from "../..";
 import { authResponseInterface } from "../../../types/auth/authInterface";
 import toast from "react-hot-toast";
 import { RootState } from '../../../redux/store';
+import { updateUserData } from "../../../redux/reducers/userReducer";
+
 
 
 
 export default function Otp(): JSX.Element {
+  const [authResponse, setAuthResponse] = useState({} as authResponseInterface);
+
   const user = useSelector((state: RootState) => state.user);
   console.log({ user });
+  const dispatch = useDispatch()
 
-
-  const { mutate: singleUserData } = useMutation({
+  // get user mutation
+  const { mutate: singleUserData, } = useMutation({
     mutationFn: (userId: string) => getSingleUser(userId, user?.token as string),
+    onSuccess: () => {
+      navigate("/dashboard");
+    }
   }
   )
-  const [authResponse, setAuthResponse] = useState({} as authResponseInterface);
 
   const phoneNumber = localStorage.getItem("phoneNumber")
 
   const navigate = useNavigate();
 
-  const { mutate, isLoading } = useMutation(verifyOtpApi, {
+  // verify otp mutation
+  const { mutate, isLoading, data: otpResponse } = useMutation(verifyOtpApi, {
+  // onSettled: () => {
+  //   dispatch(updateUserData())
+  // },
     onSuccess: data => {
-      const userId = data?.data?.user?._id
+      const userId = otpResponse?.data?.user?._id
       if (userId) {
         singleUserData(userId)
 
       }
       toast.success(data?.message)
-      navigate("/dashboard");
+      // navigate("/dashboard");
 
     },
     onError: (error: AxiosError) => {
@@ -193,7 +204,7 @@ export default function Otp(): JSX.Element {
                   bgColor="primary.50"
                   type="submit"
                 >
-                  {isLoading ? <Spinner size="sm" /> : "Verify OTP"}
+                  {isLoading ? <Spinner size="sm" thickness='4px' /> : "Verify OTP"}
                 </Button>
               </Box>
               <Text
