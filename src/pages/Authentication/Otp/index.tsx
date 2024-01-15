@@ -20,52 +20,38 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
 import { OnboardingSlides } from "../..";
-import { authResponseInterface } from "../../../types/auth/authInterface";
+import { AuthResponseI } from "../../../types/auth/authInterface";
 import toast from "react-hot-toast";
 import { RootState } from '../../../redux/store';
 import { updateUserData } from "../../../redux/reducers/userReducer";
+import { _token } from "../../../services/axios";
 
 
-
+type OtpT = Pick<AuthResponseI, "otp">
 
 export default function Otp(): JSX.Element {
-  const [authResponse, setAuthResponse] = useState({} as authResponseInterface);
-
+  const navigate = useNavigate();
+  const [authResponse, setAuthResponse] = useState<AuthResponseI | null>(null);
+  const [otp, setOtp] = useState<OtpT | null>(null)
   const user = useSelector((state: RootState) => state.user);
+  const phoneNumber = localStorage.getItem("phoneNumber")
   console.log({ user });
   const dispatch = useDispatch()
 
-  // get user mutation
-  const { mutate: singleUserData, } = useMutation({
-    mutationFn: (userId: string) => getSingleUser(userId, user?.token as string),
-    onSuccess: () => {
-      navigate("/dashboard");
-    }
-  }
-  )
-
-  const phoneNumber = localStorage.getItem("phoneNumber")
-
-  const navigate = useNavigate();
-
   // verify otp mutation
-  const { mutate, isLoading, data: otpResponse } = useMutation(verifyOtpApi, {
-  // onSettled: () => {
-  //   dispatch(updateUserData())
-  // },
-    onSuccess: data => {
-      const userId = otpResponse?.data?.user?._id
-      if (userId) {
-        singleUserData(userId)
+  const verifyMutation = useMutation(verifyOtpApi, {
+    onSuccess: (data) => {
+      const userId = data?.data?.user?._id
+      console.log({ user }, '2');
+      console.log({ userId });
 
+      if (userId) {
+        singleUserData.mutate(userId)
       }
       toast.success(data?.message)
-      // navigate("/dashboard");
-
     },
-    onError: (error: AxiosError) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       if (error.response) {
-        //@ts-ignore
         toast.error(error?.response?.data?.message)
       } else {
         toast.error(error?.message)
@@ -73,21 +59,30 @@ export default function Otp(): JSX.Element {
     }
   })
 
+  // get user mutation
+  const singleUserData = useMutation({
+    mutationFn: (userId: string) => getSingleUser(userId, user?.token as string),
+    onSuccess: () => {
+      navigate("/dashboard")
+    }
+  })
+
+
   // Handle change event for the PinInputField
-  const handlePinChange = (value: any) => {
-    setAuthResponse({ ...authResponse, otp: value });
+  const handlePinChange = (value: OtpT) => {
+    setOtp(value);
   };
 
-  const handleOnSubmit = (e: any) => {
-    e.preventDefault();
-    mutate(authResponse)
+  const handleOnSubmit = () => {
+    if (authResponse) {
+      verifyMutation.mutate(authResponse)
+    }
   };
 
 
   useEffect(() => {
-    const localStorageRes = localStorage.getItem("authResponse");
-    if (localStorageRes !== undefined || null) {
-      // @ts-ignore
+    const localStorageRes = localStorage.getItem("signinResponse");
+    if (localStorageRes) {
       setAuthResponse(JSON.parse(localStorageRes));
     }
   }, []);
@@ -187,7 +182,7 @@ export default function Otp(): JSX.Element {
                   size="lg"
                   otp
                   value={`${authResponse?.otp}`}
-                  onChange={handlePinChange}
+                  onChange={(otp) => handlePinChange(otp)}
                 >
                   <PinInputField />
                   <PinInputField />
@@ -204,7 +199,7 @@ export default function Otp(): JSX.Element {
                   bgColor="primary.50"
                   type="submit"
                 >
-                  {isLoading ? <Spinner size="sm" thickness='4px' /> : "Verify OTP"}
+                  {verifyMutation.isLoading ? <Spinner size="sm" thickness='4px' /> : "Verify OTP"}
                 </Button>
               </Box>
               <Text

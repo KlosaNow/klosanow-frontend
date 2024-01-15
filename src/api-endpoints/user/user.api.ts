@@ -6,9 +6,9 @@ export const getSingleUser = async (
   bearerToken: string
 ): Promise<SingleUserResponse> => {
   const { data } = await api.get(`/users/${userId}`, {
-    headers: {
-      Authorization: "Bearer " + bearerToken,
-    },
+    // headers: {
+    //   Authorization: "Bearer " + bearerToken,
+    // },
   });
   // check if data is returned then dispatch to store
   // if(data.data){

@@ -1,4 +1,6 @@
+import { AxiosInstance as Axios } from "../../services/axios";
 import api from "../../services/axiosBaseInstance";
+import { SignUpValues, SignInValues } from "../../types/auth/authInterface";
 import {
   AuthResponseInterface,
   SignInResponse,
@@ -6,34 +8,29 @@ import {
   OtpInterface,
 } from "./interface";
 
-
-
 export const signUpApi = async (
-  signUpPayload: object
+  signUpPayload: SignUpValues
 ): Promise<AuthResponseInterface> => {
-  const { data } = await api.post("/auth/sign-up", signUpPayload);
+  const { data } = await Axios.post("/auth/sign-up", signUpPayload);
   return data;
 };
 
 export const signInApi = async (
-  signInPayload: object
+  signInPayload: SignInValues
 ): Promise<SignInResponse> => {
-  const { data } = await api.post("/auth/sign-in", signInPayload);
+  const { data } = await Axios.post("/auth/sign-in", signInPayload);
   return data;
 };
 
 export const verifyOtpApi = async (
   verifyPayload: OtpInterface
 ): Promise<VerifyOtpResponse> => {
-  const { data } = await api.post(
-    `/auth/verify-otp/${verifyPayload.token}`,
-    { otp: `${verifyPayload.otp}` },
-    {
-      headers: {
-        Authorization: "Bearer " + verifyPayload.token,
-      },
-    }
-  );
+  console.log(verifyPayload, "lol");
+
+  const { data } = await Axios.post(`/auth/verify-otp/${verifyPayload.token}`, {
+    otp: `${verifyPayload.otp}`,
+  });
+  console.log({ data });
 
   return data;
 };

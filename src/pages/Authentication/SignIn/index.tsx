@@ -1,5 +1,7 @@
 import { signInApi } from "../../../api-endpoints/auth/auth.api";
+import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
+import { SignInValues } from '../../../types/auth/authInterface';
 import {
   Box,
   FormControl,
@@ -21,7 +23,6 @@ import { OnboardingSlides } from "../..";
 import { SignInSchema } from "../utils";
 import { InputError } from "../../../components";
 import toast from "react-hot-toast";
-import { AxiosError } from "axios";
 
 import PhoneInput from "react-phone-input-2";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -30,14 +31,8 @@ const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 import "react-phone-input-2/lib/style.css";
 
 
-interface SignInValues {
-  email: string;
-  phoneNumber: string;
-}
-
 export default function SignIn() {
   const navigate = useNavigate();
-
 
   const { mutate, isLoading } = useMutation(signInApi, {
     onSuccess: data => {
@@ -45,13 +40,12 @@ export default function SignIn() {
       const otpData = data?.data;
       // set otp to local storage
       // this otp should be sent to user registered phone number
-      localStorage.setItem("authResponse", JSON.stringify(otpData));
+      localStorage.setItem("signinResponse", JSON.stringify(otpData));
       navigate("/otp");
 
     },
-    onError: (error: AxiosError) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       if (error.response) {
-        // @ts-ignore
         toast.error(error?.response?.data?.message)
       } else {
         toast.error(error?.message)
@@ -60,7 +54,6 @@ export default function SignIn() {
   })
 
   const handleOnSubmit = (values: SignInValues) => {
-    // @ts-ignore
     localStorage.setItem("email", values?.email);
     localStorage.setItem("phoneNumber", values?.phoneNumber)
     mutate(values);

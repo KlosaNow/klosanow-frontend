@@ -1,4 +1,4 @@
-export interface userDataInterface {
+export interface UserDataI {
   email: string;
   name: string;
   phoneNumber: string;
@@ -7,13 +7,23 @@ export interface userDataInterface {
   // createdLessons: []
   // notifications: []
 }
-export interface userInterface {
+export interface UserI {
   token: string;
   isAuth: boolean;
-  data: userDataInterface | null;
+  data: UserDataI | null;
 }
 
-export interface authResponseInterface {
+export interface AuthResponseI {
   token: string;
   otp: number;
+}
+
+export interface SignUpValues {
+  name: string;
+  email: string;
+  phoneNumber: string;
+}
+export interface SignInValues {
+  email: string;
+  phoneNumber: string;
 }

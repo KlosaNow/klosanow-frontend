@@ -19,7 +19,7 @@ import { InputError } from "../../../components";
 import { signUpApi } from "../../../api-endpoints/auth/auth.api";
 import toast from 'react-hot-toast';
 import { AxiosError } from "axios";
-
+import { SignUpValues } from '../../../types/auth/authInterface';
 import { OnboardingSlides } from "../..";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
@@ -31,12 +31,6 @@ const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 import "react-phone-input-2/lib/style.css";
 
 
-interface SignUpValues {
-  name: string;
-  email: string;
-  phoneNumber: string;
-
-}
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -46,9 +40,8 @@ export default function SignUp() {
       navigate("/sign-in")
 
     },
-    onError: (error: AxiosError) => {
+    onError: (error: AxiosError<{ message: string }>) => {
       if (error.response) {
-        // @ts-ignore
         toast.error(error?.response?.data?.message)
       } else {
         toast.error(error?.message) 
