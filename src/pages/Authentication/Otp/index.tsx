@@ -73,7 +73,8 @@ export default function Otp(): JSX.Element {
     setOtp(value);
   };
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = (e: React.FormEvent<HTMLInputElement>) => {
+    e.preventDefault()
     if (authResponse) {
       verifyMutation.mutate(authResponse)
     }
