@@ -44,6 +44,7 @@ export default function Otp(): JSX.Element {
       const userId = data?.data?.user?._id
       console.log({ user }, '2');
       console.log({ userId });
+      // navigate("/dashboard")
 
       if (userId) {
         singleUserData.mutate(userId)
@@ -183,7 +184,7 @@ export default function Otp(): JSX.Element {
                   size="lg"
                   otp
                   value={`${authResponse?.otp}`}
-                  onChange={(otp) => handlePinChange(otp)}
+                  onChange={(otp) => handlePinChange(otp as OtpT | any)}
                 >
                   <PinInputField />
                   <PinInputField />
