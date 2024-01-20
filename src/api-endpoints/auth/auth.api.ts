@@ -1,5 +1,4 @@
 import { AxiosInstance as Axios } from "../../services/axios";
-import api from "../../services/axiosBaseInstance";
 import { SignUpValues, SignInValues } from "../../types/auth/authInterface";
 import {
   AuthResponseInterface,
@@ -25,12 +24,8 @@ export const signInApi = async (
 export const verifyOtpApi = async (
   verifyPayload: OtpInterface
 ): Promise<VerifyOtpResponse> => {
-  // console.log(verifyPayload, "lol");
-
   const { data } = await Axios.post(`/auth/verify-otp/${verifyPayload.token}`, {
     otp: `${verifyPayload.otp}`,
   });
-  console.log({ data }, "damam");
-
   return data;
 };
