@@ -1,4 +1,4 @@
-import { _token } from "../../services/axios";
+import { _token } from "../../utils/axios";
 
 export interface AuthResponseInterface {
   status: string;
@@ -12,7 +12,7 @@ export interface SignIn {
 export interface SignInResponse {
   status: string;
   message: string;
-  data: SignIn[];
+  data: SignIn;
 }
 
 export interface OtpResponse {
@@ -21,13 +21,13 @@ export interface OtpResponse {
     email: string;
     phoneNumber: string;
   };
-  token: string;
 }
 export interface VerifyOtpResponse {
   user: any;
   status: string;
   message: string;
   data: OtpResponse;
+  token: string;
 }
 
 export interface OtpInterface {

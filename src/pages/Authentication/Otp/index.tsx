@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { verifyOtpApi } from "../../../api-endpoints/auth/auth.api";
 import { getSingleUser } from "../../../api-endpoints/user/user.api";
 import { useSelector, useDispatch } from "react-redux";
@@ -20,36 +20,43 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
 import { OnboardingSlides } from "../..";
-import { AuthResponseI } from "../../../types/auth/authInterface";
+import { AuthResponseI, UserI } from "../../../types/auth/authInterface";
 import toast from "react-hot-toast";
 import { RootState } from '../../../redux/store';
-import { updateUserData } from "../../../redux/reducers/userReducer";
-import { _token } from "../../../services/axios";
+import { updateToken, updateUserData } from "../../../redux/reducers/userReducer";
+import { _token } from "../../../utils/axios";
+import { savedwithExp } from "../../../utils/constant";
+import { VerifyOtpResponse } from "../../../api-endpoints/auth/interface";
 
 
 type OtpT = Pick<AuthResponseI, "otp">
+
 
 export default function Otp(): JSX.Element {
   const navigate = useNavigate();
   const [authResponse, setAuthResponse] = useState<AuthResponseI | null>(null);
   const [otp, setOtp] = useState<OtpT | null>(null)
+  const [verifyRes, setVerifyRes] = useState<VerifyOtpResponse | null>(null)
+  const [isReady, setIsReady] = useState(false)
+
+
   const user = useSelector((state: RootState) => state.user);
-  const phoneNumber = localStorage.getItem("phoneNumber")
-  console.log({ user });
   const dispatch = useDispatch()
+  const phoneNumber = localStorage.getItem("phoneNumber")
 
   // verify otp mutation
   const verifyMutation = useMutation(verifyOtpApi, {
     onSuccess: (data) => {
-      const userId = data?.data?.user?._id
-      console.log({ user }, '2');
-      console.log({ userId });
-      // navigate("/dashboard")
 
-      if (userId) {
-        singleUserData.mutate(userId)
+      if (data) {
+        console.log({ data });
+        setIsReady(true)
+        setVerifyRes(data)
+        savedwithExp({ ...data }, 1)
+
       }
-      toast.success(data?.message)
+
+      toast.success(data?.message || 'User returned successfully')
     },
     onError: (error: AxiosError<{ message: string }>) => {
       if (error.response) {
@@ -60,12 +67,19 @@ export default function Otp(): JSX.Element {
     }
   })
 
-  // get user mutation
-  const singleUserData = useMutation({
-    mutationFn: (userId: string) => getSingleUser(userId, user?.token as string),
-    onSuccess: () => {
+  // get user  query
+  useQuery({
+    queryKey: ['user'],
+    queryFn: () => {
+      return verifyRes && getSingleUser(verifyRes?.user?._id, verifyRes?.token)
+    },
+
+    onSuccess: (data: UserI) => {
+      dispatch(updateUserData(data))
       navigate("/dashboard")
-    }
+
+    },
+    enabled: isReady
   })
 
 

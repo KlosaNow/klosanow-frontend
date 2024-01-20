@@ -20,7 +20,7 @@ import { slides } from "../../Onboarding/utils/SlideData";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { OnboardingSlides } from "../..";
-import { SignInSchema } from "../utils";
+import { SignInSchema } from "../schema/auth.schema";
 import { InputError } from "../../../components";
 import toast from "react-hot-toast";
 

@@ -11,9 +11,7 @@ import {
   MenuItem,
   MenuList,
   Button,
-  Image,
 } from "@chakra-ui/react";
-import Img from "../../assets/images/notification_1.png";
 import { BiBell } from "react-icons/bi";
 import { Search } from "../../components/Search/Search";
 import { BsChevronDown } from "react-icons/bs";
@@ -46,6 +44,7 @@ const notifications = [
 const HomePage: FC = () => {
   const user = useSelector((state: RootState) => state.user);
   const [showLessons, setShowLessons] = useState<boolean>(true);
+
 
   return (
     <Box width="full" paddingX={1} height="full" margin={["auto", "0px"]}>

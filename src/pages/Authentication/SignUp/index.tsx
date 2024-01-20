@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { SignUpSchema } from "../utils/Schema/auth.schema";
+import { SignUpSchema } from "../schema/auth.schema";
 import { InputError } from "../../../components";
 import { signUpApi } from "../../../api-endpoints/auth/auth.api";
 import toast from 'react-hot-toast';

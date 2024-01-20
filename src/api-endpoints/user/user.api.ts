@@ -1,6 +1,5 @@
-import { AxiosInstance as Axios } from "../../services/axios";
+import { AxiosInstance as Axios } from "../../utils/axios";
 import { SingleUserResponse } from "./user.interface";
-import api from "../../services/axiosBaseInstance";
 
 export const getSingleUser = async (
   userId: string,
@@ -11,10 +10,6 @@ export const getSingleUser = async (
       Authorization: "Bearer " + bearerToken,
     },
   });
-  // check if data is returned then dispatch to store
-  // if(data.data){
-  //         dispatch(updateUserData(data.data));
 
-  // }
   return data;
 };

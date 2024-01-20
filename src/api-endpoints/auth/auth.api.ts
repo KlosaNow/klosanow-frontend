@@ -1,4 +1,4 @@
-import { AxiosInstance as Axios } from "../../services/axios";
+import { AxiosInstance as Axios } from "../../utils/axios";
 import { SignUpValues, SignInValues } from "../../types/auth/authInterface";
 import {
   AuthResponseInterface,
@@ -27,5 +27,6 @@ export const verifyOtpApi = async (
   const { data } = await Axios.post(`/auth/verify-otp/${verifyPayload.token}`, {
     otp: `${verifyPayload.otp}`,
   });
-  return data;
+
+  return data.data;
 };
