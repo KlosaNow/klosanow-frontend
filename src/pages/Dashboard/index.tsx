@@ -41,8 +41,10 @@ const notifications = [
   },
 ];
 
-const HomePage: FC = () => {
+const Dashboard: FC = () => {
   const user = useSelector((state: RootState) => state.user);
+  console.log({ user });
+
   const [showLessons, setShowLessons] = useState<boolean>(true);
 
 
@@ -150,4 +152,4 @@ const HomePage: FC = () => {
   );
 };
 
-export default HomePage;
+export default Dashboard;

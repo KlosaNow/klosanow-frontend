@@ -30,6 +30,7 @@ import {
   AccountInfo,
   CreatedLessons,
 } from "./pages";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 function App() {
   const location = useLocation();
@@ -44,8 +45,12 @@ function App() {
           <Route path="/otp" element={<Otp />} />
 
 
+          <Route element={<ProtectedRoute />}>
+
           <Route path="" element={<DashboardLayout />}>
-            <Route path="/dashboard" index element={<Dashboard />} />
+              <Route path="/dashboard" index element={
+                <Dashboard />
+              } />
 
             <Route path="" element={<CreateLessonLayout />}>
               <Route path="/create-lesson" index element={<CreateLesson />} />
@@ -74,13 +79,14 @@ function App() {
             </Route>
 
             <Route path="/help/mail" element={<MailUs />} />
-            <Route path="/settings" element={<Settings />} />
-            {/* this should always be the last route */}
+              <Route path="/settings" element={<Settings />} />
 
-            <Route path="*" element={<Error />} />
           </Route>
 
+          </Route>
+          {/* this should always be the last route */}
 
+          <Route path="*" element={<Error />} />
 
 
         </Routes>
@@ -96,3 +102,5 @@ function App() {
 }
 
 export default App;
+
+// 8163171222   day.dev@example.com

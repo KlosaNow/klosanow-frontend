@@ -3,7 +3,7 @@ import { UserI } from "../../types/auth/authInterface";
 
 const initialState: UserI = {
   token: "",
-  isAuth: true,
+  isAuth: false,
   data: null,
 };
 
