@@ -3,9 +3,9 @@ export interface UserDataI {
   name: string;
   phoneNumber: string;
   role: string;
-  // savedLessons: []
-  // createdLessons: []
-  // notifications: []
+  savedLessons: any[];
+  createdLessons: any[];
+  notifications: any[];
 }
 export interface UserI {
   token: string;

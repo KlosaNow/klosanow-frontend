@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Box, useDisclosure } from "@chakra-ui/react";
 import { Outlet, useLocation } from "react-router-dom";
 import { SideBar, NavBar, BottomNav } from "../../";
@@ -8,7 +7,6 @@ const DashboardLayout = () => {
   const { pathname } = useLocation();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  useEffect(() => {}, []);
 
   return (
     <Box display="flex">

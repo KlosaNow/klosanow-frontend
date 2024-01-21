@@ -37,10 +37,10 @@ export default function Otp(): JSX.Element {
   const [authResponse, setAuthResponse] = useState<AuthResponseI | null>(null);
   const [otp, setOtp] = useState<OtpT | null>(null)
   const [verifyRes, setVerifyRes] = useState<VerifyOtpResponse | null>(null)
-  const [isReady, setIsReady] = useState(false)
+  const [isReady, setIsReady] = useState<boolean>(false)
+  const [isAuth, setIsAuth] = useState<boolean>(false)
 
-
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.user.isAuth);
   const dispatch = useDispatch()
   const phoneNumber = localStorage.getItem("phoneNumber")
 
@@ -55,6 +55,7 @@ export default function Otp(): JSX.Element {
         savedwithExp({ ...data }, 1)
 
       }
+
 
       toast.success(data?.message || 'User returned successfully')
     },
@@ -75,6 +76,8 @@ export default function Otp(): JSX.Element {
     },
 
     onSuccess: (data: UserI) => {
+      console.log("datum", data);
+
       dispatch(updateUserData(data))
       navigate("/dashboard")
 
@@ -95,7 +98,7 @@ export default function Otp(): JSX.Element {
     }
   };
 
-
+  // set otp to localstorage on successful login and prefill otp input
   useEffect(() => {
     const localStorageRes = localStorage.getItem("signinResponse");
     if (localStorageRes) {

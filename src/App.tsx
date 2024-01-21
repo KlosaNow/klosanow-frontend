@@ -43,6 +43,7 @@ function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/otp" element={<Otp />} />
 
+
           <Route path="" element={<DashboardLayout />}>
             <Route path="/dashboard" index element={<Dashboard />} />
 
@@ -70,14 +71,18 @@ function App() {
               <Route path="/premium" element={<PremiumStorageView />} />
               <Route path="/info" element={<AccountInfo />} />
 
-              {/* this should always be the last route */}
             </Route>
 
             <Route path="/help/mail" element={<MailUs />} />
             <Route path="/settings" element={<Settings />} />
+            {/* this should always be the last route */}
 
             <Route path="*" element={<Error />} />
           </Route>
+
+
+
+
         </Routes>
       </AnimatePresence>
 
