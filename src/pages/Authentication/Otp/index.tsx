@@ -38,25 +38,19 @@ export default function Otp(): JSX.Element {
   const [otp, setOtp] = useState<OtpT | null>(null)
   const [verifyRes, setVerifyRes] = useState<VerifyOtpResponse | null>(null)
   const [isReady, setIsReady] = useState<boolean>(false)
-  const [isAuth, setIsAuth] = useState<boolean>(false)
 
-  const user = useSelector((state: RootState) => state.user.isAuth);
   const dispatch = useDispatch()
   const phoneNumber = localStorage.getItem("phoneNumber")
 
   // verify otp mutation
   const verifyMutation = useMutation(verifyOtpApi, {
     onSuccess: (data) => {
-
       if (data) {
-        console.log({ data });
         setIsReady(true)
         setVerifyRes(data)
         savedwithExp({ ...data }, 1)
 
       }
-
-
       toast.success(data?.message || 'User returned successfully')
     },
     onError: (error: AxiosError<{ message: string }>) => {
@@ -76,11 +70,8 @@ export default function Otp(): JSX.Element {
     },
 
     onSuccess: (data: UserI) => {
-      console.log("datum", data);
-
       dispatch(updateUserData(data))
       navigate("/dashboard")
-
     },
     enabled: isReady
   })
