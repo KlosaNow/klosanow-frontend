@@ -1,11 +1,13 @@
-export { default as Dashboard } from "./Dashboard/Dashboard";
+// auth pages
+export { default as SignIn } from "./Authentication/SignIn";
+export { default as SignUp } from "./Authentication/SignUp";
+export { default as Otp } from "./Authentication/Otp";
+
+export { default as Dashboard } from "./Dashboard";
 export { default as Error } from "./Error/Error";
 export { default as CreateLesson } from "./CreateLesson";
 export { default as Drafts } from "./Drafts";
 export { default as Settings } from "./Settings/Settings";
-export { default as SignIn } from "./Authentication/SignIn/SignIn";
-export { default as SignUp } from "./Authentication/SignUp/SignUp";
-export { default as Otp } from "./Authentication/Otp/Otp";
 export { default as StudyChat } from "./StudyChat/StudyChat";
 export { default as Onboarding } from "./Onboarding/Onboarding";
 export { default as Help } from "./Help/Help";

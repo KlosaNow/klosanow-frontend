@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import {
   Box,
   Text,
@@ -10,29 +11,45 @@ import {
   Image,
   Flex,
   Spinner,
-  useToast,
 } from "@chakra-ui/react";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { SignUpSchema } from "../utils";
-import PhoneInput from "react-phone-input-2";
-import { OnboardingSlides } from "../../";
+import { SignUpSchema } from "../schema/auth.schema";
+import { InputError } from "../../../components";
+import { signUpApi } from "../../../api-endpoints/auth/auth.api";
+import toast from 'react-hot-toast';
+import { AxiosError } from "axios";
+import { SignUpValues } from '../../../types/auth/authInterface';
+import { OnboardingSlides } from "../..";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
+
+import PhoneInput from "react-phone-input-2";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 import "react-phone-input-2/lib/style.css";
-import useSignup from "../../../hooks/auth-hooks/useSignup";
-import { useEffect } from "react";
-import { InputError, ToastAlert } from "../../../components";
+
+
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const toast = useToast();
-  const { mutate, data, isLoading, isSuccess, isError, error } = useSignup();
+  const { mutate, isLoading } = useMutation(signUpApi, {
+    onSuccess: data => {
+      toast.success(data?.message)
+      navigate("/sign-in")
 
-  const handleOnSubmit = (values: any) => {
+    },
+    onError: (error: AxiosError<{ message: string }>) => {
+      if (error.response) {
+        toast.error(error?.response?.data?.message)
+      } else {
+        toast.error(error?.message) 
+      }
+    }
+  })
+
+  const handleOnSubmit = (values: SignUpValues) => {
     mutate(values);
     localStorage.setItem("phoneNumber", values?.phoneNumber);
   };
@@ -47,49 +64,6 @@ export default function SignUp() {
     onSubmit: handleOnSubmit,
   });
 
-  useEffect(() => {
-    if (data?.message !== undefined) {
-      toast({
-        position: "top-right",
-        isClosable: true,
-        duration: 5000,
-        render: () => (
-          <ToastAlert
-            variant="success"
-            closeFunc={() => {
-              toast.closeAll();
-            }}
-            message={data?.message}
-          />
-        ),
-      });
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (isError === true && error?.message !== undefined) {
-      toast({
-        position: "top-right",
-        isClosable: true,
-        duration: 5000,
-        render: () => (
-          <ToastAlert
-            variant="warning"
-            closeFunc={() => {
-              toast.closeAll();
-            }}
-            message={error?.message}
-          />
-        ),
-      });
-    }
-  }, [isError]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/sign-in");
-    }
-  }, [isSuccess]);
   return (
     <>
       <Box hideBelow="lg">
@@ -248,7 +222,7 @@ export default function SignUp() {
                   type="submit"
                   disabled={!(formik.dirty && formik.isValid)}
                 >
-                  {isLoading ? <Spinner size="sm" /> : "Sign up"}
+                  {isLoading ? <Spinner size="sm" thickness='4px' /> : "Sign up"}
                 </Button>
               </Box>
               <Box mt="1rem">

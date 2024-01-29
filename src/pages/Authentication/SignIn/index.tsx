@@ -1,3 +1,7 @@
+import { signInApi } from "../../../api-endpoints/auth/auth.api";
+import { AxiosError } from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { SignInValues } from '../../../types/auth/authInterface';
 import {
   Box,
   FormControl,
@@ -10,32 +14,48 @@ import {
   VStack,
   Image,
   Spinner,
-  useToast,
 } from "@chakra-ui/react";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { OnboardingSlides } from "../../";
+import { OnboardingSlides } from "../..";
+import { SignInSchema } from "../schema/auth.schema";
+import { InputError } from "../../../components";
+import toast from "react-hot-toast";
+
 import PhoneInput from "react-phone-input-2";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
-
 import "react-phone-input-2/lib/style.css";
-import { SignInSchema } from "../utils";
-import useSignin from "../../../hooks/auth-hooks/useSignin";
-import { InputError, ToastAlert } from "../../../components";
-import { useEffect } from "react";
+
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const toast = useToast();
-  const { mutate, data, isLoading, error, isError } = useSignin();
 
-  const handleOnSubmit = (values: object, actions: any) => {
-    // @ts-ignore
+  const { mutate, isLoading } = useMutation(signInApi, {
+    onSuccess: data => {
+      toast.success(data?.message)
+      const otpData = data?.data;
+      // set otp to local storage
+      // this otp should be sent to user registered phone number
+      localStorage.setItem("signinResponse", JSON.stringify(otpData));
+      navigate("/otp");
+
+    },
+    onError: (error: AxiosError<{ message: string }>) => {
+      if (error.response) {
+        toast.error(error?.response?.data?.message)
+      } else {
+        toast.error(error?.message)
+      }
+    }
+  })
+
+  const handleOnSubmit = (values: SignInValues,) => {
     localStorage.setItem("email", values?.email);
+    localStorage.setItem("phoneNumber", values?.phoneNumber)
     mutate(values);
   };
 
@@ -48,50 +68,6 @@ export default function SignIn() {
     onSubmit: handleOnSubmit,
   });
 
-  useEffect(() => {
-    const otpData = data?.data;
-
-    if (data?.message !== undefined) {
-      toast({
-        position: "top-right",
-        isClosable: true,
-        duration: 5000,
-        render: () => (
-          <ToastAlert
-            variant="success"
-            closeFunc={() => {
-              toast.closeAll();
-            }}
-            message="Login successful. Verify OTP"
-          />
-        ),
-      });
-    }
-
-    if (otpData?.otp !== undefined) {
-      localStorage.setItem("authResponse", JSON.stringify(otpData));
-      navigate("/otp");
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (isError === true && error?.message !== undefined) {
-      toast({
-        position: "top-right",
-        isClosable: true,
-        duration: 5000,
-        render: () => (
-          <ToastAlert
-            variant="warning"
-            closeFunc={() => {
-              toast.closeAll();
-            }}
-            message={error?.message}
-          />
-        ),
-      });
-    }
-  }, [isError]);
 
   return (
     <>
@@ -233,7 +209,7 @@ export default function SignIn() {
                   type="submit"
                   disabled={!(formik.dirty && formik.isValid)}
                 >
-                  {isLoading ? <Spinner size="sm" /> : "Sign In"}
+                  {isLoading ? <Spinner size="sm" thickness='4px' /> : "Sign In"}
                 </Button>
               </Box>
 

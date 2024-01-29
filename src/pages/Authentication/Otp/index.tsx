@@ -1,4 +1,9 @@
 import { useEffect, useState } from "react";
+import { AxiosError } from "axios";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { verifyOtpApi } from "../../../api-endpoints/auth/auth.api";
+import { getSingleUser } from "../../../api-endpoints/user/user.api";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Box,
   HStack,
@@ -10,98 +15,84 @@ import {
   VStack,
   Image,
   Spinner,
-  useToast,
 } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
-import { OnboardingSlides } from "../../";
-import { authResponseInterface } from "../../../types/auth/authInterface";
-import useVerifyOtp from "../../../hooks/auth-hooks/useVerifyOtp";
-import useGetUserData from "../../../hooks/user-hooks/useGetUserData";
-import { updateToken } from "../../../redux/reducers/userReducer";
-import { ToastAlert } from "../../../components";
+import { OnboardingSlides } from "../..";
+import { AuthResponseI, UserI } from "../../../types/auth/authInterface";
+import toast from "react-hot-toast";
+import { RootState } from '../../../redux/store';
+import { updateToken, updateUserData } from "../../../redux/reducers/userReducer";
+import { _token } from "../../../utils/axios";
+import { savedwithExp } from "../../../utils/constant";
+import { VerifyOtpResponse } from "../../../api-endpoints/auth/interface";
+
+
+type OtpT = Pick<AuthResponseI, "otp">
+
 
 export default function Otp(): JSX.Element {
-  const dispatch = useDispatch();
-  const toast = useToast();
-  const {
-    mutate: verifyOtp,
-    data: OtpResponse,
-    isLoading,
-    isError,
-    error,
-  } = useVerifyOtp();
-  const { mutate: getUserData, isSuccess: isUserSuccess } = useGetUserData();
-  const [authResponse, setAuthResponse] = useState({} as authResponseInterface);
-  const [phoneNumber] = useState(localStorage.getItem("phoneNumber"));
-
   const navigate = useNavigate();
+  const [authResponse, setAuthResponse] = useState<AuthResponseI | null>(null);
+  const [otp, setOtp] = useState<OtpT | null>(null)
+  const [verifyRes, setVerifyRes] = useState<VerifyOtpResponse | null>(null)
+  const [isReady, setIsReady] = useState<boolean>(false)
+
+  const dispatch = useDispatch()
+  const phoneNumber = localStorage.getItem("phoneNumber")
+
+  // verify otp mutation
+  const verifyMutation = useMutation(verifyOtpApi, {
+    onSuccess: (data) => {
+      if (data) {
+        setIsReady(true)
+        setVerifyRes(data)
+        savedwithExp({ ...data }, 1)
+
+      }
+      toast.success(data?.message || 'User returned successfully')
+    },
+    onError: (error: AxiosError<{ message: string }>) => {
+      if (error.response) {
+        toast.error(error?.response?.data?.message)
+      } else {
+        toast.error(error?.message)
+      }
+    }
+  })
+
+  // get user  query
+  useQuery({
+    queryKey: ['user'],
+    queryFn: () => {
+      return verifyRes && getSingleUser(verifyRes?.user?._id, verifyRes?.token)
+    },
+
+    onSuccess: (data: UserI) => {
+      dispatch(updateUserData(data))
+      navigate("/dashboard")
+    },
+    enabled: isReady
+  })
+
 
   // Handle change event for the PinInputField
-  const handlePinChange = (value: any) => {
-    setAuthResponse({ ...authResponse, otp: value });
+  const handlePinChange = (value: OtpT) => {
+    setOtp(value);
   };
 
-  const handleOnSubmit = (e: any) => {
-    e.preventDefault();
-    verifyOtp(authResponse);
+  const handleOnSubmit = (e: React.FormEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    if (authResponse) {
+      verifyMutation.mutate(authResponse)
+    }
   };
 
+  // set otp to localstorage on successful login and prefill otp input
   useEffect(() => {
-    if (isError === true && error?.message !== undefined) {
-      toast({
-        position: "top-right",
-        isClosable: true,
-        duration: 5000,
-        render: () => (
-          <ToastAlert
-            variant="warning"
-            closeFunc={() => {
-              toast.closeAll();
-            }}
-            message={error?.message}
-          />
-        ),
-      });
-    }
-  }, [isError]);
-
-  useEffect(() => {
-    const userId = OtpResponse?.data?.user?._id;
-    if (userId) {
-      getUserData(userId);
-    }
-
-    if (OtpResponse?.message !== undefined) {
-      toast({
-        position: "top-right",
-        isClosable: true,
-        duration: 5000,
-        render: () => (
-          <ToastAlert
-            variant="success"
-            closeFunc={() => {
-              toast.closeAll();
-            }}
-            message={OtpResponse?.message}
-          />
-        ),
-      });
-    }
-  }, [OtpResponse]);
-
-  useEffect(() => {
-    if (isUserSuccess) {
-      navigate("/dashboard");
-    }
-  }, [isUserSuccess]);
-
-  useEffect(() => {
-    const localStorageRes = localStorage.getItem("authResponse");
-    if (localStorageRes !== undefined || null) {
-      // @ts-ignore
+    const localStorageRes = localStorage.getItem("signinResponse");
+    if (localStorageRes) {
       setAuthResponse(JSON.parse(localStorageRes));
     }
   }, []);
@@ -190,7 +181,7 @@ export default function Otp(): JSX.Element {
             </Box>
             <Box mt="4rem">
               <Text textAlign="center" fontSize="sm" fontWeight="medium">
-                OTP has been sent to{" "}
+                OTP has been sent to{" "} {"+"}
                 {phoneNumber ? phoneNumber : "your phone number"}
               </Text>
             </Box>
@@ -200,8 +191,8 @@ export default function Otp(): JSX.Element {
                 <PinInput
                   size="lg"
                   otp
-                  value={`${authResponse.otp}`}
-                  onChange={handlePinChange}
+                  value={`${authResponse?.otp}`}
+                  onChange={(otp) => handlePinChange(otp as OtpT | any)}
                 >
                   <PinInputField />
                   <PinInputField />
@@ -218,7 +209,7 @@ export default function Otp(): JSX.Element {
                   bgColor="primary.50"
                   type="submit"
                 >
-                  {isLoading ? <Spinner size="sm" /> : "Verify OTP"}
+                  {verifyMutation.isLoading ? <Spinner size="sm" thickness='4px' /> : "Verify OTP"}
                 </Button>
               </Box>
               <Text
