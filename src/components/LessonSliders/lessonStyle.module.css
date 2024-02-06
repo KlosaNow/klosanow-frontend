@@ -1,0 +1,28 @@
+.mySlide{
+  width:100%;
+  margin-top:15px;
+  display:flex;
+  overflow-x:auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+   /* this removes slider bar for other browers like firefox */
+  scrollbar-width: none;
+}
+
+ /* this removes slider bar for chrome. */
+.my-slide::-webkit-scrollbar {
+  display: none;
+}
+
+.slideCard{
+  margin:0 8px;
+  
+}
+
+@media(max-width: 768px) {
+  .slideCard{
+  width: 150px;
+    flex-shrink: 0;
+    height: 100%;
+  }
+}

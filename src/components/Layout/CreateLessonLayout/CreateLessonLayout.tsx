@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
-import { BottomNav } from "../..";
 import Header from "../../Header/Header";
 
 export default function CreateLessonLayout() {

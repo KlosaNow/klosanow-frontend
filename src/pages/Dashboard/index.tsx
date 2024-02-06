@@ -18,13 +18,14 @@ import { BsChevronDown } from "react-icons/bs";
 import {
   CreatedLessonsCarousel,
   SavedLessonsCarousel,
-} from "../../components/Carousels";
+} from "../../components/LessonSliders";
 
 import { Link } from "react-router-dom";
 import { LessonCard } from "../../components";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { HiUserCircle } from "react-icons/hi";
+import testImg from "../../assets/images/testImg.svg"
 
 const notifications = [
   {
@@ -56,7 +57,6 @@ const Dashboard: FC = () => {
         display={["flex", "none"]}
       >
         <HiUserCircle fontSize="70px" />
-        {/* <Image style={{ width: "70px", height: "70px" }} src={Img} alt="" /> */}
         <Link to="/notifications" style={{ position: "relative" }}>
           <BiBell fontSize={25} />
           <Text
@@ -98,11 +98,16 @@ const Dashboard: FC = () => {
             Latest Created Lesson
           </Text>
         </Box>
-        <Box display="flex">
+        <Box display="flex" alignItems="center" gap="8">
           <LessonCard
             title="Animal Kingdom"
-            thumbnail="https://picsum.photos/200/300"
+            thumbnail={testImg}
             duration="2:33"
+          />
+          <LessonCard
+            title="Human Kingdom"
+            thumbnail={testImg}
+            duration="8:30"
           />
         </Box>
 
