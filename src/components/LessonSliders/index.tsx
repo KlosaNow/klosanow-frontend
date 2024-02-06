@@ -1,2 +1,5 @@
-export { default as CreatedLessonsCarousel } from "./CreatedLessonSlide";
-export { default as SavedLessonsCarousel } from "./SavedLessonSlide";
+
+import CreatedLessonSlide from "./CreatedLessonSlide";
+import SavedLessonSlide from "./SavedLessonSlide";
+
+export { CreatedLessonSlide, SavedLessonSlide }

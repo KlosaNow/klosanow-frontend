@@ -18,7 +18,7 @@ export { default as OnboardingSlides } from "./OnboardingSlides/OnboardingSlides
 export { default as Notifications } from "./Notifications/Notifications";
 export { default as NotificationSettings } from "./NotificationSettings/NotificationSettings";
 export { default as LessonTemplate } from "./CreateLesson/components/LessonTemplate";
-export { default as CreatedLessons } from "./CreatedLessons/CreatedLessons";
+export { default as CreatedLessons } from "./CreatedLessons";
 export { default as FreeStorageView } from "./StorageView/FreeStorageView";
 export { default as BasicStorageView } from "./StorageView/BasicStorageView";
 export { default as PremiumStorageView } from "./StorageView/PremiumStorageView";

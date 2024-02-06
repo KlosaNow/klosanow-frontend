@@ -7,12 +7,11 @@ import { Link as ReactRouterLink } from 'react-router-dom'
 import { Link as ChakraLink } from '@chakra-ui/react'
 
 
-const CreatedLessonSlide
-  = (): JSX.Element => {
+const CreatedLessonSlide = (): JSX.Element => {
     return (
       <>
         <Box as="span" float="right" mb=".5rem">
-          <ChakraLink as={ReactRouterLink} to="#" fontWeight="bold" color="primary.70">See all</ChakraLink>
+          <ChakraLink as={ReactRouterLink} to="/created-lessons" fontWeight="bold" color="primary.70">See all</ChakraLink>
         </Box>
         <Box as="div" className={styles.mySlide}>
           {slideData.map((cardDetails, index) => (
@@ -32,4 +31,4 @@ const CreatedLessonSlide
     );
   };
 export default CreatedLessonSlide
-  ;
+

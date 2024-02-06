@@ -15,10 +15,7 @@ import {
 import { BiBell } from "react-icons/bi";
 import { Search } from "../../components/Search/Search";
 import { BsChevronDown } from "react-icons/bs";
-import {
-  CreatedLessonsCarousel,
-  SavedLessonsCarousel,
-} from "../../components/LessonSliders";
+import { CreatedLessonSlide, SavedLessonSlide } from "../../components/LessonSliders";
 
 import { Link } from "react-router-dom";
 import { LessonCard } from "../../components";
@@ -79,14 +76,8 @@ const Dashboard: FC = () => {
           </Text>
         </Link>
       </Flex>
-      <Text
-        fontSize={["20px", "32px"]}
-        fontWeight="500"
-        lineHeight={["30px", "20px"]}
-        margin="0.5rem 0 1rem"
-        color={["#D9927B", "#000"]}
-      >
-        Hello {user.data?.name},
+      <Text mr={2} fontSize="2xl" fontWeight='bold' fontFamily="inherit" color={["#D9927B", "#000"]}>
+        Hello {user.data?.name},  
       </Text>
       <Text color="#000" display={["none", "block"]} marginBottom="20px">
         Your latest lesson is here
@@ -150,7 +141,7 @@ const Dashboard: FC = () => {
               </MenuList>
             </Menu>
           </Box>
-          {showLessons ? <CreatedLessonsCarousel /> : <SavedLessonsCarousel />}
+          {showLessons ? <CreatedLessonSlide /> : <SavedLessonSlide />}
         </Box>
       </Box>
     </Box>
