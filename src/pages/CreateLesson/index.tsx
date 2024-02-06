@@ -1,7 +1,17 @@
 import { useState } from "react";
 import { FormikStep, FormikStepper } from "./components/FormikStepper";
-import { initialValues } from "./utils/lessonData";
 import { createLessonSteps } from "./utils/lessonSteps";
+
+const initialValues = {
+  title: "",
+  note: "",
+  thumbnail: "",
+  content: "",
+  author: {
+    name: "",
+    bio: "",
+  },
+};
 
 export default function CreateLesson() {
   const [step, setStep] = useState(0);

@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "../../styles/Carousel.scss";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import LessonCard from "../LessonCard/LessonCard";
-import styles from "./lessonStyle.module.css"
+import styles from "./lessonStyle.module.scss"
 import { slideData } from "./slideData";
 import { Link as ReactRouterLink } from 'react-router-dom'
 import { Link as ChakraLink } from '@chakra-ui/react'

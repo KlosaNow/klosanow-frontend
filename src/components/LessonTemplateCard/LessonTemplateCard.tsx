@@ -16,7 +16,6 @@ const LessonTemplateCard = ({
   return (
     <>
       <Box
-        // h="205px"
         borderRadius="4px"
         bg={bgColor}
         bgRepeat="no-repeat"
@@ -68,7 +67,7 @@ const LessonTemplateCard = ({
             borderRadius="4px"
             onClick={onClick}
           >
-            <Link as={RouterLink} to={buttonLink}>
+            <Link as={RouterLink} to={buttonLink} style={{ textDecoration: 'none' }}>
               {buttonText}
             </Link>
           </Button>
