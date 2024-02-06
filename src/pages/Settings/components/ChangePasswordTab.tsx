@@ -17,6 +17,14 @@ const ChangePasswordTab: React.FC = () => {
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
+  const [error, setError] = useState(false);
+
+  const handleReset = (e: any) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      setError(true);
+    }
+  };
 
   return (
     <Flex gap="6rem" padding="4rem 2rem">
@@ -32,7 +40,7 @@ const ChangePasswordTab: React.FC = () => {
         </Flex>
 
         <form>
-          <Box marginBottom="2rem">
+          <Box marginBottom="1rem">
             <Text fontSize={14} fontWeight={500}>
               New Password
             </Text>
@@ -64,7 +72,7 @@ const ChangePasswordTab: React.FC = () => {
             </Flex>
           </Box>
 
-          <Box marginBottom="2rem">
+          <Box marginBottom="1.5rem">
             <Text fontSize={14} fontWeight={500}>
               Confirm Password
             </Text>
@@ -95,7 +103,13 @@ const ChangePasswordTab: React.FC = () => {
             </Flex>
           </Box>
 
-          <Flex justifyContent="center">
+          {error && (
+            <Text marginBottom="1.5rem" color="#D72848" fontSize={12}>
+              *Password does not match
+            </Text>
+          )}
+
+          <Flex justifyContent="flex-start">
             <Button
               background="#7B58F4"
               borderRadius={4}
@@ -103,7 +117,9 @@ const ChangePasswordTab: React.FC = () => {
               fontWeight={500}
               gap={8}
               width="80%"
-              type="reset"
+              type="submit"
+              paddingBlock="6"
+              onClick={handleReset}
             >
               Reset Password
             </Button>

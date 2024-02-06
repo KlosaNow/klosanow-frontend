@@ -18,10 +18,10 @@ const AccountTab: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
 
   return (
-    <Box padding="2rem 1rem" width="80%">
+    <Box paddingBlock="2rem" width="80%">
       <form>
-        <VStack spacing="2rem">
-          <Flex gap="4rem">
+        <VStack align="start" spacing="2rem">
+          <Flex align="flex-start" gap="4rem">
             <VStack align="start">
               <FormLabel htmlFor="firstNameInput">First name</FormLabel>
               <Input
@@ -32,7 +32,9 @@ const AccountTab: React.FC = () => {
                 border="1px solid #CCCCCC"
                 width={300}
                 height={30}
+                paddingBlock={5}
                 outline="none"
+                _focus={{ boxShadow: "none" }}
               />
             </VStack>
             <VStack align="start">
@@ -45,7 +47,9 @@ const AccountTab: React.FC = () => {
                 border="1px solid #CCCCCC"
                 width={300}
                 height={30}
+                paddingBlock={5}
                 outline="none"
+                _focus={{ boxShadow: "none" }}
               />
             </VStack>
           </Flex>
@@ -61,7 +65,9 @@ const AccountTab: React.FC = () => {
                 border="1px solid #CCCCCC"
                 width={300}
                 height={30}
+                paddingBlock={5}
                 outline="none"
+                _focus={{ boxShadow: "none" }}
               />
             </VStack>
             <VStack align="start">
@@ -74,12 +80,14 @@ const AccountTab: React.FC = () => {
                 border="1px solid #CCCCCC"
                 width={300}
                 height={30}
+                paddingBlock={5}
                 outline="none"
+                _focus={{ boxShadow: "none" }}
               />
             </VStack>
           </Flex>
 
-          <Flex justifyContent="center" alignItems="center" marginBlock="7rem">
+          <Flex justifyContent="center" alignItems="center" alignSelf="center" marginBlock="5rem">
             <label>
               <input style={{ display: "none" }} type="file" />
               <Box
