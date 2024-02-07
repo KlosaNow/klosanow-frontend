@@ -1,6 +1,4 @@
-export { default as GeneralLayout } from "./Layout/GeneralLayout/GenralLayout";
 export { default as DashboardLayout } from "./Layout/DashboardLayout/DashboardLayout";
-export { default as CreateLessonLayout } from "./Layout/CreateLessonLayout/CreateLessonLayout";
 export { default as SideBar } from "./SideBar/SideBar";
 export { default as Header } from "./Header/Header";
 export { default as NavBar } from "./NavBar/NavBar";

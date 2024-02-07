@@ -1,4 +1,4 @@
-import { Container, Box, Text, Image } from "@chakra-ui/react";
+import { Box, Text, Image } from "@chakra-ui/react";
 import { LessonCardInterface } from "../../types/components/componetInterface";
 
 const LessonCard = ({
@@ -17,7 +17,7 @@ const LessonCard = ({
           objectFit="cover"
           src={thumbnail}
           alt={title}
-          borderRadius="md"
+          borderRadius="xl"
         />
         <Text
           fontSize={12}

@@ -15,16 +15,14 @@ import {
 import { BiBell } from "react-icons/bi";
 import { Search } from "../../components/Search/Search";
 import { BsChevronDown } from "react-icons/bs";
-import {
-  CreatedLessonsCarousel,
-  SavedLessonsCarousel,
-} from "../../components/Carousels";
+import { CreatedLessonSlide, SavedLessonSlide } from "../../components/LessonSliders";
 
 import { Link } from "react-router-dom";
 import { LessonCard } from "../../components";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { HiUserCircle } from "react-icons/hi";
+import testImg from "../../assets/images/testImg.svg"
 
 const notifications = [
   {
@@ -56,7 +54,6 @@ const Dashboard: FC = () => {
         display={["flex", "none"]}
       >
         <HiUserCircle fontSize="70px" />
-        {/* <Image style={{ width: "70px", height: "70px" }} src={Img} alt="" /> */}
         <Link to="/notifications" style={{ position: "relative" }}>
           <BiBell fontSize={25} />
           <Text
@@ -79,14 +76,8 @@ const Dashboard: FC = () => {
           </Text>
         </Link>
       </Flex>
-      <Text
-        fontSize={["20px", "32px"]}
-        fontWeight="500"
-        lineHeight={["30px", "20px"]}
-        margin="0.5rem 0 1rem"
-        color={["#D9927B", "#000"]}
-      >
-        Hello {user.data?.name},
+      <Text mr={2} fontSize="2xl" fontWeight='bold' fontFamily="inherit" color={["#D9927B", "#000"]}>
+        Hello {user.data?.name},  
       </Text>
       <Text color="#000" display={["none", "block"]} marginBottom="20px">
         Your latest lesson is here
@@ -98,11 +89,16 @@ const Dashboard: FC = () => {
             Latest Created Lesson
           </Text>
         </Box>
-        <Box display="flex">
+        <Box display="flex" alignItems="center" gap="8">
           <LessonCard
             title="Animal Kingdom"
-            thumbnail="https://picsum.photos/200/300"
+            thumbnail={testImg}
             duration="2:33"
+          />
+          <LessonCard
+            title="Human Kingdom"
+            thumbnail={testImg}
+            duration="8:30"
           />
         </Box>
 
@@ -145,7 +141,7 @@ const Dashboard: FC = () => {
               </MenuList>
             </Menu>
           </Box>
-          {showLessons ? <CreatedLessonsCarousel /> : <SavedLessonsCarousel />}
+          {showLessons ? <CreatedLessonSlide /> : <SavedLessonSlide />}
         </Box>
       </Box>
     </Box>
