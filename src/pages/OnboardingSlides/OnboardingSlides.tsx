@@ -20,11 +20,7 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
   const navigate = useNavigate();
   const handleNextSlide = () => {
     if (currentIndex === slides.length - 1) {
-      if (mobBtn) {
         navigate("/sign-up");
-      } else {
-        return;
-      }
     } else {
       setCurrentIndex(currentIndex + 1);
     }
