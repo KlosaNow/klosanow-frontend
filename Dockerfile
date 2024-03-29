@@ -14,13 +14,13 @@ WORKDIR /app
 
 RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 yarn
 
-COPY --from=stage --chown=nodejs:yarn /app/node_modules ./node_modules
+COPY --from=stage --chown=yarn:nodejs /app/node_modules ./node_modules
 
-COPY --from=stage --chown=nodejs:yarn /app/dist ./dist
+COPY --from=stage --chown=yarn:nodejs /app/dist ./dist
 
-COPY --from=stage --chown=nodejs:yarn /app/public ./public
+COPY --from=stage --chown=yarn:nodejs /app/public ./public
 
-COPY --from=stage --chown=nodejs:yarn /app/package.json ./package.json
+COPY --from=stage --chown=yarn:nodejs /app/package.json ./package.json
 
 EXPOSE 4173
 
