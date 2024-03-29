@@ -12,9 +12,9 @@ FROM node:20.12-alpine3.18 AS runtime
 
 WORKDIR /app
 
-RUN addgroup --system --gid 1001 nodjs && adduser --system --uid 1001 yarn
+RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 yarn
 
-COPY --from=stage --chown=nodjs:yarn /app/node_modules ./node_modules
+COPY --from=stage --chown=nodejs:yarn /app/node_modules ./node_modules
 
 COPY --from=stage --chown=nodejs:yarn /app/dist ./dist
 
