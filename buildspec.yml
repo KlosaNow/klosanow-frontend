@@ -7,6 +7,7 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR.....
+      - docker login --username ${USERNAME} --password ${PASSWORD}
       - aws --version
       - aws ecr get-login-password --region ${DEFAULT_REGION} | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${DEFAULT_REGION}.amazonaws.com
       - REPOSITORY_URI=${ACCOUNT_ID}.dkr.ecr.${DEFAULT_REGION}.amazonaws.com/frontend
@@ -26,7 +27,7 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Update image name
-      - 'sed -i "4 s/image:.*/image: $REPOSTORY_URL:$IMAGE_TAG\\//" docker-compose.yml'
+      - 'sed -i "4 s/image:.*/image: $REPOSITORY_URL:$IMAGE_TAG\\//" docker-compose.yml'
       - cat docker-compose.yml
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
