@@ -23,6 +23,7 @@ phases:
       - echo "VITE_APP_BASE_URL_MVP=${VITE_APP_BASE_URL_MVP}" >> .env
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+      - echo $$REPOSITORY_URI
   post_build:
     commands:
       - echo Build completed on `date`
