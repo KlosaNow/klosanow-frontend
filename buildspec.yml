@@ -41,3 +41,6 @@ artifacts:
     files: 
       - docker-compose.yml
       - .env
+      - appspec.yml
+      - scripts
+      - "*.env"
