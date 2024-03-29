@@ -1,0 +1,38 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18    
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR.....
+      - aws --version
+      - aws ecr get-login-password --region ${DEFAULT_REGION} | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${DEFAULT_REGION}.amazonaws.com
+      - REPOSITORY_URI=${ACCOUNT_ID}.dkr.ecr.${DEFAULT_REGION}.amazonaws.com/frontend
+      - IMAGE_TAG=$(date +%Y-%m-%d-%H-%M)-$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      # - IMAGE_TAG=$(date +%Y-%m-%d-%H-%M)
+  build:
+    commands:
+      - echo Build started on `date`
+      - ls -la
+      - rm -rf .env
+      - touch .env
+      - echo "VITE_APP_BASE_URL=${VITE_APP_BASE_URL}" > .env
+      - echo "VITE_APP_BASE_URL_MVP=${VITE_APP_BASE_URL_MVP}" >> .env
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Update image name
+      - 'sed -i "4 s/image:.*/image: $REPOSTORY_URL:$IMAGE_TAG\\/" docker-compose.yml'
+      - cat docker-compose.yml
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - cat .env
+      - cat docker-compose.yml
+artifacts:
+    files: 
+      - docker-compose.yml
+      - .env

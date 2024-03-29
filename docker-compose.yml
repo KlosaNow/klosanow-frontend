@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  frontend-app:
+    image: Image_name:tag
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:4173"
+    env_file:
+      - .env
+    networks:
+      - klosanow
+networks:
+  klosanow:
+    driver: bridge
