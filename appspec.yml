@@ -1,0 +1,20 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/klosanow/app
+    overwrite: true
+file_exists_behavior: OVERWRITE  
+hooks:
+  BeforeInstall:
+    - location: scripts/stop.sh
+      timeout: 150
+      runas: ubuntu
+  ApplicationStart:
+    - location: scripts/start.sh
+      timeout: 500
+      runas: ubuntu
+  ValidateService:
+    - location: scripts/validate.sh
+      timeout: 300
+      runas: ubuntu
