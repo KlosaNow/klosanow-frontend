@@ -26,7 +26,7 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Update image name
-      - 'sed -i "4 s/image:.*\\/image: $REPOSTORY_URL:$IMAGE_TAG\\/" docker-compose.yml'
+      - 'sed -i "4 s/image:.*/image: $REPOSTORY_URL:$IMAGE_TAG\\//" docker-compose.yml'
       - cat docker-compose.yml
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
