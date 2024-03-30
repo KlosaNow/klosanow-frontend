@@ -4,10 +4,6 @@ files:
   - source: /
     destination: /home/ubuntu/klosanow/app
     overwrite: true
-    permissions:
-      - object: /home/ubuntu/klosanow/app
-        owner: ubuntu
-        group: root
 file_exists_behavior: OVERWRITE  
 hooks:
   BeforeInstall:
