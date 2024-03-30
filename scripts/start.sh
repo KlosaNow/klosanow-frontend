@@ -3,4 +3,4 @@ set -e
 sudo chown ubuntu:root -R /home/ubuntu/klosanow/app
 sudo systemctl start klosanow-app.service
 
-sleep 5s
+sleep 20s
