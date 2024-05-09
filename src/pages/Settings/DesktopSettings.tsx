@@ -32,6 +32,11 @@ import MasterCard from "../../assets/images/MasterCard.png";
 import SubscriptionModal from "../../components/Modals/SubscriptionModal/SubscriptionModal";
 import { useState } from "react";
 import SubscriptionPlans from "./components/SubscriptionPlans";
+import HelpTab from "./components/HelpTab";
+import AccountTab from "./components/AccountTab";
+import NotificationsTab from "./components/NotificationsTab";
+import TermsConditionsTab from "./components/TermsConditionsTab";
+import ChangePasswordTab from "./components/ChangePasswordTab";
 
 const DesktopSettings = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -121,7 +126,7 @@ const DesktopSettings = () => {
         </Text>
 
         <Tabs width="full" marginTop="30px">
-          <TabList gap="20px" color="neutral.80" border="0px" overflow="scroll">
+          <TabList gap="20px" color="neutral.80" border="0px" overflow="none">
             <Tab _selected={selectedStyle} style={tabStyle}>
               Account{" "}
             </Tab>
@@ -132,7 +137,7 @@ const DesktopSettings = () => {
               Subscriptions{" "}
             </Tab>
             <Tab _selected={selectedStyle} style={tabStyle}>
-              Change Pasword{" "}
+              Change Password{" "}
             </Tab>
             <Tab _selected={selectedStyle} style={tabStyle}>
               Help{" "}
@@ -142,14 +147,24 @@ const DesktopSettings = () => {
             </Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>1</TabPanel>
-            <TabPanel>2</TabPanel>
+            <TabPanel>
+              <AccountTab />
+            </TabPanel>
+            <TabPanel>
+              <NotificationsTab />
+            </TabPanel>
             <TabPanel>
               <SubscriptionPlans openModal={openModal} />
             </TabPanel>
-            <TabPanel>4</TabPanel>
-            <TabPanel>5</TabPanel>
-            <TabPanel>6</TabPanel>
+            <TabPanel>
+              <ChangePasswordTab />
+            </TabPanel>
+            <TabPanel>
+              <HelpTab />
+            </TabPanel>
+            <TabPanel>
+              <TermsConditionsTab />
+            </TabPanel>
           </TabPanels>
         </Tabs>
       </Box>
