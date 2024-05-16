@@ -6,17 +6,19 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
-  Textarea,
+  Text
 } from "@chakra-ui/react";
-import FroalaRichTextEditor from "./Content/RichTextEditor/FroalaTextEditor";
 import { useState } from "react";
 import UploadUnit from "./UploadFile";
 import SaveButton from "./SaveButton";
 import OcrUpload from "./OcrUpload";
 import { FormikStepComponentProps } from "../../../types/components/componetInterface";
+import TextEditorSectionComponent from "./RichTextEditor";
+import { useNavigate } from "react-router-dom";
 
 const LessonContent = ({ nextFunc }: FormikStepComponentProps) => {
+  const navigate = useNavigate()
+  const [showBtn, setShowBtn] = useState(false)
   const selectedStyle = {
     borderTop: "3px solid #7B58F4",
     color: "#7B58F4",
@@ -27,8 +29,12 @@ const LessonContent = ({ nextFunc }: FormikStepComponentProps) => {
     let inputValue = e.target.value;
     setValue(inputValue);
   };
+
+  const handleShowVideoBtn = () => {
+    setShowBtn(!showBtn)
+  }
   return (
-    <Box>
+    <Box position={'relative'}>
       <Text
         fontSize="32px"
         // display={["none", "block"]}
@@ -70,8 +76,8 @@ const LessonContent = ({ nextFunc }: FormikStepComponentProps) => {
             // w={[400, 600, 850]}
             // h={[80, 150, 450]}
             >
-              <FroalaRichTextEditor />
-              <SaveButton title="Save" />
+              <TextEditorSectionComponent handleShowVideoBtn={handleShowVideoBtn} />
+              
             </Box>
           </TabPanel>
           <TabPanel>
@@ -92,7 +98,7 @@ const LessonContent = ({ nextFunc }: FormikStepComponentProps) => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-      <Button onClick={nextFunc}>Next</Button>
+      {showBtn && <Button position="absolute" bottom={4} right={'20%'} onClick={()=> navigate('/create-lesson/record-video')}>Proceed to Record</Button>}
     </Box>
   );
 };

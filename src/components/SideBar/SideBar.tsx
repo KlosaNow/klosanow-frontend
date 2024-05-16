@@ -71,7 +71,7 @@ const SideBar = () => {
           ))}
         </Box>
       </Box>
-      <Box
+      {/* <Box
         textAlign={"center"}
         marginX={"30px"}
         borderWidth={"1px"}
@@ -98,7 +98,7 @@ const SideBar = () => {
             Upgrade
           </Button>
         </Box>
-      </Box>
+      </Box> */}
       <Box paddingLeft="50px" marginBottom="80px">
         <Box
           color={"red"}

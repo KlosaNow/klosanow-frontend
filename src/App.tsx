@@ -26,6 +26,7 @@ import {
   CreatedLessons,
 } from "./pages";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import RecordLessonVideo from "./pages/CreateLesson/components/RecordLessonVideo";
 
 function App() {
   const location = useLocation();
@@ -47,6 +48,7 @@ function App() {
               <Route path="/create-lesson" index element={<CreateLesson />} />
               <Route path="/drafts" index element={<Drafts />} />
               <Route path="/create-lesson/select-template" element={<LessonTemplate />} />
+              <Route path="/create-lesson/record-video" element={<RecordLessonVideo />} />
               <Route path="/studychat" element={<StudyChat />} />
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/created-lessons" element={<CreatedLessons />} />

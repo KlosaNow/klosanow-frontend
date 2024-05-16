@@ -51,6 +51,7 @@ export interface TWizardProps extends FormikConfig<FormikValues> {
 }
 
 export interface FormikStepComponentProps {
+  handleShowVideoBtn?: () => void;
   nextFunc?: () => void;
   step?: number;
   setStep?: React.Dispatch<React.SetStateAction<number>>;

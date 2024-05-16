@@ -1,8 +1,31 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Center, Spinner, Text, useToast } from "@chakra-ui/react";
 import { LessonDraftCard, LessonTemplateCard } from "../../components";
 import { draftData } from "./components/lessonData";
+import { useQuery } from "@tanstack/react-query";
+import { fetchDrafts } from "../../api-endpoints/lessons";
 
 export default function Drafts() {
+  const toast = useToast()
+    const FETCH_DRAFTS_RESPONSE = useQuery(['drafts'],
+      fetchDrafts, {
+        onSuccess: () => {
+           toast({
+          title: 'Drafts fetched successfully!',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+    })
+      }
+    }
+    );
+  // console.log("FETCH_DRAFTS_RES", FETCH_DRAFTS_RESPONSE?.data?.data)
+
+  const ALL_DRAFTS = FETCH_DRAFTS_RESPONSE?.data?.data
+
+  // if (FETCH_DRAFTS_RESPONSE?.isSuccess) {
+   
+  // }
   return (
     <Box py={["2rem", "0px"]} width="full">
       <Box>
@@ -31,16 +54,17 @@ export default function Drafts() {
         </Text>
         <Text textColor="primary.50">See all</Text>
       </Box>
-      <Box mt="2rem">
-        {draftData.map((draft) => (
+     
+      {FETCH_DRAFTS_RESPONSE?.isLoading ? <Center h="30vh"><Spinner boxSize={20} borderWidth={'3px'} color="#121212" /></Center> : <Box mt="2rem">
+        {ALL_DRAFTS?.map((draft) => (
           <LessonDraftCard
-            key={draft.title}
+            key={draft?.title}
             draftSrc={draft.src}
-            draftTitle={draft.title}
-            draftDescription={draft.desc}
+            draftTitle={draft?.title}
+            draftDescription={draft?.content}
           />
         ))}
-      </Box>
+      </Box>}
     </Box>
   );
 }
