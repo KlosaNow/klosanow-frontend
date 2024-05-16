@@ -23,9 +23,7 @@ export default function Drafts() {
 
   const ALL_DRAFTS = FETCH_DRAFTS_RESPONSE?.data?.data
 
-  // if (FETCH_DRAFTS_RESPONSE?.isSuccess) {
-   
-  // }
+  console.log("all", ALL_DRAFTS?.reverse())
   return (
     <Box py={["2rem", "0px"]} width="full">
       <Box>
@@ -56,9 +54,10 @@ export default function Drafts() {
       </Box>
      
       {FETCH_DRAFTS_RESPONSE?.isLoading ? <Center h="30vh"><Spinner boxSize={20} borderWidth={'3px'} color="#121212" /></Center> : <Box mt="2rem">
-        {ALL_DRAFTS?.map((draft) => (
+
+        {ALL_DRAFTS?.map((draft, indx) => (
           <LessonDraftCard
-            key={draft?.title}
+            key={indx}
             draftSrc={draft.src}
             draftTitle={draft?.title}
             draftDescription={draft?.content}

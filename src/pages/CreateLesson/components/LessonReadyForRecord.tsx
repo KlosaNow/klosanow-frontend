@@ -12,7 +12,7 @@ export const LessonReadyForRecord = () => {
             
         <Container maxW="container.lg" background='#F8F7FE' height="65vh" overflowY={'auto'} borderRadius={'20px'} scrollBehavior={'smooth'} sx={customScrollbarStyles} >
             <Stack my={8}>        
-            {lessonData?.lessonImage ? <Image src={lessonData?.lessonImage} alt="" /> : null}
+            {/* {lessonData?.lessonImage ? <Image src={lessonData?.lessonImage} alt="" /> : null} */}
             <div dangerouslySetInnerHTML={{ __html: lessonData?.lessonContent }} />
             <div dangerouslySetInnerHTML={{ __html: lessonData?.lessonContent }} />
             <div dangerouslySetInnerHTML={{ __html: lessonData?.lessonContent }} />

@@ -38,7 +38,7 @@ const Overlay = () => {
       backgroundColor='rgba(0, 0, 0, 0.55)'
       transition='height 0.7s, background-color 0.7s'
       w='full'
-      style={{ height: draggedOff ? overlayHeight : '100vh' }}
+      style={{ height: draggedOff ? overlayHeight : '76vh' }}
       position='absolute'
           zIndex={10000}
           p="10px 20px"

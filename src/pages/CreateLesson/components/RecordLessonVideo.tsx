@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Stack, Button, Text, Center, Alert, AlertIcon } from "@chakra-ui/react";
+import { Stack, Button, Text, Center, Alert, AlertIcon, Box } from "@chakra-ui/react";
 import {
   useReactMediaRecorder,
 } from "react-media-recorder";
@@ -79,13 +79,17 @@ const handleExpandVideo = () => {
     <AlertIcon />
     <Text textTransform={'capitalize'} fontWeight={'600'}>{status == 'idle' ? "Ready to start recording?" : status + "..."}</Text>
   </Alert>
-            
+              
             {
                 mediaBlobUrl ?
-                <video src={mediaBlobUrl} controls loop autoPlay style={{ borderRadius: '20px', width: expanded ? '100vw' : 'auto' }} onClick={handleExpandVideo} /> :
+                  (
+                      <Box h="651px">
+                            <video src={mediaBlobUrl} controls loop autoPlay style={{ borderRadius: '20px', width: expanded ? '100vw' : 'auto' }} onClick={handleExpandVideo} /> 
+                        </Box>
+                  ) :
                 <LessonReadyForRecord />
             }
-            <Center gap={6} mt="20px">
+            <Center gap={6} mt="20px" pt={'30px'}>
                 {status !== "recording" && (
                     <Button _hover={{background:''}} fontSize={'14px'} color={'#FFFFFF'} borderRadius= '10px' background= '#7B58F4' width= '166px' padding= '6px 18px' onClick={startRecording} leftIcon={<RiPlayCircleFill fontSize={23} />}> Start Recording</Button>
                 )}
