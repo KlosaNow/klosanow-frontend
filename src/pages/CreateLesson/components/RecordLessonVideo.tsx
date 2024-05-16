@@ -82,7 +82,7 @@ const handleExpandVideo = () => {
             
             {
                 mediaBlobUrl ?
-                <video src={mediaBlobUrl} controls style={{ borderRadius: '20px', width: expanded ? '100vw' : 'auto' }} onClick={handleExpandVideo} /> :
+                <video src={mediaBlobUrl} controls loop autoPlay style={{ borderRadius: '20px', width: expanded ? '100vw' : 'auto' }} onClick={handleExpandVideo} /> :
                 <LessonReadyForRecord />
             }
             <Center gap={6} mt="20px">
@@ -104,7 +104,7 @@ const handleExpandVideo = () => {
                 )}
         </Center>
         
-          <Overlay />
+          {mediaBlobUrl ? null : <Overlay />}
     </Stack>
   );
 };
