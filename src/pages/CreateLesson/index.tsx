@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormikStep, FormikStepper } from "./components/FormikStepper";
 import { createLessonSteps } from "./utils/lessonSteps";
+import ScrollToTop from "../../utils/scrollToTop";
 
 const initialValues = {
   title: "",
@@ -18,6 +19,11 @@ export default function CreateLesson() {
   const nextStep = () => {
     setStep(step + 1);
   };
+
+    useEffect(() => {
+    ScrollToTop();
+    }, [step]);
+  
   return (
     <>
       <FormikStepper

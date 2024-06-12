@@ -6,7 +6,7 @@ import { fetchDrafts } from "../../api-endpoints/lessons";
 
 export default function Drafts() {
   const toast = useToast()
-    const FETCH_DRAFTS_RESPONSE = useQuery(['drafts'],
+    const FETCH_DRAFTS_RESPONSE = useQuery(['drafts', ""],
       fetchDrafts, {
         onSuccess: () => {
            toast({
@@ -21,9 +21,8 @@ export default function Drafts() {
     );
   // console.log("FETCH_DRAFTS_RES", FETCH_DRAFTS_RESPONSE?.data?.data)
 
-  const ALL_DRAFTS = FETCH_DRAFTS_RESPONSE?.data?.data
+  const ALL_DRAFTS = FETCH_DRAFTS_RESPONSE?.data?.data?.slice()?.reverse()
 
-  console.log("all", ALL_DRAFTS?.reverse())
   return (
     <Box py={["2rem", "0px"]} width="full">
       <Box>

@@ -46,9 +46,6 @@ const formats = [
       formats={formats} 
       style={{
         height: '680px',
-        // paddingBottom: '40px',
-        // borderRadius: '20px',
-        // border: '1px solid lightgray'
       }}
     />
   );
@@ -60,6 +57,8 @@ import { Formik, Form, Field,  } from 'formik';
 import { Button, FormControl, FormLabel, Input, Stack, VStack } from '@chakra-ui/react';
 import { object, string  } from 'yup';
 import { FormikStepComponentProps } from '../../../types/components/componetInterface';
+import SlidesTemplateView from './SlideTemplates';
+import { useNavigate } from 'react-router-dom';
 
 // interface FormValues {
 //   name: string;
@@ -72,26 +71,29 @@ import { FormikStepComponentProps } from '../../../types/components/componetInte
 // };
 
 export const TextEditorSectionComponent: React.FC = ({ handleShowVideoBtn }: FormikStepComponentProps) => {
+    const navigate = useNavigate()
   const [textContent, setTextContent] = useState<string>('');
   const pendingDataString = localStorage.getItem("CREATE_LESSON_DATA");
   const pendingData = pendingDataString ? JSON.parse(pendingDataString) : null;
+  const selectedTemplate = localStorage.getItem("template");
+  const templateValue = selectedTemplate ? JSON.parse(selectedTemplate) : null;
 
 
   const handleSubmit = () => {
     // console.log(textContent);
     localStorage.setItem("CREATE_LESSON_DATA", JSON.stringify({ ...pendingData, lessonContent: textContent }));
-    handleShowVideoBtn()
+    navigate('/create-lesson/record-video')
   };
 
   return (
   
           <Stack spacing="4" mt="25px" w="full">
-                <NewRichTextEditor
+              {templateValue == 'slides' ? <SlidesTemplateView handleShowVideoBtn={handleShowVideoBtn} />:  <NewRichTextEditor
                   value={textContent}
                   placeholder='Your lesson content goes in here...'
                   onChange={e => setTextContent(e)}
-                />
-            <Button mt="70px" color={'#FFFFFF'} ml="auto" onClick={handleSubmit} borderRadius= '10px' background= '#7B58F4' width= '166px' padding= '6px 18px' >Save</Button>
+                />}
+            <Button mt="70px" color={'#FFFFFF'} ml="auto" onClick={handleSubmit} borderRadius= '10px' background= '#7B58F4' width= '166px' padding= '6px 18px' >Proceed</Button>
           </Stack>
  
   );

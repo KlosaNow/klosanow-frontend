@@ -4,17 +4,14 @@ import Overlay from './OverlayHighlighter';
 
 export const LessonReadyForRecord = () => {
     const lessonDataString = localStorage.getItem("CREATE_LESSON_DATA");
-    const lessonData = lessonDataString ? JSON.parse(lessonDataString) : null;
+  const lessonData = lessonDataString ? JSON.parse(lessonDataString) : null;
+  
+  console.log(lessonData);
 
     return (
-    //   <Box position={'relative'}>
-    //     <Overlay />
             
         <Container maxW="container.lg" background='#F8F7FE' height="65vh" overflowY={'auto'} borderRadius={'20px'} scrollBehavior={'smooth'} sx={customScrollbarStyles} >
             <Stack my={8}>        
-            {/* {lessonData?.lessonImage ? <Image src={lessonData?.lessonImage} alt="" /> : null} */}
-            <div dangerouslySetInnerHTML={{ __html: lessonData?.lessonContent }} />
-            <div dangerouslySetInnerHTML={{ __html: lessonData?.lessonContent }} />
             <div dangerouslySetInnerHTML={{ __html: lessonData?.lessonContent }} />
             </Stack>
         </Container>

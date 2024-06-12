@@ -31,7 +31,7 @@ const LessonContent = ({ nextFunc }: FormikStepComponentProps) => {
   };
 
   const handleShowVideoBtn = () => {
-    setShowBtn(!showBtn)
+    setShowBtn(true)
   }
   return (
     <Box position={'relative'}>
@@ -56,7 +56,7 @@ const LessonContent = ({ nextFunc }: FormikStepComponentProps) => {
           fontSize="12px"
           color="black.10"
           fontWeight={700}
-          display="flex"
+          display="none"
           justifyContent="center"
           gap="10%"
         > 
@@ -76,7 +76,7 @@ const LessonContent = ({ nextFunc }: FormikStepComponentProps) => {
             // w={[400, 600, 850]}
             // h={[80, 150, 450]}
             >
-              <TextEditorSectionComponent handleShowVideoBtn={handleShowVideoBtn} />
+              <TextEditorSectionComponent />
               
             </Box>
           </TabPanel>
@@ -98,7 +98,7 @@ const LessonContent = ({ nextFunc }: FormikStepComponentProps) => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-      {showBtn && <Button position="absolute" bottom={4} right={'20%'} onClick={()=> navigate('/create-lesson/record-video')}>Proceed to Record</Button>}
+      {/* {showBtn && <Button position="absolute" bottom={4} right={'20%'} onClick={()=> navigate('/create-lesson/record-video')}>Proceed to Record</Button>} */}
     </Box>
   );
 };
