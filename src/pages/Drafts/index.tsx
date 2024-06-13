@@ -4,7 +4,13 @@ import { draftData } from "./components/lessonData";
 import { useQuery } from "@tanstack/react-query";
 import { fetchDrafts } from "../../api-endpoints/lessons";
 
-export default function Drafts() {
+interface DraftInterface {
+  id: number;
+  src: string;
+title: string;
+content: string;
+}
+const Drafts: React.FC = () => {
   const toast = useToast()
     const FETCH_DRAFTS_RESPONSE = useQuery(['drafts', ""],
       fetchDrafts, {
@@ -54,7 +60,7 @@ export default function Drafts() {
      
       {FETCH_DRAFTS_RESPONSE?.isLoading ? <Center h="30vh"><Spinner boxSize={20} borderWidth={'3px'} color="#121212" /></Center> : <Box mt="2rem">
 
-        {ALL_DRAFTS?.map((draft, indx) => (
+        {ALL_DRAFTS?.map((draft: DraftInterface, indx: number) => (
           <LessonDraftCard
             key={indx}
             draftSrc={draft.src}
@@ -66,3 +72,4 @@ export default function Drafts() {
     </Box>
   );
 }
+export default Drafts
