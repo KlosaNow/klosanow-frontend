@@ -9,15 +9,7 @@ const Overlay = () => {
   const [overlayHeight, setOverlayHeight] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
 
-  const handleMouseDown = (e) => {
-    setStartY(0);
-    // setStartY(e.clientY);
-    // setOverlayHeight(window.innerHeight);
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  };
-
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: MouseEvent) => {
     const deltaY = e.clientY - startY;
     const newHeight = Math.max(0, window.innerHeight - deltaY);
     const scrollDiff = overlayHeight - newHeight;
@@ -25,12 +17,22 @@ const Overlay = () => {
     setDraggedOff(deltaY > 0);
     setScrollPosition((prev) => prev + scrollDiff);
       window.scrollTo(0, scrollPosition);
-    //   console.log(scrollPosition)
+  };
+
+    const handleMouseDown = (e: MouseEvent) => {
+    setStartY(0);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
   };
 
   const handleMouseUp = () => {
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
+  };
+
+    const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLDivElement;
+    setScrollPosition(target.scrollTop);
   };
 
   return (
@@ -44,7 +46,7 @@ const Overlay = () => {
           p="10px 20px"
           borderRadius={'20px'}
         
-      onScroll={(e) => setScrollPosition(e.target.scrollTop)}
+      onScroll={handleScroll}
     >
         <Box cursor={'pointer'} className='drag-handle' onMouseDown={handleMouseDown} >
           <BsHandIndexThumb fontSize={40} color='#FFFFFF' />
