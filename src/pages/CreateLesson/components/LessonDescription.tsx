@@ -78,6 +78,7 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
       tag: "",
       isPrivate: false,
       user: "",
+      content:''
     },
     onSubmit: handleOnSubmit,
   });
