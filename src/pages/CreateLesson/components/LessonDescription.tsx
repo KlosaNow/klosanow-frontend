@@ -63,7 +63,6 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
 
   const handleOnSubmit = (values: CreateLessonInterface, { setSubmitting }: FormikHelpers<CreateLessonInterface>) => {
     console.log("values", {...values, lessonImage: file});
-    // nextFunc();
     setSubmitting(false); 
   };
 
@@ -86,7 +85,7 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
   const handleNext = () => {
       const data = { ...formik.values, lessonImage: file }
       localStorage.setItem("CREATE_LESSON_DATA", JSON.stringify(data));
-      nextFunc()
+      nextFunc?.()
   }
   const handleDrafts = () => {
       const data = { ...formik.values, lessonImage: file }
