@@ -10,7 +10,7 @@ import {
   Spinner,
   useToast,
 } from "@chakra-ui/react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, FormEvent } from "react";
 import dummyImg from "../../../assets/images/dummy image.png";
 
 import { FormikStepComponentProps } from "../../../types/components/componetInterface";
@@ -19,54 +19,51 @@ import { FormikHelpers, useFormik } from "formik";
 import { saveToDrafts } from "../../../api-endpoints/lessons";
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from "react-router-dom";
-// import toast from "react-hot-toast";
-
 
 const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
   const [file, setFile] = useState<any>(null);
-  const toast = useToast()
-  const navigate = useNavigate()
+  const toast = useToast();
+  const navigate = useNavigate();
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile && selectedFile.type.startsWith("image/")) {
       setFile(URL.createObjectURL(selectedFile));
-      console.log(file);
     } else {
       console.log("Please select an image file.");
     }
   };
 
-    const mutation = useMutation({
+  const mutation = useMutation({
     mutationFn: (formData: CreateLessonInterface) => saveToDrafts(formData),
-  })
+  });
 
   if (mutation?.isSuccess) {
     toast({
-          title: 'Draft created successfully',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
+      title: 'Draft created successfully',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+      position: 'top-right',
     });
-    navigate('/drafts')
+    navigate('/drafts');
   }
+
   if (mutation?.isError) {
-     toast({
-        title:  'Request failed',
-        description: `Please try again later`,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-        position: 'top-right',
-      });
+    toast({
+      title: 'Request failed',
+      description: `Please try again later`,
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+      position: 'top-right',
+    });
   }
 
   const handleOnSubmit = (values: CreateLessonInterface, { setSubmitting }: FormikHelpers<CreateLessonInterface>) => {
-    console.log("values", {...values, lessonImage: file});
-    setSubmitting(false); 
+    console.log("values", { ...values, lessonImage: file });
+    setSubmitting(false);
   };
-
-
 
   const formik = useFormik({
     initialValues: {
@@ -77,22 +74,22 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
       tag: "",
       isPrivate: false,
       user: "",
-      content:''
+      content: '',
     },
     onSubmit: handleOnSubmit,
   });
 
   const handleNext = () => {
-      const data = { ...formik.values, lessonImage: file }
-      localStorage.setItem("CREATE_LESSON_DATA", JSON.stringify(data));
-      nextFunc?.()
-  }
+    const data = { ...formik.values, lessonImage: file };
+    localStorage.setItem("CREATE_LESSON_DATA", JSON.stringify(data));
+    nextFunc?.();
+  };
+
   const handleDrafts = () => {
-      const data = { ...formik.values, lessonImage: file }
-      mutation.mutate(data)
-      localStorage.setItem("CREATE_LESSON_DATA", JSON.stringify(data));
-      
-  }
+    const data = { ...formik.values, lessonImage: file };
+    mutation.mutate(data);
+    localStorage.setItem("CREATE_LESSON_DATA", JSON.stringify(data));
+  };
 
   return (
     <Box>
@@ -148,7 +145,15 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
           </Box>
         </Box>
       </Stack>
-      <Stack spacing={5} mt={"1rem"} as={"form"} onSubmit={formik.handleSubmit}>
+      <Stack
+        spacing={5}
+        mt={"1rem"}
+        as="form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          formik.handleSubmit(e as unknown as FormEvent<HTMLFormElement>);
+        }}
+      >
         <Box>
           <Box>
             <Text mb="8px">Course title: </Text>
@@ -157,8 +162,8 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
               placeholder="Lesson Title"
               size="lg"
               value={formik.values.title}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
           </Box>
         </Box>
@@ -168,9 +173,9 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
             placeholder="Tell us about your lesson"
             size="sm"
             id="content"
-           value={formik.values.content}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
+            value={formik.values.content}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
         </Box>
         <Box>
@@ -266,8 +271,8 @@ const LessonDescription = ({ nextFunc }: FormikStepComponentProps) => {
             type="button"
             _hover={{ color: "none" }}
             onClick={handleDrafts}
-            >
-            {mutation.isLoading ? <Spinner color="#7B58F4" />:'Save to drafts'}
+          >
+            {mutation.isLoading ? <Spinner color="#7B58F4" /> : 'Save to drafts'}
           </Button>
           <Button
             colorScheme="#7B58F4;"

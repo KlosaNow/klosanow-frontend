@@ -19,7 +19,7 @@ const Overlay = () => {
       window.scrollTo(0, scrollPosition);
   };
 
-    const handleMouseDown = (e: MouseEvent) => {
+    const handleMouseDown = () => {
     setStartY(0);
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
