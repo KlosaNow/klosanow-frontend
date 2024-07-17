@@ -8,7 +8,7 @@ export { default as Error } from "./Error/Error";
 export { default as CreateLesson } from "./CreateLesson";
 export { default as Drafts } from "./Drafts";
 export { default as Settings } from "./Settings/Settings";
-export { default as StudyChat } from "./StudyChat/StudyChat";
+export { default as StudyChat } from "./StudyChat";
 export { default as Onboarding } from "./Onboarding/Onboarding";
 export { default as Help } from "./Help/Help";
 export { default as AccountInfo } from "./AccountInfo/AccountInfo";

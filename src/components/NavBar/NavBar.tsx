@@ -1,4 +1,4 @@
-import { Box, Text, Image } from "@chakra-ui/react";
+import { Box, Text, Flex } from "@chakra-ui/react";
 import { Search } from "../Search/Search";
 
 import { BiBell } from "react-icons/bi";
@@ -7,9 +7,18 @@ import { navBarProps } from "../../types/components/componetInterface";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { HiUserCircle } from "react-icons/hi";
+import { useLocation, useNavigate } from "react-router-dom";
+import { contactsPagePath, studyChatPageSlug } from "../../data/pageUrl";
+import { ContactIcon } from "../../assets/svgs";
 
 const NavBar = ({ notificationCtrl }: navBarProps) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const isStudyChatpage = location.pathname.includes(studyChatPageSlug);
+
   const user = useSelector((state: RootState) => state.user);
+
   return (
     <>
       <Box
@@ -28,9 +37,21 @@ const NavBar = ({ notificationCtrl }: navBarProps) => {
         padding={{ base: "0px 20px", lg: "0px 50px" }}
         zIndex="50"
       >
-        <Box mt={"1rem"}>
+        <Flex mt={"1rem"}>
           <Search />
-        </Box>
+
+          {isStudyChatpage && (
+            <Box
+              as="button"
+              onClick={() => navigate(contactsPagePath)}
+              ml="50px"
+              h="max-content"
+            >
+              <ContactIcon />
+            </Box>
+          )}
+        </Flex>
+
         <Box display={"flex"} alignItems={"center"}>
           <Box
             style={{

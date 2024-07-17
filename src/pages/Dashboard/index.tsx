@@ -15,14 +15,17 @@ import {
 import { BiBell } from "react-icons/bi";
 import { Search } from "../../components/Search/Search";
 import { BsChevronDown } from "react-icons/bs";
-import { CreatedLessonSlide, SavedLessonSlide } from "../../components/LessonSliders";
+import {
+  CreatedLessonSlide,
+  SavedLessonSlide,
+} from "../../components/LessonSliders";
 
 import { Link } from "react-router-dom";
 import { LessonCard } from "../../components";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { HiUserCircle } from "react-icons/hi";
-import testImg from "../../assets/images/testImg.svg"
+import testImg from "../../assets/images/testImg.svg";
 
 const notifications = [
   {
@@ -45,9 +48,14 @@ const Dashboard: FC = () => {
 
   const [showLessons, setShowLessons] = useState<boolean>(true);
 
-
   return (
-    <Box width="full" paddingX={1} height="full" margin={["auto", "0px"]}>
+    <Box
+      width="full"
+      paddingX={1}
+      height="full"
+      margin={["auto", "0px"]}
+      padding={["10px 10px 100px", "100px 30px 0"]}
+    >
       <Flex
         justify={"space-between"}
         align={"center"}
@@ -76,8 +84,14 @@ const Dashboard: FC = () => {
           </Text>
         </Link>
       </Flex>
-      <Text mr={2} fontSize="2xl" fontWeight='bold' fontFamily="inherit" color={["#D9927B", "#000"]}>
-        Hello {user.data?.name},  
+      <Text
+        mr={2}
+        fontSize="2xl"
+        fontWeight="bold"
+        fontFamily="inherit"
+        color={["#D9927B", "#000"]}
+      >
+        Hello {user.data?.name},
       </Text>
       <Text color="#000" display={["none", "block"]} marginBottom="20px">
         Your latest lesson is here

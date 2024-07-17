@@ -26,17 +26,16 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem
+  MenuItem,
 } from "@chakra-ui/react";
 import { BiSearch } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { AiOutlineArrowRight, AiOutlineCloseCircle } from "react-icons/ai";
 import { TbShare2 } from "react-icons/tb";
-import testImg from "../../assets/images/testImg.svg"
-import { Link as ReactRouterLink } from 'react-router-dom'
-import { Link as ChakraLink } from '@chakra-ui/react'
-
+import testImg from "../../assets/images/testImg.svg";
+import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ChakraLink } from "@chakra-ui/react";
 
 const Lessons = [
   {
@@ -46,7 +45,7 @@ const Lessons = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Et odio, ut error magni quae inventore eaque dolores harum esse repellat. Ad accusamus enim a ut adipisci. Assumenda alias eaque totam",
     tutor: "Prof Peter",
     thumbnail: testImg,
-    timeStamp: "2.23"
+    timeStamp: "2.23",
   },
   {
     id: 2,
@@ -55,9 +54,7 @@ const Lessons = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Et odio, ut error magni quae inventore eaque dolores harum esse repellat. Ad accusamus enim a ut adipisci. Assumenda alias eaque totam",
     tutor: "Prof Peter",
     thumbnail: testImg,
-    timeStamp: "2.23"
-
-
+    timeStamp: "2.23",
   },
   {
     id: 3,
@@ -66,9 +63,7 @@ const Lessons = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Et odio, ut error magni quae inventore eaque dolores harum esse repellat. Ad accusamus enim a ut adipisci. Assumenda alias eaque totam",
     tutor: "Prof Peter",
     thumbnail: testImg,
-    timeStamp: "2.23"
-
-
+    timeStamp: "2.23",
   },
 ];
 
@@ -76,30 +71,42 @@ const LessonDraft = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef<HTMLButtonElement | null>(null);
   return (
-    <Box >
-      <Box display='flex' justifyContent='space-between' >
-        <Text mr={2} fontSize="2xl" fontWeight='bold' fontFamily="inherit">
+    <Box padding={["10px 10px 100px", "100px 30px 0"]}>
+      <Box display="flex" justifyContent="space-between">
+        <Text mr={2} fontSize="2xl" fontWeight="bold" fontFamily="inherit">
           Created Lessons
         </Text>
 
-        <ChakraLink as={ReactRouterLink} to="/drafts" px="2rem" py=".5rem" bg="primary.50"
-          borderRadius='md'
+        <ChakraLink
+          as={ReactRouterLink}
+          to="/drafts"
+          px="2rem"
+          py=".5rem"
+          bg="primary.50"
+          borderRadius="md"
           color="neutral.40"
           fontWeight={600}
-          style={{ textDecoration: 'none' }}
-        >Create New Lesson</ChakraLink>
+          style={{ textDecoration: "none" }}
+        >
+          Create New Lesson
+        </ChakraLink>
       </Box>
 
       <Box mt="4">
         <Text fontSize="xl">Your Videos</Text>
       </Box>
 
-      <Box display='grid' gridTemplateColumns={{
-        base: "repeat(1, 1fr)",
-        md: "repeat(2, 1fr)",
-        lg: "repeat(3, 1fr)",
-      }} gap={4} pt={3} overflow='hidden'>
-
+      <Box
+        display="grid"
+        gridTemplateColumns={{
+          base: "repeat(1, 1fr)",
+          md: "repeat(2, 1fr)",
+          lg: "repeat(3, 1fr)",
+        }}
+        gap={4}
+        pt={3}
+        overflow="hidden"
+      >
         {Lessons.map((lesson) => (
           <Card key={lesson.id} maxW={"100%"} pb={"1rem"} fontFamily="inherit">
             <CardHeader p={0}>
@@ -117,8 +124,8 @@ const LessonDraft = () => {
                   />
                   <Box position={"absolute"} bottom={"8px"} right={"16px"}>
                     <Text
-                      bgColor='primary.50'
-                      color='neutral.50'
+                      bgColor="primary.50"
+                      color="neutral.50"
                       py={"1px"}
                       px={2}
                       borderRadius={"5px"}
@@ -171,10 +178,12 @@ const LessonDraft = () => {
               </Flex>
             </CardHeader>
             <CardBody>
-              <Text fontSize="xl" fontWeight={600}>{lesson.title}</Text>
+              <Text fontSize="xl" fontWeight={600}>
+                {lesson.title}
+              </Text>
 
               <Text>
-                {lesson.description}... {' '}
+                {lesson.description}...{" "}
                 <span style={{ fontWeight: "bold" }}>{lesson.tutor}</span>
               </Text>
             </CardBody>
@@ -190,8 +199,8 @@ const LessonDraft = () => {
               p={0}
             >
               <Button
-                bgColor='primary.50'
-                color='neutral.50'
+                bgColor="primary.50"
+                color="neutral.50"
                 variant="solid"
                 width={"200px"}
                 h={"50px"}

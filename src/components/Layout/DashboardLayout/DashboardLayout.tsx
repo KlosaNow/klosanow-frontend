@@ -7,7 +7,6 @@ const DashboardLayout = () => {
   const { pathname } = useLocation();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-
   return (
     <Box display="flex">
       <SideBar />
@@ -17,7 +16,7 @@ const DashboardLayout = () => {
           width="full"
           height="auto"
           margin="auto"
-          padding={["10px 10px 100px", "100px 30px"]}
+          padding={["10px 10px 75px", "0"]}
         >
           <Box position="relative">
             <NotificationModal isOpen={isOpen} onClose={onClose} />

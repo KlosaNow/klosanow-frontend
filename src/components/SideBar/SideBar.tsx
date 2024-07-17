@@ -15,6 +15,7 @@ import { BsFillChatTextFill } from "react-icons/bs";
 import { IoMdSettings } from "react-icons/io";
 import { MdAppSettingsAlt } from "react-icons/md";
 import { IoMdHelpCircle } from "react-icons/io";
+import { studyChatPagePath } from "../../data/pageUrl";
 const Links = [
   {
     name: "Dashboard",
@@ -28,7 +29,7 @@ const Links = [
   },
   {
     name: "Study Chat",
-    href: "/studychat",
+    href: studyChatPagePath,
     icon: BsFillChatTextFill,
   },
   {

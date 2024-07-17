@@ -6,6 +6,7 @@ import {
 } from "react-icons/md";
 import { AiOutlineHome } from "react-icons/ai";
 import { NavLink as RouterLink } from "react-router-dom";
+import { studyChatPagePath } from "../../data/pageUrl";
 
 const navItems = [
   { title: "Home", icon: AiOutlineHome, link: "/dashboard" },
@@ -14,7 +15,7 @@ const navItems = [
     icon: MdOutlineLibraryAdd,
     link: "/drafts",
   },
-  { title: "Study Chat", icon: MdOutlineChat, link: "/studychat" },
+  { title: "Study Chat", icon: MdOutlineChat, link: studyChatPagePath },
   { title: "Profile", icon: MdPersonOutline, link: "/settings" },
 ];
 export default function BottomNav() {

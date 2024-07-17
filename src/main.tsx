@@ -10,6 +10,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import persistStore from "redux-persist/es/persistStore";
 import { PersistGate } from "redux-persist/integration/react";
 import ScrollToTop from "./hooks/useScrollToTop";
+import PageLoader from "./components/PagaLoader";
 
 const queryClient = new QueryClient();
 const persistor = persistStore(store);
@@ -17,17 +18,19 @@ const persistor = persistStore(store);
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <BrowserRouter>
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <QueryClientProvider client={queryClient}>
-              <ScrollToTop />
+      <React.Suspense fallback={<PageLoader />}>
+        <BrowserRouter>
+          <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              <QueryClientProvider client={queryClient}>
+                <ScrollToTop />
 
-              <App />
-            </QueryClientProvider>
-          </PersistGate>
-        </Provider>
-      </BrowserRouter>
+                <App />
+              </QueryClientProvider>
+            </PersistGate>
+          </Provider>
+        </BrowserRouter>
+      </React.Suspense>
     </ChakraProvider>
   </React.StrictMode>
 );
