@@ -10,7 +10,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import persistStore from "redux-persist/es/persistStore";
 import { PersistGate } from "redux-persist/integration/react";
 import ScrollToTop from "./hooks/useScrollToTop";
-import PageLoader from "./components/PagaLoader";
+import PageLoader from "./components/PageLoader";
 
 const queryClient = new QueryClient();
 const persistor = persistStore(store);
