@@ -1,10 +1,10 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import StudyChat from "./pages/StudyChat";
 import { contactsPageSlug, createStudyChatSlug } from "../../data/pageUrl";
-import Contacts from "./pages/Contacts";
 
+const StudyChat = React.lazy(() => import("./pages/StudyChat"));
 const CreateStudyChat = React.lazy(() => import("./pages/CreateStudyChat"));
+const Contacts = React.lazy(() => import("./pages/Contacts"));
 
 const StudyChatRouter: React.FC = () => {
   return (

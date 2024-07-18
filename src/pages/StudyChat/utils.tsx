@@ -4,6 +4,7 @@ import { colors } from "../../data/colors";
 import DummyFileIllustration from "./assets/images/file.png";
 import { DeleteIcon } from "./assets/svgs";
 import { BsFillSendFill } from "react-icons/bs";
+import { groupBy } from "lodash";
 
 export const getContactsListWithChar = (contacts: Contact[]) => {
   contacts.sort((a, b) => {
@@ -20,7 +21,7 @@ export const getContactsListWithChar = (contacts: Contact[]) => {
     return 0;
   });
 
-  const groupedContacts = Object.groupBy(contacts, (item) => item.name[0]);
+  const groupedContacts = groupBy(contacts, (item) => item.name[0]);
 
   const grouped = Object.keys(groupedContacts).map((value, keyIndex) => {
     let arr: GroupedContact;

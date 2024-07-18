@@ -1,5 +1,4 @@
 // Study chart
-
 export const studyChatPageSlug = "study-chat";
 export const studyChatPagePath = `/${studyChatPageSlug}`;
 export const createStudyChatSlug = "create";
