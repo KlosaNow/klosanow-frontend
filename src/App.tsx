@@ -21,14 +21,9 @@ import {
   PremiumStorageView,
   Error,
   AccountInfo,
-  CreatedLessons,
 } from "./pages";
 import ProtectedRoute from "./utils/ProtectedRoute";
-import {
-  lessonsPagePath,
-  createLessonPagePath,
-  dashboardPageSlug,
-} from "./data/pageUrl";
+import { createLessonPagePath, dashboardPageSlug } from "./data/pageUrl";
 
 function App() {
   const location = useLocation();
@@ -54,7 +49,6 @@ function App() {
 
               <Route path="/studychat" element={<StudyChat />} />
               <Route path="/notifications" element={<Notifications />} />
-              <Route path={`${lessonsPagePath}`} element={<CreatedLessons />} />
               <Route
                 path="/settings/notifications"
                 element={<NotificationSettings />}

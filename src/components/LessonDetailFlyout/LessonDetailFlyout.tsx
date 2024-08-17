@@ -47,7 +47,7 @@ const LessonDetailFlyout: React.FC<LessonDetailFlyoutProps> = ({
             </Circle>
 
             <Text mt="12px" fontSize="14px">
-              {lesson?.description}
+              {lesson?.about}
             </Text>
           </Flex>
 

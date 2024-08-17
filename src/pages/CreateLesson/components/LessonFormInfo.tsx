@@ -12,16 +12,15 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
-  useToast,
 } from "@chakra-ui/react";
 import { Formik } from "formik";
 
 import { colors } from "src/data/colors";
 import dummyImg from "src/assets/images/dummy image.png";
-import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
+// import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
 import { CreateLessonFormStepsType } from "src/types";
 import { draftsPagePath } from "src/data/pageUrl";
-import { FileUploadResponseStatus, uploadFile } from "src/utils/file-upload";
+// import { FileUploadResponseStatus, uploadFile } from "src/utils/file-upload";
 
 import { createLessonValidationSchema } from "../validation";
 import { btnStyles } from "../data";
@@ -33,7 +32,7 @@ import {
 const LessonFormInfo: React.FC = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const toast = useToast();
+  // const toast = useToast();
 
   const {
     canUpdate,

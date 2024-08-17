@@ -32,6 +32,8 @@ export function savedwithExp(
     expiry: now.getTime() + exp,
   };
 
+  console.log(item);
+
   if (storage === "sessionStorage") {
     sessionStorage.setItem(USER_KEY, JSON.stringify(value));
   } else {

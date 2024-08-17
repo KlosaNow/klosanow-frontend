@@ -22,7 +22,9 @@ const useMediaRecorder = () => {
     setState((state) => ({ ...state, ...newState }));
 
   const startRecording = async () => {
-    const screenStream = await navigator.mediaDevices.getDisplayMedia({
+    const screenStream: MediaStream = await (
+      navigator as any
+    ).mediaDevices.getDisplayMedia({
       video: true,
       preferCurrentTab: true,
     });

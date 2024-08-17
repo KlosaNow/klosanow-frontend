@@ -1,6 +1,5 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { Header, SettingsItem } from "../../components";
-import avatar from "../../assets/SettingsPageImg/Avatar.png";
 import group from "../../assets/SettingsPageImg/Terms.png";
 import cloud from "../../assets/SettingsPageImg/Upload.png";
 import userImg from "../../assets/SettingsPageImg/user.png";

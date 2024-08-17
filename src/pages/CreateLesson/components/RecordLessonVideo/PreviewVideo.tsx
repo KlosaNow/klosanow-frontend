@@ -3,10 +3,10 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import { CreateLessonFormContext } from "../../context/CreateLessonFormContext";
 import { DeleteIcon, SaveIcon } from "../../assets/svgs";
 import { CreateLessonFormValues } from "src/types";
-import { postLessons } from "src/api-endpoints/lessons";
 import { useNavigate } from "react-router-dom";
 import { allLessonsPagePath } from "src/data/pageUrl";
-import { postUser } from "src/api-endpoints/user/user.api";
+// import { postLessons } from "src/api-endpoints/lessons";
+// import { postUser } from "src/api-endpoints/user/user.api";
 
 const PreviewVideo = () => {
   const navigate = useNavigate();

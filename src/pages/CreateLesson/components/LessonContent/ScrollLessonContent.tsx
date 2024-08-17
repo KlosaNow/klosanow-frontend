@@ -5,7 +5,7 @@ import { CreateLessonFormStepsType } from "src/types";
 
 import { CreateLessonFormContext } from "../../context/CreateLessonFormContext";
 import { getLessonContentActions } from "../../data";
-import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
+// import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
 import { useNavigate } from "react-router-dom";
 import { draftsPagePath } from "src/data/pageUrl";
 

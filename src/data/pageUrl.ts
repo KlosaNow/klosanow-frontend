@@ -11,7 +11,3 @@ export const allLessonsPageSlug = "all";
 export const allLessonsPagePath = `${createLessonPagePath}/${allLessonsPageSlug}`;
 export const draftsPageSlug = "drafts";
 export const draftsPagePath = `${createLessonPagePath}/${draftsPageSlug}`;
-
-// Lesson routes
-export const lessonsPageSlug = "lessons";
-export const lessonsPagePath = `/${lessonsPageSlug}`;

@@ -1,10 +1,9 @@
-import { Link as ReachLink } from "react-router-dom";
 import { HiOutlineArrowLeft } from "react-icons/hi";
-import { Flex, Text, Link, Box } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { headerInterface } from "../../types/components/componetInterface";
 
 const Header = (props: headerInterface) => {
-  const { pageName, link } = props;
+  const { pageName } = props;
 
   return (
     <Flex
