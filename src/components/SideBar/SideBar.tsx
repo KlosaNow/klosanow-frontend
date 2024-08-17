@@ -1,11 +1,4 @@
-import {
-  Box,
-  Text,
-  Image,
-  Button,
-  CircularProgress,
-  CircularProgressLabel,
-} from "@chakra-ui/react";
+import { Box, Text, Image, Button } from "@chakra-ui/react";
 import logo from "../../assets/SplashScreenImg/SplashLogo.png";
 import { Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
@@ -15,15 +8,17 @@ import { BsFillChatTextFill } from "react-icons/bs";
 import { IoMdSettings } from "react-icons/io";
 import { MdAppSettingsAlt } from "react-icons/md";
 import { IoMdHelpCircle } from "react-icons/io";
+import { createLessonPagePath, dashboardPagePath } from "src/data/pageUrl";
+
 const Links = [
   {
     name: "Dashboard",
-    href: "/dashboard",
+    href: dashboardPagePath,
     icon: AiFillHome,
   },
   {
-    name: "Created Lessons",
-    href: "/created-lessons",
+    name: "Create Lessons",
+    href: createLessonPagePath,
     icon: MdAppSettingsAlt,
   },
   {
@@ -37,6 +32,7 @@ const Links = [
     icon: IoMdSettings,
   },
 ];
+
 const SideBar = () => {
   return (
     <Box

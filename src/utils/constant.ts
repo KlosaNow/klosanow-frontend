@@ -1,3 +1,5 @@
+import { SignInToken } from "../types/generics";
+
 export const USER_KEY = "USER_KEY";
 
 export const USER = () => {
@@ -36,3 +38,19 @@ export function savedwithExp(
     localStorage.setItem(USER_KEY, JSON.stringify(value));
   }
 }
+
+export const getToken = (key?: string): SignInToken => {
+  const userKey = key || "USER_KEY";
+
+  const signinResponse = localStorage.getItem(userKey);
+
+  const token = JSON.parse(signinResponse as string) as SignInToken;
+
+  return token;
+};
+
+export const getDraftId = () => localStorage.getItem("draft_id");
+
+export const setDraftId = (id: string) => localStorage.setItem("draft_id", id);
+
+export const clearDraftId = () => localStorage.setItem("draft_id", "");
