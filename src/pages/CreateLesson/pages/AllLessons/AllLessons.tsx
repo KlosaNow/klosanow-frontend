@@ -121,7 +121,7 @@ const AllLessons: React.FC = () => {
           <Flex
             justify={{
               base: "center",
-              lg: "flex-start",
+              md: "flex-start",
             }}
             align="center"
             flexWrap="wrap"

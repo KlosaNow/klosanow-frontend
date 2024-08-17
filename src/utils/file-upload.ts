@@ -96,7 +96,7 @@ export const uploadFile: UploadFileAction = async (file: File) => {
     if (!res)
       return {
         status: FileUploadResponseStatus.Failed,
-        message: "Something went worgn",
+        message: "Something went wrong",
         data: null,
       };
 

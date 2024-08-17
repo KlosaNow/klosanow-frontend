@@ -61,7 +61,8 @@ const LessonCard: React.FC<LessonCardProps> = ({
       }}
       maxW={{
         base: "350px",
-        lg: cardWidth,
+        lg: "330px",
+        xl: cardWidth,
       }}
     >
       <Box position="relative">

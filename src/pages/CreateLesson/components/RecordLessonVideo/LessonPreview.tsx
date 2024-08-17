@@ -32,9 +32,6 @@ const LessonPreview: React.FC = () => {
         class='slide-img'
       />
     </div>
-    <p style='font-size: 18px; margin-top: 12px'>${capitalize(
-      form_info.tutor_name
-    )}</p>
   `;
 
   const slides = [initialSlide, ...content];
