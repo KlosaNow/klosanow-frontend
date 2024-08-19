@@ -86,6 +86,12 @@ export const getLessonContentActions = (
           }}
           _hover={{ opacity: 0.8 }}
           onClick={actions.handleProceed}
+          onMouseOver={() =>
+            actions.handleTooltip && actions.handleTooltip(true)
+          }
+          onMouseLeave={() =>
+            actions.handleTooltip && actions.handleTooltip(false)
+          }
         >
           Proceed
         </Button>

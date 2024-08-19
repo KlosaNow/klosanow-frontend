@@ -22,6 +22,7 @@ export interface LessonContentAction {
   handleDraft: () => void;
   handleBack: () => void;
   handleProceed: () => void;
+  handleTooltip?: (x: boolean) => void;
 }
 
 export interface Lesson {

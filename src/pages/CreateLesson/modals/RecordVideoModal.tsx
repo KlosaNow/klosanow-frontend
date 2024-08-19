@@ -17,9 +17,10 @@ import Draggable from "react-draggable";
 
 import useMediaRecorder from "src/utils/useMediaRecorder";
 import { LessonTemplateType } from "src/types";
-import { MoveIcon, RecordIcon, StopRecordIcon } from "../assets";
+import { MoveIcon, PauseIcon, RecordIcon, StopRecordIcon } from "../assets";
 import { CreateLessonFormContext } from "../context/CreateLessonFormContext";
 import { btnStyles } from "../data";
+import { PlayIcon } from "src/assets/svgs";
 
 interface RecordVideoModalProps {
   show: boolean;
@@ -40,8 +41,14 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
   const handleStateUpdate = (newState: Partial<typeof initialState>) =>
     setState((state) => ({ ...state, ...newState }));
 
-  const { startRecording, stopRecording, blob, mediaStatus } =
-    useMediaRecorder();
+  const {
+    startRecording,
+    stopRecording,
+    blob,
+    mediaStatus,
+    pauseRecording,
+    resumeRecording,
+  } = useMediaRecorder();
 
   const { template, content, form_info, updateCreateLessonFormValues } =
     React.useContext(CreateLessonFormContext);
@@ -64,28 +71,25 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
 
   const slides = [initialSlide, ...content];
 
-  const renderRecordingAction = (
-    text: string,
-    action: () => void,
-    props?: {
-      isStop?: boolean;
-      isDisabled?: boolean;
-    }
-  ) => (
+  const renderRecordingAction = ({
+    text,
+    icon,
+    action,
+  }: {
+    text: string;
+    icon: React.ReactNode;
+    action: () => void;
+  }) => (
     <Flex
       as="button"
       align="center"
       justify="center"
       flexDir="column"
-      gap="8px"
+      gap="2px"
       onClick={action}
-      disabled={props?.isDisabled}
-      _disabled={{
-        cursor: "not-allowed",
-      }}
     >
-      {props?.isStop ? <StopRecordIcon /> : <RecordIcon />}
-      <Text fontSize="16px" color="#fff">
+      {icon}
+      <Text fontSize="12px" color="#fff">
         {text}
       </Text>
     </Flex>
@@ -93,6 +97,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
 
   React.useEffect(() => {
     if (blob) {
+      handleStateUpdate({ useMoveTool: false });
       updateCreateLessonFormValues({
         showPreviewVideo: true,
         videoUrl: URL.createObjectURL(blob),
@@ -106,20 +111,15 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
     <Modal isOpen={show} onClose={handleClose} size="full">
       <ModalOverlay />
       <ModalContent>
-        <ModalBody maxH={"calc(100vh - 105px)"} overflow="scroll">
+        <ModalBody>
           <Flex
             flexDir="column"
-            minH={{
-              base: "calc(100vh - 120px)",
-              md: "calc(100vh - 105px)",
-            }}
-            h="100%"
+            h={"calc(100vh - 90px)"}
             w="full"
             bg="#F8F7FE"
             justify="space-between"
             as="div"
             position="relative"
-            overflow="hidden"
           >
             {state.useMoveTool ? (
               <Draggable>
@@ -141,10 +141,37 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
               </Draggable>
             ) : null}
 
+            {mediaStatus === "paused" ? (
+              <>
+                <Box
+                  width="100vw"
+                  h="100vh"
+                  bg="#000"
+                  opacity="0.6"
+                  position="fixed"
+                  zIndex="100"
+                  top="0"
+                  right="0"
+                />
+
+                <Box
+                  as="button"
+                  type="button"
+                  onClick={resumeRecording}
+                  position="absolute"
+                  top="50%"
+                  right="50%"
+                  transform="translateX(-50%)"
+                  zIndex="200"
+                >
+                  <PlayIcon />
+                </Box>
+              </>
+            ) : null}
+
             <Box
               h="100%"
-              mt="30px"
-              padding="0 26px"
+              padding="24px"
               overflow="scroll"
               className="hide-scroll"
             >
@@ -166,13 +193,13 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
               )}
             </Box>
 
-            {slides.length - 1 > 1 && (
+            {slides.length - 1 > 1 ? (
               <Flex
                 w="100%"
                 align="center"
                 justify="center"
                 gap="50px"
-                h="86px"
+                h="60px"
               >
                 {state.index > 0 ? (
                   <IconButton
@@ -206,7 +233,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                   <Box w="40px" />
                 )}
               </Flex>
-            )}
+            ) : null}
           </Flex>
         </ModalBody>
 
@@ -216,26 +243,38 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
             md: "row",
           }}
           gap="24px"
+          p="8px"
           justifyContent="center"
         >
           <Flex
             bg="#AAAAAA"
-            h={{
-              base: "90px",
-              md: "70px",
-            }}
-            p="0 24px"
+            p="7px 16px"
             align="center"
             justify="center"
             gap="32px"
             borderRadius="6px"
           >
-            {renderRecordingAction("Start record", startRecording, {
-              isDisabled: mediaStatus === "recording",
-            })}
-            {renderRecordingAction("Stop record", stopRecording, {
-              isStop: true,
-            })}
+            {mediaStatus !== "recording" &&
+              mediaStatus !== "paused" &&
+              renderRecordingAction({
+                text: "Start",
+                action: startRecording,
+                icon: <RecordIcon />,
+              })}
+
+            {mediaStatus === "recording" &&
+              renderRecordingAction({
+                text: "Stop",
+                action: stopRecording,
+                icon: <StopRecordIcon />,
+              })}
+
+            {mediaStatus === "recording" &&
+              renderRecordingAction({
+                text: "Pause",
+                action: pauseRecording,
+                icon: <PauseIcon />,
+              })}
 
             <Flex
               as="button"
@@ -248,7 +287,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
               }
             >
               <MoveIcon />
-              <Text fontSize="16px" color="#fff">
+              <Text fontSize="12px" color="#fff">
                 Move tool
               </Text>
             </Flex>

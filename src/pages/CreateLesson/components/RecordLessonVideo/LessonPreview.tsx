@@ -53,8 +53,7 @@ const LessonPreview: React.FC = () => {
       >
         <Box
           h="100%"
-          mt="30px"
-          padding="0 26px 24px"
+          padding="16px 24px"
           overflow="scroll"
           className="hide-scroll"
         >
@@ -77,7 +76,7 @@ const LessonPreview: React.FC = () => {
         </Box>
 
         {slides.length - 1 > 1 && (
-          <Flex w="100%" align="center" justify="center" gap="50px" h="86px">
+          <Flex w="100%" align="center" justify="center" gap="50px" h="60px">
             {index > 0 ? (
               <IconButton
                 aria-label="delete"

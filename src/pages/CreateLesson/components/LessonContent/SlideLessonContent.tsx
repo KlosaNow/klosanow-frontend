@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Button, IconButton, Text } from "@chakra-ui/react";
+import { Flex, Button, IconButton, Text, Box } from "@chakra-ui/react";
 import { uniqueId } from "lodash";
 import { AiFillDelete } from "react-icons/ai";
 import { CreateLessonFormStepsType } from "src/types";
@@ -15,6 +15,7 @@ interface LessonDescriptionState {
   value: string;
   isEditing: boolean;
   content: Array<string>;
+  showTooltip: boolean;
 }
 
 const Editor = React.lazy(() => import("./Editor"));
@@ -35,6 +36,7 @@ const SlideLessonContent: React.FC = () => {
     value: "",
     isEditing: false,
     content: content || [],
+    showTooltip: false,
   };
   const [state, setState] = React.useState(intialState);
 
@@ -118,9 +120,12 @@ const SlideLessonContent: React.FC = () => {
           activeStep: CreateLessonFormStepsType.FormInfo,
         }),
       handleProceed,
+      handleTooltip: (showTooltip) => handleStateUpdate({ showTooltip }),
     },
     state.content.length <= 1
   );
+
+  const isTooltipActive = state.showTooltip && state.content.length <= 1;
 
   return (
     <>
@@ -198,7 +203,24 @@ const SlideLessonContent: React.FC = () => {
         </Flex>
       </Flex>
 
-      {renderActions}
+      <Box position={"relative"}>
+        {isTooltipActive && (
+          <Box
+            position="absolute"
+            top="-60px"
+            right="10px"
+            bg="#eee"
+            p="7px"
+            borderRadius="4px"
+            maxW="200px"
+          >
+            <Text fontSize="12px">Slides should be at least two,</Text>
+            <Text fontSize="12px">use scroll template for one content</Text>
+          </Box>
+        )}
+
+        {renderActions}
+      </Box>
     </>
   );
 };

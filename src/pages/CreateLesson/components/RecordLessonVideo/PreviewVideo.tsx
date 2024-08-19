@@ -11,7 +11,8 @@ import { allLessonsPagePath } from "src/data/pageUrl";
 const PreviewVideo = () => {
   const navigate = useNavigate();
   const videoRef = React.useRef<HTMLVideoElement>(null);
-  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  const [duration, setDuration] = React.useState("");
 
   const {
     canUpdate,
@@ -55,6 +56,33 @@ const PreviewVideo = () => {
     navigate(allLessonsPagePath);
   };
 
+  const getVideoDurationCallback = React.useCallback(() => {
+    const video = videoRef.current;
+    let vidDuration = 0;
+    if (!video) return;
+
+    video.addEventListener("load", () => {
+      if (video.duration !== Infinity) {
+        vidDuration = video.duration;
+      }
+    });
+
+    const vidDurArr = vidDuration.toString().split(".");
+
+    const vidHr = vidDurArr[vidDurArr.length - 4] || 0;
+    const vidMin = vidDurArr[vidDurArr.length - 3] || 0;
+    const vidSec = vidDurArr[vidDurArr.length - 2] || 0;
+
+    const vidDur = `${vidHr}hrs:${vidMin}mins:${vidSec}secs`;
+
+    return setDuration(vidDur);
+  }, [videoRef.current]);
+
+  React.useEffect(() => {
+    if (!videoRef.current) return;
+    getVideoDurationCallback();
+  }, [videoRef.current]);
+
   return (
     <Flex flexDir="column" align="center">
       <Box
@@ -65,7 +93,6 @@ const PreviewVideo = () => {
         }}
         position="relative"
         bg="#000"
-        ref={containerRef}
       >
         <video
           width="100%"
@@ -87,12 +114,15 @@ const PreviewVideo = () => {
         justify="center"
         gap="32px"
       >
+        <Text color="#fff" mr="24px" fontWeight={500}>
+          {duration}
+        </Text>
         <Flex
           as="button"
           align="center"
           justify="center"
           flexDir="column"
-          gap="8px"
+          gap="6px"
           onClick={() =>
             updateCreateLessonFormValues({
               showPreviewVideo: false,
@@ -112,12 +142,12 @@ const PreviewVideo = () => {
           align="center"
           justify="center"
           flexDir="column"
-          gap="8px"
+          gap="6px"
           onClick={handleSubmit}
         >
           <SaveIcon />
           <Text fontSize="16px" color="#fff">
-            Submit
+            Save
           </Text>
         </Flex>
       </Flex>

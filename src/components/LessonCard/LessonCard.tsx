@@ -45,7 +45,26 @@ const LessonCard: React.FC<LessonCardProps> = ({
     videoUrl,
   } = lesson;
 
-  const duration = videoRef.current?.duration || "5:04";
+  const duration =
+    React.useMemo(() => {
+      const video = videoRef.current;
+
+      if (video) {
+        const vidDurArr = video.duration.toString().split(".");
+
+        const vidHr = vidDurArr[vidDurArr.length - 4];
+        const vidMin = vidDurArr[vidDurArr.length - 3];
+        const vidSec = vidDurArr[vidDurArr.length - 2];
+
+        const vidHrValue = vidHr ? `${vidHr}:` : "";
+        const vidMinValue = vidMin ? `${vidMin}:` : "";
+        const vidSecValue = vidSec ? `${vidSec}:` : "";
+
+        const vidDur = `${vidHrValue}${vidMinValue}:${vidSecValue}`;
+
+        return vidDur;
+      }
+    }, [videoRef.current]) || "0.00";
 
   const cardWidth = {
     sm: "299px",

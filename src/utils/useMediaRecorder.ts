@@ -52,6 +52,23 @@ const useMediaRecorder = () => {
     handleStateUpdate({ status, stream });
   };
 
+  const pauseRecording = async () => {
+    if (!recorderRef.current) return;
+    await recorderRef.current.pauseRecording();
+
+    handleStateUpdate({
+      status: "paused",
+    });
+  };
+  const resumeRecording = async () => {
+    if (!recorderRef.current) return;
+    await recorderRef.current.resumeRecording();
+
+    handleStateUpdate({
+      status: "recording",
+    });
+  };
+
   const stopRecording = async () => {
     if (!recorderRef.current) return;
 
@@ -69,6 +86,8 @@ const useMediaRecorder = () => {
     mediaStatus: state.status,
     startRecording,
     stopRecording,
+    pauseRecording,
+    resumeRecording,
   };
 };
 
