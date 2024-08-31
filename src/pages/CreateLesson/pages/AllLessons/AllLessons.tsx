@@ -19,7 +19,6 @@ import { deleteLesson, fetchLessons } from "src/api-endpoints/lessons";
 import { useStoreDispatch, useStoreSelector } from "src/redux/hooks";
 import { createLessonPagePath } from "src/data/pageUrl";
 import { CaretDownIcon } from "src/assets/svgs";
-import { LESSONS_MOCKDATA } from "../../data/mockdata";
 import WatchLessonModal from "../../modals/WatchLessonModal";
 
 interface AllLessonsState {
@@ -32,7 +31,7 @@ interface AllLessonsState {
 const AllLessons: React.FC = () => {
   const toast = useToast();
   const dispatch = useStoreDispatch();
-  const lesson = useStoreSelector((state) => state.lessons["lessons"]);
+  const lessons = useStoreSelector((state) => state.lessons["lessons"]);
 
   const initialState: AllLessonsState = {
     type: LessonType.Created,
@@ -47,7 +46,7 @@ const AllLessons: React.FC = () => {
     setState((state) => ({ ...state, ...newState }));
 
   const lessonData = {
-    [LessonType.Created]: [...LESSONS_MOCKDATA, ...lesson.data.data] || [],
+    [LessonType.Created]: lessons.data || [],
     [LessonType.Saved]: [],
   }[state.type];
 
@@ -64,6 +63,11 @@ const AllLessons: React.FC = () => {
       status: "success",
     });
     dispatch(fetchLessons());
+  };
+
+  const handleShare = () => {
+    //Share action here
+    console.log("share");
   };
 
   useQuery({
@@ -130,7 +134,7 @@ const AllLessons: React.FC = () => {
             {lessonData.map((lesson) => (
               <LessonCard
                 lesson={lesson}
-                key={uniqueId(`lesson_${lesson.id}`)}
+                key={uniqueId(`lesson_${lesson._id}`)}
                 handleWacth={(activeLesson) =>
                   handleStateUpdate({ showModal: true, activeLesson })
                 }
@@ -139,6 +143,7 @@ const AllLessons: React.FC = () => {
                 }
                 hasOptions
                 handleDelete={handleDelete}
+                handleShare={handleShare}
               />
             ))}
           </Flex>

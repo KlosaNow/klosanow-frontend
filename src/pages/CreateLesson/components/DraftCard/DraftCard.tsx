@@ -26,12 +26,12 @@ const DraftCard: React.FC<DraftCardProps> = ({ draft }) => {
   const dispatch = useStoreDispatch();
 
   const handleContinue = async () => {
-    setDraftId(draft.id);
+    setDraftId(draft._id);
     navigate(createLessonFormPagePath);
   };
 
   const handleDelete = async () => {
-    const res = await deleteDraft(draft.id);
+    const res = await deleteDraft(draft._id);
 
     if (!res) return;
 
@@ -54,7 +54,7 @@ const DraftCard: React.FC<DraftCardProps> = ({ draft }) => {
         }}
         bg="#959595"
       >
-        <Image src={draft.thumbnail} objectFit="cover" w="100%" h="100%" />
+        <Image src={draft.thumbnailUrl} objectFit="cover" w="100%" h="100%" />
       </Box>
 
       <Flex

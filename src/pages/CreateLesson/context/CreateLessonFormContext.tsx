@@ -8,7 +8,7 @@ export interface CreateLessonFormDefaultValues {
   form_info: {
     title: string;
     description: string;
-    thumbnail: string;
+    thumbnailUrl: string;
     tutor_bio: string;
     tutor_name: string;
     thumbnailSize: number;
@@ -34,7 +34,7 @@ export const DefaultFormValues: CreateLessonFormDefaultValues = {
   form_info: {
     title: "",
     description: "",
-    thumbnail: "",
+    thumbnailUrl: "",
     tutor_bio: "",
     tutor_name: "",
     thumbnailSize: 0,

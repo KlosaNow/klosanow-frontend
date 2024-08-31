@@ -14,7 +14,7 @@ const CreateLesson: React.FC = () => {
   const dispatch = useStoreDispatch();
   const drafts = useStoreSelector((state) => state.lessons["drafts"]);
 
-  const draftsData = drafts.data.data.slice(0, 3) || [];
+  const draftsData = drafts.data.slice(0, 3) || [];
 
   useQuery({
     queryKey: ["drafts"],
@@ -62,7 +62,7 @@ const CreateLesson: React.FC = () => {
       ) : (
         <Box mt="2rem">
           {draftsData.map((draft) => (
-            <DraftCard key={uniqueId(`draft_${draft.id}`)} draft={draft} />
+            <DraftCard key={uniqueId(`draft_${draft._id}`)} draft={draft} />
           ))}
         </Box>
       )}

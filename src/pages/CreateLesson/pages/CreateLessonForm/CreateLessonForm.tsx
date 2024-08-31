@@ -10,7 +10,6 @@ import { useStoreSelector } from "src/redux/hooks";
 import { CreateLessonFormStepsType, LessonTemplateType } from "src/types";
 import RecordVideoModal from "../../modals/RecordVideoModal";
 import { clearDraftId, getDraftId } from "src/utils/constant";
-import { DRAFTS_MOCKDATA } from "../../data/mockdata";
 
 const CreateLessonForm: React.FC = () => {
   const [_, setSearchParams] = useSearchParams();
@@ -20,12 +19,12 @@ const CreateLessonForm: React.FC = () => {
 
   const draft_id = getDraftId();
 
-  const draftData = [...DRAFTS_MOCKDATA, ...drafts.data.data].find(
-    (item) => item.id === draft_id
-  );
+  const draftData = drafts.data.find((item) => item._id === draft_id);
 
   const step = React.useMemo(() => {
-    if (draft_id) return CreateLessonFormStepsType.FormInfo;
+    if (draft_id && draftData?.content?.length !== 0)
+      return CreateLessonFormStepsType.Content;
+    else if (draft_id) return CreateLessonFormStepsType.FormInfo;
     else return CreateLessonFormStepsType.Template;
   }, [draft_id]);
 
@@ -36,7 +35,7 @@ const CreateLessonForm: React.FC = () => {
     form_info: {
       title: draftData?.title || "",
       description: draftData?.about || "",
-      thumbnail: draftData?.thumbnail || "",
+      thumbnailUrl: draftData?.thumbnailUrl || "",
       tutor_name: user?.name || "",
       tutor_bio: user?.bio || "",
       thumbnailSize: draftData?.thumbnailSize || 0,
@@ -61,12 +60,12 @@ const CreateLessonForm: React.FC = () => {
   }, [draft_id]);
 
   React.useEffect(() => {
-    setSearchParams({ step: lessonSteps.name });
-  }, [state.activeStep]);
-
-  React.useEffect(() => {
     handleDraftId();
   }, [draft_id]);
+
+  React.useEffect(() => {
+    setSearchParams({ step: lessonSteps.name });
+  }, [state.activeStep]);
 
   return (
     <CreateLessonFormContext.Provider

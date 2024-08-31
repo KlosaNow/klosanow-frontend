@@ -4,11 +4,5 @@ export interface SignInToken {
 }
 
 export type Payload<D> = {
-  data: {
-    status: string;
-    message: string;
-    data: D;
-  };
-  loading?: boolean;
-  error?: string;
+  data: D;
 };

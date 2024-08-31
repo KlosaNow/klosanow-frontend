@@ -5,7 +5,6 @@ import { uniqueId } from "lodash";
 
 import { fetchDrafts } from "src/api-endpoints/lessons";
 import { useStoreDispatch, useStoreSelector } from "src/redux/hooks";
-import { DRAFTS_MOCKDATA } from "../../data/mockdata";
 import DraftCard from "../../components/DraftCard";
 import { EmptyState } from "src/components";
 import { createLessonPagePath } from "src/data/pageUrl";
@@ -14,7 +13,7 @@ const Drafts: React.FC = () => {
   const dispatch = useStoreDispatch();
   const drafts = useStoreSelector((state) => state.lessons["drafts"]);
 
-  const draftsData = [...DRAFTS_MOCKDATA, ...drafts.data.data] || [];
+  const draftsData = drafts.data || [];
 
   useQuery({
     queryKey: ["drafts"],
@@ -42,7 +41,7 @@ const Drafts: React.FC = () => {
         ) : (
           <Flex flexDir="column" gap="16px" mt="2rem">
             {draftsData.map((draft) => (
-              <DraftCard key={uniqueId(`draft_${draft.id}`)} draft={draft} />
+              <DraftCard key={uniqueId(`draft_${draft._id}`)} draft={draft} />
             ))}
           </Flex>
         )}

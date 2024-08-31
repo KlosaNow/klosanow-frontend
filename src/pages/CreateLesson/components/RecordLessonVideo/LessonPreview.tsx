@@ -27,7 +27,7 @@ const LessonPreview: React.FC = () => {
     </p>
     <div class='slide-img-container'>
       <img
-        src=${form_info.thumbnail}
+        src=${form_info.thumbnailUrl}
         alt=${form_info.title}
         class='slide-img'
       />

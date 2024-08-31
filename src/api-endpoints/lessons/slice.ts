@@ -4,20 +4,10 @@ import { LessonPayload } from "../../types";
 
 const initialState: LessonPayload = {
   lessons: {
-    data: {
-      status: "",
-      data: [],
-      message: "",
-    },
-    loading: false,
+    data: [],
   },
   drafts: {
-    data: {
-      status: "",
-      data: [],
-      message: "",
-    },
-    loading: false,
+    data: [],
   },
 };
 
@@ -27,29 +17,18 @@ export const lessonsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchLessons.pending, (state) => ({
-        ...state,
-        loading: true,
-      }))
+      .addCase(fetchLessons.pending, (state) => state)
       .addCase(fetchLessons.fulfilled, (state, action) => {
-        state.drafts = {
-          ...state.drafts,
-          data: action.payload,
-          loading: false,
-        };
+        state.lessons = action.payload;
       })
       .addCase(fetchLessons.rejected, (state) => state)
       .addCase(fetchDrafts.pending, (state) => ({
         ...state,
-        loading: true,
       }))
       .addCase(fetchDrafts.fulfilled, (state, action) => {
-        state.drafts = {
-          ...state.drafts,
-          data: action.payload,
-          loading: false,
-        };
-      });
+        state.drafts = action.payload;
+      })
+      .addCase(fetchDrafts.rejected, (state) => state);
   },
 });
 

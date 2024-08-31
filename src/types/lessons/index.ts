@@ -26,14 +26,26 @@ export interface LessonContentAction {
 }
 
 export interface Lesson {
-  id: string;
+  _id: string;
   title: string;
   videoUrl: string;
+  videoSize: number;
   content: Array<string>;
   about: string;
-  thumbnail: string;
+  tag: string;
+  isPrivate: boolean;
+  thumbnailUrl: string;
+  thumbnailSize: number;
   tutor_bio: string;
   tutor_name: string;
+  user: {
+    _id: string;
+    name: string;
+    bio: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 export interface CreateLessonFormValues {
@@ -49,12 +61,12 @@ export interface CreateLessonFormValues {
 }
 
 export interface Draft {
-  id: string;
+  _id: string;
   template: LessonTemplateType;
   content?: Array<string>;
   title?: string;
   about?: string;
-  thumbnail?: string;
+  thumbnailUrl?: string;
   thumbnailSize?: number;
 }
 

@@ -18,6 +18,7 @@ interface LessonCardProps {
   handleWacth?: (x: Lesson) => void;
   handleDelete?: (id: string) => void;
   handleView?: (x: Lesson) => void;
+  handleShare?: (x: Lesson) => void;
   hasOptions?: boolean;
   descriptionLength?: number;
   canWatch?: boolean;
@@ -34,11 +35,12 @@ const LessonCard: React.FC<LessonCardProps> = ({
   handleWacth,
   handleDelete,
   handleView,
+  handleShare,
   width,
 }) => {
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const {
-    thumbnail,
+    thumbnailUrl,
     title,
     about: description,
     tutor_name: author,
@@ -89,7 +91,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
           width="full"
           height="184px"
           objectFit="cover"
-          src={thumbnail}
+          src={thumbnailUrl}
           alt={title}
           borderRadius="xl"
         />
@@ -114,12 +116,23 @@ const LessonCard: React.FC<LessonCardProps> = ({
                   as="button"
                   fontSize="12px"
                   padding="4px 6px"
-                  onClick={() => handleDelete && handleDelete(lesson.id)}
+                  onClick={() => handleDelete && handleDelete(lesson._id)}
                   _hover={{
                     bg: "#eee",
                   }}
                 >
                   Delete
+                </Box>
+                <Box
+                  as="button"
+                  fontSize="12px"
+                  padding="4px 6px"
+                  onClick={() => handleShare && handleShare(lesson)}
+                  _hover={{
+                    bg: "#eee",
+                  }}
+                >
+                  Share
                 </Box>
                 <Box
                   as="button"

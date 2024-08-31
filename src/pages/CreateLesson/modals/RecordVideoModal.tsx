@@ -10,6 +10,7 @@ import {
   ModalFooter,
   ModalOverlay,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { capitalize, uniqueId } from "lodash";
 import { MdArrowBackIosNew, MdOutlineArrowForwardIos } from "react-icons/md";
@@ -21,6 +22,7 @@ import { MoveIcon, PauseIcon, RecordIcon, StopRecordIcon } from "../assets";
 import { CreateLessonFormContext } from "../context/CreateLessonFormContext";
 import { btnStyles } from "../data";
 import { PlayIcon } from "src/assets/svgs";
+import { FileUploadResponseStatus, uploadFile } from "src/utils/file-upload";
 
 interface RecordVideoModalProps {
   show: boolean;
@@ -31,6 +33,8 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
   show,
   handleClose,
 }) => {
+  const toast = useToast();
+
   const initialState = {
     index: 0,
     useMoveTool: false,
@@ -62,7 +66,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
     </p>
     <div class='slide-img-container'>
       <img
-        src=${form_info.thumbnail}
+        src=${form_info.thumbnailUrl}
         alt=${form_info.title}
         class='slide-img'
       />
@@ -95,15 +99,39 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
     </Flex>
   );
 
+  const handleVideoUpload = async (blob: Blob) => {
+    const file = new File([blob], `vid-${form_info.title}${uniqueId("_")}`, {
+      type: blob.type,
+    });
+
+    const res = await uploadFile(file);
+    console.log(res);
+    if (res.status === FileUploadResponseStatus.Success) {
+      updateCreateLessonFormValues({
+        showPreviewVideo: true,
+        videoUrl: res.data?.url,
+        showRecordLessonModal: false,
+        videoSize: res.data?.size,
+      });
+    } else {
+      toast({
+        description: "Unable to upload video",
+        duration: 3000,
+        status: "error",
+        position: "top-right",
+      });
+
+      updateCreateLessonFormValues({
+        showPreviewVideo: false,
+        showRecordLessonModal: false,
+      });
+    }
+  };
+
   React.useEffect(() => {
     if (blob) {
       handleStateUpdate({ useMoveTool: false });
-      updateCreateLessonFormValues({
-        showPreviewVideo: true,
-        videoUrl: URL.createObjectURL(blob),
-        showRecordLessonModal: false,
-        videoSize: blob.size,
-      });
+      handleVideoUpload(blob);
     }
   }, [blob]);
 

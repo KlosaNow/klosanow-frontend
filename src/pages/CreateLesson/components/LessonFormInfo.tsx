@@ -12,15 +12,20 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
+  useToast,
 } from "@chakra-ui/react";
 import { Formik } from "formik";
 
 import { colors } from "src/data/colors";
 import dummyImg from "src/assets/images/dummy image.png";
-// import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
+import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
 import { CreateLessonFormStepsType } from "src/types";
 import { draftsPagePath } from "src/data/pageUrl";
-// import { FileUploadResponseStatus, uploadFile } from "src/utils/file-upload";
+import {
+  deletedFile,
+  FileUploadResponseStatus,
+  uploadFile,
+} from "src/utils/file-upload";
 
 import { createLessonValidationSchema } from "../validation";
 import { btnStyles } from "../data";
@@ -32,7 +37,7 @@ import {
 const LessonFormInfo: React.FC = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  // const toast = useToast();
+  const toast = useToast();
 
   const {
     canUpdate,
@@ -42,36 +47,50 @@ const LessonFormInfo: React.FC = () => {
     updateCreateLessonFormValues,
   } = React.useContext(CreateLessonFormContext);
 
-  const [file, setFile] = useState(form_info.thumbnail);
+  const [mediaFile, setMediaFile] = useState(form_info.thumbnailUrl);
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = async (
     e: ChangeEvent<HTMLInputElement>,
     cb: (fileUrl: string, fileSize: number) => void
   ) => {
+    setLoading(true);
     e.preventDefault();
     if (!e.currentTarget.files) return;
 
     const file = e.currentTarget.files[0];
-    // const res = await uploadFile(file);
+    const res = await uploadFile(file);
 
-    const fileURL = URL.createObjectURL(file);
+    if (res.data && res.status === FileUploadResponseStatus.Success) {
+      setLoading(false);
+      cb(res.data.url, res.data.size);
+      setMediaFile(res.data.url);
+    } else {
+      setLoading(false);
+      toast({
+        title: res.message,
+        status: "error",
+        duration: 3000,
+        position: "top-right",
+      });
+    }
+  };
 
-    cb(fileURL, file.size);
-    setFile(fileURL);
-
-    // if (res.status !== FileUploadResponseStatus.Failed || !res.data) {
-    //   toast({
-    //     title: res.message,
-    //     status: "error",
-    //     duration: 3000,
-    //     position: "top-right",
-    //   });
-
-    //   return;
-    // }
-
-    // cb(res.data.videoUrl, res.data.videoSize);
-    // setFile(res.data.videoUrl);
+  const handleDeleteFile = async (cb: (res: boolean) => void) => {
+    setLoading(true);
+    const res = await deletedFile(mediaFile);
+    if (res.status === FileUploadResponseStatus.Success) {
+      setLoading(false);
+      return cb(!!res);
+    } else {
+      setLoading(false);
+      toast({
+        title: "Something went wrong",
+        status: "error",
+        duration: 3000,
+        position: "top-right",
+      });
+    }
   };
 
   const handleNext = (values: CreateLessonFormDefaultValues["form_info"]) => {
@@ -83,21 +102,22 @@ const LessonFormInfo: React.FC = () => {
     });
   };
 
-  const handleDraft = async () => {
+  const handleDraft = async (
+    values: CreateLessonFormDefaultValues["form_info"]
+  ) => {
+    setLoading(true);
     const formData = {
-      ...form_info,
-      about: form_info.description,
+      ...values,
+      about: values.description,
       template,
     };
 
     if (draft_id) {
-      // await updateDraft(draft_id, formData);
-      console.log({ draft_id, ...formData });
+      await updateDraft(draft_id, formData);
     } else {
-      // await saveToDrafts(formData);
-      console.log(formData);
+      await saveToDrafts(formData);
     }
-
+    setLoading(false);
     navigate(draftsPagePath);
   };
 
@@ -144,7 +164,7 @@ const LessonFormInfo: React.FC = () => {
                 overflow="hidden"
               >
                 <Image
-                  src={file || dummyImg}
+                  src={mediaFile || dummyImg}
                   alt="Klosanaw"
                   w="100%"
                   h="100%"
@@ -171,19 +191,30 @@ const LessonFormInfo: React.FC = () => {
                     w={"full"}
                     h={"50px"}
                     _hover={{ color: "none" }}
-                    onClick={() => inputRef.current?.click()}
+                    isLoading={loading}
+                    type="button"
+                    onClick={() =>
+                      mediaFile
+                        ? handleDeleteFile((res) => {
+                            if (res) {
+                              setMediaFile("");
+                              setFieldValue("thumbnailUrl", "");
+                              setFieldValue("thumbnailSize", "");
+                            }
+                          })
+                        : inputRef.current?.click()
+                    }
                   >
-                    Upload image
+                    {mediaFile ? "Delete" : "Upload"} image
                     <Input
                       type="file"
-                      name="thumbnail"
+                      name="thumbnailUrl"
                       accept="image/*"
                       ref={inputRef}
                       hidden
                       onChange={(e) => {
-                        e.preventDefault();
                         handleFileChange(e, (file, size) => {
-                          setFieldValue("thumbnail", file);
+                          setFieldValue("thumbnailUrl", file);
                           setFieldValue("thumbnailSize", size);
                         });
                       }}
@@ -286,8 +317,9 @@ const LessonFormInfo: React.FC = () => {
               <Button
                 {...btnStyles}
                 _hover={{ color: "none" }}
-                onClick={handleDraft}
+                onClick={() => handleDraft(values)}
                 type="button"
+                isLoading={loading}
               >
                 Save to drafts
               </Button>

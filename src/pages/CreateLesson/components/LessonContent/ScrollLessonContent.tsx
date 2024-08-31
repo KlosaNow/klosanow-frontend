@@ -5,7 +5,7 @@ import { CreateLessonFormStepsType } from "src/types";
 
 import { CreateLessonFormContext } from "../../context/CreateLessonFormContext";
 import { getLessonContentActions } from "../../data";
-// import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
+import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
 import { useNavigate } from "react-router-dom";
 import { draftsPagePath } from "src/data/pageUrl";
 
@@ -34,21 +34,14 @@ const ScrollLessonContent: React.FC = () => {
     const formData = {
       ...form_info,
       about: form_info.description,
+      content: [value],
       template,
     };
 
-    // if (draft_id) {
-    //   await updateDraft(draft_id, formData);
-    // } else {
-    //   await saveToDrafts(formData);
-    // }
-
     if (draft_id) {
-      // await updateDraft(draft_id, formData);
-      console.log({ draft_id, ...formData });
+      await updateDraft(draft_id, formData);
     } else {
-      // await saveToDrafts(formData);
-      console.log(formData);
+      await saveToDrafts(formData);
     }
 
     navigate(draftsPagePath);

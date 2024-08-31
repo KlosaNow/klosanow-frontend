@@ -5,14 +5,24 @@ import { DeleteIcon, SaveIcon } from "../../assets/svgs";
 import { CreateLessonFormValues } from "src/types";
 import { useNavigate } from "react-router-dom";
 import { allLessonsPagePath } from "src/data/pageUrl";
-// import { postLessons } from "src/api-endpoints/lessons";
-// import { postUser } from "src/api-endpoints/user/user.api";
+import { postLessons } from "src/api-endpoints/lessons";
+import { postUser } from "src/api-endpoints/user/user.api";
+import { deletedFile, FileUploadResponseStatus } from "src/utils/file-upload";
+import { colors } from "src/data/colors";
 
 const PreviewVideo = () => {
   const navigate = useNavigate();
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
-  const [duration, setDuration] = React.useState("");
+  const initialState = {
+    duration: "",
+    loading: false,
+    message: "",
+  };
+  const [state, setState] = React.useState(initialState);
+
+  const handleStateUpdate = (newState: Partial<typeof initialState>) =>
+    setState((state) => ({ ...state, ...newState }));
 
   const {
     canUpdate,
@@ -25,10 +35,11 @@ const PreviewVideo = () => {
   } = React.useContext(CreateLessonFormContext);
 
   const handleSubmit = async () => {
+    handleStateUpdate({ loading: true, message: "Submiting" });
     const formData: CreateLessonFormValues = {
       title: form_info.title,
       about: form_info.description,
-      thumbnailUrl: form_info.thumbnail,
+      thumbnailUrl: form_info.thumbnailUrl,
       thumbnailSize: form_info.thumbnailSize,
       tag: "uncategorized",
       videoSize,
@@ -41,19 +52,30 @@ const PreviewVideo = () => {
         name: form_info.tutor_name,
         bio: form_info.tutor_bio,
       };
-
-      console.log("User data", userData);
-      // await postUser(userData)
+      await postUser(userData);
     }
+
     if (draft_id) {
-      // await postLessons({ ...formData, draftId: draft_id });
-      console.log("form data with id", { ...formData, draftId: draft_id });
+      await postLessons({ ...formData, draftId: draft_id });
     } else {
-      // await postLessons(formData);
-      console.log("form data", formData);
+      await postLessons(formData);
     }
 
+    handleStateUpdate(initialState);
     navigate(allLessonsPagePath);
+  };
+
+  const handleDeleteFile = async () => {
+    handleStateUpdate({ loading: true, message: "Deleting recording" });
+    const result = await deletedFile(videoUrl);
+
+    handleStateUpdate(initialState);
+    if (result.status === FileUploadResponseStatus.Success)
+      updateCreateLessonFormValues({
+        showPreviewVideo: false,
+        videoUrl: "",
+        videoSize: 0,
+      });
   };
 
   const getVideoDurationCallback = React.useCallback(() => {
@@ -75,7 +97,7 @@ const PreviewVideo = () => {
 
     const vidDur = `${vidHr}hrs:${vidMin}mins:${vidSec}secs`;
 
-    return setDuration(vidDur);
+    return handleStateUpdate({ duration: vidDur });
   }, [videoRef.current]);
 
   React.useEffect(() => {
@@ -85,6 +107,22 @@ const PreviewVideo = () => {
 
   return (
     <Flex flexDir="column" align="center">
+      {state.loading && (
+        <Flex
+          w="full"
+          h="30px"
+          borderRadius="6px"
+          align="center"
+          justify="center"
+          bg={colors.primary[50]}
+          mb="8px"
+        >
+          <Text color="#fff" fontSize={"14px"} fontWeight="600">
+            {"state.message"}
+          </Text>
+        </Flex>
+      )}
+
       <Box
         width="full"
         h={{
@@ -115,7 +153,7 @@ const PreviewVideo = () => {
         gap="32px"
       >
         <Text color="#fff" mr="24px" fontWeight={500}>
-          {duration}
+          {state.duration}
         </Text>
         <Flex
           as="button"
@@ -123,13 +161,7 @@ const PreviewVideo = () => {
           justify="center"
           flexDir="column"
           gap="6px"
-          onClick={() =>
-            updateCreateLessonFormValues({
-              showPreviewVideo: false,
-              videoUrl: "",
-              videoSize: 0,
-            })
-          }
+          onClick={handleDeleteFile}
         >
           <DeleteIcon />
           <Text fontSize="16px" color="#fff">
