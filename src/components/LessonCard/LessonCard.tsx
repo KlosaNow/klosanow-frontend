@@ -94,6 +94,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
           src={thumbnailUrl}
           alt={title}
           borderRadius="xl"
+          bg="#eee"
         />
         <video src={videoUrl} ref={videoRef} hidden />
 

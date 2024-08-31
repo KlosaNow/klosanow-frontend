@@ -13,7 +13,6 @@ import { useStoreDispatch, useStoreSelector } from "../../redux/hooks";
 import { LessonType } from "src/types";
 import { createLessonPagePath } from "src/data/pageUrl";
 import { DEVICE_SCREEN_SIZES } from "src/data/constants";
-import { LESSONS_MOCKDATA } from "../CreateLesson/data/mockdata";
 
 export interface DashboardState {
   lessonType: LessonType;
@@ -24,7 +23,7 @@ const Dashboard: React.FC = () => {
   const dispatch = useStoreDispatch();
 
   const user = useStoreSelector((state) => state["user"]);
-  const lesson = useStoreSelector((state) => state.lessons["lessons"]);
+  const lessons = useStoreSelector((state) => state.lessons["lessons"]);
 
   const initialState: DashboardState = {
     lessonType: LessonType.Created,
@@ -36,15 +35,18 @@ const Dashboard: React.FC = () => {
   const handleStateUpdate = (newState: Partial<DashboardState>) =>
     setState((state) => ({ ...state, ...newState }));
 
-  const createdLesson = LESSONS_MOCKDATA || lesson.data.data || [];
+  const createdLesson = lessons.data || [];
+
   const lessonData = {
     [LessonType.Created]: createdLesson,
     [LessonType.Saved]: [],
   }[state.lessonType].slice(0, 5);
 
+  const latestLessonArr = [...createdLesson].reverse();
+
   const latestLesson = state.isMobile
-    ? createdLesson.slice(0, 1)
-    : createdLesson.slice(0, 3);
+    ? latestLessonArr.slice(0, 1)
+    : latestLessonArr.slice(0, 3);
 
   React.useEffect(() => {
     const handleResize = () =>
@@ -99,7 +101,7 @@ const Dashboard: React.FC = () => {
               {latestLesson.map((lesson) => (
                 <LessonCard
                   lesson={lesson}
-                  key={uniqueId(`lesson_${lesson.id}`)}
+                  key={uniqueId(`lesson_${lesson._id}`)}
                   hasDescription={false}
                   canWatch={false}
                   width="sm"
@@ -135,7 +137,7 @@ const Dashboard: React.FC = () => {
                 {lessonData.map((lesson) => (
                   <LessonCard
                     lesson={lesson}
-                    key={uniqueId(`lesson_${lesson.id}`)}
+                    key={uniqueId(`lesson_${lesson._id}`)}
                     canWatch={false}
                     descriptionLength={70}
                     width="sm"
