@@ -85,16 +85,20 @@ const LessonCard: React.FC<LessonCardProps> = ({
         lg: "330px",
         xl: cardWidth,
       }}
+      border={"1px solid #eee"}
+      borderRadius={12}
+      overflow={"hidden"}
     >
       <Box position="relative">
         <Image
           width="full"
-          height="184px"
+          height="196px"
           objectFit="cover"
           src={thumbnailUrl}
           alt={title}
           borderRadius="xl"
           bg="#eee"
+          borderBottom={"1px solid #eee"}
         />
         <video src={videoUrl} ref={videoRef} hidden />
 
@@ -167,7 +171,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
         )}
       </Box>
 
-      <Box padding="8px 0px" width="full">
+      <Box padding="8px 4px " width="full">
         <Text fontSize={16} fontWeight="500" color="#000" mb="4px">
           {capitalize(title)}
         </Text>
