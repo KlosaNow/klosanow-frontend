@@ -39,9 +39,9 @@ export const validateFile = (file: File) => {
   const size = Math.floor(file.size / byte);
 
   const fileSizeLimit = {
-    image: 2000,
-    video: 50000,
-    audio: 2000,
+    image: 3000,
+    video: 10000,
+    audio: 5000,
   };
 
   const allowedTypes = ["video", "audio", "image"];
