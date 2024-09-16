@@ -39,7 +39,7 @@ const LessonDetailFlyout: React.FC<LessonDetailFlyoutProps> = ({
           <Flex align="center" justify="center" flexDir="column">
             <Circle size="170px" overflow="hidden">
               <Image
-                src={lesson?.thumbnail}
+                src={lesson?.thumbnailUrl}
                 w="100%"
                 h="100%"
                 objectFit="cover"
