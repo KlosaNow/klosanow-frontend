@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text, useToast } from "@chakra-ui/react";
 import { CreateLessonFormContext } from "../../context/CreateLessonFormContext";
 import { DeleteIcon, SaveIcon } from "../../assets/svgs";
 import { CreateLessonFormValues } from "src/types";
@@ -8,10 +8,11 @@ import { allLessonsPagePath } from "src/data/pageUrl";
 import { postLessons } from "src/api-endpoints/lessons";
 import { postUser } from "src/api-endpoints/user/user.api";
 import { deletedFile, FileUploadResponseStatus } from "src/utils/file-upload";
-import { colors } from "src/data/colors";
+import OverlayLoader from "src/components/OverlayLoader";
 
 const PreviewVideo = () => {
   const navigate = useNavigate();
+  const toast = useToast();
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
   const initialState = {
@@ -36,46 +37,87 @@ const PreviewVideo = () => {
 
   const handleSubmit = async () => {
     handleStateUpdate({ loading: true, message: "Submiting" });
-    const formData: CreateLessonFormValues = {
-      title: form_info.title,
-      about: form_info.description,
-      thumbnailUrl: form_info.thumbnailUrl,
-      thumbnailSize: form_info.thumbnailSize,
-      tag: "uncategorized",
-      videoSize,
-      videoUrl,
-      content,
-    };
 
-    if (canUpdate) {
-      const userData = {
-        name: form_info.tutor_name,
-        bio: form_info.tutor_bio,
+    try {
+      const formData: CreateLessonFormValues = {
+        title: form_info.title,
+        about: form_info.description,
+        thumbnailUrl: form_info.thumbnailUrl,
+        thumbnailSize: form_info.thumbnailSize,
+        tag: "uncategorized",
+        videoSize,
+        videoUrl,
+        content,
       };
-      await postUser(userData);
-    }
 
-    if (draft_id) {
-      await postLessons({ ...formData, draftId: draft_id });
-    } else {
-      await postLessons(formData);
-    }
+      if (canUpdate) {
+        const userData = {
+          name: form_info.tutor_name,
+          bio: form_info.tutor_bio,
+        };
+        const res = await postUser(userData);
+        if (!res) throw new Error("Failed to update user details");
+        toast({
+          title: "User details updated successfully",
+          status: "success",
+          duration: 2500,
+          position: "top-right",
+        });
+      }
 
-    handleStateUpdate(initialState);
-    navigate(allLessonsPagePath);
+      const postLessonAction = () =>
+        draft_id
+          ? postLessons({ ...formData, draftId: draft_id })
+          : postLessons(formData);
+
+      const res = await postLessonAction();
+      if (!res) throw new Error("Failed to save lesson");
+      toast({
+        title: "User details updated successfully",
+        status: "success",
+        duration: 2500,
+        position: "top-right",
+      });
+      handleStateUpdate(initialState);
+      navigate(allLessonsPagePath);
+    } catch (error: any) {
+      handleStateUpdate({ loading: false, message: "" });
+      toast({
+        title: error.message ?? error.response ?? "Something went wrong",
+        description: "Try again later",
+        status: "error",
+        duration: 2500,
+        position: "top-right",
+      });
+    }
   };
 
   const handleDeleteFile = async () => {
     handleStateUpdate({ loading: true, message: "Deleting recording" });
-    const result = await deletedFile(videoUrl);
 
-    handleStateUpdate(initialState);
-    if (result.status === FileUploadResponseStatus.Success)
-      updateCreateLessonFormValues({
-        showPreviewVideo: false,
-        videoUrl: "",
-        videoSize: 0,
+    try {
+      const result = await deletedFile(videoUrl);
+
+      if (!result || result.status !== FileUploadResponseStatus.Success)
+        throw new Error("Unable to delete recording");
+
+      handleStateUpdate(initialState);
+      if (result.status === FileUploadResponseStatus.Success)
+        updateCreateLessonFormValues({
+          showPreviewVideo: false,
+          videoUrl: "",
+          videoSize: 0,
+        });
+    } catch (error: any) {
+      handleStateUpdate(initialState);
+      toast({
+        title: error.message ?? error.response ?? "Something went wrong",
+        description: "Try again later",
+        status: "error",
+        duration: 2500,
+        position: "top-right",
       });
+    }
   };
 
   const getVideoDurationCallback = React.useCallback(() => {
@@ -107,21 +149,7 @@ const PreviewVideo = () => {
 
   return (
     <Flex flexDir="column" align="center">
-      {state.loading && (
-        <Flex
-          w="full"
-          h="30px"
-          borderRadius="6px"
-          align="center"
-          justify="center"
-          bg={colors.primary[50]}
-          mb="8px"
-        >
-          <Text color="#fff" fontSize={"14px"} fontWeight="600">
-            {"state.message"}
-          </Text>
-        </Flex>
-      )}
+      <OverlayLoader loading={state.loading} description={state.message} />
 
       <Box
         width="full"

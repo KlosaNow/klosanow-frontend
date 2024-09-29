@@ -1,5 +1,6 @@
 import { mediaRoute } from "src/data/apiUrl";
 import { AxiosInstance as Axios } from "./axios";
+import { getToken } from "./constant";
 
 interface UploadFileRequest {
   status: string;
@@ -40,7 +41,7 @@ export const validateFile = (file: File) => {
 
   const fileSizeLimit = {
     image: 3000,
-    video: 10000,
+    video: 20000,
     audio: 5000,
   };
 
@@ -63,6 +64,7 @@ export const validateFile = (file: File) => {
 
 export const uploadFile: UploadFileAction = async (mediaFile: File) => {
   const validator = validateFile(mediaFile);
+  const { token } = getToken();
 
   if (validator.status !== FileUploadResponseStatus.Success) {
     return {
@@ -75,30 +77,31 @@ export const uploadFile: UploadFileAction = async (mediaFile: File) => {
       { mediaFile },
       {
         headers: {
-          "Content-Type": 'multipart/form-data"',
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       }
     );
 
-    if (res.status !== 200)
-      return {
-        status: FileUploadResponseStatus.Failed,
-        message: "Something went wrong",
-        data: null,
-      };
+    if (!res || !res.data) return;
 
     return res.data;
   }
 };
 
 export const deletedFile = async (fileUrl: string) => {
-  const res = await Axios.delete(`${mediaRoute}/?fileURL=${fileUrl}`);
+  const { token } = getToken();
+  const result = await Axios.delete(`${mediaRoute}/?fileURL=${fileUrl}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-  if (res.status !== 200) {
+  if (!result) {
     return {
       status: FileUploadResponseStatus.Failed,
       message: "Something went wrong",
       data: null,
     };
-  } else return res.data as Omit<UploadFileRequest, "data">;
+  } else return result.data as Omit<UploadFileRequest, "data">;
 };

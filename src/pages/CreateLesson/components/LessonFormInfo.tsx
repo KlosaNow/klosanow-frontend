@@ -33,6 +33,13 @@ import {
   CreateLessonFormContext,
   CreateLessonFormDefaultValues,
 } from "../context/CreateLessonFormContext";
+import OverlayLoader from "src/components/OverlayLoader";
+
+interface LessonFormInfoState {
+  mediaFile: string;
+  loading: boolean;
+  loadingType: "draft" | "thumbnail" | null;
+}
 
 const LessonFormInfo: React.FC = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -47,28 +54,42 @@ const LessonFormInfo: React.FC = () => {
     updateCreateLessonFormValues,
   } = React.useContext(CreateLessonFormContext);
 
-  const [mediaFile, setMediaFile] = useState(form_info.thumbnailUrl);
-  const [loading, setLoading] = useState(false);
+  const initialState: LessonFormInfoState = {
+    mediaFile: form_info.thumbnailUrl || "",
+    loading: false,
+    loadingType: null,
+  };
+
+  const [state, setState] = useState(initialState);
+
+  const handleStateUpdate = (newState: Partial<LessonFormInfoState>) =>
+    setState((state) => ({ ...state, ...newState }));
 
   const handleFileChange = async (
     e: ChangeEvent<HTMLInputElement>,
     cb: (fileUrl: string, fileSize: number) => void
   ) => {
-    setLoading(true);
+    handleStateUpdate({ loading: true, loadingType: "thumbnail" });
     e.preventDefault();
-    if (!e.currentTarget.files) return;
+    try {
+      if (!e.currentTarget.files) return;
 
-    const file = e.currentTarget.files[0];
-    const res = await uploadFile(file);
+      const file = e.currentTarget.files[0];
+      const res = await uploadFile(file);
 
-    if (res.data && res.status === FileUploadResponseStatus.Success) {
-      setLoading(false);
-      cb(res.data.url, res.data.size);
-      setMediaFile(res.data.url);
-    } else {
-      setLoading(false);
+      if (!res || !res.data || res.status !== FileUploadResponseStatus.Success)
+        throw new Error("Unable to fetch data");
+
+      if (res.status === FileUploadResponseStatus.Success) {
+        handleStateUpdate({ loading: false, loadingType: null });
+        cb(res.data.url, res.data.size);
+        handleStateUpdate({ mediaFile: res.data.url });
+      }
+    } catch (error: any) {
+      handleStateUpdate({ loading: false, loadingType: null });
       toast({
-        title: res.message,
+        title: error.message ?? error.response ?? "Something went wrong",
+        description: "Try again later",
         status: "error",
         duration: 3000,
         position: "top-right",
@@ -77,15 +98,22 @@ const LessonFormInfo: React.FC = () => {
   };
 
   const handleDeleteFile = async (cb: (res: boolean) => void) => {
-    setLoading(true);
-    const res = await deletedFile(mediaFile);
-    if (res.status === FileUploadResponseStatus.Success) {
-      setLoading(false);
-      return cb(!!res);
-    } else {
-      setLoading(false);
+    handleStateUpdate({ loading: true, loadingType: "thumbnail" });
+    try {
+      const res = await deletedFile(state.mediaFile);
+
+      if (!res || res.status !== FileUploadResponseStatus.Success)
+        throw new Error("Unable to delete file");
+
+      if (res.status === FileUploadResponseStatus.Success) {
+        handleStateUpdate({ loading: false, loadingType: null });
+        return cb(!!res);
+      }
+    } catch (error) {
+      handleStateUpdate({ loading: false, loadingType: null });
       toast({
         title: "Something went wrong",
+        description: "Try again later",
         status: "error",
         duration: 3000,
         position: "top-right",
@@ -105,24 +133,41 @@ const LessonFormInfo: React.FC = () => {
   const handleDraft = async (
     values: CreateLessonFormDefaultValues["form_info"]
   ) => {
-    setLoading(true);
-    const formData = {
-      ...values,
-      about: values.description,
-      template,
-    };
+    handleStateUpdate({ loading: true, loadingType: "draft" });
+    try {
+      const formData = {
+        ...values,
+        about: values.description,
+        template,
+      };
 
-    if (draft_id) {
-      await updateDraft(draft_id, formData);
-    } else {
-      await saveToDrafts(formData);
+      const draftAction = () =>
+        draft_id ? updateDraft(draft_id, formData) : saveToDrafts(formData);
+
+      const res = await draftAction();
+
+      if (!res) throw new Error("Unable to save draft");
+
+      handleStateUpdate({ loading: false, loadingType: null });
+      navigate(draftsPagePath);
+    } catch (error: any) {
+      handleStateUpdate({ loading: false, loadingType: null });
+      toast({
+        title: error.message ?? error.response ?? "Something went wrong",
+        status: "error",
+        duration: 3000,
+        position: "top-right",
+      });
     }
-    setLoading(false);
-    navigate(draftsPagePath);
   };
 
   return (
     <>
+      <OverlayLoader
+        loading={state.loading && state.loadingType === "draft"}
+        description="proccessing draft"
+      />
+
       <Text fontSize="32px" fontWeight="500" textColor="black.100" mb={2}>
         Create your lessons
       </Text>
@@ -142,7 +187,6 @@ const LessonFormInfo: React.FC = () => {
           errors,
           isSubmitting,
           isValid,
-          dirty,
           handleBlur,
           handleChange,
           handleSubmit,
@@ -164,7 +208,7 @@ const LessonFormInfo: React.FC = () => {
                 overflow="hidden"
               >
                 <Image
-                  src={mediaFile || dummyImg}
+                  src={state.mediaFile || dummyImg}
                   alt="Klosanaw"
                   w="100%"
                   h="100%"
@@ -191,13 +235,17 @@ const LessonFormInfo: React.FC = () => {
                     w={"full"}
                     h={"50px"}
                     _hover={{ color: "none" }}
-                    isLoading={loading}
+                    isLoading={
+                      state.loading && state.loadingType === "thumbnail"
+                    }
                     type="button"
                     onClick={() =>
-                      mediaFile
+                      state.mediaFile
                         ? handleDeleteFile((res) => {
                             if (res) {
-                              setMediaFile("");
+                              handleStateUpdate({
+                                mediaFile: "",
+                              });
                               setFieldValue("thumbnailUrl", "");
                               setFieldValue("thumbnailSize", "");
                             }
@@ -205,7 +253,7 @@ const LessonFormInfo: React.FC = () => {
                         : inputRef.current?.click()
                     }
                   >
-                    {mediaFile ? "Delete" : "Upload"} image
+                    {state.mediaFile ? "Delete" : "Upload"} image
                     <Input
                       type="file"
                       name="thumbnailUrl"
@@ -319,7 +367,7 @@ const LessonFormInfo: React.FC = () => {
                 _hover={{ color: "none" }}
                 onClick={() => handleDraft(values)}
                 type="button"
-                isLoading={loading}
+                isLoading={state.loading && state.loadingType === "draft"}
               >
                 Save to drafts
               </Button>
@@ -352,7 +400,7 @@ const LessonFormInfo: React.FC = () => {
                   {...btnStyles}
                   bg={colors.primary[50]}
                   color={colors.neutral[10]}
-                  isDisabled={!dirty || !isValid}
+                  isDisabled={!isValid}
                   _hover={{ opacity: 0.9 }}
                   isLoading={isSubmitting}
                   type="submit"

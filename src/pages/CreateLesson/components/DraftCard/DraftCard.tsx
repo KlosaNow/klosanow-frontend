@@ -11,32 +11,23 @@ import {
 } from "@chakra-ui/react";
 import { Draft } from "src/types";
 import { OptionIcon } from "src/assets/svgs";
-import { deleteDraft, fetchDrafts } from "src/api-endpoints/lessons";
-import { useStoreDispatch } from "src/redux/hooks";
 import { useNavigate } from "react-router-dom";
 import { createLessonFormPagePath } from "src/data/pageUrl";
 import { setDraftId } from "src/utils/constant";
 
 interface DraftCardProps {
   draft: Draft;
+  handleDelete: (id: string) => void;
 }
 
-const DraftCard: React.FC<DraftCardProps> = ({ draft }) => {
+const DraftCard: React.FC<DraftCardProps> = ({ draft, handleDelete }) => {
   const navigate = useNavigate();
-  const dispatch = useStoreDispatch();
 
   const handleContinue = async () => {
     setDraftId(draft._id);
     navigate(createLessonFormPagePath);
   };
 
-  const handleDelete = async () => {
-    const res = await deleteDraft(draft._id);
-
-    if (!res) return;
-
-    dispatch(fetchDrafts());
-  };
   return (
     <Flex
       alignContent="center"
@@ -97,7 +88,7 @@ const DraftCard: React.FC<DraftCardProps> = ({ draft }) => {
               _hover={{
                 bg: "#eee",
               }}
-              onClick={handleDelete}
+              onClick={() => handleDelete(draft._id)}
             >
               Delete
             </Box>

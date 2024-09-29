@@ -1,5 +1,12 @@
 import React from "react";
-import { Flex, Button, IconButton, Text, Box } from "@chakra-ui/react";
+import {
+  Flex,
+  Button,
+  IconButton,
+  Text,
+  Box,
+  useToast,
+} from "@chakra-ui/react";
 import { uniqueId } from "lodash";
 import { AiFillDelete } from "react-icons/ai";
 import { CreateLessonFormStepsType } from "src/types";
@@ -9,6 +16,7 @@ import { getLessonContentActions } from "../../data";
 import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
 import { draftsPagePath } from "src/data/pageUrl";
 import { useNavigate } from "react-router-dom";
+import OverlayLoader from "src/components/OverlayLoader";
 
 interface LessonDescriptionState {
   index: number;
@@ -16,12 +24,14 @@ interface LessonDescriptionState {
   isEditing: boolean;
   content: Array<string>;
   showTooltip: boolean;
+  loading: boolean;
 }
 
 const Editor = React.lazy(() => import("./Editor"));
 
 const SlideLessonContent: React.FC = () => {
   const navigate = useNavigate();
+  const toast = useToast();
 
   const {
     draft_id,
@@ -37,6 +47,7 @@ const SlideLessonContent: React.FC = () => {
     isEditing: false,
     content: content || [],
     showTooltip: false,
+    loading: false,
   };
   const [state, setState] = React.useState(intialState);
 
@@ -89,20 +100,32 @@ const SlideLessonContent: React.FC = () => {
   };
 
   const handleDraft = async () => {
-    const formData = {
-      ...form_info,
-      about: form_info.description,
-      content: state.content,
-      template,
-    };
+    handleStateUpdate({ loading: true });
+    try {
+      const formData = {
+        ...form_info,
+        about: form_info.description,
+        content: state.content,
+        template,
+      };
 
-    if (draft_id) {
-      await updateDraft(draft_id, formData);
-    } else {
-      await saveToDrafts(formData);
+      const draftAction = () =>
+        draft_id ? updateDraft(draft_id, formData) : saveToDrafts(formData);
+
+      const res = await draftAction();
+
+      if (!res) throw new Error("Unable to save draft");
+      handleStateUpdate({ loading: false });
+      navigate(draftsPagePath);
+    } catch (error: any) {
+      handleStateUpdate({ loading: false });
+      toast({
+        title: error.message ?? error.response ?? "Something went wrong",
+        status: "error",
+        duration: 3000,
+        position: "top-right",
+      });
     }
-
-    navigate(draftsPagePath);
   };
 
   const renderActions = getLessonContentActions(
@@ -122,6 +145,7 @@ const SlideLessonContent: React.FC = () => {
 
   return (
     <>
+      <OverlayLoader loading={state.loading} description="Processing draft" />
       <Text fontSize="32px" fontWeight="500" mb="24px">
         Create your lessons
       </Text>

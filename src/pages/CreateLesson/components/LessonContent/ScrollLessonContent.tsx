@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "@chakra-ui/react";
+import { Text, useToast } from "@chakra-ui/react";
 
 import { CreateLessonFormStepsType } from "src/types";
 
@@ -8,11 +8,13 @@ import { getLessonContentActions } from "../../data";
 import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
 import { useNavigate } from "react-router-dom";
 import { draftsPagePath } from "src/data/pageUrl";
+import OverlayLoader from "src/components/OverlayLoader";
 
 const Editor = React.lazy(() => import("./Editor"));
 
 const ScrollLessonContent: React.FC = () => {
   const navigate = useNavigate();
+  const toast = useToast();
   const {
     draft_id,
     template,
@@ -22,6 +24,7 @@ const ScrollLessonContent: React.FC = () => {
   } = React.useContext(CreateLessonFormContext);
 
   const [value, setValue] = React.useState(content[0] || "");
+  const [loading, setLoading] = React.useState(false);
 
   const handleProceed = () => {
     updateCreateLessonFormValues({
@@ -31,20 +34,32 @@ const ScrollLessonContent: React.FC = () => {
   };
 
   const handleDraft = async () => {
-    const formData = {
-      ...form_info,
-      about: form_info.description,
-      content: [value],
-      template,
-    };
+    setLoading(true);
+    try {
+      const formData = {
+        ...form_info,
+        about: form_info.description,
+        content: [value],
+        template,
+      };
 
-    if (draft_id) {
-      await updateDraft(draft_id, formData);
-    } else {
-      await saveToDrafts(formData);
+      const draftAction = () =>
+        draft_id ? updateDraft(draft_id, formData) : saveToDrafts(formData);
+
+      const res = await draftAction();
+
+      if (!res) throw new Error("Unable to save draft");
+      setLoading(false);
+      navigate(draftsPagePath);
+    } catch (error: any) {
+      setLoading(false);
+      toast({
+        title: error.message ?? error.response ?? "Something went wrong",
+        status: "error",
+        duration: 3000,
+        position: "top-right",
+      });
     }
-
-    navigate(draftsPagePath);
   };
 
   const renderActions = getLessonContentActions(
@@ -61,6 +76,7 @@ const ScrollLessonContent: React.FC = () => {
 
   return (
     <>
+      <OverlayLoader loading={loading} description="Processing draft" />
       <Text fontSize="32px" fontWeight="500" mb="24px">
         Create your lessons
       </Text>

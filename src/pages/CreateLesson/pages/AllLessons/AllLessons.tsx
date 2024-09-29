@@ -20,12 +20,15 @@ import { useStoreDispatch, useStoreSelector } from "src/redux/hooks";
 import { createLessonPagePath } from "src/data/pageUrl";
 import { CaretDownIcon } from "src/assets/svgs";
 import WatchLessonModal from "../../modals/WatchLessonModal";
+import OverlayLoader from "src/components/OverlayLoader";
 
 interface AllLessonsState {
   type: LessonType;
   showModal: boolean;
   activeLesson: Lesson | null;
   showFlyout: boolean;
+  loading: boolean;
+  actonType: "delete" | "share" | null;
 }
 
 const AllLessons: React.FC = () => {
@@ -38,6 +41,8 @@ const AllLessons: React.FC = () => {
     showModal: false,
     activeLesson: null,
     showFlyout: false,
+    loading: false,
+    actonType: null,
   };
 
   const [state, setState] = React.useState(initialState);
@@ -54,19 +59,35 @@ const AllLessons: React.FC = () => {
     state.type === LessonType.Created ? LessonType.Saved : LessonType.Created;
 
   const handleDelete = async (id: string) => {
-    const res = await deleteLesson(id);
-    if (!res) return;
-    toast({
-      title: "Deleted succesfully",
-      duration: 3000,
-      position: "top-right",
-      status: "success",
-    });
-    dispatch(fetchLessons());
+    handleStateUpdate({ loading: true, actonType: "delete" });
+
+    try {
+      const res = await deleteLesson(id);
+
+      if (!res) throw new Error("Unable to delete lesson");
+      handleStateUpdate({ loading: false, actonType: null });
+      toast({
+        title: "Lesson deleted succesfully",
+        duration: 3000,
+        position: "top-right",
+        status: "success",
+      });
+      dispatch(fetchLessons());
+    } catch (error) {
+      handleStateUpdate({ loading: false, actonType: null });
+      toast({
+        title: "Something went wrong",
+        description: "Try again later",
+        duration: 3000,
+        position: "top-right",
+        status: "error",
+      });
+    }
   };
 
   const handleShare = () => {
     //Share action here
+    handleStateUpdate({ actonType: "share" });
     console.log("share");
   };
 
@@ -77,6 +98,12 @@ const AllLessons: React.FC = () => {
 
   return (
     <Box>
+      <OverlayLoader
+        loading={state.loading}
+        description={
+          state.actonType === "delete" ? "Deleting lesson" : "Sharing lesson"
+        }
+      />
       <Flex
         align="center"
         mb={{

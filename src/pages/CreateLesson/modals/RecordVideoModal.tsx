@@ -23,6 +23,7 @@ import { CreateLessonFormContext } from "../context/CreateLessonFormContext";
 import { btnStyles } from "../data";
 import { PlayIcon } from "src/assets/svgs";
 import { FileUploadResponseStatus, uploadFile } from "src/utils/file-upload";
+import OverlayLoader from "src/components/OverlayLoader/OverlayLoader";
 
 interface RecordVideoModalProps {
   show: boolean;
@@ -38,6 +39,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
   const initialState = {
     index: 0,
     useMoveTool: false,
+    loading: false,
   };
 
   const [state, setState] = React.useState<typeof initialState>(initialState);
@@ -100,23 +102,31 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
   );
 
   const handleVideoUpload = async (blob: Blob) => {
-    const file = new File([blob], `vid-${form_info.title}${uniqueId("_")}`, {
-      type: blob.type,
-    });
-
-    const res = await uploadFile(file);
-    console.log(res);
-    if (res.status === FileUploadResponseStatus.Success) {
-      updateCreateLessonFormValues({
-        showPreviewVideo: true,
-        videoUrl: res.data?.url,
-        showRecordLessonModal: false,
-        videoSize: res.data?.size,
+    handleStateUpdate({ loading: true });
+    try {
+      const file = new File([blob], `vid-${form_info.title}${uniqueId("_")}`, {
+        type: blob.type,
       });
-    } else {
+
+      const res = await uploadFile(file);
+      if (!res || res.status !== FileUploadResponseStatus.Success)
+        throw new Error("Someting went wrong");
+
+      handleStateUpdate({ loading: false });
+      if (res.status === FileUploadResponseStatus.Success) {
+        updateCreateLessonFormValues({
+          showPreviewVideo: true,
+          videoUrl: res.data?.url,
+          showRecordLessonModal: false,
+          videoSize: res.data?.size,
+        });
+      }
+    } catch (error: any) {
+      handleStateUpdate({ loading: false });
       toast({
         description: "Unable to upload video",
-        duration: 3000,
+        title: error.message ?? error.response.message ?? "Someting went wrong",
+        duration: 2500,
         status: "error",
         position: "top-right",
       });
@@ -139,6 +149,10 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
     <Modal isOpen={show} onClose={handleClose} size="full">
       <ModalOverlay />
       <ModalContent>
+        <OverlayLoader
+          loading={state.loading}
+          description="Setting up preview"
+        />
         <ModalBody>
           <Flex
             flexDir="column"
