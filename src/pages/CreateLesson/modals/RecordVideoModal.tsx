@@ -15,7 +15,8 @@ import {
 import { capitalize, uniqueId } from "lodash";
 import { MdArrowBackIosNew, MdOutlineArrowForwardIos } from "react-icons/md";
 import Draggable from "react-draggable";
-
+import { GiResize } from "react-icons/gi";
+import { RiDragMove2Line } from "react-icons/ri";
 import useMediaRecorder from "src/utils/useMediaRecorder";
 import { LessonTemplateType } from "src/types";
 import { MoveIcon, PauseIcon, RecordIcon, StopRecordIcon } from "../assets";
@@ -40,6 +41,11 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
     index: 0,
     useMoveTool: false,
     loading: false,
+    x: 0,
+    y: 0,
+    width: 320,
+    height: 200,
+    isRezisable: false,
   };
 
   const [state, setState] = React.useState<typeof initialState>(initialState);
@@ -164,7 +170,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
             position="relative"
           >
             {state.useMoveTool ? (
-              <Draggable>
+              <Draggable handle={state.isRezisable ? ".handle" : ""}>
                 <Box
                   w={{
                     base: "280px",
@@ -172,14 +178,27 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                   }}
                   h="70px"
                   as="div"
-                  border={`1.3px solid #000`}
+                  border={`1.5px solid #ff0000`}
                   borderRadius="4px"
                   position="absolute"
                   top="0"
                   left="0"
                   zIndex="10"
                   cursor="pointer"
-                />
+                  resize={"both"}
+                  overflow={"auto"}
+                >
+                  <Box
+                    onClick={() =>
+                      handleStateUpdate({ isRezisable: !state.isRezisable })
+                    }
+                    cursor={"pointer"}
+                    p={"0 30px 30px 0"}
+                    w={"max-content"}
+                  >
+                    {state.isRezisable ? <GiResize /> : <RiDragMove2Line />}
+                  </Box>
+                </Box>
               </Draggable>
             ) : null}
 
@@ -337,7 +356,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
 
           {mediaStatus === "recording" ? null : (
             <Button
-              {...btnStyles}
+              {...btnStyles()}
               type="button"
               _hover={{ color: "none" }}
               onClick={handleClose}

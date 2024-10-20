@@ -162,7 +162,7 @@ const AllLessons: React.FC = () => {
               <LessonCard
                 lesson={lesson}
                 key={uniqueId(`lesson_${lesson._id}`)}
-                handleWacth={(activeLesson) =>
+                handleWatch={(activeLesson) =>
                   handleStateUpdate({ showModal: true, activeLesson })
                 }
                 handleView={(activeLesson) =>

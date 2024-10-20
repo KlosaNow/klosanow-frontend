@@ -15,13 +15,13 @@ import { OptionWhiteIcon } from "../../assets/svgs";
 
 interface LessonCardProps {
   lesson: Lesson;
-  handleWacth?: (x: Lesson) => void;
+  handleWatch: (x: Lesson) => void;
   handleDelete?: (id: string) => void;
   handleView?: (x: Lesson) => void;
   handleShare?: (x: Lesson) => void;
   hasOptions?: boolean;
   descriptionLength?: number;
-  canWatch?: boolean;
+  hasWatch?: boolean;
   hasDescription?: boolean;
   width?: "sm" | "lg";
 }
@@ -31,8 +31,8 @@ const LessonCard: React.FC<LessonCardProps> = ({
   hasOptions,
   hasDescription = true,
   descriptionLength,
-  canWatch = true,
-  handleWacth,
+  hasWatch = true,
+  handleWatch,
   handleDelete,
   handleView,
   handleShare,
@@ -46,32 +46,39 @@ const LessonCard: React.FC<LessonCardProps> = ({
     tutor_name: author,
     videoUrl,
   } = lesson;
+  const [duration, setDuration] = React.useState("");
 
-  const duration =
-    React.useMemo(() => {
-      const video = videoRef.current;
+  const handleLoadedMetadata = () => {
+    const video = videoRef.current;
+    if (!video) return;
 
-      if (video) {
-        const vidDurArr = video.duration.toString().split(".");
+    if (video.duration === Infinity) return;
 
-        const vidHr = vidDurArr[vidDurArr.length - 4];
-        const vidMin = vidDurArr[vidDurArr.length - 3];
-        const vidSec = vidDurArr[vidDurArr.length - 2];
+    const vidDurArr = video.duration.toString().split(".");
 
-        const vidHrValue = vidHr ? `${vidHr}:` : "";
-        const vidMinValue = vidMin ? `${vidMin}:` : "";
-        const vidSecValue = vidSec ? `${vidSec}:` : "";
+    const vidHr = vidDurArr[vidDurArr.length - 4];
+    const vidMin = vidDurArr[vidDurArr.length - 3];
+    const vidSec = vidDurArr[vidDurArr.length - 2];
 
-        const vidDur = `${vidHrValue}${vidMinValue}:${vidSecValue}`;
+    const vidHrValue = vidHr ? `${vidHr}:` : "";
+    const vidMinValue = vidMin ? `${vidMin}:` : "";
+    const vidSecValue = vidSec ? `${vidSec}:` : "";
 
-        return vidDur;
-      }
-    }, [videoRef.current]) || "0.00";
+    const vidDur = `${vidHrValue}${vidMinValue}:${vidSecValue}`;
+
+    setDuration(vidDur);
+  };
 
   const cardWidth = {
     sm: "299px",
     lg: "354px",
   }[width || "lg"];
+
+  React.useEffect(() => {
+    return () => {
+      setDuration("");
+    };
+  }, []);
 
   return (
     <Box
@@ -88,6 +95,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
       border={"1px solid #eee"}
       borderRadius={12}
       overflow={"hidden"}
+      onClick={() => (hasWatch ? () => null : handleWatch(lesson))}
     >
       <Box position="relative">
         <Image
@@ -100,7 +108,12 @@ const LessonCard: React.FC<LessonCardProps> = ({
           bg="#eee"
           borderBottom={"1px solid #eee"}
         />
-        <video src={videoUrl} ref={videoRef} hidden />
+        <video
+          src={videoUrl}
+          ref={videoRef}
+          hidden
+          onLoadedMetadata={handleLoadedMetadata}
+        />
 
         {hasOptions && (
           <Box position="absolute" top="8px" right="7px">
@@ -186,7 +199,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
           </Text>
         )}
 
-        {canWatch && (
+        {hasWatch && (
           <Button
             mt="8px"
             bg="primary.50"
@@ -197,7 +210,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
             _hover={{
               opacity: 0.8,
             }}
-            onClick={() => handleWacth && handleWacth(lesson)}
+            onClick={() => handleWatch(lesson)}
           >
             Watch now
           </Button>

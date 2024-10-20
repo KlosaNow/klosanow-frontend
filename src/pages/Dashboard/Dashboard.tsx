@@ -10,13 +10,16 @@ import { uniqueId } from "lodash";
 import { useQuery } from "@tanstack/react-query";
 import { fetchLessons } from "../../api-endpoints/lessons/actions";
 import { useStoreDispatch, useStoreSelector } from "../../redux/hooks";
-import { LessonType } from "src/types";
+import { Lesson, LessonType } from "src/types";
 import { createLessonPagePath } from "src/data/pageUrl";
 import { DEVICE_SCREEN_SIZES } from "src/data/constants";
+import { WatchLessonModal } from "../CreateLesson";
 
 export interface DashboardState {
   lessonType: LessonType;
   isMobile: boolean;
+  showVideo: boolean;
+  activeLesson: Lesson | null;
 }
 
 const Dashboard: React.FC = () => {
@@ -28,6 +31,8 @@ const Dashboard: React.FC = () => {
   const initialState: DashboardState = {
     lessonType: LessonType.Created,
     isMobile: window.innerWidth <= DEVICE_SCREEN_SIZES.mobile_standard,
+    showVideo: false,
+    activeLesson: null,
   };
 
   const [state, setState] = React.useState<DashboardState>(initialState);
@@ -103,7 +108,10 @@ const Dashboard: React.FC = () => {
                   lesson={lesson}
                   key={uniqueId(`lesson_${lesson._id}`)}
                   hasDescription={false}
-                  canWatch={false}
+                  hasWatch={false}
+                  handleWatch={(activeLesson) =>
+                    handleStateUpdate({ showVideo: true, activeLesson })
+                  }
                   width="sm"
                 />
               ))}
@@ -138,9 +146,12 @@ const Dashboard: React.FC = () => {
                   <LessonCard
                     lesson={lesson}
                     key={uniqueId(`lesson_${lesson._id}`)}
-                    canWatch={false}
+                    hasWatch={false}
                     descriptionLength={70}
                     width="sm"
+                    handleWatch={(activeLesson) =>
+                      handleStateUpdate({ showVideo: true, activeLesson })
+                    }
                   />
                 ))}
               </Flex>
@@ -148,6 +159,14 @@ const Dashboard: React.FC = () => {
           </Box>
         </Box>
       </Box>
+
+      <WatchLessonModal
+        show={state.showVideo}
+        lesson={state.activeLesson}
+        handleClose={() =>
+          handleStateUpdate({ showVideo: false, activeLesson: null })
+        }
+      />
     </Box>
   );
 };

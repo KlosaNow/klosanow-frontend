@@ -27,12 +27,13 @@ export const CREATE_LESSON_STEPS = {
 
 export const getLessonContentActions = (
   actions: LessonContentAction,
-  isDisabled?: boolean
+  isDisabled?: boolean,
+  isScrollContent?: boolean
 ) => (
   <Box
     mt={{
-      base: "120px",
-      md: "64px",
+      base: !isScrollContent ? "120px" : 0,
+      md: !isScrollContent ? "64px" : 0,
     }}
   >
     <Flex
@@ -45,7 +46,7 @@ export const getLessonContentActions = (
       }}
     >
       <Button
-        {...btnStyles}
+        {...btnStyles(isScrollContent)}
         _hover={{ color: "none" }}
         type="button"
         onClick={actions.handleDraft}
@@ -65,7 +66,7 @@ export const getLessonContentActions = (
         }}
       >
         <Button
-          {...btnStyles}
+          {...btnStyles(isScrollContent)}
           type="button"
           _hover={{ color: "none" }}
           onClick={actions.handleBack}
@@ -74,7 +75,7 @@ export const getLessonContentActions = (
         </Button>
 
         <Button
-          {...btnStyles}
+          {...btnStyles(isScrollContent)}
           bg={colors.primary[50]}
           color={colors.neutral[10]}
           type="button"
@@ -100,13 +101,13 @@ export const getLessonContentActions = (
   </Box>
 );
 
-export const btnStyles = {
+export const btnStyles = (isScrollContent?: boolean) => ({
   borderColor: colors.primary[50],
   color: colors.primary[50],
   variant: "outline",
   width: {
     base: "100%",
-    md: "200px",
+    md: isScrollContent ? "150px" : "200px",
   },
-  h: "50px",
-};
+  h: isScrollContent ? "40px" : "50px",
+});

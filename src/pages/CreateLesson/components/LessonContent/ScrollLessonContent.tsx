@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, useToast } from "@chakra-ui/react";
+import { Flex, Text, useToast } from "@chakra-ui/react";
 
 import { CreateLessonFormStepsType } from "src/types";
 
@@ -62,6 +62,8 @@ const ScrollLessonContent: React.FC = () => {
     }
   };
 
+  console.log(value);
+
   const renderActions = getLessonContentActions(
     {
       handleDraft,
@@ -71,23 +73,25 @@ const ScrollLessonContent: React.FC = () => {
         }),
       handleProceed,
     },
-    !value
+    !value,
+    true
   );
 
   return (
     <>
       <OverlayLoader loading={loading} description="Processing draft" />
-      <Text fontSize="32px" fontWeight="500" mb="24px">
-        Create your lessons
-      </Text>
+      <Flex align={"center"} mb="16px" justify={"space-between"}>
+        <Text fontSize="24px" fontWeight="500">
+          Create your lessons
+        </Text>
+        {renderActions}
+      </Flex>
 
       <Editor
         value={value}
         placeholder="Your lesson content goes in here..."
         onChange={setValue}
       />
-
-      {renderActions}
     </>
   );
 };

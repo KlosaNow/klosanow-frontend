@@ -36,6 +36,8 @@ const LessonPreview: React.FC = () => {
 
   const slides = [initialSlide, ...content];
 
+  console.log(content);
+
   return (
     <>
       <Flex
@@ -110,7 +112,7 @@ const LessonPreview: React.FC = () => {
 
       <Flex justify="flex-end" mt="12px" gap="24px">
         <Button
-          {...btnStyles}
+          {...btnStyles()}
           type="button"
           _hover={{ color: "none" }}
           onClick={() =>
@@ -123,7 +125,7 @@ const LessonPreview: React.FC = () => {
         </Button>
 
         <Button
-          {...btnStyles}
+          {...btnStyles()}
           bg={colors.primary[50]}
           color={colors.neutral[10]}
           type="button"

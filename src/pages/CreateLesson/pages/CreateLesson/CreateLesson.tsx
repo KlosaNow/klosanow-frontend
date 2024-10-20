@@ -1,20 +1,50 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, useToast } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { createLessonFormPagePath, draftsPagePath } from "src/data/pageUrl";
 import { useStoreDispatch, useStoreSelector } from "src/redux/hooks";
 import DraftCard from "../../components/DraftCard";
 import { uniqueId } from "lodash";
-import { fetchDrafts } from "src/api-endpoints/lessons";
+import { deleteDraft, fetchDrafts } from "src/api-endpoints/lessons";
 import { EmptyState, LessonTemplateCard } from "src/components";
+import OverlayLoader from "src/components/OverlayLoader";
 
 const CreateLesson: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useStoreDispatch();
   const drafts = useStoreSelector((state) => state.lessons["drafts"]);
+  const [loading, setLoading] = React.useState(false);
+  const toast = useToast();
 
   const draftsData = drafts.data.slice(0, 3) || [];
+
+  const handleDelete = async (id: string) => {
+    setLoading(true);
+    try {
+      const res = await deleteDraft(id);
+
+      if (!res) throw new Error("Unable to delete draft");
+
+      setLoading(false);
+      toast({
+        title: "Draft removed successfully",
+        status: "success",
+        duration: 2500,
+        position: "top-right",
+      });
+      dispatch(fetchDrafts());
+    } catch (error: any) {
+      setLoading(false);
+      toast({
+        title:
+          error.message ?? error.response.message ?? "Something went wrong",
+        status: "error",
+        duration: 2500,
+        position: "top-right",
+      });
+    }
+  };
 
   useQuery({
     queryKey: ["drafts"],
@@ -23,6 +53,7 @@ const CreateLesson: React.FC = () => {
 
   return (
     <Box py={["2rem", "0px"]} width="full">
+      <OverlayLoader loading={loading} />
       <Box>
         <Text fontWeight={600} display={["none", "block"]} fontSize="32px">
           Create a lesson
@@ -62,7 +93,11 @@ const CreateLesson: React.FC = () => {
       ) : (
         <Box mt="2rem">
           {draftsData.map((draft) => (
-            <DraftCard key={uniqueId(`draft_${draft._id}`)} draft={draft} />
+            <DraftCard
+              handleDelete={handleDelete}
+              key={uniqueId(`draft_${draft._id}`)}
+              draft={draft}
+            />
           ))}
         </Box>
       )}

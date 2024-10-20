@@ -363,7 +363,7 @@ const LessonFormInfo: React.FC = () => {
               }}
             >
               <Button
-                {...btnStyles}
+                {...btnStyles()}
                 _hover={{ color: "none" }}
                 onClick={() => handleDraft(values)}
                 type="button"
@@ -384,7 +384,7 @@ const LessonFormInfo: React.FC = () => {
                 }}
               >
                 <Button
-                  {...btnStyles}
+                  {...btnStyles()}
                   type="button"
                   _hover={{ color: "none" }}
                   onClick={() =>
@@ -397,7 +397,7 @@ const LessonFormInfo: React.FC = () => {
                 </Button>
 
                 <Button
-                  {...btnStyles}
+                  {...btnStyles()}
                   bg={colors.primary[50]}
                   color={colors.neutral[10]}
                   isDisabled={!isValid}
