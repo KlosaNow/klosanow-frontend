@@ -62,8 +62,6 @@ const ScrollLessonContent: React.FC = () => {
     }
   };
 
-  console.log(value);
-
   const renderActions = getLessonContentActions(
     {
       handleDraft,

@@ -36,8 +36,6 @@ const LessonPreview: React.FC = () => {
 
   const slides = [initialSlide, ...content];
 
-  console.log(content);
-
   return (
     <>
       <Flex
