@@ -46,7 +46,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
     tutor_name: author,
     videoUrl,
   } = lesson;
-  const [duration, setDuration] = React.useState("");
+  const [duration, setDuration] = React.useState<string | null>(null);
 
   const handleLoadedMetadata = () => {
     const video = videoRef.current;
@@ -76,7 +76,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
 
   React.useEffect(() => {
     return () => {
-      setDuration("");
+      setDuration(null);
     };
   }, []);
 
