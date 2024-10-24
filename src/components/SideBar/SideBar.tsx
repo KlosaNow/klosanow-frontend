@@ -1,11 +1,4 @@
-import {
-  Box,
-  Text,
-  Image,
-  Button,
-  CircularProgress,
-  CircularProgressLabel,
-} from "@chakra-ui/react";
+import { Box, Text, Image, Button } from "@chakra-ui/react";
 import logo from "../../assets/SplashScreenImg/SplashLogo.png";
 import { Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
@@ -15,29 +8,65 @@ import { BsFillChatTextFill } from "react-icons/bs";
 import { IoMdSettings } from "react-icons/io";
 import { MdAppSettingsAlt } from "react-icons/md";
 import { IoMdHelpCircle } from "react-icons/io";
-const Links = [
+import {
+  allLessonsPagePath,
+  createLessonPagePath,
+  dashboardPagePath,
+} from "src/data/pageUrl";
+import { uniqueId } from "lodash";
+import { DEVICE_SCREEN_SIZES } from "src/data/constants";
+import React from "react";
+
+const getNavLinks = (isDesktop: boolean) => [
   {
     name: "Dashboard",
-    href: "/dashboard",
+    href: dashboardPagePath,
     icon: AiFillHome,
+    isVisible: true,
   },
   {
-    name: "Created Lessons",
-    href: "/created-lessons",
+    name: "Create Lessons",
+    href: createLessonPagePath,
     icon: MdAppSettingsAlt,
+    isVisible: !isDesktop,
+  },
+  {
+    name: "Lessons",
+    href: allLessonsPagePath,
+    icon: MdAppSettingsAlt,
+    isVisible: isDesktop,
   },
   {
     name: "Study Chat",
     href: "/studychat",
     icon: BsFillChatTextFill,
+    isVisible: true,
   },
   {
     name: "Settings",
     href: "/Settings",
     icon: IoMdSettings,
+    isVisible: true,
   },
 ];
-const SideBar = () => {
+
+const SideBar: React.FC = () => {
+  const [isDesktop, setIsDesktop] = React.useState(
+    window.innerWidth <= DEVICE_SCREEN_SIZES.laptop_sm
+  );
+
+  const Links = getNavLinks(isDesktop);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth < DEVICE_SCREEN_SIZES.laptop_sm);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <Box
       width="264px"
@@ -64,41 +93,22 @@ const SideBar = () => {
         </Box>
 
         <Box>
-          {Links.map((link, i) => (
-            <NavItem to={link.href} icon={link.icon} key={i}>
-              {link.name}
-            </NavItem>
-          ))}
+          {Links.map((link, i) => {
+            return (
+              link.isVisible && (
+                <NavItem
+                  to={link.href}
+                  icon={link.icon}
+                  key={uniqueId(`nav-link-${i}`)}
+                >
+                  {link.name}
+                </NavItem>
+              )
+            );
+          })}
         </Box>
       </Box>
-      {/* <Box
-        textAlign={"center"}
-        marginX={"30px"}
-        borderWidth={"1px"}
-        borderColor={"#CCCCCC"}
-        py={"20px"}
-        px={"10px"}
-        borderRadius={"0.5rem"}
-        bg={"#FAFAFA"}
-        marginY="70px"
-      >
-        <Box>
-          <CircularProgress value={30} size={"140px"} color="green.400">
-            <CircularProgressLabel fontSize={"0.9rem"} borderRadius={"3rem"}>
-              Used <br /> 41Gb/1TB
-            </CircularProgressLabel>
-          </CircularProgress>
-        </Box>
-        <Box w={"full"}>
-          <Text>You are on Premium</Text>
-          <Text color={"#808080"} fontSize={"15px"} my={"0.8rem"}>
-            Expires june 29,2023
-          </Text>
-          <Button w={"full"} bg={"#7B58F4"} color={"white"}>
-            Upgrade
-          </Button>
-        </Box>
-      </Box> */}
+
       <Box paddingLeft="50px" marginBottom="80px">
         <Box
           color={"red"}

@@ -1,11 +1,8 @@
 import {
-  Box,
-  useDisclosure,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalCloseButton,
   ModalBody,
   UseDisclosureProps,
   Menu,

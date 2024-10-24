@@ -6,13 +6,14 @@ import {
 } from "react-icons/md";
 import { AiOutlineHome } from "react-icons/ai";
 import { NavLink as RouterLink } from "react-router-dom";
+import { allLessonsPagePath, dashboardPagePath } from "src/data/pageUrl";
 
 const navItems = [
-  { title: "Home", icon: AiOutlineHome, link: "/dashboard" },
+  { title: "Home", icon: AiOutlineHome, link: dashboardPagePath },
   {
-    title: "Create Lesson",
+    title: "Lessons",
     icon: MdOutlineLibraryAdd,
-    link: "/drafts",
+    link: allLessonsPagePath,
   },
   { title: "Study Chat", icon: MdOutlineChat, link: "/studychat" },
   { title: "Profile", icon: MdPersonOutline, link: "/settings" },

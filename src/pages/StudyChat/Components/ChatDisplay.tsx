@@ -1,4 +1,3 @@
-import React from "react";
 import { LinkBox, Box, Text, Image, Flex, Circle } from "@chakra-ui/react";
 
 const ChatDisplay = ({

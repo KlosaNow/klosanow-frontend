@@ -17,3 +17,8 @@ export interface SingleUserResponse {
   message: string;
   data: SingleUserI;
 }
+
+export interface UpdateUserRequest {
+  name: string;
+  bio: string;
+}
