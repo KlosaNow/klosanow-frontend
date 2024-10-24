@@ -1,4 +1,4 @@
-import { keyframes } from "@chakra-ui/react";
+import { keyframes } from "@emotion/react";
 
 const containerAnimationKeyframes = keyframes`
   0% { width: 0;}
