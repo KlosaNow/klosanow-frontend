@@ -1,11 +1,17 @@
 import { Box, useDisclosure } from "@chakra-ui/react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { SideBar, NavBar, BottomNav } from "../../";
 import NotificationModal from "../../Modals/NotificationModal/NotificationModal";
+import { getToken } from "src/utils/constant";
+import { useEffect } from "react";
 
 const DashboardLayout = () => {
-  const { pathname } = useLocation();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const token = getToken();
+
+  useEffect(() => {
+    if (!token) window.location.reload();
+  }, [token]);
 
   return (
     <Box display="flex">
@@ -23,7 +29,7 @@ const DashboardLayout = () => {
           </Box>
           <Outlet />
 
-          {pathname === "/dashboard" && <BottomNav />}
+          <BottomNav />
         </Box>
       </Box>
     </Box>

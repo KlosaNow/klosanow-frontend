@@ -6,7 +6,6 @@ import { DashboardLayout } from "./components";
 import {
   Dashboard,
   StudyChat,
-  Drafts,
   CreateLesson,
   Settings,
   SignUp,
@@ -17,17 +16,18 @@ import {
   NotificationSettings,
   Notifications,
   Onboarding,
-  LessonTemplate,
   FreeStorageView,
   BasicStorageView,
   PremiumStorageView,
   Error,
   AccountInfo,
-  CreatedLessons,
 } from "./pages";
 import ProtectedRoute from "./utils/ProtectedRoute";
-import RecordLessonVideo from "./pages/CreateLesson/components/RecordLessonVideo";
-import { studyChatPagePath } from "./data/pageUrl";
+import {
+  createLessonPagePath,
+  dashboardPageSlug,
+  studyChatPagePath,
+} from "./data/pageUrl";
 
 function App() {
   const location = useLocation();
@@ -42,22 +42,17 @@ function App() {
           <Route path="/otp" element={<Otp />} />
 
           <Route element={<ProtectedRoute />}>
-            <Route path="" element={<DashboardLayout />}>
+            <Route element={<DashboardLayout />}>
               {/* dashboard routes */}
-              <Route path="/dashboard" index element={<Dashboard />} />
-              <Route path="/create-lesson" index element={<CreateLesson />} />
-              <Route path="/drafts" index element={<Drafts />} />
+              <Route path={dashboardPageSlug} index element={<Dashboard />} />
               <Route
-                path="/create-lesson/select-template"
-                element={<LessonTemplate />}
+                path={`${createLessonPagePath}/*`}
+                index
+                element={<CreateLesson />}
               />
-              <Route
-                path="/create-lesson/record-video"
-                element={<RecordLessonVideo />}
-              />
-              <Route path={`/${studyChatPagePath}/*`} element={<StudyChat />} />
+
+              <Route path={`${studyChatPagePath}/*`} element={<StudyChat />} />
               <Route path="/notifications" element={<Notifications />} />
-              <Route path="/created-lessons" element={<CreatedLessons />} />
               <Route
                 path="/settings/notifications"
                 element={<NotificationSettings />}

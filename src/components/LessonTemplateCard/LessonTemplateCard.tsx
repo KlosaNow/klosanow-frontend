@@ -67,7 +67,11 @@ const LessonTemplateCard = ({
             borderRadius="4px"
             onClick={onClick}
           >
-            <Link as={RouterLink} to={buttonLink} style={{ textDecoration: 'none' }}>
+            <Link
+              as={RouterLink}
+              to={buttonLink}
+              style={{ textDecoration: "none" }}
+            >
               {buttonText}
             </Link>
           </Button>
