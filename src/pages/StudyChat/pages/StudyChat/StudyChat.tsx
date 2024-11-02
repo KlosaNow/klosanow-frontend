@@ -26,7 +26,7 @@ const StudyChat: React.FC = () => {
         updateStudyChatValues: handleStateUpdate,
       }}
     >
-      <Box height="100vh">
+      <Box height="100%">
         <Flex width="100%" h="100%" position="relative">
           <ChatList list={messages} />
           <ChatBox />

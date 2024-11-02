@@ -1,15 +1,28 @@
 import React from "react";
-import { Box, Circle, Flex, IconButton, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Circle,
+  Flex,
+  IconButton,
+  Image,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Text,
+} from "@chakra-ui/react";
 import { OptionIcon, SearchIcon } from "../../assets/svgs";
 import { ChatListItemType } from "../../../../types/studyChat";
 import { uniqueId } from "lodash";
 import { StudyChatContext } from "../../context/StudyChat";
+import { useSearchParams } from "react-router-dom";
 
 interface ChatHeaderProps {
   data: ChatListItemType;
 }
 const ChatHeader: React.FC<ChatHeaderProps> = ({ data }) => {
   const { updateStudyChatValues } = React.useContext(StudyChatContext);
+  const [_, setSearchParams] = useSearchParams();
+
   return (
     <Flex
       h="94px"
@@ -77,14 +90,32 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ data }) => {
             aria-label="search"
             icon={<SearchIcon />}
           />
-          <IconButton
-            bg="transparent"
-            _hover={{
-              bg: "transparent",
-            }}
-            aria-label="option"
-            icon={<OptionIcon />}
-          />
+
+          <Popover placement={"bottom-end"}>
+            <PopoverTrigger>
+              <IconButton
+                bg="transparent"
+                _hover={{
+                  bg: "transparent",
+                }}
+                aria-label="option"
+                icon={<OptionIcon />}
+              />
+            </PopoverTrigger>
+            <PopoverContent w="100px" overflow="hidden" p="5px 0">
+              <Box
+                as="button"
+                fontSize="12px"
+                padding="4px 6px"
+                onClick={() => setSearchParams("")}
+                _hover={{
+                  bg: "#eee",
+                }}
+              >
+                Close
+              </Box>
+            </PopoverContent>
+          </Popover>
         </Flex>
       </Flex>
     </Flex>

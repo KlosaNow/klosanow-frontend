@@ -22,12 +22,6 @@ const NavBar = ({ notificationCtrl }: navBarProps) => {
   return (
     <>
       <Box
-        position="fixed"
-        top={0}
-        right={0}
-        left={0}
-        bottom={0}
-        marginLeft={"264px"}
         height="60px"
         display={["none", "flex"]}
         alignItems="center"
@@ -36,6 +30,7 @@ const NavBar = ({ notificationCtrl }: navBarProps) => {
         backgroundColor="#fff"
         padding={{ base: "0px 20px", lg: "0px 50px" }}
         zIndex="50"
+        w={"100%"}
       >
         <Flex mt={"1rem"}>
           <Search />

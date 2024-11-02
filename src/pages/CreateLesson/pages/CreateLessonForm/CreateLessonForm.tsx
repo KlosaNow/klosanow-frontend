@@ -9,7 +9,14 @@ import { CREATE_LESSON_STEPS } from "../../data";
 import { useStoreSelector } from "src/redux/hooks";
 import { CreateLessonFormStepsType, LessonTemplateType } from "src/types";
 import RecordVideoModal from "../../modals/RecordVideoModal";
-import { clearDraftId, getDraftId } from "src/utils/constant";
+import {
+  clearDraftId,
+  clearFileUrl,
+  getDraftId,
+  getFileUrl,
+} from "src/utils/constant";
+import { Box } from "@chakra-ui/react";
+import { deletedFile } from "src/utils/file-upload";
 
 const CreateLessonForm: React.FC = () => {
   const [_, setSearchParams] = useSearchParams();
@@ -18,6 +25,9 @@ const CreateLessonForm: React.FC = () => {
   const user = useStoreSelector((state) => state.user["data"]);
 
   const draft_id = getDraftId();
+
+  const thumbnail_url = getFileUrl("thumbnail_url");
+  const video_url = getFileUrl("video_url");
 
   const draftData = drafts.data.find((item) => item._id === draft_id);
 
@@ -67,6 +77,19 @@ const CreateLessonForm: React.FC = () => {
     setSearchParams({ step: lessonSteps.name });
   }, [state.activeStep]);
 
+  React.useEffect(() => {
+    if (!state.hasFormStarted) {
+      if (thumbnail_url) {
+        deletedFile(thumbnail_url);
+        clearFileUrl("thumbnail_url");
+      }
+      if (video_url) {
+        deletedFile(video_url);
+        clearFileUrl("video_url");
+      }
+    }
+  }, [thumbnail_url, state.hasFormStarted, video_url]);
+
   return (
     <CreateLessonFormContext.Provider
       value={{
@@ -74,11 +97,15 @@ const CreateLessonForm: React.FC = () => {
         updateCreateLessonFormValues: handleStateUpdate,
       }}
     >
-      {lessonSteps.component}
-      <RecordVideoModal
-        show={state.showRecordLessonModal}
-        handleClose={() => handleStateUpdate({ showRecordLessonModal: false })}
-      />
+      <Box p="10px 30px">
+        {lessonSteps.component}
+        <RecordVideoModal
+          show={state.showRecordLessonModal}
+          handleClose={() =>
+            handleStateUpdate({ showRecordLessonModal: false })
+          }
+        />
+      </Box>
     </CreateLessonFormContext.Provider>
   );
 };

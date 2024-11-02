@@ -52,7 +52,7 @@ const CreateLesson: React.FC = () => {
   });
 
   return (
-    <Box py={["2rem", "0px"]} width="full">
+    <Box py={["2rem", "0px"]} width="full" p="24px 30px">
       <OverlayLoader loading={loading} />
       <Box>
         <Text fontWeight={600} display={["none", "block"]} fontSize="32px">

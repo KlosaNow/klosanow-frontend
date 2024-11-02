@@ -25,6 +25,7 @@ import { btnStyles } from "../data";
 import { PlayIcon } from "src/assets/svgs";
 import { FileUploadResponseStatus, uploadFile } from "src/utils/file-upload";
 import OverlayLoader from "src/components/OverlayLoader/OverlayLoader";
+import { setFileUrl } from "src/utils/constant";
 
 interface RecordVideoModalProps {
   show: boolean;
@@ -115,7 +116,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
       });
 
       const res = await uploadFile(file);
-      if (!res || res.status !== FileUploadResponseStatus.Success)
+      if (!res || !res.data || res.status !== FileUploadResponseStatus.Success)
         throw new Error("Someting went wrong");
 
       handleStateUpdate({ loading: false });
@@ -126,6 +127,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
           showRecordLessonModal: false,
           videoSize: res.data?.size,
         });
+        setFileUrl("video_url", res.data?.url);
       }
     } catch (error: any) {
       handleStateUpdate({ loading: false });

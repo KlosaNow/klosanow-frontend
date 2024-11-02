@@ -14,7 +14,7 @@ const CreateStudyChat: React.FC = () => {
   const locationState = location.state as StudyGroupInfoLocation;
 
   return (
-    <Box height="100vh">
+    <Box height="100%">
       <Flex width="100%" h="100%" position="relative">
         {!locationState.isContactsAdded ? (
           <Contacts contacts={CONTACTS_MOCKDATA} />

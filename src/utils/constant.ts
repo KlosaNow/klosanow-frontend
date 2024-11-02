@@ -56,3 +56,14 @@ export const getDraftId = () => localStorage.getItem("draft_id");
 export const setDraftId = (id: string) => localStorage.setItem("draft_id", id);
 
 export const clearDraftId = () => localStorage.setItem("draft_id", "");
+
+export const getFileUrl = (fileKey: "video_url" | "thumbnail_url") =>
+  localStorage.getItem(fileKey);
+
+export const setFileUrl = (
+  fileKey: "video_url" | "thumbnail_url",
+  file_url: string
+) => localStorage.setItem(fileKey, file_url);
+
+export const clearFileUrl = (fileKey: "video_url" | "thumbnail_url") =>
+  localStorage.setItem(fileKey, "");

@@ -81,14 +81,14 @@ const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
 
   return (
     <Box
-      padding={["0 10px 75px", "100px 25px 0 41px"]}
+      padding={["0 10px 75px", "10px 25px 0 41px"]}
       width="100%"
       maxWidth="535px"
       bg="#fafafa"
     >
       <Flex
         ml="8px"
-        mb={isContactpage ? "74px" : "29px"}
+        mb="29px"
         gap="15px"
         flexDir={{
           base: "column",

@@ -16,17 +16,11 @@ const DashboardLayout = () => {
   return (
     <Box display="flex">
       <SideBar />
-      <Box paddingLeft={["0px", "264px"]} width="full">
+      <Box width="full" h="100vh">
         <NavBar notificationCtrl={onOpen} />
-        <Box
-          width="full"
-          height="auto"
-          margin="auto"
-          padding={["10px 10px 75px", "0"]}
-        >
-          <Box position="relative">
-            <NotificationModal isOpen={isOpen} onClose={onClose} />
-          </Box>
+        <Box width="full" overflow={"scroll"} h="calc(100vh - 60px)">
+          <NotificationModal isOpen={isOpen} onClose={onClose} />
+
           <Outlet />
 
           <BottomNav />

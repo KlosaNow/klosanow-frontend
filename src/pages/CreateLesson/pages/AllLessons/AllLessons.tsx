@@ -97,7 +97,7 @@ const AllLessons: React.FC = () => {
   });
 
   return (
-    <Box>
+    <Box p={["10px 16px 100px", "24px 30px"]}>
       <OverlayLoader
         loading={state.loading}
         description={
@@ -114,7 +114,6 @@ const AllLessons: React.FC = () => {
         <Text
           fontSize={{
             base: "24px",
-            md: "32px",
           }}
           fontWeight="500"
         >

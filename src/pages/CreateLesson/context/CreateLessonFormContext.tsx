@@ -19,6 +19,7 @@ export interface CreateLessonFormDefaultValues {
   showPreviewVideo: boolean;
   showRecordLessonModal: boolean;
   canUpdate: boolean;
+  hasFormStarted: boolean;
 }
 
 interface CreateLessonFormDefaultMethod {
@@ -45,6 +46,7 @@ export const DefaultFormValues: CreateLessonFormDefaultValues = {
   showPreviewVideo: false,
   showRecordLessonModal: false,
   canUpdate: false,
+  hasFormStarted: false,
 };
 
 const DefaultFormMethods: CreateLessonFormDefaultMethod = {

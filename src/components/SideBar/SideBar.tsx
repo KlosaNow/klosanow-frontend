@@ -70,11 +70,12 @@ const SideBar: React.FC = () => {
 
   return (
     <Box
-      width="264px"
+      w="100%"
+      maxWidth="264px"
       borderRight="0.3px solid #C8C8C8"
       backgroundColor="#fff"
-      position="fixed"
-      height="100%"
+      position={"relative"}
+      height="100vh"
       zIndex="50"
       display={["none", "flex"]}
       flexDirection={"column"}

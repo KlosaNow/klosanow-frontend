@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, CloseButton } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useSearchParams } from "react-router-dom";
 import StudyChatEmptyState from "../StudyChatEmptyState";
 import { motion } from "framer-motion";
@@ -57,7 +57,7 @@ const ChatBox: React.FC = () => {
           lg: "block",
         }}
         w="100%"
-        padding={"100px 30px 0"}
+        padding={"10px 30px 0"}
       >
         <StudyChatEmptyState
           title="Study Chat"

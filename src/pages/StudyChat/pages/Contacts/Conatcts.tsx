@@ -7,7 +7,7 @@ import CreateStudyChatIllustration from "../../assets/images/CreateStudyChatIllu
 
 const Conatcts: React.FC = () => {
   return (
-    <Box height="100vh">
+    <Box height="100%">
       <Flex width="100%" h="100%" position="relative">
         <Contacts contacts={CONTACTS_MOCKDATA} />
 
@@ -17,7 +17,7 @@ const Conatcts: React.FC = () => {
             lg: "block",
           }}
           w="100%"
-          padding={"100px 30px 0"}
+          padding={"10px 30px 0"}
         >
           <StudyChatEmptyState
             image={CreateStudyChatIllustration}

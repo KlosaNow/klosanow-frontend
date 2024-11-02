@@ -34,6 +34,7 @@ import {
   CreateLessonFormDefaultValues,
 } from "../context/CreateLessonFormContext";
 import OverlayLoader from "src/components/OverlayLoader";
+import { clearFileUrl, setFileUrl } from "src/utils/constant";
 
 interface LessonFormInfoState {
   mediaFile: string;
@@ -84,6 +85,7 @@ const LessonFormInfo: React.FC = () => {
         handleStateUpdate({ loading: false, loadingType: null });
         cb(res.data.url, res.data.size);
         handleStateUpdate({ mediaFile: res.data.url });
+        setFileUrl("thumbnail_url", res.data.url);
       }
     } catch (error: any) {
       handleStateUpdate({ loading: false, loadingType: null });
@@ -107,6 +109,7 @@ const LessonFormInfo: React.FC = () => {
 
       if (res.status === FileUploadResponseStatus.Success) {
         handleStateUpdate({ loading: false, loadingType: null });
+        clearFileUrl("thumbnail_url");
         return cb(!!res);
       }
     } catch (error) {
@@ -149,6 +152,7 @@ const LessonFormInfo: React.FC = () => {
       if (!res) throw new Error("Unable to save draft");
 
       handleStateUpdate({ loading: false, loadingType: null });
+      clearFileUrl("thumbnail_url");
       navigate(draftsPagePath);
     } catch (error: any) {
       handleStateUpdate({ loading: false, loadingType: null });
