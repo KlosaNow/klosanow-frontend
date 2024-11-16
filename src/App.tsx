@@ -28,9 +28,21 @@ import {
   dashboardPageSlug,
   studyChatPagePath,
 } from "./data/pageUrl";
+import useChatWebSocket from "./hooks/useChatWebSocket";
+import { useQuery } from "@tanstack/react-query";
 
 function App() {
   const location = useLocation();
+  const { connectWebSocket, cleanUpChatWebSocket } = useChatWebSocket();
+
+  useQuery({
+    queryKey: ["chat-socket"],
+    queryFn: ({ signal }) => {
+      connectWebSocket();
+      signal?.addEventListener("abort", () => cleanUpChatWebSocket());
+    },
+  });
+
   return (
     <>
       <AnimatePresence mode="wait">

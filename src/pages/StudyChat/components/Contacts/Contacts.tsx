@@ -6,13 +6,13 @@ import { getContactsListWithChar } from "../../utils";
 import { Contact } from "../../../../types/studyChat";
 import { uniqueId } from "lodash";
 import ContactSearch from "../ContactSearch";
-import { heading2 } from "../../data/styles";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   createStudyChatPath,
   studyChatPagePath,
 } from "../../../../data/pageUrl";
 import CheckBox from "../../../../components/CheckBox";
+import { heading2 } from "../../data";
 
 interface ContactsProps {
   contacts: Contact[];
@@ -21,6 +21,7 @@ interface ContactsProps {
 interface ContactsState {
   selectAll: boolean;
   selectedContacts: Contact[];
+  searchValue: string;
 }
 
 const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
@@ -33,6 +34,7 @@ const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
   const initialState: ContactsState = {
     selectAll: false,
     selectedContacts: [],
+    searchValue: "",
   };
 
   const [state, setState] = React.useState<ContactsState>(initialState);
@@ -59,7 +61,14 @@ const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
     navigate(studyChatPagePath);
   };
 
-  const groupedContacts = getContactsListWithChar(contacts);
+  const contactList =
+    state.searchValue === ""
+      ? contacts
+      : contacts.filter((item) =>
+          item.name.toLowerCase().includes(state.searchValue.toLowerCase())
+        );
+
+  const groupedContacts = getContactsListWithChar(contactList);
 
   const handleContactSelect = (
     contact: Contact | null,
@@ -69,9 +78,9 @@ const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
     let selectedData = [...state.selectedContacts];
 
     if (all && !contact) {
-      selectedData = checked ? contacts : [];
+      selectedData = checked ? contactList : [];
     } else if (contact && !checked) {
-      selectedData = selectedData.filter((item) => item.id !== contact.id);
+      selectedData = selectedData.filter((item) => item._id !== contact._id);
     } else if (contact && checked) {
       selectedData.push(contact);
     }
@@ -96,7 +105,10 @@ const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
         }}
       >
         <Text {...heading2}>My Contacts</Text>
-        <ContactSearch />
+        <ContactSearch
+          value={state.searchValue}
+          setValue={(searchValue) => handleStateUpdate({ searchValue })}
+        />
       </Flex>
 
       {!isContactpage && (
@@ -127,7 +139,7 @@ const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
         }}
       >
         <Flex alignItems="center" justifyContent="space-between">
-          <Text>Showing {contacts.length} Results</Text>
+          <Text>Showing {contactList.length} Results</Text>
 
           {state.selectedContacts.length !== 0 && (
             <Text>{state.selectedContacts.length} selected</Text>

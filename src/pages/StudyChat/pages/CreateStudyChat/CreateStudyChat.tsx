@@ -5,19 +5,29 @@ import Contacts from "../../components/Contacts";
 import StudyGroupInfo from "../../components/StudyGroupInfo";
 import StudyChatEmptyState from "../../components/StudyChatEmptyState";
 import CreateStudyChatIllustration from "../../assets/images/CreateStudyChatIllustration.jpg";
-import { CONTACTS_MOCKDATA } from "../../data";
 import { useLocation } from "react-router-dom";
 import { StudyGroupInfoLocation } from "../../../../types/studyChat";
+import { fetchContacts } from "src/api-endpoints/contacts";
+import { useStoreDispatch, useStoreSelector } from "src/redux/hooks";
+import { useQuery } from "@tanstack/react-query";
 
 const CreateStudyChat: React.FC = () => {
   const location = useLocation();
   const locationState = location.state as StudyGroupInfoLocation;
 
+  const dispatch = useStoreDispatch();
+  const contacts = useStoreSelector((state) => state.contacts.contacts);
+
+  useQuery({
+    queryKey: ["contacts"],
+    queryFn: () => dispatch(fetchContacts()),
+  });
+
   return (
     <Box height="100%">
       <Flex width="100%" h="100%" position="relative">
         {!locationState.isContactsAdded ? (
-          <Contacts contacts={CONTACTS_MOCKDATA} />
+          <Contacts contacts={contacts.data} />
         ) : (
           <StudyGroupInfo />
         )}
@@ -28,7 +38,7 @@ const CreateStudyChat: React.FC = () => {
             lg: "block",
           }}
           w="100%"
-          padding={"100px 30px 0"}
+          padding={"24px 30px 0"}
         >
           <StudyChatEmptyState
             image={CreateStudyChatIllustration}

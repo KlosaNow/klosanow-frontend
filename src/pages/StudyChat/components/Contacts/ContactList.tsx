@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Circle, Divider, Flex, Image, Text } from "@chakra-ui/react";
-import { Contact } from "../../../../types/studyChat";
+import { Contact } from "../../../../types";
 import CheckBox from "../../../../components/CheckBox";
 import { uniqueId } from "lodash";
 
@@ -23,9 +23,8 @@ const ContactListItem: React.FC<ContactListItemProps> = ({
   hasChecks,
   addContact,
 }) => {
-  const last_seen = "last seen 8 hours ago";
-
-  const contactId = selectedContacts.map((item) => item.id);
+  const contactId = selectedContacts.map((item) => item._id);
+  const defaultImg = "https://picsum.photos/50/50";
 
   return (
     <>
@@ -40,7 +39,7 @@ const ContactListItem: React.FC<ContactListItemProps> = ({
           onClick={hasChecks ? () => null : () => addContact(contact)}
         >
           <Circle size="50px" bg="#b1b1b1" overflow="hidden">
-            <Image src={contact.imageUrl} />
+            <Image src={contact.image ?? defaultImg} />
           </Circle>
 
           <Box w="100%">
@@ -51,14 +50,14 @@ const ContactListItem: React.FC<ContactListItemProps> = ({
                 </Text>
 
                 <Text fontSize="14px" color="#555555" mt="4px">
-                  {last_seen}
+                  {contact.email}
                 </Text>
               </Box>
 
               {hasChecks ? (
                 <CheckBox
-                  id={`check-${contact.id}`}
-                  checked={contactId.includes(contact.id)}
+                  id={`check-${contact._id}`}
+                  checked={contactId.includes(contact._id)}
                   onChange={({ target: { checked } }) =>
                     handleContactSelect(contact, checked, false)
                   }

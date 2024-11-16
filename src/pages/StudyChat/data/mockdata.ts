@@ -1,6 +1,6 @@
-import { ChatListItemType, Contact } from "../../../types/studyChat";
+import { ChatListItemType } from "../../../types/studyChat";
 
-export const CONTACTS_MOCKDATA: Contact[] = [
+export const CONTACTS_MOCKDATA = [
   {
     id: "1",
     name: "Annette Black",
@@ -121,7 +121,7 @@ export const CHAT_LIST_MOCKDATA: ChatListItemType[] = [
     unread_messages: 1,
     groupImage: "https://picsum.photos/50/50",
     lastmsg_time: "1:00 am",
-    contacts: CONTACTS_MOCKDATA.slice(0, 9),
+    contacts: CONTACTS_MOCKDATA.slice(0, 9) as any,
     description:
       "This is a closed group for students of Lagos state university studying Social studies",
     admin: {

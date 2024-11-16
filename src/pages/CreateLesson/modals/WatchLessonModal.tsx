@@ -29,25 +29,19 @@ const WatchLessonModal: React.FC<WatchLessonModalProps> = ({
         maxW={{
           base: "400px",
           md: "600px",
-          lg: "800px",
+          lg: "900px",
         }}
       >
         <ModalHeader>{lesson?.title}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Box
-            w="100%"
-            h={{
-              base: "250px",
-              md: "450px",
-            }}
-            bg="#ccc"
-          >
+          <Box w="100%" h="max-content" bg="#000">
             {lesson?.videoUrl && (
               <video
                 width="100%"
                 height="100%"
                 src={lesson.videoUrl}
+                style={{ opacity: "0.9" }}
                 controls
               ></video>
             )}

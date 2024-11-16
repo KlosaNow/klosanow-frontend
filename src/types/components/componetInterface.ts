@@ -12,6 +12,7 @@ export interface headerInterface {
 
 export interface navBarProps {
   notificationCtrl: () => void;
+  notificationLength: number;
 }
 
 export interface buttonInterface {
@@ -83,6 +84,7 @@ export interface NotificationItemProps {
   action: string;
   time: string;
   backgroundImageUrl: string;
+  isRead: boolean;
 }
 
 export interface toastProps {

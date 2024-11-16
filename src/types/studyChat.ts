@@ -27,13 +27,18 @@ export interface ChatListItemType {
 }
 
 export interface Contact {
-  id: string;
+  _id: string;
   name: string;
-  imageUrl: string;
-  created_at: string;
-  updated_at: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
+  role: string;
+  createdLessons: Array<any>;
+  savedLessons: Array<any>;
+  notifications: Array<any>;
+  createdAt: string;
+  updatedAt: string;
+  image: string;
+  __v: number;
 }
 
 export interface GroupedContact {

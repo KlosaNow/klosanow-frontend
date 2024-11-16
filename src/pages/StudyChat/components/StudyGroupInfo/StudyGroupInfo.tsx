@@ -59,7 +59,7 @@ const StudyGroupInfo: React.FC = () => {
 
   return (
     <Box
-      padding={["10px 10px 100px", "100px 41px 0"]}
+      padding={["10px 10px 100px", "24px 41px 0"]}
       width="100%"
       maxWidth="525px"
       bg="#fafafa"
@@ -95,7 +95,7 @@ const StudyGroupInfo: React.FC = () => {
             handleSubmit,
           }) => (
             <form onSubmit={handleSubmit}>
-              <Flex gap="31px" alignItems="center" m="52px 0">
+              <Flex gap="31px" alignItems="center" m="36px 0">
                 <Box
                   w="150px"
                   h="150px"
@@ -183,14 +183,14 @@ const StudyGroupInfo: React.FC = () => {
 
                 {contacts && (
                   <Grid templateColumns="repeat(4, 1fr)" gap="35px">
-                    {contacts.map(({ imageUrl, id, name }) => (
+                    {contacts.map(({ image, _id, name }) => (
                       <GridItem
-                        key={uniqueId(`participants-${id}`)}
+                        key={uniqueId(`participants-${_id}`)}
                         placeItems="center"
                       >
                         <Circle size="60px" bg="#b1b1b1" overflow="hidden">
                           <Image
-                            src={imageUrl}
+                            src={image}
                             alt={name}
                             objectFit="cover"
                             h="100%"

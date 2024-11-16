@@ -1,23 +1,25 @@
 import { Box, Text, Flex } from "@chakra-ui/react";
 import { Search } from "../Search/Search";
-
-import { BiBell } from "react-icons/bi";
-
 import { navBarProps } from "../../types/components/componetInterface";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { HiUserCircle } from "react-icons/hi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { contactsPagePath, studyChatPageSlug } from "../../data/pageUrl";
-import { ContactIcon } from "../../assets/svgs";
+import {
+  ContactIcon,
+  NotificationFillIcon,
+  NotificationIcon,
+} from "../../assets/svgs";
 
-const NavBar = ({ notificationCtrl }: navBarProps) => {
+const NavBar = ({ notificationCtrl, notificationLength }: navBarProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const isStudyChatpage = location.pathname.includes(studyChatPageSlug);
 
   const user = useSelector((state: RootState) => state.user);
+  const hasNotification = notificationLength > 0;
 
   return (
     <>
@@ -48,35 +50,14 @@ const NavBar = ({ notificationCtrl }: navBarProps) => {
         </Flex>
 
         <Box display={"flex"} alignItems={"center"}>
-          <Box
-            style={{
-              position: "relative",
-              marginLeft: "5px",
-              cursor: "pointer",
-            }}
-            onClick={notificationCtrl}
-          >
-            <BiBell fontSize={25} onClick={notificationCtrl} />
-            <span
-              style={{
-                display: "flex",
-                position: "absolute",
-                width: "15px",
-                height: "15px",
-                backgroundColor: "red",
-                top: "0px",
-                right: "0px",
-                fontSize: "9px",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#fff",
-                borderRadius: "50%",
-              }}
-            >
-              2
-            </span>
-          </Box>
-
+          {hasNotification ? (
+            <NotificationFillIcon
+              cursor={"pointer"}
+              onClick={notificationCtrl}
+            />
+          ) : (
+            <NotificationIcon cursor={"pointer"} />
+          )}
           <Text
             width={"0.1rem"}
             height={"2.7rem"}

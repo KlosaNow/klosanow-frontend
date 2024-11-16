@@ -7,9 +7,9 @@ import { BsFillSendFill } from "react-icons/bs";
 import { groupBy } from "lodash";
 
 export const getContactsListWithChar = (contacts: Contact[]) => {
-  contacts.sort((a, b) => {
-    const nameA = a.name[0];
-    const nameB = b.name[0];
+  const sortedContacts = [...contacts].sort((a, b) => {
+    const nameA = a.name[0].toLowerCase();
+    const nameB = b.name[0].toLowerCase();
 
     if (nameA < nameB) {
       return -1;
@@ -21,7 +21,9 @@ export const getContactsListWithChar = (contacts: Contact[]) => {
     return 0;
   });
 
-  const groupedContacts = groupBy(contacts, (item) => item.name[0]);
+  const groupedContacts = groupBy(sortedContacts, (item) =>
+    item.name[0].toUpperCase()
+  );
 
   const grouped = Object.keys(groupedContacts).map((value, keyIndex) => {
     let arr: GroupedContact;
