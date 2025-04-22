@@ -6,3 +6,5 @@ export const DEVICE_SCREEN_SIZES = {
   laptop_min: 1024,
   laptop_standard: 1440,
 };
+
+export const CHAT_CONTACT_KEY = "chat-contact";

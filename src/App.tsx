@@ -30,16 +30,40 @@ import {
 } from "./data/pageUrl";
 import useChatWebSocket from "./hooks/useChatWebSocket";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { getStorageItem, removeStorageItem } from "./utils/generics";
+import { CHAT_CONTACT_KEY } from "./data/constants";
+import { clearFileUrl, getFileUrl } from "./utils/constant";
 
 function App() {
   const location = useLocation();
-  const { connectWebSocket, cleanUpChatWebSocket } = useChatWebSocket();
+  const { connectWebSocket, cleanUpSocketConnection } = useChatWebSocket();
+  const studyChatImageUrl = getFileUrl("study_chat");
+  const storageContact = getStorageItem(CHAT_CONTACT_KEY);
+
+  // Remove chat from storage after 30 seconds
+  useEffect(() => {
+    if (!storageContact) return;
+    const timeout = setTimeout(() => {
+      removeStorageItem(CHAT_CONTACT_KEY);
+    }, 30000);
+
+    return () => clearInterval(timeout);
+  }, []);
+
+  useEffect(() => {
+    if (!studyChatImageUrl) return;
+
+    const timeout = setTimeout(() => clearFileUrl("study_chat"), 60000);
+
+    return () => clearInterval(timeout);
+  }, []);
 
   useQuery({
     queryKey: ["chat-socket"],
-    queryFn: ({ signal }) => {
+    queryFn: () => {
       connectWebSocket();
-      signal?.addEventListener("abort", () => cleanUpChatWebSocket());
+      return () => cleanUpSocketConnection();
     },
   });
 

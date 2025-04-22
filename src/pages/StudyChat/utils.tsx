@@ -1,5 +1,12 @@
 import { Box, Flex, Image } from "@chakra-ui/react";
-import { Contact, GroupedContact } from "../../types/studyChat";
+import {
+  ChatData,
+  ChatListData,
+  ChatType,
+  Contact,
+  GroupedContact,
+  StudyChatListData,
+} from "../../types/studyChat";
 import { colors } from "../../data/colors";
 import DummyFileIllustration from "./assets/images/file.png";
 import { DeleteIcon } from "./assets/svgs";
@@ -101,3 +108,43 @@ export const renderPreveiwAction = (send: () => void, remove: () => void) => (
     </Box>
   </Flex>
 );
+
+const getSlug = (value: string) => value.split(" ").join("_").toLowerCase();
+
+export const getChatListData = (
+  chats: Array<ChatData>,
+  userId: string
+): ChatListData[] => {
+  return chats.map((item) => {
+    const recipient = item.members.filter((item) => item._id !== userId)[0];
+    return {
+      id: item._id,
+      createdAt: item.createdAt,
+      admin: item.members.filter((item) => item._id === userId)[0],
+      recipient,
+      name: recipient.name,
+      img: "",
+      slug: getSlug(recipient.name),
+      last_msg_time: item.updatedAt,
+      type: ChatType.Single,
+    };
+  });
+};
+
+export const getStudyChatListData = (
+  chats: StudyChatListData[]
+): ChatListData[] => {
+  return chats.map((item) => {
+    return {
+      id: item.id,
+      name: item.groupName,
+      img: item.groupImage,
+      slug: getSlug(item.groupName),
+      last_msg_time: item.lastmsg_time,
+      type: ChatType.Group,
+      admin: item.admin,
+      members: item.members,
+      createdAt: item.createdAt,
+    };
+  });
+};

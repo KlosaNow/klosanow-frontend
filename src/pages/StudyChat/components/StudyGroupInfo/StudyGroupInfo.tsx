@@ -7,7 +7,9 @@ import {
   GridItem,
   Image,
   Input,
+  Spinner,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import React from "react";
 import { BackButtonIcon, DeleteIcon, UploadIcon } from "../../assets/svgs";
@@ -22,39 +24,127 @@ import { StudyGroupInfoLocation } from "../../../../types/studyChat";
 import { uniqueId } from "lodash";
 import { studyGroupInfoValidationSchema } from "../../validators";
 import { studyChatPagePath } from "../../../../data/pageUrl";
+import useChatWebSocket from "src/hooks/useChatWebSocket";
+import { clearFileUrl, setFileUrl } from "src/utils/constant";
+import {
+  deletedFile,
+  FileUploadResponseStatus,
+  uploadFile,
+} from "src/utils/file-upload";
+
+interface CreateStudyChatValue {
+  title: string;
+  description: string;
+}
+
+interface StudyGroupInfoState {
+  loading: boolean;
+  imageUrl: string;
+  imageName: string;
+}
 
 const StudyGroupInfo: React.FC = () => {
+  const { createStudyChat } = useChatWebSocket();
   const uploadImgRef = React.useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const toast = useToast();
+
   const location = useLocation();
   const { contacts } = location.state as StudyGroupInfoLocation;
 
-  const [imageUrl, setImageUrl] = React.useState({
-    url: "",
-    name: "",
-  });
+  const initialState: StudyGroupInfoState = {
+    loading: false,
+    imageName: "",
+    imageUrl: "",
+  };
+  const [state, setState] = React.useState(initialState);
 
-  const initialValues = {
+  const handleStateUpdate = (newState: Partial<StudyGroupInfoState>) =>
+    setState((state) => ({ ...state, ...newState }));
+
+  const participantsId = contacts.map((item) => item._id);
+
+  const initialValues: CreateStudyChatValue = {
     title: "",
     description: "",
-    participants: contacts || [],
   };
 
   const handleSubmit = (values: typeof initialValues) => {
-    console.log(values);
-    navigate(studyChatPagePath);
+    createStudyChat(
+      {
+        title: values.title,
+        photoUrl: state.imageUrl,
+        members: participantsId,
+      },
+      (res) => {
+        if (res) navigate(studyChatPagePath);
+        else {
+          toast({
+            title: "Unable to create study chat",
+            description: "Try again later",
+            status: "error",
+            duration: 3000,
+            position: "top-right",
+          });
+        }
+      }
+    );
   };
 
-  const handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.FormEvent<HTMLInputElement>) => {
+    handleStateUpdate({ loading: true });
     e.preventDefault();
-    if (!e.currentTarget.files) return;
+    try {
+      if (!e.currentTarget.files) return;
 
-    const file = e.currentTarget.files[0];
+      const file = e.currentTarget.files[0];
+      const res = await uploadFile(file);
 
-    setImageUrl({
-      url: URL.createObjectURL(file),
-      name: file.name,
-    });
+      if (!res || !res.data || res.status !== FileUploadResponseStatus.Success)
+        throw new Error("Unable to fetch data");
+
+      if (res.status === FileUploadResponseStatus.Success) {
+        handleStateUpdate({
+          loading: false,
+          imageUrl: res.data.url,
+          imageName: file.name,
+        });
+        setFileUrl("study_chat", res.data.url);
+      }
+    } catch (error: any) {
+      handleStateUpdate({ loading: false });
+      toast({
+        title: error.message ?? error.response ?? "Something went wrong",
+        description: "Try again later",
+        status: "error",
+        duration: 3000,
+        position: "top-right",
+      });
+    }
+  };
+
+  const handleDeleteFile = async () => {
+    handleStateUpdate({ loading: true });
+    try {
+      const res = await deletedFile(state.imageUrl);
+
+      if (!res || res.status !== FileUploadResponseStatus.Success)
+        throw new Error("Unable to delete file");
+
+      if (res.status === FileUploadResponseStatus.Success) {
+        handleStateUpdate({ loading: false, imageName: "", imageUrl: "" });
+        clearFileUrl("thumbnail_url");
+      }
+    } catch (error) {
+      handleStateUpdate({ loading: false });
+      toast({
+        title: "Something went wrong",
+        description: "Try again later",
+        status: "error",
+        duration: 3000,
+        position: "top-right",
+      });
+    }
   };
 
   return (
@@ -103,16 +193,18 @@ const StudyGroupInfo: React.FC = () => {
                   borderRadius="10px"
                   overflow="hidden"
                 >
-                  {!!imageUrl.url && (
+                  {!!state.imageUrl && (
                     <Image
-                      src={imageUrl.url}
-                      alt={imageUrl.name}
+                      src={state.imageUrl}
+                      alt={state.imageName}
                       w="100%"
                       h="100%"
                       borderRadius="10px"
                       objectFit="cover"
                     />
                   )}
+
+                  {state.loading && <Spinner />}
                 </Box>
 
                 <Flex flexDir="column" gap="17px">
@@ -128,18 +220,15 @@ const StudyGroupInfo: React.FC = () => {
                     {...formButtonStyles}
                     leftIcon={<UploadIcon />}
                     onClick={() => uploadImgRef.current?.click()}
+                    disabled={!!state.imageUrl}
                   >
                     Upload New Image
                   </Button>
                   <Button
                     {...formButtonStyles}
                     leftIcon={<DeleteIcon />}
-                    onClick={() =>
-                      setImageUrl({
-                        url: "",
-                        name: "",
-                      })
-                    }
+                    onClick={() => handleDeleteFile()}
+                    disabled={!state.imageUrl}
                   >
                     Delete Image
                   </Button>
@@ -152,7 +241,7 @@ const StudyGroupInfo: React.FC = () => {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 name="title"
-                placeholder="Social Study 101"
+                placeholder="Group name"
                 borderColor={touched.title ? "#BA1A1A" : "#958DA5"}
                 mb={!touched.title ? "24px" : "5px"}
               />
@@ -178,7 +267,7 @@ const StudyGroupInfo: React.FC = () => {
 
               <Box mt="55px">
                 <Text mb="16px" fontSize="16px" fontWeight="500">
-                  Participants: {values.participants.length}
+                  Participants: {participantsId.length}
                 </Text>
 
                 {contacts && (
@@ -218,7 +307,7 @@ const StudyGroupInfo: React.FC = () => {
                     bg: "#958DA5",
                   }}
                   type="submit"
-                  disabled={!isValid || !dirty}
+                  disabled={!isValid || !dirty || !state.imageUrl}
                   isLoading={isSubmitting}
                 >
                   Create

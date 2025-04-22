@@ -1,30 +1,26 @@
 import React from "react";
 import { Box, Text, Image, Flex, Circle } from "@chakra-ui/react";
-import { ChatListItemType } from "../../../../types/studyChat";
+import { ChatListData } from "../../../../types/studyChat";
 import { useSearchParams } from "react-router-dom";
+import { StudyChatContext } from "../../context/StudyChat";
+import { formatDistanceToNow } from "date-fns";
 
 interface ChatListItemProps {
-  data: ChatListItemType;
+  data: ChatListData | null;
 }
 
-const ChatListItem: React.FC<ChatListItemProps> = (props) => {
+const ChatListItem: React.FC<ChatListItemProps> = ({ data }) => {
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const { updateStudyChatValues } = React.useContext(StudyChatContext);
 
   const param = searchParams.get("slug");
 
-  const {
-    groupName,
-    slug,
-    groupImage,
-    lastmsg,
-    lastmsg_time,
-    unread_messages,
-  } = props.data;
-
-  const icon = groupImage || "https://picsum.photos/40/40";
+  const icon = data?.img || "https://picsum.photos/40/40";
 
   const updateUrl = () => {
-    setSearchParams({ slug });
+    setSearchParams({ slug: data?.slug || "" });
+    updateStudyChatValues({ activeChat: data });
   };
 
   return (
@@ -36,7 +32,7 @@ const ChatListItem: React.FC<ChatListItemProps> = (props) => {
         borderBottomWidth="0.2px"
         borderBottomColor="neutral.70"
         padding="10px 10px"
-        bg={param === slug ? "#F3ECF8" : "transparent"}
+        bg={param === data?.slug ? "#F3ECF8" : "transparent"}
       >
         <Flex justifyContent="space-between" gap="8px">
           <Circle size="50px" bg="#b1b1b1" overflow="hidden">
@@ -51,17 +47,19 @@ const ChatListItem: React.FC<ChatListItemProps> = (props) => {
               lineHeight="17.5px"
               marginBottom="5px"
             >
-              {groupName}
+              {data?.name}
             </Text>
 
-            <Text
-              fontSize={12}
-              fontWeight={400}
-              color="#555555"
-              lineHeight="15px"
-            >
-              {lastmsg}
-            </Text>
+            {data?.last_msg && (
+              <Text
+                fontSize={12}
+                fontWeight={400}
+                color="#555555"
+                lineHeight="15px"
+              >
+                {data.last_msg}
+              </Text>
+            )}
           </Flex>
         </Flex>
 
@@ -73,14 +71,14 @@ const ChatListItem: React.FC<ChatListItemProps> = (props) => {
             lineHeight="15px"
             marginBottom="5px"
           >
-            {lastmsg_time}
+            {formatDistanceToNow(data?.last_msg_time || "")} ago
           </Text>
 
-          {unread_messages > 0 && (
+          {data?.unread_messages && data.unread_messages > 0 ? (
             <Circle size="20px" p={2} bg="#BDABF9">
-              <Text fontSize={12}>{unread_messages}</Text>
+              <Text fontSize={12}>{data.unread_messages}</Text>
             </Circle>
-          )}
+          ) : undefined}
         </Flex>
       </Box>
     </Box>

@@ -15,6 +15,7 @@ const Conatcts: React.FC = () => {
     queryKey: ["contacts"],
     queryFn: () => dispatch(fetchContacts()),
   });
+
   return (
     <Box height="100%">
       <Flex width="100%" h="100%" position="relative">

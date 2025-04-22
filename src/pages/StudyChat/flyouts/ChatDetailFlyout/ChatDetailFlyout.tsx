@@ -25,12 +25,11 @@ import { colors } from "../../../../data/colors";
 import Switch, { SwitchLabel } from "../../../../components/Switch";
 import { uniqueId } from "lodash";
 import { flyoutActionsStyles } from "../../data/styles";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { contactsPagePath } from "../../../../data/pageUrl";
 
 const ChatDetailFlyout: React.FC = () => {
   const navigate = useNavigate();
-  const [_, setSearchParams] = useSearchParams();
 
   const { activeChat, chatType, isChatDetailFlyout, updateStudyChatValues } =
     React.useContext(StudyChatContext);
@@ -83,8 +82,8 @@ const ChatDetailFlyout: React.FC = () => {
               overflow="hidden"
             >
               <Image
-                src={activeChat?.groupImage}
-                alt={activeChat?.groupName}
+                src={activeChat?.img}
+                alt={activeChat?.name}
                 w="100%"
                 h="100%"
                 objectFit="cover"
@@ -94,7 +93,7 @@ const ChatDetailFlyout: React.FC = () => {
             {isGroupChat && (
               <Box maxW="238px" textAlign="center">
                 <Text fontSize="20px" fontWeight="500">
-                  {activeChat?.groupName}
+                  {activeChat?.name}
                 </Text>
                 <Box
                   mt="12px"
@@ -117,10 +116,10 @@ const ChatDetailFlyout: React.FC = () => {
             {!isGroupChat && (
               <Box textAlign="center">
                 <Text fontSize="20px" fontWeight="500">
-                  {activeChat?.admin.data.name}{" "}
+                  {activeChat?.name}{" "}
                 </Text>
                 <Text fontSize="24px" fontWeight="500">
-                  {activeChat?.admin.data.phone}{" "}
+                  {activeChat?.recipient?.phoneNumber}{" "}
                 </Text>
               </Box>
             )}
@@ -169,7 +168,7 @@ const ChatDetailFlyout: React.FC = () => {
 
                 <Flex alignItems="center" gap="8px" mt="20px">
                   <Circle size="50px" bg="#b1b1b1" overflow="hidden">
-                    <Image src={activeChat?.admin.data.image} />
+                    <Image src={activeChat?.admin?.image} />
                   </Circle>
 
                   <Flex justifyContent="center" flexDir="column">
@@ -180,7 +179,7 @@ const ChatDetailFlyout: React.FC = () => {
                       lineHeight="17.5px"
                       marginBottom="5px"
                     >
-                      {activeChat?.admin.data.name}
+                      {activeChat?.admin?.name}
                     </Text>
 
                     <Text
@@ -189,7 +188,7 @@ const ChatDetailFlyout: React.FC = () => {
                       color="#555555"
                       lineHeight="15px"
                     >
-                      {activeChat?.admin.data.phone}
+                      {activeChat?.admin?.phoneNumber}
                     </Text>
                   </Flex>
                 </Flex>
@@ -201,38 +200,40 @@ const ChatDetailFlyout: React.FC = () => {
                 </Text>
 
                 <Flex flexDir="column" gap="28px" mt="20px">
-                  {activeChat?.contacts.map(({ name, imageUrl, id, phone }) => (
-                    <Flex
-                      alignItems="center"
-                      gap="8px"
-                      key={uniqueId(`learner-${id}`)}
-                    >
-                      <Circle size="50px" bg="#b1b1b1" overflow="hidden">
-                        <Image src={imageUrl} />
-                      </Circle>
+                  {activeChat?.members?.map(
+                    ({ name, image, _id, phoneNumber }) => (
+                      <Flex
+                        alignItems="center"
+                        gap="8px"
+                        key={uniqueId(`learner-${_id}`)}
+                      >
+                        <Circle size="50px" bg="#b1b1b1" overflow="hidden">
+                          <Image src={image} />
+                        </Circle>
 
-                      <Flex justifyContent="center" flexDir="column">
-                        <Text
-                          fontSize={14}
-                          fontWeight={500}
-                          color="#2A2A2A"
-                          lineHeight="17.5px"
-                          marginBottom="5px"
-                        >
-                          {name}
-                        </Text>
+                        <Flex justifyContent="center" flexDir="column">
+                          <Text
+                            fontSize={14}
+                            fontWeight={500}
+                            color="#2A2A2A"
+                            lineHeight="17.5px"
+                            marginBottom="5px"
+                          >
+                            {name}
+                          </Text>
 
-                        <Text
-                          fontSize={12}
-                          fontWeight={400}
-                          color="#555555"
-                          lineHeight="15px"
-                        >
-                          {phone}
-                        </Text>
+                          <Text
+                            fontSize={12}
+                            fontWeight={400}
+                            color="#555555"
+                            lineHeight="15px"
+                          >
+                            {phoneNumber}
+                          </Text>
+                        </Flex>
                       </Flex>
-                    </Flex>
-                  ))}
+                    )
+                  )}
                 </Flex>
               </Box>
 

@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import ChatListItem from "./ChatListItem";
 import { uniqueId } from "lodash";
-import { ChatListItemType } from "../../../../types/studyChat";
+import { ChatListData } from "../../../../types/studyChat";
 import { Link, useNavigate } from "react-router-dom";
 import {
   contactsPagePath,
@@ -11,11 +11,14 @@ import {
 import { BsChatLeftText } from "react-icons/bs";
 
 interface ChatListProps {
-  list: Array<ChatListItemType>;
+  chatList: Array<ChatListData | null>;
+  studyChatList: Array<ChatListData> | [];
 }
 
-const ChatList: React.FC<ChatListProps> = ({ list }) => {
+const ChatList: React.FC<ChatListProps> = ({ chatList, studyChatList }) => {
   const navigate = useNavigate();
+
+  const list = [...studyChatList, ...chatList];
 
   return (
     <Box width="100%" maxWidth="523px" bg="#fafafa" p="24px 30px">
@@ -24,7 +27,7 @@ const ChatList: React.FC<ChatListProps> = ({ list }) => {
           fontFamily="Playfair Display, serif"
           fontSize={["18px", "24px"]}
         >
-          All Chats ({list.length})
+          All Chats ({list?.length})
         </Heading>
 
         <Button
@@ -48,7 +51,7 @@ const ChatList: React.FC<ChatListProps> = ({ list }) => {
         </Button>
       </Flex>
 
-      {list.length > 0 ? (
+      {list && list.length > 0 ? (
         <Flex
           gap="20px"
           flexDir="column"
@@ -60,7 +63,11 @@ const ChatList: React.FC<ChatListProps> = ({ list }) => {
             lg: "13px",
           }}
         >
-          {list.map((item) => (
+          {studyChatList.map((item) => (
+            <ChatListItem data={item} key={uniqueId("study-chat-list-item")} />
+          ))}
+
+          {chatList.map((item) => (
             <ChatListItem data={item} key={uniqueId("chat-list-item")} />
           ))}
         </Flex>

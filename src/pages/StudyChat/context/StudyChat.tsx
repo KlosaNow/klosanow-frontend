@@ -1,10 +1,10 @@
 import React from "react";
-import { ChatListItemType, ChatType, Contact } from "../../../types/studyChat";
+import { ChatListData, MessageType } from "../../../types/studyChat";
 
 export interface DefaultValuesProps {
-  activeChat: ChatListItemType | null;
+  activeChat: ChatListData | null;
   isChatDetailFlyout: boolean;
-  chatType: ChatType;
+  messages: MessageType[];
 }
 
 interface DefaultMethodProps {
@@ -14,7 +14,7 @@ interface DefaultMethodProps {
 export const DefaultValues: DefaultValuesProps = {
   activeChat: null,
   isChatDetailFlyout: false,
-  chatType: ChatType.Group,
+  messages: [],
 };
 
 export const DefaultMethods: DefaultMethodProps = {

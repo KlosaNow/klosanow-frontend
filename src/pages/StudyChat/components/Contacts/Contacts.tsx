@@ -3,7 +3,7 @@ import { Box, Divider, Flex, Text } from "@chakra-ui/react";
 import { AddPeopleIcon } from "../../assets/svgs";
 import ContactList from "./ContactList";
 import { getContactsListWithChar } from "../../utils";
-import { Contact } from "../../../../types/studyChat";
+import { ChatData, Contact } from "../../../../types/studyChat";
 import { uniqueId } from "lodash";
 import ContactSearch from "../ContactSearch";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -13,6 +13,9 @@ import {
 } from "../../../../data/pageUrl";
 import CheckBox from "../../../../components/CheckBox";
 import { heading2 } from "../../data";
+import { setStorageItem } from "src/utils/generics";
+import { CHAT_CONTACT_KEY } from "src/data/constants";
+import { formatISO } from "date-fns";
 
 interface ContactsProps {
   contacts: Contact[];
@@ -42,8 +45,7 @@ const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
   const handleStateUpdate = (newState: Partial<ContactsState>) =>
     setState((state) => ({ ...state, ...newState }));
 
-  const handleAddPeople = () => {
-    console.log("people ", state.selectedContacts);
+  const handleAddPeople = () =>
     navigate(
       { pathname: createStudyChatPath },
       {
@@ -53,11 +55,16 @@ const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
         },
       }
     );
-  };
 
   const handleAddConatct = (contact: Contact) => {
-    console.log("contact", contact);
-
+    const contactData: ChatData = {
+      createdAt: formatISO(new Date()),
+      updatedAt: formatISO(new Date()),
+      __v: 0,
+      _id: "",
+      members: [contact],
+    };
+    setStorageItem(CHAT_CONTACT_KEY, JSON.stringify(contactData));
     navigate(studyChatPagePath);
   };
 

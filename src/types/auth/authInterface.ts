@@ -7,6 +7,7 @@ export interface UserDataI {
   createdLessons: any[];
   notifications: any[];
   bio: string;
+  _id: string;
 }
 export interface UserI {
   token: string;

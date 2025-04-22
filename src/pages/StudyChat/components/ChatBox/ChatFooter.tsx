@@ -13,15 +13,26 @@ import {
 import { EmojiIcon, InsertIcon, MicIcon } from "../../assets/svgs";
 import Picker from "emoji-picker-react";
 import { colors } from "../../../../data/colors";
-
-import styles from "./styles.module.scss";
 import { renderPreveiwAction, renderUploadedDataPreview } from "../../utils";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import { BsSendFill } from "react-icons/bs";
+import useChatWebSocket from "src/hooks/useChatWebSocket";
+import { ChatListData, ChatType } from "src/types";
 
-const ChatFooter: React.FC = () => {
+import styles from "./styles.module.scss";
+
+interface ChatFooterProps {
+  activeChat: ChatListData;
+  handleRefresh: () => void;
+}
+const ChatFooter: React.FC<ChatFooterProps> = ({
+  activeChat,
+  handleRefresh,
+}) => {
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
   const uploadBtnRef = React.useRef<HTMLInputElement>(null);
+
+  const { sendChatMessage, sendStudyChatMessage } = useChatWebSocket();
 
   const { isRecording, startRecording, stopRecording, recordingBlob } =
     useAudioRecorder();
@@ -41,14 +52,22 @@ const ChatFooter: React.FC = () => {
   const handleStateUpdate = (newState: Partial<typeof initialState>) =>
     setState((state) => ({ ...state, ...newState }));
 
+  const handleSendAction = () => {
+    if (activeChat.type === ChatType.Single)
+      sendChatMessage({
+        recipientId: activeChat?.id || "",
+        message: state.message,
+      });
+    else
+      sendStudyChatMessage({
+        studyChatId: activeChat?.id || "",
+        message: state.message,
+      });
+  };
+
   const handleSend = () => {
-    const messageData = {
-      message: state.message,
-      date: new Date(Date.now()),
-    };
-
-    console.log(messageData);
-
+    handleSendAction();
+    handleRefresh();
     handleStateUpdate({ message: "", showEmoji: false });
   };
 
@@ -128,6 +147,20 @@ const ChatFooter: React.FC = () => {
       position="relative"
     >
       {!!state.uploadedfile.url && renderUploadPreview()}
+
+      {isRecording && (
+        <Box
+          borderRadius="8px"
+          bg={colors.primary[5]}
+          p="7px"
+          maxW="552px"
+          w="100%"
+          position="absolute"
+          top="-40px"
+        >
+          Recording...
+        </Box>
+      )}
 
       {!!state.audioUrl && (
         <Box

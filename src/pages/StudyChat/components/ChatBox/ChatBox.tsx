@@ -1,30 +1,53 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
-import { useSearchParams } from "react-router-dom";
 import StudyChatEmptyState from "../StudyChatEmptyState";
 import { motion } from "framer-motion";
 import StudyChatEmptyStateIllustration from "../../assets/images/StudyChatEmptyStateIllustration.jpg";
-import {
-  CHAT_LIST_MOCKDATA,
-  containerAnimation,
-  contentAnimation,
-} from "../../data";
+import { containerAnimation, contentAnimation } from "../../data";
 import ChatHeader from "./ChatHeader";
 import ChatBody from "./ChatBody";
 import ChatFooter from "./ChatFooter";
+import useChatWebSocket from "src/hooks/useChatWebSocket";
+import { ChatListData, ChatType, MessageType } from "src/types";
 
-const ChatBox: React.FC = () => {
-  const [searchParams] = useSearchParams();
+interface ChatBoxProps {
+  chat: ChatListData;
+}
 
-  const slug = searchParams.get("slug");
+const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
+  const { getChat, getStudyChat } = useChatWebSocket();
 
-  const activeChat = slug
-    ? CHAT_LIST_MOCKDATA.find((item) => item.slug === slug)
-    : CHAT_LIST_MOCKDATA[0];
+  const [messages, setMessages] = React.useState<MessageType[]>([]);
+  const [loading, setLoading] = React.useState(false);
+
+  const handleFetchChatAction = () => {
+    if (chat.type === ChatType.Single) {
+      return getChat(chat.id, (messages) => {
+        setLoading(false);
+        setMessages(messages);
+      });
+    } else {
+      return getStudyChat(chat.id, (messages) => {
+        setLoading(false);
+        setMessages(messages);
+      });
+    }
+  };
+
+  const handleFetchChat = React.useCallback(() => {
+    if (!chat) return;
+
+    setLoading(true);
+    handleFetchChatAction();
+  }, [chat]);
+
+  React.useEffect(() => {
+    handleFetchChat();
+  }, [chat]);
 
   return (
     <>
-      {slug && (
+      {chat && (
         <Box
           as={motion.div}
           padding={["0 0 100px", "60px 0 0"]}
@@ -42,10 +65,17 @@ const ChatBox: React.FC = () => {
           background="#fff"
         >
           <Box as={motion.div} animation={contentAnimation} h="100%">
-            <ChatHeader data={activeChat!} />
+            <ChatHeader data={chat} />
             <Box height="100%">
-              <ChatBody />
-              <ChatFooter />
+              <ChatBody
+                messages={messages}
+                loading={loading}
+                activeChat={chat}
+              />
+              <ChatFooter
+                activeChat={chat}
+                handleRefresh={handleFetchChatAction}
+              />
             </Box>
           </Box>
         </Box>

@@ -6,3 +6,5 @@ export interface SignInToken {
 export type Payload<D> = {
   data: D;
 };
+
+export type FileUrlKey = "video_url" | "thumbnail_url" | "study_chat";
