@@ -63,7 +63,6 @@ const StudyChat: React.FC = () => {
     queryFn: () =>
       getAllStudyChats((res) => {
         if (res.status === "success") {
-          console.log(res);
           dispatch(setStudyChats(res.data));
         } else dispatch(setStudyChats([]));
       }),

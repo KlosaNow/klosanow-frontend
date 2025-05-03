@@ -1,5 +1,5 @@
 import React from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import * as webSocketUrls from "src/data/apiUrl";
 import { ChatResponse, MessageResponse, MessageType } from "src/types";
 import { getToken } from "src/utils/constant";
@@ -10,46 +10,50 @@ const useChatWebSocket = () => {
 
   const { token } = getToken();
 
-  const socketClient = io(url, {
-    autoConnect: true,
-    reconnectionDelay: 3000,
-    query: { token },
-    withCredentials: true,
-  });
+  const socketRef = React.useRef<Socket | null>(null);
+
+  React.useEffect(() => {
+    socketRef.current = io(url, {
+      query: { token },
+      withCredentials: true,
+    });
+  }, [url]);
 
   const connectWebSocket = () =>
-    socketClient.on("connect", () => {
+    socketRef.current?.on("connect", () => {
       console.log(`Conneted successfully`);
       setConnected(true);
     });
 
-  const logAllSocketEvents = () => socketClient.onAny(() => {});
+  const logAllSocketEvents = () => socketRef.current?.onAny(() => {});
 
   const disconnectWebSocket = () =>
-    socketClient.on("disconnect", (reason) => {
+    socketRef.current?.on("disconnect", (reason) => {
       console.log(`Disconnect ${reason}`);
       setConnected(false);
     });
 
   const getAllChats = (cb: (chats: ChatResponse) => void) => {
-    socketClient.emit(webSocketUrls.allChatsWebSocketUrl);
-    socketClient.on(webSocketUrls.allChatsWebSocketUrl, (chats) => cb(chats));
+    socketRef.current?.emit(webSocketUrls.allChatsWebSocketUrl);
+    socketRef.current?.on(webSocketUrls.allChatsWebSocketUrl, (chats) =>
+      cb(chats)
+    );
 
-    return () => socketClient.off(webSocketUrls.allChatsWebSocketUrl);
+    return () => socketRef.current?.off(webSocketUrls.allChatsWebSocketUrl);
   };
 
   const getChat = (chatId: string, cb: (messages: MessageType[]) => void) => {
-    socketClient.emit(webSocketUrls.singleChatWebSocketUrl, { chatId });
-    socketClient.on(
+    socketRef.current?.emit(webSocketUrls.singleChatWebSocketUrl, { chatId });
+    socketRef.current?.on(
       webSocketUrls.singleChatWebSocketUrl,
       (res: MessageResponse) => cb(res.data)
     );
 
-    return () => socketClient.off(webSocketUrls.singleChatWebSocketUrl);
+    return () => socketRef.current?.off(webSocketUrls.singleChatWebSocketUrl);
   };
 
   const deleteChat = (chatId: string) =>
-    socketClient.emit(webSocketUrls.deleteChatWebSocketUrl, { chatId });
+    socketRef.current?.emit(webSocketUrls.deleteChatWebSocketUrl, { chatId });
 
   const sendChatMessage = ({
     recipientId,
@@ -59,26 +63,29 @@ const useChatWebSocket = () => {
     message: string;
   }) => {
     const data = { recipientId, message };
-    socketClient.emit(webSocketUrls.sendChatWebSocketUrl, data);
+    socketRef.current?.emit(webSocketUrls.sendChatWebSocketUrl, data);
   };
 
   // Study chats
   const getAllStudyChats = (cb: (chats: ChatResponse) => void) => {
-    socketClient.emit(webSocketUrls.allStudyChatsWebSocketUrl);
-    socketClient.on(
+    socketRef.current?.emit(webSocketUrls.allStudyChatsWebSocketUrl);
+    socketRef.current?.on(
       webSocketUrls.allStudyChatsWebSocketUrl,
       (chats: ChatResponse) => cb(chats)
     );
 
-    return () => socketClient.off(webSocketUrls.allStudyChatsWebSocketUrl);
+    return () =>
+      socketRef.current?.off(webSocketUrls.allStudyChatsWebSocketUrl);
   };
 
   const getStudyChat = (
     studyChatId: string,
     cb: (message: MessageType[]) => void
   ) => {
-    socketClient.emit(webSocketUrls.allChatsWebSocketUrl, { studyChatId });
-    socketClient.on(
+    socketRef.current?.emit(webSocketUrls.allChatsWebSocketUrl, {
+      studyChatId,
+    });
+    socketRef.current?.on(
       webSocketUrls.allChatsWebSocketUrl,
       (res: MessageResponse) => cb(res.data)
     );
@@ -96,22 +103,24 @@ const useChatWebSocket = () => {
     },
     cb: (res: boolean) => void
   ) => {
-    socketClient.emit(
+    socketRef.current?.emit(
       webSocketUrls.createStudyChatsWebSocketUrl,
       JSON.stringify({ title, photoUrl, members })
     );
 
-    socketClient.on(webSocketUrls.createStudyChatsWebSocketUrl, (data) => {
-      console.log(data);
-      // cb(data.status === "success");
-      cb(!!data);
-    });
+    socketRef.current?.on(
+      webSocketUrls.createStudyChatsWebSocketUrl,
+      (data) => {
+        cb(!!data);
+      }
+    );
 
-    return () => socketClient.off(webSocketUrls.createStudyChatsWebSocketUrl);
+    return () =>
+      socketRef.current?.off(webSocketUrls.createStudyChatsWebSocketUrl);
   };
 
   const deleteStudyChat = (studyChatId: string) =>
-    socketClient.emit(webSocketUrls.deleteStudyChatWebSocketUrl, {
+    socketRef.current?.emit(webSocketUrls.deleteStudyChatWebSocketUrl, {
       studyChatId,
     });
 
@@ -122,7 +131,7 @@ const useChatWebSocket = () => {
     studyChatId: string;
     members: string[];
   }) =>
-    socketClient.emit(
+    socketRef.current?.emit(
       webSocketUrls.deleteStudyChatWebSocketUrl,
       JSON.stringify({ studyChatId, members })
     );
@@ -134,7 +143,7 @@ const useChatWebSocket = () => {
     studyChatId: string;
     photoUrl: string;
   }) =>
-    socketClient.emit(
+    socketRef.current?.emit(
       webSocketUrls.updateStudyChatPhotoWebSocketUrl,
       JSON.stringify({ studyChatId, photoUrl })
     );
@@ -146,16 +155,16 @@ const useChatWebSocket = () => {
     studyChatId: string;
     message: string;
   }) =>
-    socketClient.emit(webSocketUrls.sendStudyChatWebSocketUrl, {
+    socketRef.current?.emit(webSocketUrls.sendStudyChatWebSocketUrl, {
       studyChatId,
       message,
     });
 
   const cleanUpSocketConnection = () => {
-    socketClient.off("connect");
-    socketClient.off("chats");
-    socketClient.off("studychats");
-    socketClient.off("disconnect");
+    socketRef.current?.off("connect");
+    socketRef.current?.off("chats");
+    socketRef.current?.off("studychats");
+    socketRef.current?.off("disconnect");
   };
 
   return {
