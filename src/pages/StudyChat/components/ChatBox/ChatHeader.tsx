@@ -27,7 +27,19 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ data }) => {
 
   const handleClose = () => {
     setSearchParams("");
-    updateStudyChatValues({ chatType: null, activeChat: null });
+    updateStudyChatValues({ activeChat: null });
+  };
+
+  const handleDeleteChat = () => {
+    data.type === ChatType.Single
+      ? deleteChat(data.id)
+      : deleteStudyChat(data.id);
+
+    const reload = setInterval(() => {
+      window.location.reload();
+    }, 1000);
+
+    return () => clearInterval(reload);
   };
 
   return (
@@ -38,6 +50,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ data }) => {
       justifyContent="center"
       alignItems="center"
       position="relative"
+      zIndex={10000}
     >
       <Flex
         w="100%"
@@ -84,9 +97,9 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ data }) => {
                 textOverflow="ellipsis"
                 overflow="hidden"
               >
-                {data.members.map(({ name }, index, arr) => (
+                {data.members.map(({ name, _id }, index, arr) => (
                   <Text key={uniqueId("header-contact-list")} fontSize="14px">
-                    {name}
+                    {data.admin._id === _id ? "You" : name}
                     {index !== arr.length - 1 ? "," : "."}
                   </Text>
                 ))}
@@ -127,11 +140,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ data }) => {
               fontSize="12px"
               padding="6px 14px"
               textAlign={"start"}
-              onClick={() =>
-                data.type === ChatType.Single
-                  ? deleteChat(data.id)
-                  : deleteStudyChat(data.id)
-              }
+              onClick={handleDeleteChat}
               _hover={{
                 bg: "#eee",
               }}

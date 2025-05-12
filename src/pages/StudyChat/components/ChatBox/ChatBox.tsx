@@ -9,41 +9,56 @@ import ChatBody from "./ChatBody";
 import ChatFooter from "./ChatFooter";
 import useChatWebSocket from "src/hooks/useChatWebSocket";
 import { ChatListData, ChatType, MessageType } from "src/types";
+import { StudyChatContext } from "../../context/StudyChat";
 
 interface ChatBoxProps {
   chat: ChatListData;
 }
 
+interface ChatBoxState {
+  isSent: boolean;
+  messages: MessageType[];
+}
+
 const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
   const { getChat, getStudyChat } = useChatWebSocket();
+  const { loadingMessage, updateStudyChatValues } =
+    React.useContext(StudyChatContext);
 
-  const [messages, setMessages] = React.useState<MessageType[]>([]);
-  const [loading, setLoading] = React.useState(false);
+  const initialState: ChatBoxState = {
+    isSent: false,
+    messages: [],
+  };
+
+  const [state, setState] = React.useState(initialState);
+
+  const handleStateUpdate = (newState: Partial<ChatBoxState>) =>
+    setState((_state) => ({ ..._state, ...newState }));
 
   const handleFetchChatAction = () => {
     if (chat.type === ChatType.Single) {
       return getChat(chat.id, (messages) => {
-        setLoading(false);
-        setMessages(messages);
-      });
-    } else {
-      return getStudyChat(chat.id, (messages) => {
-        setLoading(false);
-        setMessages(messages);
+        handleStateUpdate({ messages, isSent: false });
+        updateStudyChatValues({ loadingMessage: false });
       });
     }
+    if (chat.type === ChatType.Group) {
+      return getStudyChat(chat.id, (messages) => {
+        handleStateUpdate({ messages, isSent: false });
+        updateStudyChatValues({ loadingMessage: false });
+      });
+    } else return null;
   };
 
   const handleFetchChat = React.useCallback(() => {
     if (!chat) return;
 
-    setLoading(true);
     handleFetchChatAction();
-  }, [chat]);
+  }, [chat, state.isSent]);
 
   React.useEffect(() => {
     handleFetchChat();
-  }, [chat]);
+  }, [chat, state.isSent]);
 
   return (
     <>
@@ -68,13 +83,14 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
             <ChatHeader data={chat} />
             <Box height="100%">
               <ChatBody
-                messages={messages}
-                loading={loading}
+                messages={state.messages}
+                loading={loadingMessage}
                 activeChat={chat}
               />
               <ChatFooter
                 activeChat={chat}
-                handleRefresh={handleFetchChatAction}
+                handleRefresh={() => handleStateUpdate({ isSent: true })}
+                loading={loadingMessage}
               />
             </Box>
           </Box>

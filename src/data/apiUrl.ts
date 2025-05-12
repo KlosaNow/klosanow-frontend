@@ -19,10 +19,12 @@ export const sendChatWebSocketUrl = `${chatWebSocket}:${sendChatWebSocketSlug}`;
 export const studyChatWebSocket = "studychats";
 export const createStudyChatsWebSocketSlug = "create";
 export const updateStudyChatPhotoWebSocketSlug = "update-photo";
+const addMemberChatSocketSlug = "add-members";
 
 export const createStudyChatsWebSocketUrl = `${studyChatWebSocket}:${createStudyChatsWebSocketSlug}`;
 export const allStudyChatsWebSocketUrl = `${studyChatWebSocket}:${allChatsWebSocketSlug}`;
 export const singleStudyChatWebSocketUrl = `${studyChatWebSocket}:${singleChatWebSocketSlug}`;
-export const deleteStudyChatWebSocketUrl = `${studyChatWebSocket}:${deleteChatWebSocketUrl}`;
-export const sendStudyChatWebSocketUrl = `${studyChatWebSocket}:${sendChatWebSocketUrl}`;
+export const deleteStudyChatWebSocketUrl = `${studyChatWebSocket}:${deleteChatWebSocketSlug}`;
+export const addStudyChatMembersWebSocketUrl = `${studyChatWebSocket}:${addMemberChatSocketSlug}`;
+export const sendStudyChatWebSocketUrl = `${studyChatWebSocket}:${sendChatWebSocketSlug}`;
 export const updateStudyChatPhotoWebSocketUrl = `${studyChatWebSocket}:${updateStudyChatPhotoWebSocketSlug}`;

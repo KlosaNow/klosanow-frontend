@@ -20,7 +20,7 @@ const ChatListItem: React.FC<ChatListItemProps> = ({ data }) => {
 
   const updateUrl = () => {
     setSearchParams({ slug: data?.slug || "" });
-    updateStudyChatValues({ activeChat: data });
+    updateStudyChatValues({ activeChat: data, loadingMessage: true });
   };
 
   return (

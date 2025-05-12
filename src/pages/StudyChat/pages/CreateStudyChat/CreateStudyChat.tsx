@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import { BottomNav } from "../../../../components";
-import Contacts from "../../components/Contacts";
+import ContactsComp from "../../components/ContactsComp";
 import StudyGroupInfo from "../../components/StudyGroupInfo";
 import StudyChatEmptyState from "../../components/StudyChatEmptyState";
 import CreateStudyChatIllustration from "../../assets/images/CreateStudyChatIllustration.jpg";
@@ -27,7 +27,7 @@ const CreateStudyChat: React.FC = () => {
     <Box height="100%">
       <Flex width="100%" h="100%" position="relative">
         {!locationState.isContactsAdded ? (
-          <Contacts contacts={contacts.data} />
+          <ContactsComp contacts={contacts.data} />
         ) : (
           <StudyGroupInfo />
         )}

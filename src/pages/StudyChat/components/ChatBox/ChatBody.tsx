@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Circle, Flex, Image, Text } from "@chakra-ui/react";
 import { uniqueId } from "lodash";
 import { ChatListData, MessageType } from "src/types";
+import { getUploadedDataPreview } from "../../utils";
 
 interface ChatBodyProps {
   messages: Array<MessageType>;
@@ -14,6 +15,14 @@ const ChatBody: React.FC<ChatBodyProps> = ({
   loading,
   activeChat,
 }) => {
+  const recipientId = activeChat.recipient?._id;
+
+  const extractURLs = (text: string) => {
+    const urlRegex = /\b((https?:\/\/|www\.)[^\s/$.?#].[^\s]*)/gi;
+    const matchedUrls = text.match(urlRegex) || [];
+    return matchedUrls;
+  };
+
   return (
     <Flex
       h={{
@@ -25,18 +34,17 @@ const ChatBody: React.FC<ChatBodyProps> = ({
       flexDir={"column-reverse"}
       gap="10px"
       w="100%"
+      zIndex={1000}
     >
-      {!loading && messages.length > 0
-        ? messages.reverse().map((item) => (
+      {!loading && messages?.length > 0
+        ? [...messages].reverse().map((item) => (
             <Box
-              key={uniqueId("message")}
-              alignSelf={
-                activeChat?.id === item._id ? "flex-start" : "flex-end"
-              }
+              key={uniqueId(`message-${item._id}`)}
+              alignSelf={recipientId === item._id ? "flex-start" : "flex-end"}
               maxW="60%"
             >
               <Flex gap="4px">
-                {activeChat?.id === item._id && (
+                {recipientId === item._id && (
                   <Circle size="20px" bg="#eee" overflow="hidden">
                     <Image
                       src={activeChat?.img || "https://picsum.photos/50/50"}
@@ -45,22 +53,43 @@ const ChatBody: React.FC<ChatBodyProps> = ({
                   </Circle>
                 )}
 
-                <Text
+                <Flex
                   backgroundColor={
-                    activeChat?.id === item._id ? "#D3C7FB" : "#F3ECF8"
+                    recipientId === item._id ? "#D3C7FB" : "#F3ECF8"
                   }
-                  wordBreak={"break-word"}
                   boxShadow="md"
                   borderRadius={14}
+                  minW={50}
                   padding={"4px 8px"}
-                  fontSize="13px"
+                  flexDir={"column"}
+                  gap={"4px"}
                 >
-                  {item.text}
-                </Text>
+                  {extractURLs(item.text).length > 0
+                    ? extractURLs(item.text).map((item) =>
+                        getUploadedDataPreview(item)
+                      )
+                    : ""}
+
+                  <Text wordBreak={"break-word"} fontSize="14px">
+                    {item.text}
+                  </Text>
+
+                  {recipientId === item._id && (
+                    <Text textAlign={"end"} fontSize="9px">
+                      {item.sender?.name}
+                    </Text>
+                  )}
+                </Flex>
               </Flex>
             </Box>
           ))
         : undefined}
+
+      {!loading && !messages && (
+        <Box textAlign={"center"}>
+          <Text>Start sending message to group</Text>
+        </Box>
+      )}
 
       {loading && activeChat.id && (
         <Box textAlign={"center"}>

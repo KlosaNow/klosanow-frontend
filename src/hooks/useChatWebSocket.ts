@@ -82,38 +82,32 @@ const useChatWebSocket = () => {
     studyChatId: string,
     cb: (message: MessageType[]) => void
   ) => {
-    socketRef.current?.emit(webSocketUrls.allChatsWebSocketUrl, {
+    socketRef.current?.emit(webSocketUrls.singleStudyChatWebSocketUrl, {
       studyChatId,
     });
     socketRef.current?.on(
-      webSocketUrls.allChatsWebSocketUrl,
+      webSocketUrls.singleStudyChatWebSocketUrl,
       (res: MessageResponse) => cb(res.data)
     );
+
+    return () =>
+      socketRef.current?.off(webSocketUrls.singleStudyChatWebSocketUrl);
   };
 
-  const createStudyChat = (
-    {
+  const createStudyChat = ({
+    title,
+    photoUrl,
+    members,
+  }: {
+    title: string;
+    photoUrl: string;
+    members: string[];
+  }) => {
+    socketRef.current?.emit(webSocketUrls.createStudyChatsWebSocketUrl, {
       title,
       photoUrl,
       members,
-    }: {
-      title: string;
-      photoUrl: string;
-      members: string[];
-    },
-    cb: (res: boolean) => void
-  ) => {
-    socketRef.current?.emit(
-      webSocketUrls.createStudyChatsWebSocketUrl,
-      JSON.stringify({ title, photoUrl, members })
-    );
-
-    socketRef.current?.on(
-      webSocketUrls.createStudyChatsWebSocketUrl,
-      (data) => {
-        cb(!!data);
-      }
-    );
+    });
 
     return () =>
       socketRef.current?.off(webSocketUrls.createStudyChatsWebSocketUrl);
@@ -131,10 +125,10 @@ const useChatWebSocket = () => {
     studyChatId: string;
     members: string[];
   }) =>
-    socketRef.current?.emit(
-      webSocketUrls.deleteStudyChatWebSocketUrl,
-      JSON.stringify({ studyChatId, members })
-    );
+    socketRef.current?.emit(webSocketUrls.addStudyChatMembersWebSocketUrl, {
+      studyChatId,
+      members,
+    });
 
   const updateStudyChatPhoto = ({
     studyChatId,
@@ -143,10 +137,10 @@ const useChatWebSocket = () => {
     studyChatId: string;
     photoUrl: string;
   }) =>
-    socketRef.current?.emit(
-      webSocketUrls.updateStudyChatPhotoWebSocketUrl,
-      JSON.stringify({ studyChatId, photoUrl })
-    );
+    socketRef.current?.emit(webSocketUrls.updateStudyChatPhotoWebSocketUrl, {
+      studyChatId,
+      photoUrl,
+    });
 
   const sendStudyChatMessage = ({
     studyChatId,

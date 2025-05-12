@@ -27,29 +27,41 @@ import { uniqueId } from "lodash";
 import { flyoutActionsStyles } from "../../data/styles";
 import { useNavigate } from "react-router-dom";
 import { contactsPagePath } from "../../../../data/pageUrl";
+import useChatWebSocket from "src/hooks/useChatWebSocket";
 
 const ChatDetailFlyout: React.FC = () => {
   const navigate = useNavigate();
 
-  const { activeChat, chatType, isChatDetailFlyout, updateStudyChatValues } =
+  const { deleteStudyChat } = useChatWebSocket();
+
+  const { activeChat, isChatDetailFlyout, updateStudyChatValues } =
     React.useContext(StudyChatContext);
 
   const handleClose = () =>
     updateStudyChatValues({ isChatDetailFlyout: false });
 
-  const isGroupChat = chatType === ChatType.Group;
+  const isGroupChat = activeChat?.type === ChatType.Group;
 
-  const [notification, setNotification] = React.useState(SwitchLabel.Off);
+  const [_, setNotification] = React.useState(SwitchLabel.Off);
 
   const handleAddLearner = () => {
     if (!activeChat) return;
 
     updateStudyChatValues({ isChatDetailFlyout: false });
-    navigate(contactsPagePath, {
-      state: {
-        chatId: activeChat.id,
-      },
-    });
+    navigate(
+      `${contactsPagePath}?add=${activeChat.id}&name=${activeChat.name}`
+    );
+  };
+
+  const handleDeleteStudyChat = () => {
+    if (activeChat) {
+      deleteStudyChat(activeChat.id);
+      const reload = setInterval(() => {
+        window.location.reload();
+      }, 1000);
+
+      return () => clearInterval(reload);
+    } else null;
   };
 
   return (
@@ -219,7 +231,7 @@ const ChatDetailFlyout: React.FC = () => {
                             lineHeight="17.5px"
                             marginBottom="5px"
                           >
-                            {name}
+                            {activeChat.admin._id === _id ? "You" : name}
                           </Text>
 
                           <Text
@@ -251,11 +263,17 @@ const ChatDetailFlyout: React.FC = () => {
                     <AddLearnersIcon />
                     <Text>Add Learners</Text>
                   </Flex>
+
                   <Flex as="button" {...flyoutActionsStyles}>
                     <ReportIcon />
                     <Text>Report</Text>
                   </Flex>
-                  <Flex as="button" {...flyoutActionsStyles}>
+
+                  <Flex
+                    as="button"
+                    {...flyoutActionsStyles}
+                    onClick={handleDeleteStudyChat}
+                  >
                     <LeaveIcon />
                     <Text color={colors.error[50]}>Leave</Text>
                   </Flex>

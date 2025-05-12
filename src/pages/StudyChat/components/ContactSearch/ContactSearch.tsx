@@ -30,6 +30,7 @@ const ContactSearch: React.FC<ContactSearchProps> = ({ value, setValue }) => {
             background="#ffffff"
             borderRadius="50px"
             border="none"
+            autoComplete="off"
           />
         </InputGroup>
       </FormControl>

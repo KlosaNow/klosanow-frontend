@@ -70,25 +70,12 @@ const StudyGroupInfo: React.FC = () => {
   };
 
   const handleSubmit = (values: typeof initialValues) => {
-    createStudyChat(
-      {
-        title: values.title,
-        photoUrl: state.imageUrl,
-        members: participantsId,
-      },
-      (res) => {
-        if (res) navigate(studyChatPagePath);
-        else {
-          toast({
-            title: "Unable to create study chat",
-            description: "Try again later",
-            status: "error",
-            duration: 3000,
-            position: "top-right",
-          });
-        }
-      }
-    );
+    createStudyChat({
+      title: values.title,
+      photoUrl: state.imageUrl,
+      members: participantsId,
+    });
+    navigate(studyChatPagePath);
   };
 
   const handleFileUpload = async (e: React.FormEvent<HTMLInputElement>) => {
@@ -133,7 +120,7 @@ const StudyGroupInfo: React.FC = () => {
 
       if (res.status === FileUploadResponseStatus.Success) {
         handleStateUpdate({ loading: false, imageName: "", imageUrl: "" });
-        clearFileUrl("thumbnail_url");
+        clearFileUrl("study_chat");
       }
     } catch (error) {
       handleStateUpdate({ loading: false });

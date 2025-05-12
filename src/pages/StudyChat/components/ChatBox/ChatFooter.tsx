@@ -7,35 +7,54 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  ListItem,
+  Spinner,
   Text,
   Textarea,
+  UnorderedList,
+  useToast,
 } from "@chakra-ui/react";
 import { EmojiIcon, InsertIcon, MicIcon } from "../../assets/svgs";
 import Picker from "emoji-picker-react";
 import { colors } from "../../../../data/colors";
-import { renderPreveiwAction, renderUploadedDataPreview } from "../../utils";
+import { getUploadedDataPreview, renderPreveiwAction } from "../../utils";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import { BsSendFill } from "react-icons/bs";
 import useChatWebSocket from "src/hooks/useChatWebSocket";
 import { ChatListData, ChatType } from "src/types";
+import {
+  deletedFile,
+  FileUploadResponseStatus,
+  uploadFile,
+} from "src/utils/file-upload";
+import { clearFileUrl, setFileUrl } from "src/utils/constant";
+import RecorderLoader from "../RecorderLoader";
 
 import styles from "./styles.module.scss";
 
 interface ChatFooterProps {
   activeChat: ChatListData;
+  loading: boolean;
   handleRefresh: () => void;
 }
 const ChatFooter: React.FC<ChatFooterProps> = ({
   activeChat,
+  loading,
   handleRefresh,
 }) => {
+  const toast = useToast();
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
   const uploadBtnRef = React.useRef<HTMLInputElement>(null);
 
   const { sendChatMessage, sendStudyChatMessage } = useChatWebSocket();
 
-  const { isRecording, startRecording, stopRecording, recordingBlob } =
-    useAudioRecorder();
+  const {
+    isRecording,
+    startRecording,
+    stopRecording,
+    recordingBlob,
+    recordingTime,
+  } = useAudioRecorder();
 
   const initialState = {
     message: "",
@@ -46,29 +65,39 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
       type: "",
       name: "",
     },
+    detectedURLs: [] as string[],
+    uploadingMedia: false,
   };
   const [state, setState] = React.useState<typeof initialState>(initialState);
 
   const handleStateUpdate = (newState: Partial<typeof initialState>) =>
     setState((state) => ({ ...state, ...newState }));
 
-  const handleSendAction = () => {
+  const extractURLs = (text: string): string[] => {
+    const urlRegex = /\b((https?:\/\/|www\.)[^\s/$.?#].[^\s]*)/gi;
+    const matchedUrls = text.match(urlRegex) || [];
+    return matchedUrls;
+  };
+
+  const handleSendAction = (message: string) => {
     if (activeChat.type === ChatType.Single)
       sendChatMessage({
-        recipientId: activeChat?.id || "",
-        message: state.message,
+        recipientId: activeChat?.recipient?._id || "",
+        message: message,
       });
     else
       sendStudyChatMessage({
         studyChatId: activeChat?.id || "",
-        message: state.message,
+        message: message,
       });
   };
 
-  const handleSend = () => {
-    handleSendAction();
+  const handleSend = (message: string) => {
+    handleSendAction(message);
+    clearFileUrl("chat-file");
+    clearFileUrl("chat-audio");
     handleRefresh();
-    handleStateUpdate({ message: "", showEmoji: false });
+    handleStateUpdate(initialState);
   };
 
   const onEmojiClick = (emojiObject: any, _: MouseEvent) => {
@@ -82,43 +111,116 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
     handleStateUpdate({ message: text, showEmoji: false });
   };
 
-  const handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (!e.currentTarget.files) return;
 
-    const file = e.currentTarget.files[0];
+    try {
+      handleStateUpdate({ uploadingMedia: true });
+      const file = e.currentTarget.files[0];
+      const res = await uploadFile(file);
 
-    const uploadedfile = {
-      url: URL.createObjectURL(file),
-      type: file.type,
-      name: file.name,
-    };
+      if (!res || !res.data || res.status !== FileUploadResponseStatus.Success)
+        throw new Error("Unable to fetch data");
 
-    handleStateUpdate({
-      uploadedfile,
-    });
+      if (res.status === FileUploadResponseStatus.Success) {
+        const uploadedfile = {
+          url: res.data.url,
+          type: file.type,
+          name: file.name,
+        };
+
+        handleStateUpdate({
+          uploadedfile,
+        });
+
+        setFileUrl("chat-file", res.data.url);
+      }
+    } catch (error: any) {
+      toast({
+        title: error.message ?? error.response ?? "Something went wrong",
+        description: "Try again later",
+        status: "error",
+        duration: 3000,
+        position: "top-right",
+      });
+    } finally {
+      handleStateUpdate({ uploadingMedia: false });
+    }
   };
 
+  // const handleAudioUpload = async (blob: Blob) => {
+  //   try {
+  //     handleStateUpdate({ uploadingMedia: true });
+  //     const file = new File([blob], `${activeChat.name}-${uniqueId("")}`);
+  //     const res = await uploadFile(file);
+
+  //     if (!res || !res.data || res.status !== FileUploadResponseStatus.Success)
+  //       throw new Error("Unable to fetch data");
+
+  //     if (res.status === FileUploadResponseStatus.Success) {
+  //       handleStateUpdate({
+  //         audioUrl: res.data.url,
+  //       });
+
+  //       setFileUrl("chat-audio", res.data.url);
+  //     }
+  //   } catch (error: any) {
+  //     toast({
+  //       title: error.message ?? error.response ?? "Something went wrong",
+  //       description: "Try again later",
+  //       status: "error",
+  //       duration: 3000,
+  //       position: "top-right",
+  //     });
+  //   } finally {
+  //     handleStateUpdate({ uploadingMedia: false });
+  //   }
+  // };
+
+  const handleDeleteFile = async (type: "audio" | "file") => {
+    try {
+      handleStateUpdate({ uploadingMedia: true });
+
+      const res = await deletedFile(
+        type === "audio" ? state.audioUrl : state.uploadedfile.url
+      );
+
+      if (!res || res.status !== FileUploadResponseStatus.Success)
+        throw new Error("Unable to delete file");
+
+      if (res.status === FileUploadResponseStatus.Success) {
+        handleStateUpdate({
+          uploadedfile: initialState.uploadedfile,
+          audioUrl: "",
+        });
+
+        type === "file"
+          ? clearFileUrl("chat-file")
+          : clearFileUrl("chat-audio");
+      }
+    } catch (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Try again later",
+        status: "error",
+        duration: 3000,
+        position: "top-right",
+      });
+    } finally {
+      handleStateUpdate({ uploadingMedia: true });
+    }
+  };
+
+  const isDisabled =
+    !!state.audioUrl || !!state.uploadedfile.url || state.uploadingMedia;
+
   const renderUploadPreview = () => (
-    <Box
-      position="absolute"
-      minH="100px"
-      maxH="224px"
-      minW="100px"
-      maxW="320px"
-      top="-210px"
-      left={{
-        base: "5px",
-        md: "10px",
-        xl: "50px",
-      }}
-      borderRadius="8px"
-      bg={colors.primary[5]}
-      p="10px"
-    >
-      {renderUploadedDataPreview(
-        state.uploadedfile.type,
-        state.uploadedfile.url
+    <Box borderRadius="8px" bg={colors.primary[5]} p="10px">
+      {state.uploadingMedia ? (
+        <Spinner />
+      ) : (
+        getUploadedDataPreview(state.uploadedfile.url, state.uploadedfile.type)
       )}
 
       <Text fontSize="12px" color="#555555" m="4px 0" maxW="250px">
@@ -127,15 +229,19 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
       </Text>
 
       {renderPreveiwAction(
-        () => null,
-        () => handleStateUpdate({ uploadedfile: initialState.uploadedfile })
+        () =>
+          state.uploadedfile.url ? handleSend(state.uploadedfile.url) : null,
+        () => handleDeleteFile("file")
       )}
     </Box>
   );
 
   React.useEffect(() => {
-    if (!recordingBlob) return;
+    if (loading) handleStateUpdate(initialState);
+  }, [loading]);
 
+  React.useEffect(() => {
+    if (!recordingBlob) return;
     handleStateUpdate({ audioUrl: URL.createObjectURL(recordingBlob) });
   }, [recordingBlob]);
 
@@ -146,43 +252,54 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
       alignItems="center"
       position="relative"
     >
-      {!!state.uploadedfile.url && renderUploadPreview()}
+      <Box
+        position="absolute"
+        minW="100px"
+        maxW="320px"
+        bottom="110px"
+        left={{
+          base: "5px",
+          md: "10px",
+          xl: "50px",
+        }}
+      >
+        {!!state.uploadedfile.url && renderUploadPreview()}
 
-      {isRecording && (
-        <Box
-          borderRadius="8px"
-          bg={colors.primary[5]}
-          p="7px"
-          maxW="552px"
-          w="100%"
-          position="absolute"
-          top="-40px"
-        >
-          Recording...
-        </Box>
-      )}
+        {isRecording && <RecorderLoader time={recordingTime} />}
 
-      {!!state.audioUrl && (
-        <Box
-          borderRadius="8px"
-          bg={colors.primary[5]}
-          p="10px"
-          maxW="552px"
-          w="100%"
-          position="absolute"
-          top="-70px"
-        >
-          <Flex alignItems="center" justifyContent="space-between">
-            <audio src={state.audioUrl} controls></audio>
-            <Box maxW="100px" w="100%">
-              {renderPreveiwAction(
-                () => null,
-                () => handleStateUpdate({ audioUrl: "" })
-              )}
-            </Box>
-          </Flex>
-        </Box>
-      )}
+        {state.detectedURLs.length > 0 && (
+          <UnorderedList listStyleType={"none"} margin={0}>
+            {state.detectedURLs.map((url, idx) => (
+              <ListItem
+                borderRadius="8px"
+                bg={colors.primary[5]}
+                p="10px"
+                key={idx}
+              >
+                {getUploadedDataPreview(url)}
+              </ListItem>
+            ))}
+          </UnorderedList>
+        )}
+
+        {!!state.audioUrl && (
+          <Box borderRadius="8px" bg={colors.primary[5]} p="10px" w="100%">
+            <Flex alignItems="center" justifyContent="space-between">
+              <audio src={state.audioUrl} controls></audio>
+              <Box maxW="100px" w="100%">
+                {/* {renderPreveiwAction(
+                  () => (state.audioUrl ? handleSend(state.audioUrl) : null),
+                  () => handleDeleteFile("audio")
+                )} */}
+                {renderPreveiwAction(
+                  () => null,
+                  () => handleStateUpdate({ audioUrl: "" })
+                )}
+              </Box>
+            </Flex>
+          </Box>
+        )}
+      </Box>
 
       <Flex
         bg={colors.primary[5]}
@@ -206,6 +323,7 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
           _hover={{ bg: "transparent" }}
           aria-label="insert"
           icon={<InsertIcon />}
+          disabled={isRecording || isDisabled}
           onClick={() => !isRecording && uploadBtnRef.current?.click()}
           cursor={isRecording ? "not-allowed" : "pointer"}
         />
@@ -215,12 +333,15 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
             <Textarea
               placeholder="Type your message..."
               value={state.message}
-              onChange={(e: React.FormEvent<HTMLTextAreaElement>) =>
+              onChange={(e: React.FormEvent<HTMLTextAreaElement>) => {
+                const value = e.currentTarget.value;
+                const urls = extractURLs(value);
                 handleStateUpdate({
-                  message: e.currentTarget.value,
+                  message: value,
                   showEmoji: false,
-                })
-              }
+                  detectedURLs: urls,
+                });
+              }}
               name="message"
               ref={inputRef}
               w="100%"
@@ -262,7 +383,7 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
             as="button"
             aria-label="send"
             bg={colors.primary[10]}
-            onClick={handleSend}
+            onClick={() => handleSend(state.message)}
           >
             <BsSendFill />
           </Circle>
@@ -271,10 +392,11 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
             size="40px"
             as="button"
             aria-label="mic"
+            opacity={isDisabled ? 0.6 : 1}
             bg={isRecording ? colors.primary[20] : colors.primary[10]}
             onClick={() => (isRecording ? stopRecording() : startRecording())}
-            disabled={!!state.audioUrl}
-            cursor={!!state.audioUrl ? "not-allowed" : "pointer"}
+            disabled={isDisabled}
+            cursor={isDisabled ? "not-allowed" : "pointer"}
           >
             <MicIcon />
           </Circle>

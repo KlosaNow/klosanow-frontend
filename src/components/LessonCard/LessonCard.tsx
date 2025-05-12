@@ -8,17 +8,18 @@ import {
   PopoverTrigger,
   IconButton,
   PopoverContent,
+  useToast,
 } from "@chakra-ui/react";
 import { Lesson } from "../../types";
 import { capitalize } from "lodash";
 import { OptionWhiteIcon } from "../../assets/svgs";
+import { copyText } from "src/pages/StudyChat/utils";
 
 interface LessonCardProps {
   lesson: Lesson;
   handleWatch: (x: Lesson) => void;
   handleDelete?: (id: string) => void;
   handleView?: (x: Lesson) => void;
-  handleShare?: (x: Lesson) => void;
   hasOptions?: boolean;
   descriptionLength?: number;
   hasWatch?: boolean;
@@ -35,9 +36,9 @@ const LessonCard: React.FC<LessonCardProps> = ({
   handleWatch,
   handleDelete,
   handleView,
-  handleShare,
   width,
 }) => {
+  const toast = useToast();
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const {
     thumbnailUrl,
@@ -145,7 +146,16 @@ const LessonCard: React.FC<LessonCardProps> = ({
                   as="button"
                   fontSize="12px"
                   padding="4px 6px"
-                  onClick={() => handleShare && handleShare(lesson)}
+                  onClick={() =>
+                    copyText(lesson.videoUrl, () => {
+                      toast({
+                        title: `${lesson.title} copied`,
+                        description: "Lesson ready to share",
+                        colorScheme: "purple",
+                        variant: "subtle",
+                      });
+                    })
+                  }
                   _hover={{
                     bg: "#eee",
                   }}

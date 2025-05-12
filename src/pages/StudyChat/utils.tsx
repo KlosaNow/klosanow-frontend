@@ -11,7 +11,7 @@ import { colors } from "../../data/colors";
 import DummyFileIllustration from "./assets/images/file.png";
 import { DeleteIcon } from "./assets/svgs";
 import { BsFillSendFill } from "react-icons/bs";
-import { groupBy } from "lodash";
+import { groupBy, uniqueId } from "lodash";
 
 export const getContactsListWithChar = (contacts: Contact[]) => {
   const sortedContacts = [...contacts].sort((a, b) => {
@@ -49,10 +49,60 @@ export const getContactsListWithChar = (contacts: Contact[]) => {
   return grouped;
 };
 
-export const renderUploadedDataPreview = (type: string, url: string) => {
-  if (type.includes("image")) {
+const getTypeFromUrl = (
+  value: string,
+  type?: string
+): "video" | "audio" | "image" | "doc" | "other" => {
+  try {
+    const url = new URL(value);
+    const pathname = url.pathname;
+    const parts = pathname.split(".");
+
+    let extension = parts[parts.length - 1].toLowerCase();
+    extension = type ? type : extension.split(/[?#]/)[0];
+
+    const imageFormats = [
+      "jpg",
+      "jpeg",
+      "png",
+      "webp",
+      "gif",
+      "avif",
+      "ico",
+      "svg",
+      "image",
+    ];
+    const videoFormats = ["mp4", "webm", "ogv", "vid", "video"];
+    const audioFormats = [
+      "audio",
+      "mp3",
+      "wav",
+      "ogg",
+      "oga",
+      "aac",
+      "m4a",
+      "opus",
+      "flac",
+    ];
+    const docFormats = ["pdf", "txt", "doc", "docx"];
+
+    if (imageFormats.some((item) => extension.includes(item))) return "image";
+    if (videoFormats.some((item) => extension.includes(item))) return "video";
+    if (audioFormats.some((item) => extension.includes(item))) return "audio";
+    if (docFormats.some((item) => extension.includes(item))) return "doc";
+
+    return "other";
+  } catch (e) {
+    return "other";
+  }
+};
+
+export const getUploadedDataPreview = (url: string, mediaType?: string) => {
+  const type = getTypeFromUrl(url, mediaType);
+
+  if (type === "image") {
     return (
-      <Box bg="#000" borderRadius="8px">
+      <Box bg="#000" borderRadius="8px" key={uniqueId(`img-${url}`)}>
         <Image
           src={url}
           w="100%"
@@ -66,15 +116,21 @@ export const renderUploadedDataPreview = (type: string, url: string) => {
     );
   }
 
-  if (type.includes("audio")) {
+  if (type === "audio") {
     return (
-      <audio src={url} style={{ width: "100%", height: "100%" }} controls />
+      <audio
+        key={uniqueId(`audio-${url}`)}
+        src={url}
+        style={{ width: "100%", height: "100%" }}
+        controls
+      />
     );
   }
 
-  if (type.includes("video")) {
+  if (type === "video") {
     return (
       <video
+        key={uniqueId(`video-${url}`)}
         src={url}
         style={{ width: "100%", height: "100%", maxHeight: "156px" }}
         controls
@@ -82,9 +138,14 @@ export const renderUploadedDataPreview = (type: string, url: string) => {
     );
   }
 
-  if (["pdf", "txt", "doc", "docx"].map((item) => type.includes(item))) {
+  if (type === "doc") {
     return (
-      <Box bg={colors.neutral[60]} w="70px" borderRadius="8px">
+      <Box
+        bg={colors.neutral[60]}
+        w="70px"
+        borderRadius="8px"
+        key={uniqueId(`doc-${url}`)}
+      >
         <Image
           src={DummyFileIllustration}
           w="100%"
@@ -95,21 +156,37 @@ export const renderUploadedDataPreview = (type: string, url: string) => {
       </Box>
     );
   }
+
+  if (type === "other") {
+    return (
+      <a
+        href={url.startsWith("http") ? url : `https://${url}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        key={uniqueId(`link-${url}`)}
+      >
+        <u>{url}</u>
+      </a>
+    );
+  }
 };
 
-export const renderPreveiwAction = (send: () => void, remove: () => void) => (
+export const renderPreveiwAction = (send: () => void, remove?: () => void) => (
   <Flex alignItems="center" justifyContent="space-between" padding="0 10px">
     <Box as="button" padding="3px" onClick={send}>
       <BsFillSendFill />
     </Box>
 
-    <Box as="button" onClick={remove}>
-      <DeleteIcon />
-    </Box>
+    {remove && (
+      <Box as="button" onClick={remove}>
+        <DeleteIcon />
+      </Box>
+    )}
   </Flex>
 );
 
-const getSlug = (value: string) => value.split(" ").join("_").toLowerCase();
+export const transformNameToSlug = (value: string) =>
+  value.split(" ").join("_").toLowerCase();
 
 export const getChatListData = (
   chats: Array<ChatData>,
@@ -124,7 +201,7 @@ export const getChatListData = (
       recipient,
       name: recipient.name,
       img: "",
-      slug: getSlug(recipient.name),
+      slug: transformNameToSlug(recipient.name),
       last_msg_time: item.updatedAt,
       type: ChatType.Single,
     };
@@ -135,16 +212,26 @@ export const getStudyChatListData = (
   chats: StudyChatListData[]
 ): ChatListData[] => {
   return chats.map((item) => {
+    const owner = item.members.filter((member) => member._id === item.owner)[0];
+
     return {
-      id: item.id,
-      name: item.groupName,
-      img: item.groupImage,
-      slug: getSlug(item.groupName),
-      last_msg_time: item.lastmsg_time,
+      id: item._id,
+      name: item.title,
+      img: item.photoUrl,
+      slug: transformNameToSlug(item.title),
+      last_msg_time: item.createdAt,
       type: ChatType.Group,
-      admin: item.admin,
+      admin: owner,
       members: item.members,
       createdAt: item.createdAt,
     };
   });
+};
+
+export const copyText = async (value: string, toastAction: () => void) => {
+  await navigator.clipboard.writeText(value);
+
+  const timeout = setTimeout(toastAction, 500);
+
+  return () => clearTimeout(timeout);
 };

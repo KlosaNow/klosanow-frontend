@@ -4,15 +4,13 @@ export enum ChatType {
 }
 
 export interface StudyChatListData {
-  id: string;
-  groupName: string;
-  groupImage: string;
-  lastmsg: string;
-  lastmsg_time: string;
-  slug: string;
+  _id: string;
   members: Contact[];
-  admin: Contact;
   createdAt: string;
+  owner: string;
+  photoUrl: string;
+  title: string;
+  updatedAt: string;
 }
 
 export interface ChatListData {

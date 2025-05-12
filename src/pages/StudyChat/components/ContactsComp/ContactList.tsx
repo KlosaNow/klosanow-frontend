@@ -7,7 +7,7 @@ import { uniqueId } from "lodash";
 interface ContactListItemProps {
   contacts: Contact[];
   selectedContacts: Contact[];
-  hasChecks?: boolean;
+  hideCheck?: boolean;
   addContact: (x: Contact) => void;
   handleContactSelect: (
     contact: Contact,
@@ -20,7 +20,7 @@ const ContactListItem: React.FC<ContactListItemProps> = ({
   contacts,
   handleContactSelect,
   selectedContacts,
-  hasChecks,
+  hideCheck,
   addContact,
 }) => {
   const contactId = selectedContacts.map((item) => item._id);
@@ -34,10 +34,10 @@ const ContactListItem: React.FC<ContactListItemProps> = ({
             gap="12px"
             key={uniqueId("contact-list-item")}
             m="16px 0"
-            as={hasChecks ? "div" : "button"}
+            as={!hideCheck ? "div" : "button"}
             textAlign="start"
             w="100%"
-            onClick={hasChecks ? () => null : () => addContact(contact)}
+            onClick={!hideCheck ? () => null : () => addContact(contact)}
           >
             <Circle size="50px" bg="#b1b1b1" overflow="hidden">
               <Image src={contact.image ?? defaultImg} />
@@ -55,7 +55,7 @@ const ContactListItem: React.FC<ContactListItemProps> = ({
                   </Text>
                 </Box>
 
-                {hasChecks ? (
+                {!hideCheck ? (
                   <CheckBox
                     id={`check-${contact._id}`}
                     checked={contactId.includes(contact._id)}

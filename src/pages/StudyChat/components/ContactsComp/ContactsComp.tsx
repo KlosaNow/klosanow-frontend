@@ -6,7 +6,7 @@ import { getContactsListWithChar } from "../../utils";
 import { ChatData, Contact } from "../../../../types/studyChat";
 import { uniqueId } from "lodash";
 import ContactSearch from "../ContactSearch";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import {
   createStudyChatPath,
   studyChatPagePath,
@@ -16,6 +16,7 @@ import { heading2 } from "../../data";
 import { setStorageItem } from "src/utils/generics";
 import { CHAT_CONTACT_KEY } from "src/data/constants";
 import { formatISO } from "date-fns";
+import { AddMembersModal } from "../../modals";
 
 interface ContactsProps {
   contacts: Contact[];
@@ -25,11 +26,15 @@ interface ContactsState {
   selectAll: boolean;
   selectedContacts: Contact[];
   searchValue: string;
+  showModal: boolean;
 }
 
-const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
+const ContactsComp: React.FC<ContactsProps> = ({ contacts }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const addMemberId = searchParams.get("add");
+  const addMemberName = searchParams.get("name");
 
   const pathname = location.pathname;
   const isContactpage = pathname.includes("contacts");
@@ -38,6 +43,7 @@ const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
     selectAll: false,
     selectedContacts: [],
     searchValue: "",
+    showModal: false,
   };
 
   const [state, setState] = React.useState<ContactsState>(initialState);
@@ -56,7 +62,7 @@ const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
       }
     );
 
-  const handleAddConatct = (contact: Contact) => {
+  const handleAddContact = (contact: Contact) => {
     const contactData: ChatData = {
       createdAt: formatISO(new Date()),
       updatedAt: formatISO(new Date()),
@@ -136,6 +142,21 @@ const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
         </Box>
       )}
 
+      {!!addMemberId && (
+        <Box
+          as="button"
+          display="flex"
+          gap="8px"
+          alignItems="center"
+          m="0 0 14px"
+          onClick={() => handleStateUpdate({ showModal: true })}
+          cursor={"pointer"}
+        >
+          <AddPeopleIcon />
+          <Text as="span">Add learners</Text>
+        </Box>
+      )}
+
       <Divider />
 
       <Box
@@ -155,7 +176,10 @@ const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
           {!isContactpage && (
             <CheckBox
               id="select-all"
-              checked={state.selectAll}
+              checked={
+                state.selectAll &&
+                state.selectedContacts.length === contacts.length
+              }
               label="Select All"
               onChange={({ target: { checked } }) => {
                 handleContactSelect(null, checked, true);
@@ -186,15 +210,23 @@ const Contacts: React.FC<ContactsProps> = ({ contacts }) => {
                 contacts={contacts}
                 selectedContacts={state.selectedContacts}
                 handleContactSelect={handleContactSelect}
-                hasChecks={!isContactpage}
-                addContact={handleAddConatct}
+                hideCheck={isContactpage && !addMemberId}
+                addContact={handleAddContact}
               />
             </Box>
           ))}
         </Box>
       </Box>
+
+      <AddMembersModal
+        show={state.showModal}
+        chatGroupId={addMemberId || ""}
+        chatGroupName={addMemberName || ""}
+        members={state.selectedContacts}
+        handleClose={() => handleStateUpdate({ showModal: false })}
+      />
     </Box>
   );
 };
 
-export default Contacts;
+export default ContactsComp;

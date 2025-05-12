@@ -14,7 +14,10 @@ import useChatWebSocket from "src/hooks/useChatWebSocket";
 import { getChatListData, getStudyChatListData } from "../../utils";
 import { setChats, setStudyChats } from "src/api-endpoints/studyChat";
 import { useStoreDispatch, useStoreSelector } from "src/redux/hooks";
-import { getStorageItem } from "src/utils/generics";
+import {
+  getStorageItem,
+  removeDuplicatesPreferWithId,
+} from "src/utils/generics";
 import { ChatData, ChatListData } from "src/types";
 import { CHAT_CONTACT_KEY } from "src/data/constants";
 import { useSearchParams } from "react-router-dom";
@@ -42,9 +45,11 @@ const StudyChat: React.FC = () => {
     user.data?._id || ""
   );
 
+  const uniqueChatList = removeDuplicatesPreferWithId(chatList);
+
   const chat =
     state.activeChat ||
-    ([...chatList, ...studyChatList].find(
+    ([...uniqueChatList, ...studyChatList].find(
       (item) => item.slug === slug
     ) as ChatListData);
 
@@ -68,11 +73,6 @@ const StudyChat: React.FC = () => {
       }),
   });
 
-  // useQuery({
-  //   queryKey: ["socket-events"],
-  //   queryFn: () => logAllSocketEvents(),
-  // });
-
   return (
     <StudyChatContext.Provider
       value={{
@@ -82,7 +82,7 @@ const StudyChat: React.FC = () => {
     >
       <Box height="100%">
         <Flex width="100%" h="100%" position="relative">
-          <ChatList studyChatList={studyChatList} chatList={chatList} />
+          <ChatList studyChatList={studyChatList} chatList={uniqueChatList} />
           <ChatBox chat={chat} />
         </Flex>
 
