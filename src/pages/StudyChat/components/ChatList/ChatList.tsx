@@ -9,6 +9,7 @@ import {
   createStudyChatPath,
 } from "../../../../data/pageUrl";
 import { BsChatLeftText } from "react-icons/bs";
+import { ContactIcon } from "src/assets/svgs";
 
 interface ChatListProps {
   chatList: Array<ChatListData | null>;
@@ -30,25 +31,35 @@ const ChatList: React.FC<ChatListProps> = ({ chatList, studyChatList }) => {
           All Chats ({list?.length})
         </Heading>
 
-        <Button
-          onClick={() =>
-            navigate(
-              { pathname: createStudyChatPath },
-              {
-                state: {
-                  contacts: [],
-                  isContactsAdded: false,
-                },
-              }
-            )
-          }
-          bg="#9174F6"
-          _hover={{ bg: "#A790F8" }}
-          color="#fff"
-          fontSize={["13px", "16px"]}
-        >
-          Create Study Group
-        </Button>
+        <Flex align="center" gap="6px">
+          <Box
+            as="button"
+            display={["flex", "none"]}
+            onClick={() => navigate(contactsPagePath)}
+          >
+            <ContactIcon />
+          </Box>
+
+          <Button
+            onClick={() =>
+              navigate(
+                { pathname: createStudyChatPath },
+                {
+                  state: {
+                    contacts: [],
+                    isContactsAdded: false,
+                  },
+                }
+              )
+            }
+            bg="#9174F6"
+            _hover={{ bg: "#A790F8" }}
+            color="#fff"
+            fontSize={["13px", "16px"]}
+          >
+            Create Study Group
+          </Button>
+        </Flex>
       </Flex>
 
       {list && list.length > 0 ? (

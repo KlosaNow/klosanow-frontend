@@ -12,17 +12,32 @@ import {
   studyChatPagePath,
 } from "src/data/pageUrl";
 
-const navItems = [
+interface BottomNavProps {
+  actions?: {
+    handleClickStudyChat: () => void;
+  };
+}
+
+const getNavItems = (actions?: { handleClickStudyChat: () => void }) => [
   { title: "Home", icon: AiOutlineHome, link: dashboardPagePath },
   {
     title: "Lessons",
     icon: MdOutlineLibraryAdd,
     link: allLessonsPagePath,
   },
-  { title: "Study Chat", icon: MdOutlineChat, link: studyChatPagePath },
+  {
+    title: "Study Chat",
+    icon: MdOutlineChat,
+    link: studyChatPagePath,
+    action: () =>
+      actions?.handleClickStudyChat && actions.handleClickStudyChat(),
+  },
   { title: "Profile", icon: MdPersonOutline, link: "/settings" },
 ];
-export default function BottomNav() {
+
+const BottomNav: React.FC<BottomNavProps> = ({ actions }) => {
+  const navItems = getNavItems(actions);
+
   return (
     <Box
       pos="fixed"
@@ -37,7 +52,12 @@ export default function BottomNav() {
       <Box display="flex" justifyContent="space-around" alignItems="center">
         {navItems.map((nav) => (
           <Link as={RouterLink} to={nav.link} key={nav.title}>
-            <Box display="flex" flexDir="column" alignItems="center">
+            <Box
+              display="flex"
+              flexDir="column"
+              alignItems="center"
+              onClick={() => nav?.action && nav.action()}
+            >
               <Icon fontSize={25} as={nav.icon} />
               <Text fontSize="12px" textColor="black.50">
                 {nav.title}
@@ -48,4 +68,6 @@ export default function BottomNav() {
       </Box>
     </Box>
   );
-}
+};
+
+export default BottomNav;

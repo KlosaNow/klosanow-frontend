@@ -8,7 +8,8 @@ const useChatWebSocket = () => {
   const url = "wss://api.klosanow.com";
   const [isConnected, setConnected] = React.useState(false);
 
-  const { token } = getToken();
+  const authToken = getToken();
+  const token = authToken.token;
 
   const socketRef = React.useRef<Socket | null>(null);
 

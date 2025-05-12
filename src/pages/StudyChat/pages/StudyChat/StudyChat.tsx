@@ -26,7 +26,7 @@ const StudyChat: React.FC = () => {
   const dispatch = useStoreDispatch();
   const { studyChats, chats } = useStoreSelector((state) => state["studyChat"]);
   const user = useStoreSelector((state) => state.user);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const slug = searchParams.get("slug");
 
   const { getAllChats, getAllStudyChats } = useChatWebSocket();
@@ -86,7 +86,14 @@ const StudyChat: React.FC = () => {
           <ChatBox chat={chat} />
         </Flex>
 
-        <BottomNav />
+        <BottomNav
+          actions={{
+            handleClickStudyChat: () => {
+              setSearchParams("");
+              handleStateUpdate({ activeChat: null });
+            },
+          }}
+        />
 
         <ChatDetailFlyout />
       </Box>

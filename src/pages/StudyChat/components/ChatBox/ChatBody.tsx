@@ -37,52 +37,53 @@ const ChatBody: React.FC<ChatBodyProps> = ({
       zIndex={1000}
     >
       {!loading && messages?.length > 0
-        ? [...messages].reverse().map((item) => (
-            <Box
-              key={uniqueId(`message-${item._id}`)}
-              alignSelf={recipientId === item._id ? "flex-start" : "flex-end"}
-              maxW="60%"
-            >
-              <Flex gap="4px">
-                {recipientId === item._id && (
-                  <Circle size="20px" bg="#eee" overflow="hidden">
-                    <Image
-                      src={activeChat?.img || "https://picsum.photos/50/50"}
-                      alt="chat"
-                    />
-                  </Circle>
-                )}
-
-                <Flex
-                  backgroundColor={
-                    recipientId === item._id ? "#D3C7FB" : "#F3ECF8"
-                  }
-                  boxShadow="md"
-                  borderRadius={14}
-                  minW={50}
-                  padding={"4px 8px"}
-                  flexDir={"column"}
-                  gap={"4px"}
-                >
-                  {extractURLs(item.text).length > 0
-                    ? extractURLs(item.text).map((url) =>
-                        getUploadedDataPreview(url)
-                      )
-                    : ""}
-
-                  <Text wordBreak={"break-word"} fontSize="14px">
-                    {item.text}
-                  </Text>
-
+        ? [...messages].reverse().map((item) => {
+            const urls = extractURLs(item.text) || [];
+            return (
+              <Box
+                key={uniqueId(`message-${item._id}`)}
+                alignSelf={recipientId === item._id ? "flex-start" : "flex-end"}
+                maxW="60%"
+              >
+                <Flex gap="4px">
                   {recipientId === item._id && (
-                    <Text textAlign={"end"} fontSize="9px">
-                      {item.sender?.name}
-                    </Text>
+                    <Circle size="20px" bg="#eee" overflow="hidden">
+                      <Image
+                        src={activeChat?.img || "https://picsum.photos/50/50"}
+                        alt="chat"
+                      />
+                    </Circle>
                   )}
+
+                  <Flex
+                    backgroundColor={
+                      recipientId === item._id ? "#D3C7FB" : "#F3ECF8"
+                    }
+                    boxShadow="md"
+                    borderRadius={14}
+                    minW={50}
+                    padding={"4px 8px"}
+                    flexDir={"column"}
+                    gap={"4px"}
+                  >
+                    {urls.length > 0
+                      ? urls.map((url) => getUploadedDataPreview(url))
+                      : null}
+
+                    <Text wordBreak={"break-word"} fontSize="14px">
+                      {item.text}
+                    </Text>
+
+                    {recipientId === item._id && (
+                      <Text textAlign={"end"} fontSize="9px">
+                        {item.sender?.name}
+                      </Text>
+                    )}
+                  </Flex>
                 </Flex>
-              </Flex>
-            </Box>
-          ))
+              </Box>
+            );
+          })
         : undefined}
 
       {!loading && !messages && (
