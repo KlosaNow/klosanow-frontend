@@ -1,4 +1,7 @@
 import { ChatListData } from "src/types";
+import { FileUrlKey } from "src/types/generics";
+import { clearFileUrl, getFileUrl } from "./constant";
+import { deletedFile, FileUploadResponseStatus } from "./file-upload";
 
 export const setStorageItem = (key: string, value: string) => {
   if (key) localStorage.removeItem(key);
@@ -31,4 +34,29 @@ export const removeDuplicatesPreferWithId = (
   }
 
   return Array.from(map.values());
+};
+
+export const clearIncompleteStorageFile = async (
+  fileType: FileUrlKey,
+  toastAction: (error: string) => void
+) => {
+  const fileValue = getFileUrl(fileType);
+  try {
+    if (fileValue) {
+      const res = await deletedFile(fileValue);
+
+      if (!res || res.status !== FileUploadResponseStatus.Success)
+        throw new Error("Unable to delete file");
+
+      if (res.status === FileUploadResponseStatus.Success) {
+        clearFileUrl(fileType);
+      }
+    }
+  } catch (error: any) {
+    toastAction(
+      error.response?.data?.errors[0]?.detail ||
+        error.message ||
+        error.response.statusText
+    );
+  }
 };

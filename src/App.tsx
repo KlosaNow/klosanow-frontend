@@ -31,15 +31,19 @@ import {
 import useChatWebSocket from "./hooks/useChatWebSocket";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { getStorageItem, removeStorageItem } from "./utils/generics";
+import {
+  clearIncompleteStorageFile,
+  getStorageItem,
+  removeStorageItem,
+} from "./utils/generics";
 import { CHAT_CONTACT_KEY } from "./data/constants";
-import { clearFileUrl, getFileUrl } from "./utils/constant";
+import { useToast } from "@chakra-ui/react";
 
 function App() {
   const location = useLocation();
   const { connectWebSocket, cleanUpSocketConnection } = useChatWebSocket();
-  const studyChatImageUrl = getFileUrl("study_chat");
   const storageContact = getStorageItem(CHAT_CONTACT_KEY);
+  const toast = useToast();
 
   // Remove chat from storage after 30 seconds
   useEffect(() => {
@@ -52,9 +56,28 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!studyChatImageUrl) return;
+    const timeout = setTimeout(() => {
+      clearIncompleteStorageFile("chat-audio", (errMsg) => {
+        toast({
+          title: "Unable to delete file",
+          description: errMsg || "Failed to delete",
+        });
+      });
 
-    const timeout = setTimeout(() => clearFileUrl("study_chat"), 60000);
+      clearIncompleteStorageFile("chat-file", (errMsg) => {
+        toast({
+          title: "Unable to delete file",
+          description: errMsg || "Failed to delete",
+        });
+      });
+
+      clearIncompleteStorageFile("study_chat", (errMsg) => {
+        toast({
+          title: "Unable to delete file",
+          description: errMsg || "Failed to delete",
+        });
+      });
+    }, 60000);
 
     return () => clearInterval(timeout);
   }, []);

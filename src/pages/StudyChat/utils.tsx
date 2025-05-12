@@ -102,7 +102,7 @@ export const getUploadedDataPreview = (url: string, mediaType?: string) => {
 
   if (type === "image") {
     return (
-      <Box bg="#000" borderRadius="8px" key={uniqueId(`img-${url}`)}>
+      <Box bg="#eee" borderRadius="8px" key={uniqueId(`img-${url}`)}>
         <Image
           src={url}
           w="100%"
@@ -118,12 +118,9 @@ export const getUploadedDataPreview = (url: string, mediaType?: string) => {
 
   if (type === "audio") {
     return (
-      <audio
-        key={uniqueId(`audio-${url}`)}
-        src={url}
-        style={{ width: "100%", height: "100%" }}
-        controls
-      />
+      <div key={uniqueId(`audio-${url}`)} style={{ height: "50px" }}>
+        <audio src={url} style={{ width: "100%", height: "100%" }} controls />
+      </div>
     );
   }
 

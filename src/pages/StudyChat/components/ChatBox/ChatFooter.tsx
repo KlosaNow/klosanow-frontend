@@ -31,6 +31,7 @@ import { clearFileUrl, setFileUrl } from "src/utils/constant";
 import RecorderLoader from "../RecorderLoader";
 
 import styles from "./styles.module.scss";
+import { uniqueId } from "lodash";
 
 interface ChatFooterProps {
   activeChat: ChatListData;
@@ -118,6 +119,7 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
     try {
       handleStateUpdate({ uploadingMedia: true });
       const file = e.currentTarget.files[0];
+
       const res = await uploadFile(file);
 
       if (!res || !res.data || res.status !== FileUploadResponseStatus.Success)
@@ -149,34 +151,36 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
     }
   };
 
-  // const handleAudioUpload = async (blob: Blob) => {
-  //   try {
-  //     handleStateUpdate({ uploadingMedia: true });
-  //     const file = new File([blob], `${activeChat.name}-${uniqueId("")}`);
-  //     const res = await uploadFile(file);
+  const handleAudioUpload = async (blob: Blob) => {
+    try {
+      handleStateUpdate({ uploadingMedia: true });
+      const file = new File([blob], `${activeChat.name}-${uniqueId("audio")}`, {
+        type: "audio/mp3",
+      });
+      const res = await uploadFile(file);
 
-  //     if (!res || !res.data || res.status !== FileUploadResponseStatus.Success)
-  //       throw new Error("Unable to fetch data");
+      if (!res || !res.data || res.status !== FileUploadResponseStatus.Success)
+        throw new Error("Unable to fetch data");
 
-  //     if (res.status === FileUploadResponseStatus.Success) {
-  //       handleStateUpdate({
-  //         audioUrl: res.data.url,
-  //       });
+      if (res.status === FileUploadResponseStatus.Success) {
+        handleStateUpdate({
+          audioUrl: res.data.url,
+        });
 
-  //       setFileUrl("chat-audio", res.data.url);
-  //     }
-  //   } catch (error: any) {
-  //     toast({
-  //       title: error.message ?? error.response ?? "Something went wrong",
-  //       description: "Try again later",
-  //       status: "error",
-  //       duration: 3000,
-  //       position: "top-right",
-  //     });
-  //   } finally {
-  //     handleStateUpdate({ uploadingMedia: false });
-  //   }
-  // };
+        setFileUrl("chat-audio", res.data.url);
+      }
+    } catch (error: any) {
+      toast({
+        title: error.message ?? error.response ?? "Something went wrong",
+        description: "Try again later",
+        status: "error",
+        duration: 3000,
+        position: "top-right",
+      });
+    } finally {
+      handleStateUpdate({ uploadingMedia: false });
+    }
+  };
 
   const handleDeleteFile = async (type: "audio" | "file") => {
     try {
@@ -208,7 +212,7 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
         position: "top-right",
       });
     } finally {
-      handleStateUpdate({ uploadingMedia: true });
+      handleStateUpdate({ uploadingMedia: false });
     }
   };
 
@@ -242,7 +246,7 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
 
   React.useEffect(() => {
     if (!recordingBlob) return;
-    handleStateUpdate({ audioUrl: URL.createObjectURL(recordingBlob) });
+    handleAudioUpload(recordingBlob);
   }, [recordingBlob]);
 
   return (
@@ -287,13 +291,9 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
             <Flex alignItems="center" justifyContent="space-between">
               <audio src={state.audioUrl} controls></audio>
               <Box maxW="100px" w="100%">
-                {/* {renderPreveiwAction(
+                {renderPreveiwAction(
                   () => (state.audioUrl ? handleSend(state.audioUrl) : null),
                   () => handleDeleteFile("audio")
-                )} */}
-                {renderPreveiwAction(
-                  () => null,
-                  () => handleStateUpdate({ audioUrl: "" })
                 )}
               </Box>
             </Flex>
