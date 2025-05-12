@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Flex, Input, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { NotSelectedIcon, SelectedIcon } from "../../assets/svgs";
 import { uniqueId } from "lodash";
 

@@ -85,12 +85,6 @@ const AllLessons: React.FC = () => {
     }
   };
 
-  const handleShare = () => {
-    //Share action here
-    handleStateUpdate({ actonType: "share" });
-    console.log("share");
-  };
-
   useQuery({
     queryKey: ["lessons"],
     queryFn: () => dispatch(fetchLessons()),
@@ -169,7 +163,6 @@ const AllLessons: React.FC = () => {
                 }
                 hasOptions
                 handleDelete={handleDelete}
-                handleShare={handleShare}
               />
             ))}
           </Flex>
