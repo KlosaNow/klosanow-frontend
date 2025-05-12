@@ -65,12 +65,8 @@ const ChatBody: React.FC<ChatBodyProps> = ({
                   gap={"4px"}
                 >
                   {extractURLs(item.text).length > 0
-                    ? extractURLs(item.text).map(
-                        (url) => {
-                          console.log(getUploadedDataPreview(url));
-                          return getUploadedDataPreview(url);
-                        }
-                        // getUploadedDataPreview(url)
+                    ? extractURLs(item.text).map((url) =>
+                        getUploadedDataPreview(url)
                       )
                     : ""}
 
