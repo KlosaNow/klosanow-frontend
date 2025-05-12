@@ -13,11 +13,12 @@ const useChatWebSocket = () => {
   const socketRef = React.useRef<Socket | null>(null);
 
   React.useEffect(() => {
-    socketRef.current = io(url, {
-      query: { token },
-      withCredentials: true,
-    });
-  }, [url]);
+    if (token)
+      socketRef.current = io(url, {
+        query: { token },
+        withCredentials: true,
+      });
+  }, [url, token]);
 
   const connectWebSocket = () =>
     socketRef.current?.on("connect", () => {
