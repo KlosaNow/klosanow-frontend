@@ -91,7 +91,7 @@ const StudyChat: React.FC = () => {
       <Box height="100%">
         <Flex width="100%" h="100%" position="relative">
           <ChatList list={allChats} />
-          <ChatBox chat={chat} />
+          {chat && <ChatBox chat={chat} />}
         </Flex>
 
         <ChatDetailFlyout />
