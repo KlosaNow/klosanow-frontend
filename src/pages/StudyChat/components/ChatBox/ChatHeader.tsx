@@ -139,7 +139,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ data }) => {
               fontSize="12px"
               padding="6px 14px"
               textAlign={"start"}
-              // display={"none"}
+              display={"none"}
               onClick={handleDeleteChat}
               _hover={{
                 bg: "#eee",
