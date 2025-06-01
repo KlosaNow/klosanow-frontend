@@ -32,17 +32,14 @@ import RecorderLoader from "../RecorderLoader";
 
 import styles from "./styles.module.scss";
 import { uniqueId } from "lodash";
+import { removeStorageItem } from "src/utils/generics";
+import { CHAT_CONTACT_KEY } from "src/data/constants";
 
 interface ChatFooterProps {
   activeChat: ChatListData;
   loading: boolean;
-  handleRefresh: () => void;
 }
-const ChatFooter: React.FC<ChatFooterProps> = ({
-  activeChat,
-  loading,
-  handleRefresh,
-}) => {
+const ChatFooter: React.FC<ChatFooterProps> = ({ activeChat, loading }) => {
   const toast = useToast();
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
   const uploadBtnRef = React.useRef<HTMLInputElement>(null);
@@ -91,13 +88,14 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
         studyChatId: activeChat?.id || "",
         message: message,
       });
+
+    removeStorageItem(CHAT_CONTACT_KEY);
   };
 
   const handleSend = (message: string) => {
     handleSendAction(message);
     clearFileUrl("chat-file");
     clearFileUrl("chat-audio");
-    handleRefresh();
     handleStateUpdate(initialState);
   };
 

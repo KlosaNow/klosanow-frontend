@@ -16,6 +16,8 @@ import { uniqueId } from "lodash";
 import { StudyChatContext } from "../../context/StudyChat";
 import { useSearchParams } from "react-router-dom";
 import useChatWebSocket from "src/hooks/useChatWebSocket";
+import { removeStorageItem } from "src/utils/generics";
+import { CHAT_CONTACT_KEY } from "src/data/constants";
 
 interface ChatHeaderProps {
   data: ChatListData;
@@ -35,11 +37,8 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ data }) => {
       ? deleteChat(data.id)
       : deleteStudyChat(data.id);
 
-    const reload = setInterval(() => {
-      window.location.reload();
-    }, 1000);
-
-    return () => clearInterval(reload);
+    handleClose();
+    removeStorageItem(CHAT_CONTACT_KEY);
   };
 
   return (
@@ -140,6 +139,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ data }) => {
               fontSize="12px"
               padding="6px 14px"
               textAlign={"start"}
+              // display={"none"}
               onClick={handleDeleteChat}
               _hover={{
                 bg: "#eee",

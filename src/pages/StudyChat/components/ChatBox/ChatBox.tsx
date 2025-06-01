@@ -15,50 +15,39 @@ interface ChatBoxProps {
   chat: ChatListData;
 }
 
-interface ChatBoxState {
-  isSent: boolean;
-  messages: MessageType[];
-}
-
 const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
-  const { getChat, getStudyChat } = useChatWebSocket();
+  const { getChat, getStudyChat, eventType } = useChatWebSocket();
   const { loadingMessage, updateStudyChatValues } =
     React.useContext(StudyChatContext);
 
-  const initialState: ChatBoxState = {
-    isSent: false,
-    messages: [],
-  };
-
-  const [state, setState] = React.useState(initialState);
-
-  const handleStateUpdate = (newState: Partial<ChatBoxState>) =>
-    setState((_state) => ({ ..._state, ...newState }));
-
-  const handleFetchChatAction = () => {
-    if (chat.type === ChatType.Single) {
-      return getChat(chat.id, (messages) => {
-        handleStateUpdate({ messages, isSent: false });
-        updateStudyChatValues({ loadingMessage: false });
-      });
-    }
-    if (chat.type === ChatType.Group) {
-      return getStudyChat(chat.id, (messages) => {
-        handleStateUpdate({ messages, isSent: false });
-        updateStudyChatValues({ loadingMessage: false });
-      });
-    } else return null;
-  };
+  const [messages, setMessages] = React.useState<MessageType[]>([]);
 
   const handleFetchChat = React.useCallback(() => {
-    if (!chat) return;
+    if (!chat?.id) {
+      setMessages([]);
+      return;
+    }
 
-    handleFetchChatAction();
-  }, [chat, state.isSent]);
+    try {
+      if (chat.type === ChatType.Single) {
+        getChat(chat.id, (messages) => {
+          setMessages(messages);
+        });
+      } else if (chat.type === ChatType.Group) {
+        getStudyChat(chat.id, (messages) => {
+          setMessages(messages);
+        });
+      } else {
+        setMessages([]);
+      }
+    } finally {
+      updateStudyChatValues({ loadingMessage: false });
+    }
+  }, [chat?.id, loadingMessage]);
 
   React.useEffect(() => {
-    handleFetchChat();
-  }, [chat, state.isSent]);
+    if (eventType === "ping" || eventType === "message") handleFetchChat();
+  }, [handleFetchChat, eventType]);
 
   return (
     <>
@@ -67,6 +56,8 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
           as={motion.div}
           padding={["0 0 100px", "60px 0 0"]}
           animation={containerAnimation}
+          initial="hidden"
+          animate="show"
           maxW={{
             base: "500px",
             lg: "380px",
@@ -83,15 +74,11 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
             <ChatHeader data={chat} />
             <Box height="100%">
               <ChatBody
-                messages={state.messages}
+                messages={messages}
                 loading={loadingMessage}
                 activeChat={chat}
               />
-              <ChatFooter
-                activeChat={chat}
-                handleRefresh={() => handleStateUpdate({ isSent: true })}
-                loading={loadingMessage}
-              />
+              <ChatFooter activeChat={chat} loading={loadingMessage} />
             </Box>
           </Box>
         </Box>

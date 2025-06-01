@@ -7,9 +7,10 @@ import { getToken } from "src/utils/constant";
 const useChatWebSocket = () => {
   const url = "wss://api.klosanow.com";
   const [isConnected, setConnected] = React.useState(false);
+  const [eventType, setEvent] = React.useState<"message" | "ping" | null>(null);
 
   const authToken = getToken();
-  const token = authToken.token;
+  const token = authToken?.token;
 
   const socketRef = React.useRef<Socket | null>(null);
 
@@ -21,13 +22,29 @@ const useChatWebSocket = () => {
       });
   }, [url, token]);
 
+  React.useEffect(() => {
+    const engine = socketRef.current?.io.engine;
+
+    const handleEvent = (event: string) => {
+      if (event.includes("message")) setEvent("message");
+      else if (event.includes("ping")) setEvent("ping");
+      else setEvent(null);
+    };
+
+    if (!engine) return;
+
+    engine.on("packet", (packet) => handleEvent(packet.type));
+
+    return () => {
+      engine.off("packet");
+    };
+  }, []);
+
   const connectWebSocket = () =>
     socketRef.current?.on("connect", () => {
       console.log(`Conneted successfully`);
       setConnected(true);
     });
-
-  const logAllSocketEvents = () => socketRef.current?.onAny(() => {});
 
   const disconnectWebSocket = () =>
     socketRef.current?.on("disconnect", (reason) => {
@@ -158,14 +175,12 @@ const useChatWebSocket = () => {
 
   const cleanUpSocketConnection = () => {
     socketRef.current?.off("connect");
-    socketRef.current?.off("chats");
-    socketRef.current?.off("studychats");
     socketRef.current?.off("disconnect");
   };
 
   return {
     isConnected,
-    logAllSocketEvents,
+    eventType,
     connectWebSocket,
     getAllChats,
     getChat,

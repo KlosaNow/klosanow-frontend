@@ -12,14 +12,11 @@ import { BsChatLeftText } from "react-icons/bs";
 import { ContactIcon } from "src/assets/svgs";
 
 interface ChatListProps {
-  chatList: Array<ChatListData | null>;
-  studyChatList: Array<ChatListData> | [];
+  list: ChatListData[] | null;
 }
 
-const ChatList: React.FC<ChatListProps> = ({ chatList, studyChatList }) => {
+const ChatList: React.FC<ChatListProps> = ({ list }) => {
   const navigate = useNavigate();
-
-  const list = [...studyChatList, ...chatList];
 
   return (
     <Box width="100%" maxWidth="523px" bg="#fafafa" p="24px 30px">
@@ -74,12 +71,8 @@ const ChatList: React.FC<ChatListProps> = ({ chatList, studyChatList }) => {
             lg: "13px",
           }}
         >
-          {studyChatList.map((item) => (
-            <ChatListItem data={item} key={uniqueId("study-chat-list-item")} />
-          ))}
-
-          {chatList.map((item) => (
-            <ChatListItem data={item} key={uniqueId("chat-list-item")} />
+          {list.map((item) => (
+            <ChatListItem data={item} key={uniqueId("chat-list")} />
           ))}
         </Flex>
       ) : (

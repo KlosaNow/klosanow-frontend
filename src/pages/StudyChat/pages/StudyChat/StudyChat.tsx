@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Flex } from "@chakra-ui/react";
-import { BottomNav } from "../../../../components";
 import ChatList from "../../components/ChatList";
 import ChatBox from "../../components/ChatBox";
 import {
@@ -9,7 +8,6 @@ import {
   StudyChatContext,
 } from "../../context/StudyChat";
 import { ChatDetailFlyout } from "../../flyouts";
-import { useQuery } from "@tanstack/react-query";
 import useChatWebSocket from "src/hooks/useChatWebSocket";
 import { getChatListData, getStudyChatListData } from "../../utils";
 import { setChats, setStudyChats } from "src/api-endpoints/studyChat";
@@ -26,10 +24,10 @@ const StudyChat: React.FC = () => {
   const dispatch = useStoreDispatch();
   const { studyChats, chats } = useStoreSelector((state) => state["studyChat"]);
   const user = useStoreSelector((state) => state.user);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const slug = searchParams.get("slug");
 
-  const { getAllChats, getAllStudyChats } = useChatWebSocket();
+  const { getAllChats, getAllStudyChats, eventType } = useChatWebSocket();
 
   const [state, setState] = React.useState<DefaultValuesProps>(DefaultValues);
 
@@ -38,40 +36,50 @@ const StudyChat: React.FC = () => {
 
   const storageChat = getStorageItem<ChatData>(CHAT_CONTACT_KEY);
 
-  const studyChatList = getStudyChatListData(studyChats);
-
-  const chatList = getChatListData(
-    [...(storageChat ? [storageChat] : []), ...chats],
-    user.data?._id || ""
+  const studyChatList = React.useMemo(
+    () => getStudyChatListData(studyChats),
+    [studyChats]
   );
 
-  const uniqueChatList = removeDuplicatesPreferWithId(chatList);
+  const chatList = React.useMemo(() => {
+    const baseList = [...(storageChat ? [storageChat] : []), ...chats];
+    return removeDuplicatesPreferWithId(
+      getChatListData(baseList, user.data?._id || "")
+    );
+  }, [chats, storageChat, user]);
 
-  const chat =
-    state.activeChat ||
-    ([...uniqueChatList, ...studyChatList].find(
-      (item) => item.slug === slug
-    ) as ChatListData);
+  const allChats = React.useMemo(
+    () => [...studyChatList, ...chatList],
+    [chatList, studyChatList]
+  );
 
-  useQuery({
-    queryKey: ["chats"],
-    queryFn: () =>
-      getAllChats((res) => {
-        if (res.status === "success") {
-          dispatch(setChats(res.data));
-        } else dispatch(setChats([]));
+  const matchedChat = React.useMemo(
+    () => allChats.find((item) => item.slug === slug) as ChatListData,
+    [chatList, studyChatList]
+  );
+
+  const chat = state.activeChat || matchedChat;
+
+  const handleFetchChats = React.useCallback(async () => {
+    await Promise.all([
+      new Promise((resolve) => {
+        getAllChats((res) => {
+          dispatch(setChats(res.status === "success" ? res.data : []));
+          resolve(null);
+        });
       }),
-  });
-
-  useQuery({
-    queryKey: ["study-chat"],
-    queryFn: () =>
-      getAllStudyChats((res) => {
-        if (res.status === "success") {
-          dispatch(setStudyChats(res.data));
-        } else dispatch(setStudyChats([]));
+      new Promise((resolve) => {
+        getAllStudyChats((res) => {
+          dispatch(setStudyChats(res.status === "success" ? res.data : []));
+          resolve(null);
+        });
       }),
-  });
+    ]);
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    if (eventType === "ping" || eventType === "message") handleFetchChats();
+  }, [dispatch, eventType]);
 
   return (
     <StudyChatContext.Provider
@@ -82,18 +90,9 @@ const StudyChat: React.FC = () => {
     >
       <Box height="100%">
         <Flex width="100%" h="100%" position="relative">
-          <ChatList studyChatList={studyChatList} chatList={uniqueChatList} />
+          <ChatList list={allChats} />
           <ChatBox chat={chat} />
         </Flex>
-
-        <BottomNav
-          actions={{
-            handleClickStudyChat: () => {
-              setSearchParams("");
-              handleStateUpdate({ activeChat: null });
-            },
-          }}
-        />
 
         <ChatDetailFlyout />
       </Box>

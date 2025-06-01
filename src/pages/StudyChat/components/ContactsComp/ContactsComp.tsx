@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Divider, Flex, Text } from "@chakra-ui/react";
 import { AddPeopleIcon } from "../../assets/svgs";
 import ContactList from "./ContactList";
-import { getContactsListWithChar } from "../../utils";
+import { getContactsListWithChar, transformNameToSlug } from "../../utils";
 import { ChatData, Contact } from "../../../../types/studyChat";
 import { uniqueId } from "lodash";
 import ContactSearch from "../ContactSearch";
@@ -17,6 +17,7 @@ import { setStorageItem } from "src/utils/generics";
 import { CHAT_CONTACT_KEY } from "src/data/constants";
 import { formatISO } from "date-fns";
 import { AddMembersModal } from "../../modals";
+import { BsChatLeftText } from "react-icons/bs";
 
 interface ContactsProps {
   contacts: Contact[];
@@ -71,12 +72,12 @@ const ContactsComp: React.FC<ContactsProps> = ({ contacts }) => {
       members: [contact],
     };
     setStorageItem(CHAT_CONTACT_KEY, JSON.stringify(contactData));
-    navigate(studyChatPagePath);
+    navigate(`${studyChatPagePath}?slug=${transformNameToSlug(contact.name)}`);
   };
 
   const contactList =
     state.searchValue === ""
-      ? contacts
+      ? state.selectedContacts
       : contacts.filter((item) =>
           item.name.toLowerCase().includes(state.searchValue.toLowerCase())
         );
@@ -199,22 +200,29 @@ const ContactsComp: React.FC<ContactsProps> = ({ contacts }) => {
             lg: "0 13px 0 0",
           }}
         >
-          {groupedContacts.map(({ contactsChar, contacts }) => (
-            <Box key={uniqueId("contact-list")}>
-              <Text color="#808080" fontWeight="500" m="6px 0">
-                {contactsChar}
-              </Text>
-              <Divider borderColor="#d9d9d9" />
+          {groupedContacts.length > 0 ? (
+            groupedContacts.map(({ contactsChar, contacts }) => (
+              <Box key={uniqueId("contact-list")}>
+                <Text color="#808080" fontWeight="500" m="6px 0">
+                  {contactsChar}
+                </Text>
+                <Divider borderColor="#d9d9d9" />
 
-              <ContactList
-                contacts={contacts}
-                selectedContacts={state.selectedContacts}
-                handleContactSelect={handleContactSelect}
-                hideCheck={isContactpage && !addMemberId}
-                addContact={handleAddContact}
-              />
-            </Box>
-          ))}
+                <ContactList
+                  contacts={contacts}
+                  selectedContacts={state.selectedContacts}
+                  handleContactSelect={handleContactSelect}
+                  hideCheck={isContactpage && !addMemberId}
+                  addContact={handleAddContact}
+                />
+              </Box>
+            ))
+          ) : (
+            <Flex align="center" justify="center" minH="300px" flexDir="column">
+              <BsChatLeftText fontSize={78} />
+              <Text>Enter contact name</Text>
+            </Flex>
+          )}
         </Box>
       </Box>
 

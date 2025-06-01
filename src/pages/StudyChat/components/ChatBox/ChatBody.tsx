@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Circle, Flex, Image, Text } from "@chakra-ui/react";
-import { uniqueId } from "lodash";
-import { ChatListData, MessageType } from "src/types";
+import { ChatListData, ChatType, MessageType } from "src/types";
 import { getUploadedDataPreview } from "../../utils";
+import { useStoreSelector } from "src/redux/hooks";
 
 interface ChatBodyProps {
   messages: Array<MessageType>;
@@ -15,13 +15,24 @@ const ChatBody: React.FC<ChatBodyProps> = ({
   loading,
   activeChat,
 }) => {
-  const recipientId = activeChat.recipient?._id;
+  const user = useStoreSelector((state) => state.user);
+  const senderId =
+    activeChat.members?.find((item) => item._id === user.data?._id)?._id ||
+    activeChat.admin?._id;
 
   const extractURLs = (text: string) => {
     const urlRegex = /\b((https?:\/\/|www\.)[^\s/$.?#].[^\s]*)/gi;
     const matchedUrls = text.match(urlRegex) || [];
     return matchedUrls;
   };
+
+  const reversedMessages = React.useMemo(() => {
+    let newMessages: MessageType[] = [];
+    if (activeChat.id) newMessages = [...messages].reverse();
+    else newMessages = [];
+
+    return newMessages;
+  }, [messages, activeChat?.id]);
 
   return (
     <Flex
@@ -37,16 +48,18 @@ const ChatBody: React.FC<ChatBodyProps> = ({
       zIndex={1000}
     >
       {!loading && messages?.length > 0
-        ? [...messages].reverse().map((item) => {
+        ? reversedMessages?.map((item) => {
             const urls = extractURLs(item.text) || [];
+            const isSender = senderId !== item.sender._id;
+
             return (
               <Box
-                key={uniqueId(`message-${item._id}`)}
-                alignSelf={recipientId === item._id ? "flex-start" : "flex-end"}
+                key={item._id}
+                alignSelf={isSender ? "flex-start" : "flex-end"}
                 maxW="60%"
               >
                 <Flex gap="4px">
-                  {recipientId === item._id && (
+                  {isSender && (
                     <Circle size="20px" bg="#eee" overflow="hidden">
                       <Image
                         src={activeChat?.img || "https://picsum.photos/50/50"}
@@ -56,9 +69,7 @@ const ChatBody: React.FC<ChatBodyProps> = ({
                   )}
 
                   <Flex
-                    backgroundColor={
-                      recipientId === item._id ? "#D3C7FB" : "#F3ECF8"
-                    }
+                    backgroundColor={isSender ? "#D3C7FB" : "#F3ECF8"}
                     boxShadow="md"
                     borderRadius={14}
                     minW={50}
@@ -66,18 +77,14 @@ const ChatBody: React.FC<ChatBodyProps> = ({
                     flexDir={"column"}
                     gap={"4px"}
                   >
-                    {urls.length > 0
-                      ? urls.map((url) => getUploadedDataPreview(url))
-                      : null}
+                    {urls.map((url) => getUploadedDataPreview(url))}
 
                     <Text wordBreak={"break-word"} fontSize="14px">
                       {item.text}
                     </Text>
 
-                    {recipientId === item._id && (
-                      <Text textAlign={"end"} fontSize="9px">
-                        {item.sender?.name}
-                      </Text>
+                    {isSender && activeChat.type === ChatType.Group && (
+                      <Text fontSize="9px">{item.sender?.name}</Text>
                     )}
                   </Flex>
                 </Flex>
@@ -94,7 +101,7 @@ const ChatBody: React.FC<ChatBodyProps> = ({
 
       {loading && activeChat.id && (
         <Box textAlign={"center"}>
-          <Text>Fetching chats...</Text>
+          <Text>Connecting...</Text>
         </Box>
       )}
     </Flex>
