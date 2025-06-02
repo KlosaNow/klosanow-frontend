@@ -5,6 +5,7 @@ export interface DefaultValuesProps {
   activeChat: ChatListData | null;
   isChatDetailFlyout: boolean;
   loadingMessage: boolean;
+  isNewChat: boolean;
 }
 
 interface DefaultMethodProps {
@@ -15,6 +16,7 @@ export const DefaultValues: DefaultValuesProps = {
   activeChat: null,
   isChatDetailFlyout: false,
   loadingMessage: false,
+  isNewChat: false,
 };
 
 export const DefaultMethods: DefaultMethodProps = {

@@ -61,25 +61,30 @@ const StudyChat: React.FC = () => {
   const chat = state.activeChat || matchedChat;
 
   const handleFetchChats = React.useCallback(async () => {
-    await Promise.all([
-      new Promise((resolve) => {
-        getAllChats((res) => {
-          dispatch(setChats(res.status === "success" ? res.data : []));
-          resolve(null);
-        });
-      }),
-      new Promise((resolve) => {
-        getAllStudyChats((res) => {
-          dispatch(setStudyChats(res.status === "success" ? res.data : []));
-          resolve(null);
-        });
-      }),
-    ]);
+    try {
+      await Promise.all([
+        new Promise((resolve) => {
+          getAllChats((res) => {
+            dispatch(setChats(res.status === "success" ? res.data : []));
+            resolve(null);
+          });
+        }),
+        new Promise((resolve) => {
+          getAllStudyChats((res) => {
+            dispatch(setStudyChats(res.status === "success" ? res.data : []));
+            resolve(null);
+          });
+        }),
+      ]);
+    } finally {
+      handleStateUpdate({ isNewChat: false });
+    }
   }, [dispatch]);
 
   React.useEffect(() => {
-    if (eventType === "ping" || eventType === "message") handleFetchChats();
-  }, [dispatch, eventType]);
+    if (eventType === "ping" || eventType === "message" || state.isNewChat)
+      handleFetchChats();
+  }, [dispatch, eventType, state.isNewChat]);
 
   return (
     <StudyChatContext.Provider

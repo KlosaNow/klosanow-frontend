@@ -38,8 +38,13 @@ import { CHAT_CONTACT_KEY } from "src/data/constants";
 interface ChatFooterProps {
   activeChat: ChatListData;
   loading: boolean;
+  refresh: () => void;
 }
-const ChatFooter: React.FC<ChatFooterProps> = ({ activeChat, loading }) => {
+const ChatFooter: React.FC<ChatFooterProps> = ({
+  activeChat,
+  loading,
+  refresh,
+}) => {
   const toast = useToast();
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
   const uploadBtnRef = React.useRef<HTMLInputElement>(null);
@@ -97,6 +102,7 @@ const ChatFooter: React.FC<ChatFooterProps> = ({ activeChat, loading }) => {
     clearFileUrl("chat-file");
     clearFileUrl("chat-audio");
     handleStateUpdate(initialState);
+    refresh();
   };
 
   const onEmojiClick = (emojiObject: any, _: MouseEvent) => {

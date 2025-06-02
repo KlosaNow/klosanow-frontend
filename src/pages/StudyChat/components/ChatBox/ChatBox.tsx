@@ -21,6 +21,12 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
     React.useContext(StudyChatContext);
 
   const [messages, setMessages] = React.useState<MessageType[]>([]);
+  const [isSent, setIsSent] = React.useState(false);
+
+  const handleRefresh = () => {
+    if (!chat?.id) updateStudyChatValues({ isNewChat: true });
+    setIsSent(true);
+  };
 
   const handleFetchChat = React.useCallback(() => {
     if (!chat?.id) {
@@ -42,12 +48,14 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
       }
     } finally {
       updateStudyChatValues({ loadingMessage: false });
+      setIsSent(false);
     }
   }, [chat?.id, loadingMessage]);
 
   React.useEffect(() => {
-    if (eventType === "ping" || eventType === "message") handleFetchChat();
-  }, [handleFetchChat, eventType]);
+    if (eventType === "ping" || eventType === "message" || isSent)
+      handleFetchChat();
+  }, [handleFetchChat, eventType, isSent]);
 
   return (
     <>
@@ -78,7 +86,11 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
                 loading={loadingMessage}
                 activeChat={chat}
               />
-              <ChatFooter activeChat={chat} loading={loadingMessage} />
+              <ChatFooter
+                activeChat={chat}
+                loading={loadingMessage}
+                refresh={handleRefresh}
+              />
             </Box>
           </Box>
         </Box>
@@ -95,7 +107,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
         <StudyChatEmptyState
           title="Study Chat"
           image={StudyChatEmptyStateIllustration}
-          desc="Send and receive video lessons from your contacts"
+          desc="Send and receive messages from your contacts"
         />
       </Box>
     </>
