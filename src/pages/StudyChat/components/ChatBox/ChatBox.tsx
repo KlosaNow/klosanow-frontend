@@ -62,7 +62,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
       {chat && (
         <Box
           as={motion.div}
-          padding={["0 0 100px", "60px 0 0"]}
+          padding={["0 0 25px", "60px 0 0"]}
           animation={containerAnimation}
           initial="hidden"
           animate="show"
@@ -77,6 +77,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
           right="0"
           position="fixed"
           background="#fff"
+          zIndex={10000}
         >
           <Box as={motion.div} animation={contentAnimation} h="100%">
             <ChatHeader data={chat} />
