@@ -18,6 +18,7 @@ import { useSearchParams } from "react-router-dom";
 import useChatWebSocket from "src/hooks/useChatWebSocket";
 import { removeStorageItem } from "src/utils/generics";
 import { CHAT_CONTACT_KEY } from "src/data/constants";
+import { useStoreSelector } from "src/redux/hooks";
 
 interface ChatHeaderProps {
   data: ChatListData;
@@ -26,6 +27,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ data }) => {
   const { updateStudyChatValues } = React.useContext(StudyChatContext);
   const { deleteChat, deleteStudyChat } = useChatWebSocket();
   const [_, setSearchParams] = useSearchParams();
+  const user = useStoreSelector((state) => state.user);
 
   const handleClose = () => {
     setSearchParams("");
@@ -98,7 +100,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ data }) => {
               >
                 {data.members.map(({ name, _id }, index, arr) => (
                   <Text key={uniqueId("header-contact-list")} fontSize="14px">
-                    {data.admin._id === _id ? "You" : name}
+                    {user.data?._id === _id ? "You" : name}
                     {index !== arr.length - 1 ? "," : "."}
                   </Text>
                 ))}

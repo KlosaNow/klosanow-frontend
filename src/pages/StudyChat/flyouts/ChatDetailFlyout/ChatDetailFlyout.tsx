@@ -26,17 +26,18 @@ import { colors } from "../../../../data/colors";
 import Switch from "../../../../components/Switch";
 import { uniqueId } from "lodash";
 import { flyoutActionsStyles } from "../../data/styles";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { contactsPagePath } from "../../../../data/pageUrl";
 import { useStoreSelector } from "src/redux/hooks";
+import useChatWebSocket from "src/hooks/useChatWebSocket";
 
 const ChatDetailFlyout: React.FC = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const user = useStoreSelector((state) => state.user);
-  // const [_, setSearchParams] = useSearchParams();
+  const [_, setSearchParams] = useSearchParams();
 
-  // const { deleteStudyChat } = useChatWebSocket();
+  const { deleteStudyChat } = useChatWebSocket();
 
   const { activeChat, isChatDetailFlyout, updateStudyChatValues } =
     React.useContext(StudyChatContext);
@@ -56,13 +57,13 @@ const ChatDetailFlyout: React.FC = () => {
     );
   };
 
-  // const handleDeleteStudyChat = () => {
-  //   if (activeChat) {
-  //     deleteStudyChat(activeChat.id);
-  //     setSearchParams("");
-  //     updateStudyChatValues({ activeChat: null });
-  //   } else null;
-  // };
+  const handleDeleteStudyChat = () => {
+    if (activeChat) {
+      deleteStudyChat(activeChat.id);
+      setSearchParams("");
+      updateStudyChatValues({ activeChat: null });
+    } else null;
+  };
 
   return (
     <Drawer isOpen={isChatDetailFlyout} onClose={handleClose} placement="right">
@@ -285,7 +286,8 @@ const ChatDetailFlyout: React.FC = () => {
                   <Flex
                     as="button"
                     {...flyoutActionsStyles}
-                    // onClick={handleDeleteStudyChat}
+                    display={"none"}
+                    onClick={handleDeleteStudyChat}
                   >
                     <LeaveIcon />
                     <Text color={colors.error[50]}>Leave</Text>
