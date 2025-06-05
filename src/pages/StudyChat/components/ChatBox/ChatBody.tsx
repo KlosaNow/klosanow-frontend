@@ -26,6 +26,28 @@ const ChatBody: React.FC<ChatBodyProps> = ({
     return matchedUrls;
   };
 
+  const reformatText = (text: string) => {
+    const urlRegex = /\b((https?:\/\/|www\.)[^\s/$.?#].[^\s]*)/gi;
+
+    return text.replace(urlRegex, (url) => {
+      try {
+        const fixedUrl = url.startsWith("www.") ? "https://" + url : url;
+        const urlObj = new URL(fixedUrl);
+
+        const pathname = urlObj.pathname;
+        const filename = pathname.substring(pathname.lastIndexOf("/") + 1);
+
+        const ext = filename.includes(".")
+          ? filename.split(".").pop()?.toLowerCase()
+          : "";
+
+        return ext || url;
+      } catch {
+        return url;
+      }
+    });
+  };
+
   const reversedMessages = React.useMemo(() => {
     let newMessages: MessageType[] = [];
     if (activeChat.id) newMessages = [...messages].reverse();
@@ -77,7 +99,7 @@ const ChatBody: React.FC<ChatBodyProps> = ({
                     {urls.map((url) => getUploadedDataPreview(url))}
 
                     <Text wordBreak={"break-word"} fontSize="14px">
-                      {item.text}
+                      {reformatText(item.text)}
                     </Text>
 
                     {isSender && activeChat.type === ChatType.Group && (
