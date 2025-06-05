@@ -28,10 +28,12 @@ import { uniqueId } from "lodash";
 import { flyoutActionsStyles } from "../../data/styles";
 import { useNavigate } from "react-router-dom";
 import { contactsPagePath } from "../../../../data/pageUrl";
+import { useStoreSelector } from "src/redux/hooks";
 
 const ChatDetailFlyout: React.FC = () => {
   const navigate = useNavigate();
   const toast = useToast();
+  const user = useStoreSelector((state) => state.user);
   // const [_, setSearchParams] = useSearchParams();
 
   // const { deleteStudyChat } = useChatWebSocket();
@@ -43,6 +45,7 @@ const ChatDetailFlyout: React.FC = () => {
     updateStudyChatValues({ isChatDetailFlyout: false });
 
   const isGroupChat = activeChat?.type === ChatType.Group;
+  const isUser = user.data?._id === activeChat?.admin._id;
 
   const handleAddLearner = () => {
     if (!activeChat) return;
@@ -227,7 +230,7 @@ const ChatDetailFlyout: React.FC = () => {
                           lineHeight="17.5px"
                           marginBottom="5px"
                         >
-                          {activeChat.admin._id === _id ? "You" : name}
+                          {user.data?._id === _id ? "You" : name}
                         </Text>
 
                         {/* <Text
@@ -250,27 +253,29 @@ const ChatDetailFlyout: React.FC = () => {
                 </Text>
 
                 <Flex gap="20px" alignItems="center" padding="12px">
-                  <Flex
-                    as="button"
-                    {...flyoutActionsStyles}
-                    onClick={() => {
-                      if (
-                        activeChat.members &&
-                        activeChat?.members?.length < 50
-                      )
-                        handleAddLearner();
-                      else {
-                        toast({
-                          title: "Ooops sorry",
-                          description:
-                            "You cannot add more than 50 participant",
-                        });
-                      }
-                    }}
-                  >
-                    <AddLearnersIcon />
-                    <Text>Add Learners</Text>
-                  </Flex>
+                  {isUser && (
+                    <Flex
+                      as="button"
+                      {...flyoutActionsStyles}
+                      onClick={() => {
+                        if (
+                          activeChat.members &&
+                          activeChat?.members?.length < 50
+                        )
+                          handleAddLearner();
+                        else {
+                          toast({
+                            title: "Ooops sorry",
+                            description:
+                              "You cannot add more than 50 participant",
+                          });
+                        }
+                      }}
+                    >
+                      <AddLearnersIcon />
+                      <Text>Add Learners</Text>
+                    </Flex>
+                  )}
 
                   <Flex as="button" {...flyoutActionsStyles}>
                     <ReportIcon />
