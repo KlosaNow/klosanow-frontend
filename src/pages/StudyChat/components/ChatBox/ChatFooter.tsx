@@ -228,7 +228,10 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
       {state.uploadingMedia ? (
         <Spinner />
       ) : (
-        getUploadedDataPreview(state.uploadedfile.url, state.uploadedfile.type)
+        getUploadedDataPreview({
+          url: state.uploadedfile.url,
+          mediaType: state.uploadedfile.type,
+        })
       )}
 
       <Text fontSize="12px" color="#555555" m="4px 0" maxW="250px">
@@ -284,7 +287,7 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
                 p="10px"
                 key={idx}
               >
-                {getUploadedDataPreview(url)}
+                {getUploadedDataPreview({ url })}
               </ListItem>
             ))}
           </UnorderedList>
