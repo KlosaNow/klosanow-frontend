@@ -15,6 +15,9 @@ const ChatBody: React.FC<ChatBodyProps> = ({
   loading,
   activeChat,
 }) => {
+  const mediaCacheRef = React.useRef<Record<string, JSX.Element | null>>({});
+
+  const [, forceUpdate] = React.useState(0);
   const user = useStoreSelector((state) => state.user);
   const senderId =
     activeChat.members?.find((item) => item._id === user.data?._id)?._id ||
@@ -56,10 +59,6 @@ const ChatBody: React.FC<ChatBodyProps> = ({
     return newMessages;
   }, [messages, activeChat?.id]);
 
-  const mediaCacheRef = React.useRef<Record<string, JSX.Element | null>>({});
-
-  const [, forceUpdate] = React.useState(0);
-
   React.useEffect(() => {
     if (!reversedMessages) return;
 
@@ -82,7 +81,10 @@ const ChatBody: React.FC<ChatBodyProps> = ({
 
   return (
     <Flex
-      h={"calc(100dvh - 200px)"}
+      h={{
+        base: "calc(100dvh - 200px)",
+        md: "calc(100vh - 264px)",
+      }}
       p={"10px 16px 0"}
       overflowY="scroll"
       flexDir={"column-reverse"}
