@@ -53,10 +53,13 @@ const StudyChat: React.FC = () => {
     [chatList, studyChatList]
   );
 
-  const matchedChat = React.useMemo(
-    () => allChats.find((item) => item.slug === slug) as ChatListData,
-    [chatList, studyChatList]
-  );
+  const matchedChat = React.useMemo(() => {
+    let newChat: ChatListData | null;
+    if (slug)
+      newChat = allChats.find((item) => item.slug === slug) as ChatListData;
+    else newChat = null;
+    return newChat;
+  }, [chatList, studyChatList, slug]);
 
   const chat = state.activeChat || matchedChat;
 
@@ -96,7 +99,7 @@ const StudyChat: React.FC = () => {
       <Box height="100%">
         <Flex width="100%" h="100%" position="relative">
           <ChatList list={allChats} />
-          {chat && <ChatBox chat={chat} />}
+          <ChatBox chat={chat} />
         </Flex>
 
         <ChatDetailFlyout />

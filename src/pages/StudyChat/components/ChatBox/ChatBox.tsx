@@ -12,7 +12,7 @@ import { ChatListData, ChatType, MessageType } from "src/types";
 import { StudyChatContext } from "../../context/StudyChat";
 
 interface ChatBoxProps {
-  chat: ChatListData;
+  chat: ChatListData | null;
 }
 
 const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
@@ -62,7 +62,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
       {chat && (
         <Box
           as={motion.div}
-          padding={["0 0 25px", "60px 0 0"]}
+          padding={["0 0 10px", "60px 0 0"]}
           animation={containerAnimation}
           initial="hidden"
           animate="show"
@@ -77,7 +77,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
           right="0"
           position="fixed"
           background="#fff"
-          zIndex={10000}
+          zIndex={10}
         >
           <Box as={motion.div} animation={contentAnimation} h="100%">
             <ChatHeader data={chat} />

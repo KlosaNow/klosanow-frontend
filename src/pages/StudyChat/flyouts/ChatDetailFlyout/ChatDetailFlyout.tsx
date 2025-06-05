@@ -10,6 +10,7 @@ import {
   IconButton,
   Image,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { StudyChatContext } from "../../context/StudyChat";
 import {
@@ -22,15 +23,17 @@ import {
 } from "../../assets/svgs";
 import { ChatType } from "../../../../types/studyChat";
 import { colors } from "../../../../data/colors";
-import Switch, { SwitchLabel } from "../../../../components/Switch";
+import Switch from "../../../../components/Switch";
 import { uniqueId } from "lodash";
 import { flyoutActionsStyles } from "../../data/styles";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { contactsPagePath } from "../../../../data/pageUrl";
 import useChatWebSocket from "src/hooks/useChatWebSocket";
 
 const ChatDetailFlyout: React.FC = () => {
   const navigate = useNavigate();
+  const toast = useToast();
+  const [_, setSearchParams] = useSearchParams();
 
   const { deleteStudyChat } = useChatWebSocket();
 
@@ -41,8 +44,6 @@ const ChatDetailFlyout: React.FC = () => {
     updateStudyChatValues({ isChatDetailFlyout: false });
 
   const isGroupChat = activeChat?.type === ChatType.Group;
-
-  const [_, setNotification] = React.useState(SwitchLabel.Off);
 
   const handleAddLearner = () => {
     if (!activeChat) return;
@@ -56,11 +57,8 @@ const ChatDetailFlyout: React.FC = () => {
   const handleDeleteStudyChat = () => {
     if (activeChat) {
       deleteStudyChat(activeChat.id);
-      const reload = setInterval(() => {
-        window.location.reload();
-      }, 1000);
-
-      return () => clearInterval(reload);
+      setSearchParams("");
+      updateStudyChatValues({ activeChat: null });
     } else null;
   };
 
@@ -168,7 +166,7 @@ const ChatDetailFlyout: React.FC = () => {
             justifyContent="space-between"
           >
             <Text fontSize="16px">Mute notification</Text>
-            <Switch onChange={(value) => setNotification(value)} />
+            <Switch onChange={(value) => console.log(value)} />
           </Flex>
 
           {isGroupChat && (
@@ -258,7 +256,20 @@ const ChatDetailFlyout: React.FC = () => {
                   <Flex
                     as="button"
                     {...flyoutActionsStyles}
-                    onClick={handleAddLearner}
+                    onClick={() => {
+                      if (
+                        activeChat.members &&
+                        activeChat?.members?.length < 50
+                      )
+                        handleAddLearner();
+                      else {
+                        toast({
+                          title: "Ooops sorry",
+                          description:
+                            "You cannot add more than 50 participant",
+                        });
+                      }
+                    }}
                   >
                     <AddLearnersIcon />
                     <Text>Add Learners</Text>
