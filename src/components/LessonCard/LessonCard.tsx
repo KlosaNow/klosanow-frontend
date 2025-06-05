@@ -135,17 +135,6 @@ const LessonCard: React.FC<LessonCardProps> = ({
                   as="button"
                   fontSize="12px"
                   padding="4px 6px"
-                  onClick={() => handleDelete && handleDelete(lesson._id)}
-                  _hover={{
-                    bg: "#eee",
-                  }}
-                >
-                  Delete
-                </Box>
-                <Box
-                  as="button"
-                  fontSize="12px"
-                  padding="4px 6px"
                   onClick={() =>
                     copyText(lesson.videoUrl, () => {
                       toast({
@@ -172,6 +161,18 @@ const LessonCard: React.FC<LessonCardProps> = ({
                   }}
                 >
                   View
+                </Box>
+                <Box
+                  as="button"
+                  fontSize="12px"
+                  padding="4px 6px"
+                  marginTop={"8px"}
+                  onClick={() => handleDelete && handleDelete(lesson._id)}
+                  _hover={{
+                    bg: "#eee",
+                  }}
+                >
+                  Delete
                 </Box>
               </PopoverContent>
             </Popover>

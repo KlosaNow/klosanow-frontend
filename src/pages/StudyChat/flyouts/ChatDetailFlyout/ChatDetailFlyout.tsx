@@ -26,16 +26,15 @@ import { colors } from "../../../../data/colors";
 import Switch from "../../../../components/Switch";
 import { uniqueId } from "lodash";
 import { flyoutActionsStyles } from "../../data/styles";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { contactsPagePath } from "../../../../data/pageUrl";
-import useChatWebSocket from "src/hooks/useChatWebSocket";
 
 const ChatDetailFlyout: React.FC = () => {
   const navigate = useNavigate();
   const toast = useToast();
-  const [_, setSearchParams] = useSearchParams();
+  // const [_, setSearchParams] = useSearchParams();
 
-  const { deleteStudyChat } = useChatWebSocket();
+  // const { deleteStudyChat } = useChatWebSocket();
 
   const { activeChat, isChatDetailFlyout, updateStudyChatValues } =
     React.useContext(StudyChatContext);
@@ -54,13 +53,13 @@ const ChatDetailFlyout: React.FC = () => {
     );
   };
 
-  const handleDeleteStudyChat = () => {
-    if (activeChat) {
-      deleteStudyChat(activeChat.id);
-      setSearchParams("");
-      updateStudyChatValues({ activeChat: null });
-    } else null;
-  };
+  // const handleDeleteStudyChat = () => {
+  //   if (activeChat) {
+  //     deleteStudyChat(activeChat.id);
+  //     setSearchParams("");
+  //     updateStudyChatValues({ activeChat: null });
+  //   } else null;
+  // };
 
   return (
     <Drawer isOpen={isChatDetailFlyout} onClose={handleClose} placement="right">
@@ -128,9 +127,9 @@ const ChatDetailFlyout: React.FC = () => {
                 <Text fontSize="20px" fontWeight="500">
                   {activeChat?.name}{" "}
                 </Text>
-                <Text fontSize="24px" fontWeight="500">
+                {/* <Text fontSize="24px" fontWeight="500">
                   {activeChat?.recipient?.phoneNumber}{" "}
-                </Text>
+                </Text> */}
               </Box>
             )}
           </Grid>
@@ -192,14 +191,14 @@ const ChatDetailFlyout: React.FC = () => {
                       {activeChat?.admin?.name}
                     </Text>
 
-                    <Text
+                    {/* <Text
                       fontSize={12}
                       fontWeight={400}
                       color="#555555"
                       lineHeight="15px"
                     >
                       {activeChat?.admin?.phoneNumber}
-                    </Text>
+                    </Text> */}
                   </Flex>
                 </Flex>
               </Box>
@@ -210,40 +209,38 @@ const ChatDetailFlyout: React.FC = () => {
                 </Text>
 
                 <Flex flexDir="column" gap="28px" mt="20px">
-                  {activeChat?.members?.map(
-                    ({ name, image, _id, phoneNumber }) => (
-                      <Flex
-                        alignItems="center"
-                        gap="8px"
-                        key={uniqueId(`learner-${_id}`)}
-                      >
-                        <Circle size="50px" bg="#b1b1b1" overflow="hidden">
-                          <Image src={image} />
-                        </Circle>
+                  {activeChat?.members?.map(({ name, image, _id }) => (
+                    <Flex
+                      alignItems="center"
+                      gap="8px"
+                      key={uniqueId(`learner-${_id}`)}
+                    >
+                      <Circle size="50px" bg="#b1b1b1" overflow="hidden">
+                        <Image src={image} />
+                      </Circle>
 
-                        <Flex justifyContent="center" flexDir="column">
-                          <Text
-                            fontSize={14}
-                            fontWeight={500}
-                            color="#2A2A2A"
-                            lineHeight="17.5px"
-                            marginBottom="5px"
-                          >
-                            {activeChat.admin._id === _id ? "You" : name}
-                          </Text>
+                      <Flex justifyContent="center" flexDir="column">
+                        <Text
+                          fontSize={14}
+                          fontWeight={500}
+                          color="#2A2A2A"
+                          lineHeight="17.5px"
+                          marginBottom="5px"
+                        >
+                          {activeChat.admin._id === _id ? "You" : name}
+                        </Text>
 
-                          <Text
+                        {/* <Text
                             fontSize={12}
                             fontWeight={400}
                             color="#555555"
                             lineHeight="15px"
                           >
                             {phoneNumber}
-                          </Text>
-                        </Flex>
+                          </Text> */}
                       </Flex>
-                    )
-                  )}
+                    </Flex>
+                  ))}
                 </Flex>
               </Box>
 
@@ -283,7 +280,7 @@ const ChatDetailFlyout: React.FC = () => {
                   <Flex
                     as="button"
                     {...flyoutActionsStyles}
-                    onClick={handleDeleteStudyChat}
+                    // onClick={handleDeleteStudyChat}
                   >
                     <LeaveIcon />
                     <Text color={colors.error[50]}>Leave</Text>
