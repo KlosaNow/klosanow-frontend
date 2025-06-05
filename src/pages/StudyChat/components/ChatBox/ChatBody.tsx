@@ -36,7 +36,7 @@ const ChatBody: React.FC<ChatBodyProps> = ({
 
   return (
     <Flex
-      h={"calc(100% - 214px)"}
+      h={"calc(100vh - 360px)"}
       p={"10px 16px 0"}
       overflowY="scroll"
       flexDir={"column-reverse"}

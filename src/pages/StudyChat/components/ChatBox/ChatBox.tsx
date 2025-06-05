@@ -79,20 +79,18 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
           background="#fff"
           zIndex={10}
         >
-          <Box as={motion.div} animation={contentAnimation} h="100%">
+          <Box as={motion.div} animation={contentAnimation}>
             <ChatHeader data={chat} />
-            <Box height="100%">
-              <ChatBody
-                messages={messages}
-                loading={loadingMessage}
-                activeChat={chat}
-              />
-              <ChatFooter
-                activeChat={chat}
-                loading={loadingMessage}
-                refresh={handleRefresh}
-              />
-            </Box>
+            <ChatBody
+              messages={messages}
+              loading={loadingMessage}
+              activeChat={chat}
+            />
+            <ChatFooter
+              activeChat={chat}
+              loading={loadingMessage}
+              refresh={handleRefresh}
+            />
           </Box>
         </Box>
       )}
