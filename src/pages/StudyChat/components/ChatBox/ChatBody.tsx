@@ -56,6 +56,30 @@ const ChatBody: React.FC<ChatBodyProps> = ({
     return newMessages;
   }, [messages, activeChat?.id]);
 
+  const mediaCacheRef = React.useRef<Record<string, JSX.Element | null>>({});
+
+  const [, forceUpdate] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!reversedMessages) return;
+
+    let updated = false;
+    reversedMessages.forEach((item) => {
+      const urls = extractURLs(item.text) || [];
+      urls.forEach((url) => {
+        if (!(url in mediaCacheRef.current)) {
+          const preview = getUploadedDataPreview(url) ?? null;
+          mediaCacheRef.current[url] = preview;
+          updated = true;
+        }
+      });
+    });
+
+    if (updated) {
+      forceUpdate((count) => count + 1);
+    }
+  }, [reversedMessages]);
+
   return (
     <Flex
       h={"calc(100dvh - 200px)"}
@@ -96,7 +120,13 @@ const ChatBody: React.FC<ChatBodyProps> = ({
                     flexDir={"column"}
                     gap={"4px"}
                   >
-                    {urls.map((url) => getUploadedDataPreview(url))}
+                    {urls.map((url) => {
+                      const cachedPreview = mediaCacheRef.current[url];
+                      if (cachedPreview !== undefined) {
+                        return cachedPreview || null;
+                      }
+                      return getUploadedDataPreview(url);
+                    })}
 
                     <Text wordBreak={"break-word"} fontSize="14px">
                       {reformatText(item.text)}
