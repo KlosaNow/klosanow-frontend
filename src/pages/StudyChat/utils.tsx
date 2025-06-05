@@ -97,12 +97,22 @@ const getTypeFromUrl = (
   }
 };
 
-export const getUploadedDataPreview = (url: string, mediaType?: string) => {
+export const getUploadedDataPreview = (data: {
+  url: string;
+  mediaType?: string;
+  handleView?: () => void;
+}) => {
+  const { url, mediaType, handleView } = data;
   const type = getTypeFromUrl(url, mediaType);
 
   if (type === "image") {
     return (
-      <Box bg="#eee" borderRadius="8px" key={uniqueId(`img-${url}`)}>
+      <Box
+        bg="#eee"
+        borderRadius="8px"
+        key={uniqueId(`img-${url}`)}
+        onClick={() => handleView && handleView()}
+      >
         <Image
           src={url}
           w="100%"

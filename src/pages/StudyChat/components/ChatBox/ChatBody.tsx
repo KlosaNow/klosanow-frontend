@@ -1,5 +1,14 @@
 import React from "react";
-import { Box, Circle, Flex, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Circle,
+  Flex,
+  Image,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  Text,
+} from "@chakra-ui/react";
 import { ChatListData, ChatType, MessageType } from "src/types";
 import { getUploadedDataPreview } from "../../utils";
 import { useStoreSelector } from "src/redux/hooks";
@@ -17,6 +26,7 @@ const ChatBody: React.FC<ChatBodyProps> = ({
 }) => {
   const mediaCacheRef = React.useRef<Record<string, JSX.Element | null>>({});
 
+  const [viewImage, setViewImage] = React.useState("");
   const [, forceUpdate] = React.useState(0);
   const user = useStoreSelector((state) => state.user);
   const senderId =
@@ -67,7 +77,11 @@ const ChatBody: React.FC<ChatBodyProps> = ({
       const urls = extractURLs(item.text) || [];
       urls.forEach((url) => {
         if (!(url in mediaCacheRef.current)) {
-          const preview = getUploadedDataPreview(url) ?? null;
+          const preview =
+            getUploadedDataPreview({
+              url,
+              handleView: () => setViewImage(url),
+            }) ?? null;
           mediaCacheRef.current[url] = preview;
           updated = true;
         }
@@ -127,7 +141,10 @@ const ChatBody: React.FC<ChatBodyProps> = ({
                       if (cachedPreview !== undefined) {
                         return cachedPreview || null;
                       }
-                      return getUploadedDataPreview(url);
+                      return getUploadedDataPreview({
+                        url,
+                        handleView: () => setViewImage(url),
+                      });
                     })}
 
                     <Text wordBreak={"break-word"} fontSize="14px">
@@ -143,6 +160,21 @@ const ChatBody: React.FC<ChatBodyProps> = ({
             );
           })
         : undefined}
+
+      <Modal isOpen={!!viewImage} onClose={() => setViewImage("")}>
+        <ModalOverlay />
+        <ModalContent backgroundColor={"#000000c1"} padding={"6px"}>
+          <Image
+            src={viewImage}
+            w="100%"
+            h="100%"
+            maxH="600px"
+            borderRadius="8px"
+            objectFit="contain"
+            opacity="0.85"
+          />
+        </ModalContent>
+      </Modal>
 
       {!loading && !messages && (
         <Box textAlign={"center"}>
