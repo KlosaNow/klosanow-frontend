@@ -11,7 +11,6 @@ import {
   SignIn,
   ForgotPassword,
   ResetPassword,
-  Otp,
   MailUs,
   Help,
   NotificationSettings,
@@ -96,10 +95,8 @@ function App() {
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Onboarding />} />
-
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/otp" element={<Otp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route element={<ProtectedRoute />}>
