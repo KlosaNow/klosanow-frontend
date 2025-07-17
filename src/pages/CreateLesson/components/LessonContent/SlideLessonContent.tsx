@@ -133,17 +133,26 @@ const SlideLessonContent: React.FC = () => {
   const renderActions = getLessonContentActions(
     {
       handleDraft,
-      handleBack: () =>
-        updateCreateLessonFormValues({
-          activeStep: CreateLessonFormStepsType.FormInfo,
-        }),
+      handleBack: () => {
+        if (state.index > 0) {
+          handleStateUpdate({
+            index: state.index - 1,
+            value: state.content[state.index - 1] || "",
+            isEditing: true,
+          });
+        } else {
+          updateCreateLessonFormValues({
+            activeStep: CreateLessonFormStepsType.FormInfo,
+          });
+        }
+      },
       handleProceed,
       handleTooltip: (showTooltip) => handleStateUpdate({ showTooltip }),
     },
-    state.content.length <= 1
+    state.content.length === 0
   );
 
-  const isTooltipActive = state.showTooltip && state.content.length <= 1;
+  const isTooltipActive = state.showTooltip && state.content.length < 1;
 
   return (
     <>
@@ -162,13 +171,34 @@ const SlideLessonContent: React.FC = () => {
         flexDir={{
           base: "column-reverse",
           md: "row",
-        }}
-      >
-        <Editor
-          value={state.value}
-          placeholder="Your lesson content goes in here..."
-          onChange={(value) => handleStateUpdate({ value })}
-        />
+        }}>
+        <Flex
+          flex="1"
+          minW="0"
+          maxW="100%"
+          overflow="hidden"
+          sx={{
+            ".editor-container": {
+              width: "100%",
+              maxWidth: "800px",
+              minHeight: "300px",
+              border: " 1px solid #ccc",
+              padding: "16px",
+              borderRadius: "8px",
+              overflowWrap: "break-word",
+              wordBreak: "break-word",
+              whiteSpace: "pre-wrap",
+              backgroundColor: "fff",
+            },
+          }}>
+          <Box className="editor-container">
+            <Editor
+              value={state.value}
+              placeholder="Your lesson content goes in here..."
+              onChange={(value) => handleStateUpdate({ value })}
+            />
+          </Box>
+        </Flex>
 
         <Flex flexDir="column" gap="24px" w="100%" maxW="200px">
           <Button
@@ -179,8 +209,7 @@ const SlideLessonContent: React.FC = () => {
             isDisabled={state.value === ""}
             _disabled={{
               cursor: "not-allowed",
-            }}
-          >
+            }}>
             {state.isEditing ? "Update" : "Add"} Slide
           </Button>
 
@@ -201,8 +230,7 @@ const SlideLessonContent: React.FC = () => {
                   borderRadius="8px"
                   padding="8px 16px"
                   align="center"
-                  justify="space-between"
-                >
+                  justify="space-between">
                   <Text>
                     Slide {index < 10 ? "0" : ""}
                     {index + 1}
@@ -231,10 +259,9 @@ const SlideLessonContent: React.FC = () => {
             bg="#eee"
             p="7px"
             borderRadius="4px"
-            maxW="200px"
-          >
-            <Text fontSize="12px">Slides should be at least two,</Text>
-            <Text fontSize="12px">use scroll template for one content</Text>
+            maxW="200px">
+            <Text fontSize="12px">Slides should be at least one,</Text>
+            <Text fontSize="12px">add at least one slide to proceed</Text>
           </Box>
         )}
 

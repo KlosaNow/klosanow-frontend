@@ -1,9 +1,9 @@
-import { Box, Text, Flex } from "@chakra-ui/react";
+import { Box, Text, Flex, Avatar } from "@chakra-ui/react";
 import { Search } from "../Search/Search";
 import { navBarProps } from "../../types/components/componetInterface";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { HiUserCircle } from "react-icons/hi";
+// import { HiUserCircle } from "react-icons/hi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { contactsPagePath, studyChatPageSlug } from "../../data/pageUrl";
 import {
@@ -32,8 +32,7 @@ const NavBar = ({ notificationCtrl, notificationLength }: navBarProps) => {
         backgroundColor="#fff"
         padding={{ base: "0px 20px", lg: "0px 50px" }}
         zIndex="50"
-        w={"100%"}
-      >
+        w={"100%"}>
         <Flex mt={"1rem"}>
           <Search />
 
@@ -42,8 +41,7 @@ const NavBar = ({ notificationCtrl, notificationLength }: navBarProps) => {
               as="button"
               onClick={() => navigate(contactsPagePath)}
               ml="50px"
-              h="max-content"
-            >
+              h="max-content">
               <ContactIcon />
             </Box>
           )}
@@ -62,22 +60,10 @@ const NavBar = ({ notificationCtrl, notificationLength }: navBarProps) => {
             width={"0.1rem"}
             height={"2.7rem"}
             bg={"#CCCCCC"}
-            mx={"0.8rem"}
-          ></Text>
+            mx={"0.8rem"}></Text>
           <Box display={"flex"} alignItems={"center"}>
-            {/* <Image
-              borderRadius="full"
-              boxSize="45px"
-              src="https://bit.ly/dan-abramov"
-              alt="Klosanaw images"
-              mr={"0.8rem"}
-            /> */}
-            <HiUserCircle
-              fontSize="40px"
-              style={{
-                marginRight: "0.8rem",
-              }}
-            />
+            <Avatar name="Klosanow" src="/avatar.jpg" mr="0.8rem" />
+
             <Box>
               <Text fontWeight={600} fontSize={"0.9rem"}>
                 {user.data?.name ? user.data?.name : "user"}

@@ -1,9 +1,7 @@
 import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { Search } from "../../components/Search/Search";
-
 import { EmptyState, LessonCard } from "../../components";
-
 import DashboardHeaderMobile from "./components/DashboardHeaderMobile";
 import LessonTabHeader from "./components/LessonTabHeader";
 import { uniqueId } from "lodash";
@@ -43,7 +41,7 @@ const Dashboard: React.FC = () => {
   const createdLesson = lessons.data || [];
 
   const lessonData = {
-    [LessonType.Created]: createdLesson,
+    [LessonType.Created]: [...createdLesson].reverse(),
     [LessonType.Saved]: [],
   }[state.lessonType].slice(0, 5);
 
@@ -74,8 +72,7 @@ const Dashboard: React.FC = () => {
       width="full"
       p={["10px 16px 100px", "24px 30px"]}
       height="full"
-      margin={["auto", "0px"]}
-    >
+      margin={["auto", "0px"]}>
       <DashboardHeaderMobile notificationLength={3} />
 
       <Text
@@ -83,8 +80,7 @@ const Dashboard: React.FC = () => {
         fontSize="2xl"
         fontWeight="bold"
         fontFamily="inherit"
-        color={["#D9927B", "#000"]}
-      >
+        color={["#D9927B", "#000"]}>
         Hello {user.data?.name},
       </Text>
       <Text color="#000" display={["none", "block"]} marginBottom="20px">
@@ -106,8 +102,7 @@ const Dashboard: React.FC = () => {
               gap="24px"
               overflowX={"scroll"}
               w="100%"
-              maxW="1108px"
-            >
+              maxW="1108px">
               {latestLesson.map((lesson) => (
                 <LessonCard
                   lesson={lesson}
@@ -128,8 +123,7 @@ const Dashboard: React.FC = () => {
           marginY={6}
           width="100%"
           justifyContent="space-between"
-          alignItems="center"
-        >
+          alignItems="center">
           <LessonTabHeader handleStateUpdate={handleStateUpdate} />
 
           <Box>
@@ -145,8 +139,7 @@ const Dashboard: React.FC = () => {
                 gap="24px"
                 overflowX={"scroll"}
                 w="100%"
-                maxW="1108px"
-              >
+                maxW="1108px">
                 {lessonData.map((lesson) => (
                   <LessonCard
                     lesson={lesson}

@@ -1,7 +1,6 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, Avatar } from "@chakra-ui/react";
 import React from "react";
 import { BiBell } from "react-icons/bi";
-import { HiUserCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
 interface DashboardHeaderMobileProps {
@@ -13,7 +12,9 @@ const DashboardHeaderMobile: React.FC<DashboardHeaderMobileProps> = ({
 }) => {
   return (
     <Flex justify={"space-between"} align={"center"} display={["flex", "none"]}>
-      <HiUserCircle fontSize="70px" />
+      {/* <HiUserCircle fontSize="70px" /> */}
+      <Avatar name="KlosaNow" src="/avatar.jpg" size="lg" />
+
       <Link to="/notifications" style={{ position: "relative" }}>
         <BiBell fontSize={25} />
         <Text
@@ -30,8 +31,7 @@ const DashboardHeaderMobile: React.FC<DashboardHeaderMobileProps> = ({
             justifyContent: "center",
             color: "#fff",
             borderRadius: "50%",
-          }}
-        >
+          }}>
           {notificationLength}
         </Text>
       </Link>

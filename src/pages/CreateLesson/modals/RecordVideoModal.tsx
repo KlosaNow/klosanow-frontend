@@ -13,6 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { capitalize, uniqueId } from "lodash";
+import { useMarkerTool } from "./useMarkerTool";
 import { MdArrowBackIosNew, MdOutlineArrowForwardIos } from "react-icons/md";
 import Draggable from "react-draggable";
 import { GiResize } from "react-icons/gi";
@@ -41,6 +42,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
   const initialState = {
     index: 0,
     useMoveTool: false,
+    useMarkerTool: false,
     loading: false,
     x: 0,
     y: 0,
@@ -62,6 +64,12 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
     pauseRecording,
     resumeRecording,
   } = useMediaRecorder();
+
+  const { clearCanvas } = useMarkerTool(
+    state.useMarkerTool,
+    "record-slide-container",
+    true
+  );
 
   const { template, content, form_info, updateCreateLessonFormValues } =
     React.useContext(CreateLessonFormContext);
@@ -99,8 +107,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
       justify="center"
       flexDir="column"
       gap="2px"
-      onClick={action}
-    >
+      onClick={action}>
       {icon}
       <Text fontSize="12px" color="#fff">
         {text}
@@ -169,8 +176,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
             bg="#F8F7FE"
             justify="space-between"
             as="div"
-            position="relative"
-          >
+            position="relative">
             {state.useMoveTool ? (
               <Draggable handle={state.isRezisable ? ".handle" : ""}>
                 <Box
@@ -188,16 +194,14 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                   zIndex="10"
                   cursor="pointer"
                   resize={"both"}
-                  overflow={"auto"}
-                >
+                  overflow={"auto"}>
                   <Box
                     onClick={() =>
                       handleStateUpdate({ isRezisable: !state.isRezisable })
                     }
                     cursor={"pointer"}
                     p={"0 30px 30px 0"}
-                    w={"max-content"}
-                  >
+                    w={"max-content"}>
                     {state.isRezisable ? <GiResize /> : <RiDragMove2Line />}
                   </Box>
                 </Box>
@@ -225,19 +229,19 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                   top="50%"
                   right="50%"
                   transform="translateX(-50%)"
-                  zIndex="200"
-                >
+                  zIndex="200">
                   <PlayIcon />
                 </Box>
               </>
             ) : null}
 
             <Box
+              id="record-slide-container"
               h="100%"
               padding="24px"
               overflow="scroll"
-              className="hide-scroll"
-            >
+              position="relative"
+              className="hide-scroll">
               {template === LessonTemplateType.Slide ? (
                 <div
                   className="slide"
@@ -262,8 +266,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                 align="center"
                 justify="center"
                 gap="50px"
-                h="60px"
-              >
+                h="60px">
                 {state.index > 0 ? (
                   <IconButton
                     aria-label="delete"
@@ -307,16 +310,14 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
           }}
           gap="24px"
           p="8px"
-          justifyContent="center"
-        >
+          justifyContent="center">
           <Flex
             bg="#AAAAAA"
             p="7px 16px"
             align="center"
             justify="center"
             gap="32px"
-            borderRadius="6px"
-          >
+            borderRadius="6px">
             {mediaStatus !== "recording" &&
               mediaStatus !== "paused" &&
               renderRecordingAction({
@@ -347,8 +348,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
               gap="8px"
               onClick={() =>
                 handleStateUpdate({ useMoveTool: !state.useMoveTool })
-              }
-            >
+              }>
               <MoveIcon />
               <Text fontSize="12px" color="#fff">
                 Move tool
@@ -361,13 +361,74 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
               {...btnStyles()}
               type="button"
               _hover={{ color: "none" }}
-              onClick={handleClose}
-            >
+              onClick={handleClose}>
               Cancel
             </Button>
           )}
+
+          <Button
+            aria-label={
+              state.useMarkerTool ? "Disable Marker" : "Enable Marker"
+            }
+            onClick={() =>
+              handleStateUpdate({ useMarkerTool: !state.useMarkerTool })
+            }
+            flexDir="column"
+            alignItems="center"
+            justifyContent="center"
+            gap="8px"
+            bg="transparent"
+            _hover={{ bg: "transparent" }}>
+            <Box
+              w="20px"
+              h="20px"
+              borderRadius="full"
+              bg={state.useMarkerTool ? "green.500" : "gray.500"}
+            />
+            <Text fontSize="12px" color="#fff">
+              {state.useMarkerTool ? "Disable Marker" : "Enable Marker"}
+            </Text>
+          </Button>
+
+          <Button
+            aria-label={
+              state.useMarkerTool ? "Disable Marker" : "Enable Marker"
+            }
+            onClick={clearCanvas}
+            isDisabled={!state.useMarkerTool}
+            flexDir="column"
+            alignItems="center"
+            justifyContent="center"
+            gap="8px"
+            bg="transparent"
+            _hover={{ bg: "transparent" }}>
+            <Box w="20px" h="20px" borderRadius="full" bg="blue.500" />
+            <Text fontSize="12px" color="#fff">
+              Clear
+            </Text>
+          </Button>
         </ModalFooter>
       </ModalContent>
+      {mediaStatus === "recording" && (
+        <Box position="fixed" top="16px" right="16px" zIndex="9999">
+          <Flex align="center" gap={2} color="red.500" fontWeight="bold">
+            <Box
+              w="10px"
+              h="10px"
+              bg="red.500"
+              borderRadius="full"
+              animation="blink 1s infinite"
+              sx={{
+                "@keyframes blink": {
+                  "0%, 100%": { opacity: 1 },
+                  "50%": { opacity: 0.2 },
+                },
+              }}
+            />
+            <Text>REC</Text>
+          </Flex>
+        </Box>
+      )}
     </Modal>
   );
 };

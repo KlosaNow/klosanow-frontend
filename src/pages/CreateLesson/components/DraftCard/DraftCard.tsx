@@ -8,12 +8,21 @@ import {
   PopoverContent,
   PopoverTrigger,
   Text,
+  Button,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { Draft } from "src/types";
 import { OptionIcon } from "src/assets/svgs";
 import { useNavigate } from "react-router-dom";
 import { createLessonFormPagePath } from "src/data/pageUrl";
 import { setDraftId } from "src/utils/constant";
+import { useRef } from "react";
 
 interface DraftCardProps {
   draft: Draft;
@@ -23,9 +32,17 @@ interface DraftCardProps {
 const DraftCard: React.FC<DraftCardProps> = ({ draft, handleDelete }) => {
   const navigate = useNavigate();
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef(null);
+
   const handleContinue = async () => {
     setDraftId(draft._id);
     navigate(createLessonFormPagePath);
+  };
+
+  const confirmDelete = () => {
+    handleDelete(draft._id);
+    onClose();
   };
 
   return (
@@ -33,8 +50,7 @@ const DraftCard: React.FC<DraftCardProps> = ({ draft, handleDelete }) => {
       alignContent="center"
       gap="16px"
       borderBottom="1px solid #eee"
-      pb="8px"
-    >
+      pb="8px">
       <Box
         width={["82px", "255px"]}
         height={["151px"]}
@@ -43,8 +59,7 @@ const DraftCard: React.FC<DraftCardProps> = ({ draft, handleDelete }) => {
           base: "152px",
           lg: "255px",
         }}
-        bg="#959595"
-      >
+        bg="#959595">
         <Image src={draft.thumbnailUrl} objectFit="cover" w="100%" h="100%" />
       </Box>
 
@@ -54,8 +69,7 @@ const DraftCard: React.FC<DraftCardProps> = ({ draft, handleDelete }) => {
           md: "8px 24px 8px 0",
         }}
         justify="space-between"
-        w="full"
-      >
+        w="full">
         <Box>
           <Text fontSize="20px" fontWeight="500" color="#000">
             {draft.title || "No title"}
@@ -65,8 +79,7 @@ const DraftCard: React.FC<DraftCardProps> = ({ draft, handleDelete }) => {
             textColor="black.30"
             maxH="120px"
             textOverflow="ellipsis"
-            overflow="hidden"
-          >
+            overflow="hidden">
             {draft.about || "No description"}
           </Text>
         </Box>
@@ -88,8 +101,7 @@ const DraftCard: React.FC<DraftCardProps> = ({ draft, handleDelete }) => {
               _hover={{
                 bg: "#eee",
               }}
-              onClick={() => handleDelete(draft._id)}
-            >
+              onClick={onOpen}>
               Delete
             </Box>
             <Box
@@ -99,13 +111,38 @@ const DraftCard: React.FC<DraftCardProps> = ({ draft, handleDelete }) => {
               _hover={{
                 bg: "#eee",
               }}
-              onClick={handleContinue}
-            >
+              onClick={handleContinue}>
               Continue
             </Box>
           </PopoverContent>
         </Popover>
       </Flex>
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}>
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Delete Draft
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure you want to delete this draft? This action cannot be
+              undone.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                No
+              </Button>
+              <Button colorScheme="red" onClick={confirmDelete} ml={3}>
+                Yes
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Flex>
   );
 };
