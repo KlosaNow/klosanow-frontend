@@ -98,6 +98,7 @@ const DraftCard: React.FC<DraftCardProps> = ({ draft, handleDelete }) => {
               as="button"
               {...btnStyles}
               textAlign="start"
+              color="red"
               _hover={{
                 bg: "#eee",
               }}

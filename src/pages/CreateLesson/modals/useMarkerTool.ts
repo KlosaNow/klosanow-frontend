@@ -25,10 +25,17 @@ export const useMarkerTool = (
       canvas.style.top = "0";
       canvas.style.left = "0";
       canvas.style.zIndex = "999";
-      canvas.style.pointerEvents = "auto"; // Allow drawing
+      canvas.style.pointerEvents = "auto";
       canvas.style.display = "block";
-      canvas.width = container.clientWidth;
-      canvas.height = container.clientHeight;
+      canvas.style.border = "4px solid green";
+      canvas.style.backgroundColor = "white"; // transparent white
+
+      const rect = container.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
+
       container.appendChild(canvas);
     } else {
       canvas.style.display = "block";
@@ -55,6 +62,17 @@ export const useMarkerTool = (
 
     const startDrawing = (e: MouseEvent) => {
       drawing = true;
+      console.log("Start drawing");
+
+      if (hoverToErase) {
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.lineWidth = 20;
+      } else {
+        ctx.globalCompositeOperation = "source-over";
+        ctx.strokeStyle = "#FF0000";
+        ctx.lineWidth = 3;
+      }
+
       const { x, y } = getOffset(e);
       ctx.beginPath();
       ctx.moveTo(x, y);
@@ -62,20 +80,25 @@ export const useMarkerTool = (
 
     const draw = (e: MouseEvent) => {
       if (!drawing) return;
+      console.log("Drawing...");
+
       const { x, y } = getOffset(e);
       ctx.lineTo(x, y);
       ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x, y);
     };
 
     const stopDrawing = () => {
       drawing = false;
+      console.log("Stop drawing");
       ctx.closePath();
     };
 
     const hoverErase = (e: MouseEvent) => {
       if (!hoverToErase) return;
       const { x, y } = getOffset(e);
-      const radius = 10;
+      const radius = 30;
       ctx.clearRect(x - radius / 2, y - radius / 2, radius, radius);
     };
 

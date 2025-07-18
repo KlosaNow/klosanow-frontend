@@ -51,10 +51,11 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
     isRezisable: false,
   };
 
-  const [state, setState] = React.useState<typeof initialState>(initialState);
+  const [state, setState] = React.useState(initialState);
+  const [hoverErase, setHoverErase] = React.useState(false);
 
   const handleStateUpdate = (newState: Partial<typeof initialState>) =>
-    setState((state) => ({ ...state, ...newState }));
+    setState((prev) => ({ ...prev, ...newState }));
 
   const {
     startRecording,
@@ -68,7 +69,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
   const { clearCanvas } = useMarkerTool(
     state.useMarkerTool,
     "record-slide-container",
-    true
+    hoverErase
   );
 
   const { template, content, form_info, updateCreateLessonFormValues } =
@@ -92,29 +93,6 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
 
   const slides = [initialSlide, ...content];
 
-  const renderRecordingAction = ({
-    text,
-    icon,
-    action,
-  }: {
-    text: string;
-    icon: React.ReactNode;
-    action: () => void;
-  }) => (
-    <Flex
-      as="button"
-      align="center"
-      justify="center"
-      flexDir="column"
-      gap="2px"
-      onClick={action}>
-      {icon}
-      <Text fontSize="12px" color="#fff">
-        {text}
-      </Text>
-    </Flex>
-  );
-
   const handleVideoUpload = async (blob: Blob) => {
     handleStateUpdate({ loading: true });
     try {
@@ -124,23 +102,22 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
 
       const res = await uploadFile(file);
       if (!res || !res.data || res.status !== FileUploadResponseStatus.Success)
-        throw new Error("Someting went wrong");
+        throw new Error("Something went wrong");
 
       handleStateUpdate({ loading: false });
-      if (res.status === FileUploadResponseStatus.Success) {
-        updateCreateLessonFormValues({
-          showPreviewVideo: true,
-          videoUrl: res.data?.url,
-          showRecordLessonModal: false,
-          videoSize: res.data?.size,
-        });
-        setFileUrl("video_url", res.data?.url);
-      }
+      updateCreateLessonFormValues({
+        showPreviewVideo: true,
+        videoUrl: res.data?.url,
+        showRecordLessonModal: false,
+        videoSize: res.data?.size,
+      });
+      setFileUrl("video_url", res.data?.url);
     } catch (error: any) {
       handleStateUpdate({ loading: false });
       toast({
         description: "Unable to upload video",
-        title: error.message ?? error.response.message ?? "Someting went wrong",
+        title:
+          error.message ?? error.response?.message ?? "Something went wrong",
         duration: 2500,
         status: "error",
         position: "top-right",
@@ -171,44 +148,39 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
         <ModalBody>
           <Flex
             flexDir="column"
-            h={"calc(100vh - 90px)"}
+            h="calc(100vh - 90px)"
             w="full"
             bg="#F8F7FE"
             justify="space-between"
-            as="div"
             position="relative">
-            {state.useMoveTool ? (
+            {state.useMoveTool && (
               <Draggable handle={state.isRezisable ? ".handle" : ""}>
                 <Box
-                  w={{
-                    base: "280px",
-                    md: "450px",
-                  }}
+                  w={{ base: "280px", md: "450px" }}
                   h="70px"
-                  as="div"
-                  border={`1.5px solid #ff0000`}
+                  border="1.5px solid #ff0000"
                   borderRadius="4px"
                   position="absolute"
                   top="0"
                   left="0"
                   zIndex="10"
                   cursor="pointer"
-                  resize={"both"}
-                  overflow={"auto"}>
+                  resize="both"
+                  overflow="auto">
                   <Box
                     onClick={() =>
                       handleStateUpdate({ isRezisable: !state.isRezisable })
                     }
-                    cursor={"pointer"}
-                    p={"0 30px 30px 0"}
-                    w={"max-content"}>
+                    cursor="pointer"
+                    p="0 30px 30px 0"
+                    w="max-content">
                     {state.isRezisable ? <GiResize /> : <RiDragMove2Line />}
                   </Box>
                 </Box>
               </Draggable>
-            ) : null}
+            )}
 
-            {mediaStatus === "paused" ? (
+            {mediaStatus === "paused" && (
               <>
                 <Box
                   width="100vw"
@@ -220,10 +192,8 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                   top="0"
                   right="0"
                 />
-
                 <Box
                   as="button"
-                  type="button"
                   onClick={resumeRecording}
                   position="absolute"
                   top="50%"
@@ -233,7 +203,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                   <PlayIcon />
                 </Box>
               </>
-            ) : null}
+            )}
 
             <Box
               id="record-slide-container"
@@ -248,19 +218,17 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                   dangerouslySetInnerHTML={{ __html: slides[state.index] }}
                 />
               ) : (
-                <>
-                  {slides.map((item) => (
-                    <div
-                      key={uniqueId("slide-item")}
-                      className="slide"
-                      dangerouslySetInnerHTML={{ __html: item }}
-                    />
-                  ))}
-                </>
+                slides.map((item) => (
+                  <div
+                    key={uniqueId("slide-item")}
+                    className="slide"
+                    dangerouslySetInnerHTML={{ __html: item }}
+                  />
+                ))
               )}
             </Box>
 
-            {slides.length - 1 > 1 ? (
+            {slides.length > 1 && (
               <Flex
                 w="100%"
                 align="center"
@@ -269,7 +237,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                 h="60px">
                 {state.index > 0 ? (
                   <IconButton
-                    aria-label="delete"
+                    aria-label="prev-slide"
                     bg="transparent"
                     _hover={{ bg: "transparent" }}
                     onClick={() =>
@@ -280,14 +248,12 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                 ) : (
                   <Box w="40px" />
                 )}
-
                 <Text>
                   Slide {state.index + 1}/{slides.length}
                 </Text>
-
                 {state.index < slides.length - 1 ? (
                   <IconButton
-                    aria-label="delete"
+                    aria-label="next-slide"
                     bg="transparent"
                     _hover={{ bg: "transparent" }}
                     onClick={() =>
@@ -299,15 +265,35 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                   <Box w="40px" />
                 )}
               </Flex>
-            ) : null}
+            )}
           </Flex>
+
+          <Box position="absolute" right="16px" top="100px" zIndex="99">
+            <Flex flexDir="column" gap="8px">
+              <Button
+                size="sm"
+                onClick={() =>
+                  handleStateUpdate({ useMarkerTool: !state.useMarkerTool })
+                }>
+                {state.useMarkerTool ? "Disable Marker" : "Enable Marker"}
+              </Button>
+
+              <Button
+                size="sm"
+                onClick={() => setHoverErase((prev) => !prev)}
+                isDisabled={!state.useMarkerTool}>
+                {hoverErase ? "Disable Erase" : "Enable Erase"}
+              </Button>
+
+              <Button size="sm" onClick={clearCanvas}>
+                Clear
+              </Button>
+            </Flex>
+          </Box>
         </ModalBody>
 
         <ModalFooter
-          flexDir={{
-            base: "column",
-            md: "row",
-          }}
+          flexDir={{ base: "column", md: "row" }}
           gap="24px"
           p="8px"
           justifyContent="center">
@@ -318,37 +304,57 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
             justify="center"
             gap="32px"
             borderRadius="6px">
-            {mediaStatus !== "recording" &&
-              mediaStatus !== "paused" &&
-              renderRecordingAction({
-                text: "Start",
-                action: startRecording,
-                icon: <RecordIcon />,
-              })}
+            {mediaStatus !== "recording" && mediaStatus !== "paused" && (
+              <Flex
+                as="button"
+                onClick={startRecording}
+                flexDir="column"
+                align="center"
+                justify="center"
+                gap="2px">
+                <RecordIcon />
+                <Text fontSize="12px" color="#fff">
+                  Start
+                </Text>
+              </Flex>
+            )}
 
-            {mediaStatus === "recording" &&
-              renderRecordingAction({
-                text: "Stop",
-                action: stopRecording,
-                icon: <StopRecordIcon />,
-              })}
+            {mediaStatus === "recording" && (
+              <>
+                <Flex
+                  as="button"
+                  onClick={stopRecording}
+                  flexDir="column"
+                  align="center"
+                  gap="2px">
+                  <StopRecordIcon />
+                  <Text fontSize="12px" color="#fff">
+                    Stop
+                  </Text>
+                </Flex>
 
-            {mediaStatus === "recording" &&
-              renderRecordingAction({
-                text: "Pause",
-                action: pauseRecording,
-                icon: <PauseIcon />,
-              })}
+                <Flex
+                  as="button"
+                  onClick={pauseRecording}
+                  flexDir="column"
+                  align="center"
+                  gap="2px">
+                  <PauseIcon />
+                  <Text fontSize="12px" color="#fff">
+                    Pause
+                  </Text>
+                </Flex>
+              </>
+            )}
 
             <Flex
               as="button"
-              align="center"
-              justify="center"
-              flexDir="column"
-              gap="8px"
               onClick={() =>
                 handleStateUpdate({ useMoveTool: !state.useMoveTool })
-              }>
+              }
+              flexDir="column"
+              align="center"
+              gap="8px">
               <MoveIcon />
               <Text fontSize="12px" color="#fff">
                 Move tool
@@ -356,59 +362,14 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
             </Flex>
           </Flex>
 
-          {mediaStatus === "recording" ? null : (
-            <Button
-              {...btnStyles()}
-              type="button"
-              _hover={{ color: "none" }}
-              onClick={handleClose}>
+          {mediaStatus !== "recording" && (
+            <Button {...btnStyles()} onClick={handleClose}>
               Cancel
             </Button>
           )}
-
-          <Button
-            aria-label={
-              state.useMarkerTool ? "Disable Marker" : "Enable Marker"
-            }
-            onClick={() =>
-              handleStateUpdate({ useMarkerTool: !state.useMarkerTool })
-            }
-            flexDir="column"
-            alignItems="center"
-            justifyContent="center"
-            gap="8px"
-            bg="transparent"
-            _hover={{ bg: "transparent" }}>
-            <Box
-              w="20px"
-              h="20px"
-              borderRadius="full"
-              bg={state.useMarkerTool ? "green.500" : "gray.500"}
-            />
-            <Text fontSize="12px" color="#fff">
-              {state.useMarkerTool ? "Disable Marker" : "Enable Marker"}
-            </Text>
-          </Button>
-
-          <Button
-            aria-label={
-              state.useMarkerTool ? "Disable Marker" : "Enable Marker"
-            }
-            onClick={clearCanvas}
-            isDisabled={!state.useMarkerTool}
-            flexDir="column"
-            alignItems="center"
-            justifyContent="center"
-            gap="8px"
-            bg="transparent"
-            _hover={{ bg: "transparent" }}>
-            <Box w="20px" h="20px" borderRadius="full" bg="blue.500" />
-            <Text fontSize="12px" color="#fff">
-              Clear
-            </Text>
-          </Button>
         </ModalFooter>
       </ModalContent>
+
       {mediaStatus === "recording" && (
         <Box position="fixed" top="16px" right="16px" zIndex="9999">
           <Flex align="center" gap={2} color="red.500" fontWeight="bold">
