@@ -17,7 +17,7 @@ import {
 import { Formik } from "formik";
 
 import { colors } from "src/data/colors";
-import dummyImg from "src/assets/images/dummy image.png";
+import thumb from "src/assets/images/thumb.jpg";
 import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
 import { CreateLessonFormStepsType } from "src/types";
 import { draftsPagePath } from "src/data/pageUrl";
@@ -142,6 +142,8 @@ const LessonFormInfo: React.FC = () => {
         ...values,
         about: values.description,
         template,
+        thumbnailUrl:
+          values.thumbnailUrl === thumb ? thumb : values.thumbnailUrl,
       };
 
       const draftAction = () =>
@@ -181,10 +183,13 @@ const LessonFormInfo: React.FC = () => {
       </Text>
 
       <Formik
-        initialValues={form_info}
+        initialValues={{
+          ...form_info,
+          thumbnailUrl: form_info.thumbnailUrl || thumb,
+          thumbnailSize: form_info.thumbnailSize || 0,
+        }}
         onSubmit={handleNext}
-        validationSchema={createLessonValidationSchema}
-      >
+        validationSchema={createLessonValidationSchema}>
         {({
           values,
           touched,
@@ -203,16 +208,14 @@ const LessonFormInfo: React.FC = () => {
               flexDir={{
                 base: "column",
                 md: "row",
-              }}
-            >
+              }}>
               <Box
                 w={"250px"}
                 h={"170px"}
                 borderRadius={"0.2rem"}
-                overflow="hidden"
-              >
+                overflow="hidden">
                 <Image
-                  src={state.mediaFile || dummyImg}
+                  src={state.mediaFile || thumb}
                   alt="Klosanaw"
                   w="100%"
                   h="100%"
@@ -248,16 +251,18 @@ const LessonFormInfo: React.FC = () => {
                         ? handleDeleteFile((res) => {
                             if (res) {
                               handleStateUpdate({
-                                mediaFile: "",
+                                mediaFile: thumb,
                               });
-                              setFieldValue("thumbnailUrl", "");
-                              setFieldValue("thumbnailSize", "");
+                              setFieldValue("thumbnailUrl", thumb);
+                              setFieldValue("thumbnailSize", 0);
                             }
                           })
                         : inputRef.current?.click()
-                    }
-                  >
-                    {state.mediaFile ? "Delete" : "Upload"} image
+                    }>
+                    {state.mediaFile && state.mediaFile !== thumb
+                      ? "Delete"
+                      : "Upload"}{" "}
+                    image
                     <Input
                       type="file"
                       name="thumbnailUrl"
@@ -293,8 +298,7 @@ const LessonFormInfo: React.FC = () => {
               </FormControl>
 
               <FormControl
-                isInvalid={touched.description && !!errors.description}
-              >
+                isInvalid={touched.description && !!errors.description}>
                 <FormLabel {...labelStyles}>Description</FormLabel>
                 <Textarea
                   placeholder="Tell us about your lesson"
@@ -310,8 +314,7 @@ const LessonFormInfo: React.FC = () => {
               </FormControl>
 
               <FormControl
-                isInvalid={touched.tutor_name && !!errors.tutor_name}
-              >
+                isInvalid={touched.tutor_name && !!errors.tutor_name}>
                 <FormLabel {...labelStyles}>Tutors name</FormLabel>
                 <Input
                   fontSize="16px"
@@ -350,8 +353,7 @@ const LessonFormInfo: React.FC = () => {
                   updateCreateLessonFormValues({ canUpdate: !canUpdate })
                 }
                 w="max-content"
-                fontSize="14px"
-              >
+                fontSize="14px">
                 Update Bio
               </Text>
             </Stack>
@@ -364,15 +366,13 @@ const LessonFormInfo: React.FC = () => {
               flexDir={{
                 base: "column",
                 md: "row",
-              }}
-            >
+              }}>
               <Button
                 {...btnStyles()}
                 _hover={{ color: "none" }}
                 onClick={() => handleDraft(values)}
                 type="button"
-                isLoading={state.loading && state.loadingType === "draft"}
-              >
+                isLoading={state.loading && state.loadingType === "draft"}>
                 Save to drafts
               </Button>
 
@@ -385,8 +385,7 @@ const LessonFormInfo: React.FC = () => {
                 flexDir={{
                   base: "column",
                   md: "row",
-                }}
-              >
+                }}>
                 <Button
                   {...btnStyles()}
                   type="button"
@@ -395,8 +394,7 @@ const LessonFormInfo: React.FC = () => {
                     updateCreateLessonFormValues({
                       activeStep: CreateLessonFormStepsType.Template,
                     })
-                  }
-                >
+                  }>
                   Back
                 </Button>
 
@@ -412,8 +410,7 @@ const LessonFormInfo: React.FC = () => {
                     bg: "#E5DEFD",
                     borderColor: "#E5DEFD",
                     cursor: "not-allowed",
-                  }}
-                >
+                  }}>
                   Next
                 </Button>
               </Flex>

@@ -55,11 +55,56 @@ const SlideLessonContent: React.FC = () => {
   const handleStateUpdate = (newState: Partial<LessonDescriptionState>) =>
     setState((state) => ({ ...state, ...newState }));
 
-  const handleProceed = () =>
+  const handleProceed = () => {
+    const trimmedValue = state.value.trim();
+    const isAddingNewSlide = !state.isEditing && trimmedValue !== "";
+    const currentSlideIndex = state.index;
+    let updatedContent = [...state.content];
+
+    // Add new slide only if valid and not editing
+    if (
+      isAddingNewSlide &&
+      !updatedContent.some((slide) => slide.trim() === trimmedValue)
+    ) {
+      updatedContent.push(trimmedValue);
+    }
+
+    const totalSlides = updatedContent.length;
+
+    // If user is not yet on the last slide, move to the next one
+    if (currentSlideIndex < totalSlides - 1) {
+      handleStateUpdate({
+        content: updatedContent,
+        index: currentSlideIndex + 1,
+        value: updatedContent[currentSlideIndex + 1] || "",
+        isEditing: true,
+      });
+      return;
+    }
+
+    // Final validation before proceeding to next page/step
+    if (updatedContent.length === 0) {
+      toast({
+        status: "error",
+        description: "You must add at least one slide.",
+      });
+      return;
+    }
+
+    // Proceed to the next step (Record Page)
     updateCreateLessonFormValues({
       activeStep: CreateLessonFormStepsType.Record,
-      content: state.content,
+      content: updatedContent,
     });
+
+    // Reset state for next use
+    handleStateUpdate({
+      content: updatedContent,
+      isEditing: false,
+      index: 0,
+      value: "",
+    });
+  };
 
   const handleAddSlide = () => {
     let updateContent = [...state.content];
@@ -149,7 +194,7 @@ const SlideLessonContent: React.FC = () => {
       handleProceed,
       handleTooltip: (showTooltip) => handleStateUpdate({ showTooltip }),
     },
-    state.content.length === 0
+    state.content.length === 0 && !state.value.trim()
   );
 
   const isTooltipActive = state.showTooltip && state.content.length < 1;

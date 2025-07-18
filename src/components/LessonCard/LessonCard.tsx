@@ -164,9 +164,11 @@ const LessonCard: React.FC<LessonCardProps> = ({
                   fontSize="12px"
                   padding="4px 6px"
                   marginTop={"8px"}
+                  color="red"
                   onClick={() => handleDelete && handleDelete(lesson)}
                   _hover={{
-                    bg: "#eee",
+                    bg: "red",
+                    color: "white",
                   }}>
                   Delete
                 </Box>
