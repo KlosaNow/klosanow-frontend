@@ -17,7 +17,7 @@ import {
 import { Formik } from "formik";
 
 import { colors } from "src/data/colors";
-import thumb from "src/assets/images/thumb.jpg";
+import thumb from "/avatar.jpg";
 import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
 import { CreateLessonFormStepsType } from "src/types";
 import { draftsPagePath } from "src/data/pageUrl";

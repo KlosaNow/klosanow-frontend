@@ -5,6 +5,7 @@ import {
   Flex,
   IconButton,
   Modal,
+  Tooltip,
   ModalBody,
   ModalContent,
   ModalFooter,
@@ -14,6 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { capitalize, uniqueId } from "lodash";
 import { useMarkerTool } from "./useMarkerTool";
+import { FaPen, FaEraser } from "react-icons/fa";
+import { MdClear } from "react-icons/md";
 import { MdArrowBackIosNew, MdOutlineArrowForwardIos } from "react-icons/md";
 import Draggable from "react-draggable";
 import { GiResize } from "react-icons/gi";
@@ -270,24 +273,40 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
 
           <Box position="absolute" right="16px" top="100px" zIndex="99">
             <Flex flexDir="column" gap="8px">
-              <Button
-                size="sm"
-                onClick={() =>
-                  handleStateUpdate({ useMarkerTool: !state.useMarkerTool })
-                }>
-                {state.useMarkerTool ? "Disable Marker" : "Enable Marker"}
-              </Button>
+              <Tooltip
+                label={state.useMarkerTool ? "Disable Marker" : "Enable Marker"}
+                hasArrow>
+                <IconButton
+                  aria-label="Toggle Marker Tool"
+                  icon={<FaPen />}
+                  onClick={() =>
+                    handleStateUpdate({ useMarkerTool: !state.useMarkerTool })
+                  }
+                  size="sm"
+                  isRound
+                  colorScheme={state.useMarkerTool ? "blue" : "gray"}
+                />
+              </Tooltip>
 
-              <Button
-                size="sm"
+              <IconButton
+                aria-label="Toggle Eraser"
+                icon={<FaEraser />}
                 onClick={() => setHoverErase((prev) => !prev)}
-                isDisabled={!state.useMarkerTool}>
-                {hoverErase ? "Disable Erase" : "Enable Erase"}
-              </Button>
+                isDisabled={!state.useMarkerTool}
+                size="sm"
+                isRound
+                colorScheme={hoverErase ? "red" : "gray"}
+                title={hoverErase ? "Disable Erase" : "Enable Erase"}
+              />
 
-              <Button size="sm" onClick={clearCanvas}>
-                Clear
-              </Button>
+              <IconButton
+                aria-label="Clear Canvas"
+                icon={<MdClear />}
+                onClick={clearCanvas}
+                size="sm"
+                isRound
+                title="Clear Canvas"
+              />
             </Flex>
           </Box>
         </ModalBody>

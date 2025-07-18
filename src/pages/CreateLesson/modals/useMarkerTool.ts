@@ -27,8 +27,8 @@ export const useMarkerTool = (
       canvas.style.zIndex = "999";
       canvas.style.pointerEvents = "auto";
       canvas.style.display = "block";
-      canvas.style.border = "4px solid green";
-      canvas.style.backgroundColor = "white"; // transparent white
+      canvas.style.border = "none";
+      canvas.style.backgroundColor = "rgba(255, 255, 255, 0.01)";
 
       const rect = container.getBoundingClientRect();
       canvas.width = rect.width;
@@ -60,10 +60,17 @@ export const useMarkerTool = (
       };
     };
 
+    const getTouchOffset = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: touch.clientX - rect.left,
+        y: touch.clientY - rect.top,
+      };
+    };
+
     const startDrawing = (e: MouseEvent) => {
       drawing = true;
-      console.log("Start drawing");
-
       if (hoverToErase) {
         ctx.globalCompositeOperation = "destination-out";
         ctx.lineWidth = 20;
@@ -80,8 +87,6 @@ export const useMarkerTool = (
 
     const draw = (e: MouseEvent) => {
       if (!drawing) return;
-      console.log("Drawing...");
-
       const { x, y } = getOffset(e);
       ctx.lineTo(x, y);
       ctx.stroke();
@@ -91,7 +96,6 @@ export const useMarkerTool = (
 
     const stopDrawing = () => {
       drawing = false;
-      console.log("Stop drawing");
       ctx.closePath();
     };
 
@@ -102,16 +106,60 @@ export const useMarkerTool = (
       ctx.clearRect(x - radius / 2, y - radius / 2, radius, radius);
     };
 
+    // Touch support
+    const startTouchDrawing = (e: TouchEvent) => {
+      drawing = true;
+      e.preventDefault();
+
+      if (hoverToErase) {
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.lineWidth = 20;
+      } else {
+        ctx.globalCompositeOperation = "source-over";
+        ctx.strokeStyle = "#FF0000";
+        ctx.lineWidth = 3;
+      }
+
+      const { x, y } = getTouchOffset(e);
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+    };
+
+    const drawTouch = (e: TouchEvent) => {
+      if (!drawing) return;
+      e.preventDefault();
+      const { x, y } = getTouchOffset(e);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+    };
+
+    const stopTouchDrawing = (e: TouchEvent) => {
+      drawing = false;
+      e.preventDefault();
+      ctx.closePath();
+    };
+
+    // Mouse events
     canvas.addEventListener("mousedown", startDrawing);
     canvas.addEventListener("mousemove", draw);
     canvas.addEventListener("mouseup", stopDrawing);
     canvas.addEventListener("mouseleave", stopDrawing);
-
     if (hoverToErase) {
       canvas.addEventListener("mousemove", hoverErase);
     }
 
+    // Touch events
+    canvas.addEventListener("touchstart", startTouchDrawing, {
+      passive: false,
+    });
+    canvas.addEventListener("touchmove", drawTouch, { passive: false });
+    canvas.addEventListener("touchend", stopTouchDrawing);
+    canvas.addEventListener("touchcancel", stopTouchDrawing);
+
     return () => {
+      // Cleanup mouse
       canvas.removeEventListener("mousedown", startDrawing);
       canvas.removeEventListener("mousemove", draw);
       canvas.removeEventListener("mouseup", stopDrawing);
@@ -119,6 +167,12 @@ export const useMarkerTool = (
       if (hoverToErase) {
         canvas.removeEventListener("mousemove", hoverErase);
       }
+
+      // Cleanup touch
+      canvas.removeEventListener("touchstart", startTouchDrawing);
+      canvas.removeEventListener("touchmove", drawTouch);
+      canvas.removeEventListener("touchend", stopTouchDrawing);
+      canvas.removeEventListener("touchcancel", stopTouchDrawing);
     };
   }, [enabled, containerId, hoverToErase]);
 
