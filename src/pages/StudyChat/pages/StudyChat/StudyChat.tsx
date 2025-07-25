@@ -31,12 +31,8 @@ const StudyChat: React.FC = () => {
 
   const [state, setState] = React.useState<DefaultValuesProps>(DefaultValues);
 
-  const handleStateUpdate = (newState: Partial<DefaultValuesProps>) => {
-    if (newState.activeChat) {
-      localStorage.setItem("lastChat", JSON.stringify(newState.activeChat));
-    }
+  const handleStateUpdate = (newState: Partial<DefaultValuesProps>) =>
     setState((state) => ({ ...state, ...newState }));
-  };
 
   const storageChat = getStorageItem<ChatData>(CHAT_CONTACT_KEY);
 
@@ -87,18 +83,6 @@ const StudyChat: React.FC = () => {
       handleStateUpdate({ isNewChat: false });
     }
   }, [dispatch]);
-
-  React.useEffect(() => {
-    const saved = localStorage.getItem("lastChat");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        handleStateUpdate({ activeChat: parsed });
-      } catch (err) {
-        console.error("Failed to load saved chat:", err);
-      }
-    }
-  }, []);
 
   React.useEffect(() => {
     if (eventType === "ping" || eventType === "message" || state.isNewChat)

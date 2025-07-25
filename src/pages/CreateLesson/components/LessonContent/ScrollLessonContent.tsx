@@ -82,7 +82,7 @@ const ScrollLessonContent: React.FC = () => {
       <OverlayLoader loading={loading} description="Processing draft" />
       <Flex align={"center"} mb="16px" justify={"space-between"}>
         <Text fontSize="24px" fontWeight="500">
-          Create your lessons
+          Create your lesson
         </Text>
         {renderActions}
       </Flex>

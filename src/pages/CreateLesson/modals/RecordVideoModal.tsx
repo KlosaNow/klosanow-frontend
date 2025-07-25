@@ -1,14 +1,15 @@
 import React from "react";
+import "./record.css";
 import {
   Box,
-  Button,
+  // Button,
   Flex,
   IconButton,
   Modal,
   Tooltip,
   ModalBody,
   ModalContent,
-  ModalFooter,
+  // ModalFooter,
   ModalOverlay,
   Text,
   useToast,
@@ -16,7 +17,7 @@ import {
 import { capitalize, uniqueId } from "lodash";
 import { useMarkerTool } from "./useMarkerTool";
 import { FaPen, FaEraser } from "react-icons/fa";
-import { MdClear } from "react-icons/md";
+import { MdClear, MdClose } from "react-icons/md";
 import { MdArrowBackIosNew, MdOutlineArrowForwardIos } from "react-icons/md";
 import Draggable from "react-draggable";
 import { GiResize } from "react-icons/gi";
@@ -25,7 +26,7 @@ import useMediaRecorder from "src/utils/useMediaRecorder";
 import { LessonTemplateType } from "src/types";
 import { MoveIcon, PauseIcon, RecordIcon, StopRecordIcon } from "../assets";
 import { CreateLessonFormContext } from "../context/CreateLessonFormContext";
-import { btnStyles } from "../data";
+// import { btnStyles } from "../data";
 import { PlayIcon } from "src/assets/svgs";
 import { FileUploadResponseStatus, uploadFile } from "src/utils/file-upload";
 import OverlayLoader from "src/components/OverlayLoader/OverlayLoader";
@@ -47,6 +48,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
     useMoveTool: false,
     useMarkerTool: false,
     loading: false,
+    loadingMessage: "",
     x: 0,
     y: 0,
     width: 320,
@@ -96,8 +98,22 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
 
   const slides = [initialSlide, ...content];
 
+  const handleStopRecording = async () => {
+    handleStateUpdate({
+      loading: true,
+      loadingMessage: "Uploading...",
+    });
+
+    await new Promise<void>((resolve) => {
+      stopRecording();
+      setTimeout(resolve, 10); // small async delay
+    });
+  };
   const handleVideoUpload = async (blob: Blob) => {
-    handleStateUpdate({ loading: true });
+    handleStateUpdate({
+      loading: true,
+      loadingMessage: "Submitting Preview...",
+    });
     try {
       const file = new File([blob], `vid-${form_info.title}${uniqueId("_")}`, {
         type: blob.type,
@@ -107,7 +123,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
       if (!res || !res.data || res.status !== FileUploadResponseStatus.Success)
         throw new Error("Something went wrong");
 
-      handleStateUpdate({ loading: false });
+      handleStateUpdate({ loading: false, loadingMessage: "" });
       updateCreateLessonFormValues({
         showPreviewVideo: true,
         videoUrl: res.data?.url,
@@ -135,7 +151,10 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
 
   React.useEffect(() => {
     if (blob) {
-      handleStateUpdate({ useMoveTool: false });
+      handleStateUpdate({
+        useMoveTool: false,
+        loadingMessage: "Uploading Video...",
+      });
       handleVideoUpload(blob);
     }
   }, [blob]);
@@ -146,12 +165,12 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
       <ModalContent>
         <OverlayLoader
           loading={state.loading}
-          description="Setting up preview"
+          description={state.loadingMessage || "Setting up preview"}
         />
         <ModalBody>
           <Flex
             flexDir="column"
-            h="calc(100vh - 90px)"
+            h="calc(100vh - 40px)"
             w="full"
             bg="#F8F7FE"
             justify="space-between"
@@ -161,7 +180,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                 <Box
                   w={{ base: "280px", md: "450px" }}
                   h="70px"
-                  border="1.5px solid #ff0000"
+                  border="1px solid #ff0000"
                   borderRadius="4px"
                   position="absolute"
                   top="0"
@@ -231,7 +250,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
               )}
             </Box>
 
-            {slides.length > 1 && (
+            {slides.length - 1 > 1 ? (
               <Flex
                 w="100%"
                 align="center"
@@ -240,7 +259,7 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                 h="60px">
                 {state.index > 0 ? (
                   <IconButton
-                    aria-label="prev-slide"
+                    aria-label="delete"
                     bg="transparent"
                     _hover={{ bg: "transparent" }}
                     onClick={() =>
@@ -251,12 +270,14 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                 ) : (
                   <Box w="40px" />
                 )}
+
                 <Text>
                   Slide {state.index + 1}/{slides.length}
                 </Text>
+
                 {state.index < slides.length - 1 ? (
                   <IconButton
-                    aria-label="next-slide"
+                    aria-label="delete"
                     bg="transparent"
                     _hover={{ bg: "transparent" }}
                     onClick={() =>
@@ -268,11 +289,12 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                   <Box w="40px" />
                 )}
               </Flex>
-            )}
+            ) : null}
           </Flex>
 
           <Box position="absolute" right="16px" top="100px" zIndex="99">
             <Flex flexDir="column" gap="8px">
+              {/* Marker tools */}
               <Tooltip
                 label={state.useMarkerTool ? "Disable Marker" : "Enable Marker"}
                 hasArrow>
@@ -288,105 +310,105 @@ const RecordVideoModal: React.FC<RecordVideoModalProps> = ({
                 />
               </Tooltip>
 
-              <IconButton
-                aria-label="Toggle Eraser"
-                icon={<FaEraser />}
-                onClick={() => setHoverErase((prev) => !prev)}
-                isDisabled={!state.useMarkerTool}
-                size="sm"
-                isRound
-                colorScheme={hoverErase ? "red" : "gray"}
-                title={hoverErase ? "Disable Erase" : "Enable Erase"}
-              />
+              {/* Eraser Tool */}
+              <Tooltip label="Eraser" hasArrow>
+                <IconButton
+                  aria-label="Toggle Eraser"
+                  icon={<FaEraser />}
+                  onClick={() => setHoverErase((prev) => !prev)}
+                  isDisabled={!state.useMarkerTool}
+                  size="sm"
+                  isRound
+                  colorScheme={hoverErase ? "red" : "gray"}
+                  title={hoverErase ? "Disable Erase" : "Enable Erase"}
+                />
+              </Tooltip>
 
-              <IconButton
-                aria-label="Clear Canvas"
-                icon={<MdClear />}
-                onClick={clearCanvas}
-                size="sm"
-                isRound
-                title="Clear Canvas"
-              />
+              <Tooltip label="Clear Canvas" hasArrow>
+                <IconButton
+                  aria-label="Clear Canvas"
+                  icon={<MdClear />}
+                  onClick={clearCanvas}
+                  size="sm"
+                  isRound
+                  title="Clear Canvas"
+                />
+              </Tooltip>
+
+              {/* Move tool */}
+              <Tooltip
+                label={
+                  state.useMoveTool ? "Disable Move Tool" : "Enable Move Tool"
+                }
+                hasArrow>
+                <IconButton
+                  aria-label="Move Tool"
+                  icon={<MoveIcon />}
+                  onClick={() =>
+                    handleStateUpdate({ useMoveTool: !state.useMoveTool })
+                  }
+                  size="sm"
+                  isRound
+                  colorScheme={state.useMoveTool ? "purple" : "gray"}
+                />
+              </Tooltip>
+              {/* 
+              start/stop/pause recording */}
+              {mediaStatus !== "recording" && mediaStatus !== "paused" && (
+                <Tooltip label="Start Recording" hasArrow>
+                  <IconButton
+                    aria-label="Start Recording"
+                    icon={<RecordIcon />}
+                    onClick={startRecording}
+                    size="sm"
+                    isRound
+                    colorScheme="red"
+                  />
+                </Tooltip>
+              )}
+
+              {mediaStatus === "recording" && (
+                <>
+                  <Tooltip label="Stop Recording" hasArrow>
+                    <IconButton
+                      aria-label="Stop Recording"
+                      icon={<StopRecordIcon />}
+                      onClick={handleStopRecording}
+                      size="sm"
+                      isRound
+                      colorScheme="red"
+                      isDisabled={state.loading}
+                    />
+                  </Tooltip>
+
+                  <Tooltip label="Pause Recording" hasArrow>
+                    <IconButton
+                      aria-label="Pause Recording"
+                      icon={<PauseIcon />}
+                      onClick={pauseRecording}
+                      size="sm"
+                      isRound
+                      colorScheme="orange"
+                    />
+                  </Tooltip>
+                </>
+              )}
+
+              {mediaStatus !== "recording" && (
+                <Tooltip label="Cancel" hasArrow>
+                  <IconButton
+                    aria-label="Cancel"
+                    icon={<MdClose />} //
+                    onClick={handleClose}
+                    size="sm"
+                    isRound
+                    colorScheme="blue"
+                  />
+                </Tooltip>
+              )}
             </Flex>
           </Box>
         </ModalBody>
-
-        <ModalFooter
-          flexDir={{ base: "column", md: "row" }}
-          gap="24px"
-          p="8px"
-          justifyContent="center">
-          <Flex
-            bg="#AAAAAA"
-            p="7px 16px"
-            align="center"
-            justify="center"
-            gap="32px"
-            borderRadius="6px">
-            {mediaStatus !== "recording" && mediaStatus !== "paused" && (
-              <Flex
-                as="button"
-                onClick={startRecording}
-                flexDir="column"
-                align="center"
-                justify="center"
-                gap="2px">
-                <RecordIcon />
-                <Text fontSize="12px" color="#fff">
-                  Start
-                </Text>
-              </Flex>
-            )}
-
-            {mediaStatus === "recording" && (
-              <>
-                <Flex
-                  as="button"
-                  onClick={stopRecording}
-                  flexDir="column"
-                  align="center"
-                  gap="2px">
-                  <StopRecordIcon />
-                  <Text fontSize="12px" color="#fff">
-                    Stop
-                  </Text>
-                </Flex>
-
-                <Flex
-                  as="button"
-                  onClick={pauseRecording}
-                  flexDir="column"
-                  align="center"
-                  gap="2px">
-                  <PauseIcon />
-                  <Text fontSize="12px" color="#fff">
-                    Pause
-                  </Text>
-                </Flex>
-              </>
-            )}
-
-            <Flex
-              as="button"
-              onClick={() =>
-                handleStateUpdate({ useMoveTool: !state.useMoveTool })
-              }
-              flexDir="column"
-              align="center"
-              gap="8px">
-              <MoveIcon />
-              <Text fontSize="12px" color="#fff">
-                Move tool
-              </Text>
-            </Flex>
-          </Flex>
-
-          {mediaStatus !== "recording" && (
-            <Button {...btnStyles()} onClick={handleClose}>
-              Cancel
-            </Button>
-          )}
-        </ModalFooter>
       </ModalContent>
 
       {mediaStatus === "recording" && (

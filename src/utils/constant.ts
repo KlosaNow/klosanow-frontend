@@ -65,3 +65,8 @@ export const setFileUrl = (fileKey: FileUrlKey, file_url: string) =>
 
 export const clearFileUrl = (fileKey: FileUrlKey) =>
   localStorage.setItem(fileKey, "");
+
+export const DEFAULT_THUMBNAIL_URL =
+  "https://klosanow-storage.s3.af-south-1.amazonaws.com/afcbe2af-df1a-4372-99f3-2909fec566e7.jpg";
+
+// "https://i.imgur.com/2oDW54Z.jpeg"

@@ -17,7 +17,7 @@ import {
 import { Formik } from "formik";
 
 import { colors } from "src/data/colors";
-import thumb from "/avatar.jpg";
+import dummyImg from "src/assets/images/avatar.jpg";
 import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
 import { CreateLessonFormStepsType } from "src/types";
 import { draftsPagePath } from "src/data/pageUrl";
@@ -142,8 +142,6 @@ const LessonFormInfo: React.FC = () => {
         ...values,
         about: values.description,
         template,
-        thumbnailUrl:
-          values.thumbnailUrl === thumb ? thumb : values.thumbnailUrl,
       };
 
       const draftAction = () =>
@@ -183,11 +181,7 @@ const LessonFormInfo: React.FC = () => {
       </Text>
 
       <Formik
-        initialValues={{
-          ...form_info,
-          thumbnailUrl: form_info.thumbnailUrl || thumb,
-          thumbnailSize: form_info.thumbnailSize || 0,
-        }}
+        initialValues={form_info}
         onSubmit={handleNext}
         validationSchema={createLessonValidationSchema}>
         {({
@@ -215,7 +209,7 @@ const LessonFormInfo: React.FC = () => {
                 borderRadius={"0.2rem"}
                 overflow="hidden">
                 <Image
-                  src={state.mediaFile || thumb}
+                  src={state.mediaFile || dummyImg}
                   alt="Klosanaw"
                   w="100%"
                   h="100%"
@@ -251,18 +245,15 @@ const LessonFormInfo: React.FC = () => {
                         ? handleDeleteFile((res) => {
                             if (res) {
                               handleStateUpdate({
-                                mediaFile: thumb,
+                                mediaFile: "",
                               });
-                              setFieldValue("thumbnailUrl", thumb);
-                              setFieldValue("thumbnailSize", 0);
+                              setFieldValue("thumbnailUrl", "");
+                              setFieldValue("thumbnailSize", "");
                             }
                           })
                         : inputRef.current?.click()
                     }>
-                    {state.mediaFile && state.mediaFile !== thumb
-                      ? "Delete"
-                      : "Upload"}{" "}
-                    image
+                    {state.mediaFile ? "Delete" : "Upload"} image
                     <Input
                       type="file"
                       name="thumbnailUrl"

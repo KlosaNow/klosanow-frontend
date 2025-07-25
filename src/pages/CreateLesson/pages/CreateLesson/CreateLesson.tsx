@@ -73,8 +73,7 @@ const CreateLesson: React.FC = () => {
         mt="2rem"
         display="flex"
         justifyContent="space-between"
-        alignItems="center"
-      >
+        alignItems="center">
         <Text fontWeight={500} fontSize={["16px", "24px"]}>
           Your Drafts
         </Text>
@@ -82,8 +81,7 @@ const CreateLesson: React.FC = () => {
         <Text
           as="button"
           onClick={() => navigate(draftsPagePath)}
-          textColor="primary.50"
-        >
+          textColor="primary.50">
           See all
         </Text>
       </Box>

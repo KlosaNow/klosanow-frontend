@@ -6,6 +6,11 @@ export const useMarkerTool = (
   hoverToErase = false
 ) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const hoverToEraseRef = useRef(hoverToErase);
+
+  useEffect(() => {
+    hoverToEraseRef.current = hoverToErase;
+  }, [hoverToErase]);
 
   useEffect(() => {
     const container = document.getElementById(containerId);
@@ -29,16 +34,18 @@ export const useMarkerTool = (
       canvas.style.display = "block";
       canvas.style.border = "none";
       canvas.style.backgroundColor = "rgba(255, 255, 255, 0.01)";
+      canvas.style.width = "100%";
+      canvas.style.height = `${container.scrollHeight}px`;
 
-      const rect = container.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
-      canvas.style.width = `${rect.width}px`;
-      canvas.style.height = `${rect.height}px`;
+      canvas.width = container.clientWidth;
+      canvas.height = container.scrollHeight;
 
       container.appendChild(canvas);
     } else {
       canvas.style.display = "block";
+      canvas.width = container.clientWidth;
+      canvas.height = container.scrollHeight;
+      canvas.style.height = `${container.scrollHeight}px`;
     }
 
     canvasRef.current = canvas;
@@ -53,25 +60,25 @@ export const useMarkerTool = (
     let drawing = false;
 
     const getOffset = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
+      const rect = container.getBoundingClientRect();
       return {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
+        x: e.clientX - rect.left + container.scrollLeft,
+        y: e.clientY - rect.top + container.scrollTop,
       };
     };
 
     const getTouchOffset = (e: TouchEvent) => {
       const touch = e.touches[0];
-      const rect = canvas.getBoundingClientRect();
+      const rect = container.getBoundingClientRect();
       return {
-        x: touch.clientX - rect.left,
-        y: touch.clientY - rect.top,
+        x: touch.clientX - rect.left + container.scrollLeft,
+        y: touch.clientY - rect.top + container.scrollTop,
       };
     };
 
     const startDrawing = (e: MouseEvent) => {
       drawing = true;
-      if (hoverToErase) {
+      if (hoverToEraseRef.current) {
         ctx.globalCompositeOperation = "destination-out";
         ctx.lineWidth = 20;
       } else {
@@ -100,18 +107,31 @@ export const useMarkerTool = (
     };
 
     const hoverErase = (e: MouseEvent) => {
-      if (!hoverToErase) return;
       const { x, y } = getOffset(e);
-      const radius = 30;
+      const radius = 40;
       ctx.clearRect(x - radius / 2, y - radius / 2, radius, radius);
     };
+
+    // Mouse events
+    const handleMouseMove = (e: MouseEvent) => {
+      if (hoverToEraseRef.current) {
+        hoverErase(e);
+      } else {
+        draw(e);
+      }
+    };
+
+    canvas.addEventListener("mousedown", startDrawing);
+    canvas.addEventListener("mousemove", handleMouseMove);
+    canvas.addEventListener("mouseup", stopDrawing);
+    canvas.addEventListener("mouseleave", stopDrawing);
 
     // Touch support
     const startTouchDrawing = (e: TouchEvent) => {
       drawing = true;
       e.preventDefault();
 
-      if (hoverToErase) {
+      if (hoverToEraseRef.current) {
         ctx.globalCompositeOperation = "destination-out";
         ctx.lineWidth = 20;
       } else {
@@ -141,15 +161,6 @@ export const useMarkerTool = (
       ctx.closePath();
     };
 
-    // Mouse events
-    canvas.addEventListener("mousedown", startDrawing);
-    canvas.addEventListener("mousemove", draw);
-    canvas.addEventListener("mouseup", stopDrawing);
-    canvas.addEventListener("mouseleave", stopDrawing);
-    if (hoverToErase) {
-      canvas.addEventListener("mousemove", hoverErase);
-    }
-
     // Touch events
     canvas.addEventListener("touchstart", startTouchDrawing, {
       passive: false,
@@ -158,23 +169,28 @@ export const useMarkerTool = (
     canvas.addEventListener("touchend", stopTouchDrawing);
     canvas.addEventListener("touchcancel", stopTouchDrawing);
 
+    const resizeCanvas = () => {
+      canvas.width = container.clientWidth;
+      canvas.height = container.scrollHeight;
+      canvas.style.height = `${container.scrollHeight}px`;
+    };
+
+    window.addEventListener("resize", resizeCanvas);
+
     return () => {
-      // Cleanup mouse
       canvas.removeEventListener("mousedown", startDrawing);
-      canvas.removeEventListener("mousemove", draw);
+      canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseup", stopDrawing);
       canvas.removeEventListener("mouseleave", stopDrawing);
-      if (hoverToErase) {
-        canvas.removeEventListener("mousemove", hoverErase);
-      }
 
-      // Cleanup touch
       canvas.removeEventListener("touchstart", startTouchDrawing);
       canvas.removeEventListener("touchmove", drawTouch);
       canvas.removeEventListener("touchend", stopTouchDrawing);
       canvas.removeEventListener("touchcancel", stopTouchDrawing);
+
+      window.removeEventListener("resize", resizeCanvas);
     };
-  }, [enabled, containerId, hoverToErase]);
+  }, [enabled, containerId]);
 
   const clearCanvas = () => {
     const canvas = canvasRef.current;

@@ -1,6 +1,5 @@
 import React from "react";
 import { CreateLessonFormStepsType, LessonTemplateType } from "src/types";
-
 export interface CreateLessonFormDefaultValues {
   draft_id: string;
   activeStep: CreateLessonFormStepsType;

@@ -55,56 +55,11 @@ const SlideLessonContent: React.FC = () => {
   const handleStateUpdate = (newState: Partial<LessonDescriptionState>) =>
     setState((state) => ({ ...state, ...newState }));
 
-  const handleProceed = () => {
-    const trimmedValue = state.value.trim();
-    const isAddingNewSlide = !state.isEditing && trimmedValue !== "";
-    const currentSlideIndex = state.index;
-    let updatedContent = [...state.content];
-
-    // Add new slide only if valid and not editing
-    if (
-      isAddingNewSlide &&
-      !updatedContent.some((slide) => slide.trim() === trimmedValue)
-    ) {
-      updatedContent.push(trimmedValue);
-    }
-
-    const totalSlides = updatedContent.length;
-
-    // If user is not yet on the last slide, move to the next one
-    if (currentSlideIndex < totalSlides - 1) {
-      handleStateUpdate({
-        content: updatedContent,
-        index: currentSlideIndex + 1,
-        value: updatedContent[currentSlideIndex + 1] || "",
-        isEditing: true,
-      });
-      return;
-    }
-
-    // Final validation before proceeding to next page/step
-    if (updatedContent.length === 0) {
-      toast({
-        status: "error",
-        description: "You must add at least one slide.",
-      });
-      return;
-    }
-
-    // Proceed to the next step (Record Page)
+  const handleProceed = () =>
     updateCreateLessonFormValues({
       activeStep: CreateLessonFormStepsType.Record,
-      content: updatedContent,
+      content: state.content,
     });
-
-    // Reset state for next use
-    handleStateUpdate({
-      content: updatedContent,
-      isEditing: false,
-      index: 0,
-      value: "",
-    });
-  };
 
   const handleAddSlide = () => {
     let updateContent = [...state.content];
@@ -178,26 +133,17 @@ const SlideLessonContent: React.FC = () => {
   const renderActions = getLessonContentActions(
     {
       handleDraft,
-      handleBack: () => {
-        if (state.index > 0) {
-          handleStateUpdate({
-            index: state.index - 1,
-            value: state.content[state.index - 1] || "",
-            isEditing: true,
-          });
-        } else {
-          updateCreateLessonFormValues({
-            activeStep: CreateLessonFormStepsType.FormInfo,
-          });
-        }
-      },
+      handleBack: () =>
+        updateCreateLessonFormValues({
+          activeStep: CreateLessonFormStepsType.FormInfo,
+        }),
       handleProceed,
       handleTooltip: (showTooltip) => handleStateUpdate({ showTooltip }),
     },
-    state.content.length === 0 && !state.value.trim()
+    state.content.length <= 1
   );
 
-  const isTooltipActive = state.showTooltip && state.content.length < 1;
+  const isTooltipActive = state.showTooltip && state.content.length <= 1;
 
   return (
     <>
@@ -217,33 +163,11 @@ const SlideLessonContent: React.FC = () => {
           base: "column-reverse",
           md: "row",
         }}>
-        <Flex
-          flex="1"
-          minW="0"
-          maxW="100%"
-          overflow="hidden"
-          sx={{
-            ".editor-container": {
-              width: "100%",
-              maxWidth: "800px",
-              minHeight: "300px",
-              border: " 1px solid #ccc",
-              padding: "16px",
-              borderRadius: "8px",
-              overflowWrap: "break-word",
-              wordBreak: "break-word",
-              whiteSpace: "pre-wrap",
-              backgroundColor: "fff",
-            },
-          }}>
-          <Box className="editor-container">
-            <Editor
-              value={state.value}
-              placeholder="Your lesson content goes in here..."
-              onChange={(value) => handleStateUpdate({ value })}
-            />
-          </Box>
-        </Flex>
+        <Editor
+          value={state.value}
+          placeholder="Your lesson content goes in here..."
+          onChange={(value) => handleStateUpdate({ value })}
+        />
 
         <Flex flexDir="column" gap="24px" w="100%" maxW="200px">
           <Button
@@ -305,8 +229,8 @@ const SlideLessonContent: React.FC = () => {
             p="7px"
             borderRadius="4px"
             maxW="200px">
-            <Text fontSize="12px">Slides should be at least one,</Text>
-            <Text fontSize="12px">add at least one slide to proceed</Text>
+            <Text fontSize="12px">Slides should be at least two,</Text>
+            <Text fontSize="12px">use scroll template for one content</Text>
           </Box>
         )}
 
