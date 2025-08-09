@@ -207,7 +207,7 @@ export const getChatListData = (
       admin: item.members.filter((item) => item._id === userId)[0],
       recipient,
       name: recipient.name,
-      img: "",
+      img: recipient.photoURL,
       slug: transformNameToSlug(recipient.name),
       last_msg_time: item.updatedAt,
       type: ChatType.Single,

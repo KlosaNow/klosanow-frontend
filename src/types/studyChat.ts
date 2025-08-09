@@ -34,6 +34,7 @@ export interface Contact {
   name: string;
   email: string;
   phoneNumber: string;
+  photoURL: string;
   role: string;
   createdLessons: Array<unknown>;
   savedLessons: Array<unknown>;
@@ -60,6 +61,12 @@ export interface ChatData {
   updatedAt: string;
   __v: number;
   _id: string;
+}
+
+export interface StudyChatResponse {
+  message: string;
+  status: string;
+  data: Array<StudyChatListData>;
 }
 
 export interface ChatResponse {

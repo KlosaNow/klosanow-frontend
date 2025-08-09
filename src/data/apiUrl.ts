@@ -3,6 +3,10 @@ export const lessonRoute = "lessons";
 export const mediaRoute = "media";
 export const userRoute = "users";
 
+// Chats
+export const chatApiRoute = "chats";
+export const studyChatApiRoute = "studychats";
+
 // Study chat
 export const chatWebSocket = "chats";
 
