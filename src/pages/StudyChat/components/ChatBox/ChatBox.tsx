@@ -29,30 +29,6 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
     setIsSent(true);
   };
 
-  // const handleFetchChat = React.useCallback(() => {
-  //   if (!chat?.id) {
-  //     setMessages([]);
-  //     return;
-  //   }
-
-  //   try {
-  //     if (chat.type === ChatType.Single) {
-  //       getChat(chat.id, (messages) => {
-  //         setMessages(messages);
-  //       });
-  //     } else if (chat.type === ChatType.Group) {
-  //       getStudyChat(chat.id, (messages) => {
-  //         setMessages(messages);
-  //       });
-  //     } else {
-  //       setMessages([]);
-  //     }
-  //   } finally {
-  //     updateStudyChatValues({ loadingMessage: false });
-  //     setIsSent(false);
-  //   }
-  // }, [chat?.id, loadingMessage]);
-
   const handleFetchChat = React.useCallback(async () => {
     if (!chat?.id) {
       setMessages([]);

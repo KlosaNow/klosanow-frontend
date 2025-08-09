@@ -26,18 +26,14 @@ import { colors } from "../../../../data/colors";
 import Switch from "../../../../components/Switch";
 import { uniqueId } from "lodash";
 import { flyoutActionsStyles } from "../../data/styles";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { contactsPagePath } from "../../../../data/pageUrl";
 import { useStoreSelector } from "src/redux/hooks";
-import useChatWebSocket from "src/hooks/useChatWebSocket";
 
 const ChatDetailFlyout: React.FC = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const user = useStoreSelector((state) => state.user);
-  const [_, setSearchParams] = useSearchParams();
-
-  const { deleteStudyChat } = useChatWebSocket();
 
   const { activeChat, isChatDetailFlyout, updateStudyChatValues } =
     React.useContext(StudyChatContext);
@@ -57,13 +53,17 @@ const ChatDetailFlyout: React.FC = () => {
     );
   };
 
-  const handleDeleteStudyChat = () => {
-    if (activeChat) {
-      deleteStudyChat(activeChat.id);
-      setSearchParams("");
-      updateStudyChatValues({ activeChat: null });
-    } else null;
-  };
+  const handleRemoveMember = () =>
+    updateStudyChatValues({
+      showRemoveMemberModal: true,
+      activeStudyChat: activeChat,
+    });
+
+  const handleLeaveGroup = () =>
+    updateStudyChatValues({
+      showLeaveGroupModal: true,
+      activeStudyChat: activeChat,
+    });
 
   return (
     <Drawer isOpen={isChatDetailFlyout} onClose={handleClose} placement="right">
@@ -131,9 +131,6 @@ const ChatDetailFlyout: React.FC = () => {
                 <Text fontSize="20px" fontWeight="500">
                   {activeChat?.name}{" "}
                 </Text>
-                {/* <Text fontSize="24px" fontWeight="500">
-                  {activeChat?.recipient?.phoneNumber}{" "}
-                </Text> */}
               </Box>
             )}
           </Grid>
@@ -181,7 +178,7 @@ const ChatDetailFlyout: React.FC = () => {
 
                 <Flex alignItems="center" gap="8px" mt="20px">
                   <Circle size="50px" bg="#b1b1b1" overflow="hidden">
-                    <Image src={activeChat?.admin?.image} />
+                    <Image src={activeChat?.admin?.photoURL} />
                   </Circle>
 
                   <Flex justifyContent="center" flexDir="column">
@@ -194,15 +191,6 @@ const ChatDetailFlyout: React.FC = () => {
                     >
                       {activeChat?.admin?.name}
                     </Text>
-
-                    {/* <Text
-                      fontSize={12}
-                      fontWeight={400}
-                      color="#555555"
-                      lineHeight="15px"
-                    >
-                      {activeChat?.admin?.phoneNumber}
-                    </Text> */}
                   </Flex>
                 </Flex>
               </Box>
@@ -213,14 +201,14 @@ const ChatDetailFlyout: React.FC = () => {
                 </Text>
 
                 <Flex flexDir="column" gap="28px" mt="20px">
-                  {activeChat?.members?.map(({ name, image, _id }) => (
+                  {activeChat?.members?.map(({ name, photoURL, _id }) => (
                     <Flex
                       alignItems="center"
                       gap="8px"
                       key={uniqueId(`learner-${_id}`)}
                     >
                       <Circle size="50px" bg="#b1b1b1" overflow="hidden">
-                        <Image src={image} />
+                        <Image src={photoURL} />
                       </Circle>
 
                       <Flex justifyContent="center" flexDir="column">
@@ -233,15 +221,6 @@ const ChatDetailFlyout: React.FC = () => {
                         >
                           {user.data?._id === _id ? "You" : name}
                         </Text>
-
-                        {/* <Text
-                            fontSize={12}
-                            fontWeight={400}
-                            color="#555555"
-                            lineHeight="15px"
-                          >
-                            {phoneNumber}
-                          </Text> */}
                       </Flex>
                     </Flex>
                   ))}
@@ -286,11 +265,12 @@ const ChatDetailFlyout: React.FC = () => {
                   <Flex
                     as="button"
                     {...flyoutActionsStyles}
-                    display={"none"}
-                    onClick={handleDeleteStudyChat}
+                    onClick={isUser ? handleRemoveMember : handleLeaveGroup}
                   >
                     <LeaveIcon />
-                    <Text color={colors.error[50]}>Leave</Text>
+                    <Text {...flyoutActionsStyles} color={colors.error[50]}>
+                      {isUser ? "Remove members" : "Leave"}
+                    </Text>
                   </Flex>
                 </Flex>
               </Box>

@@ -121,7 +121,9 @@ const ChatBody: React.FC<ChatBodyProps> = ({
                   {isSender && (
                     <Circle size="20px" bg="#eee" overflow="hidden">
                       <Image
-                        src={activeChat?.img || "https://picsum.photos/50/50"}
+                        src={
+                          item?.sender.photoURL || "https://picsum.photos/50/50"
+                        }
                         alt="chat"
                       />
                     </Circle>

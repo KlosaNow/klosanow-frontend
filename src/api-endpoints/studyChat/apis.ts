@@ -1,7 +1,7 @@
 import { getToken } from "src/utils/constant";
 import { AxiosInstance as Axios } from "../../utils/axios";
 import { chatApiRoute, studyChatApiRoute } from "src/data/apiUrl";
-import { MessageResponse } from "src/types";
+import { MessageResponse, UpdateStudyChat } from "src/types";
 
 export const getChats = async () => {
   const { token } = getToken();
@@ -40,6 +40,17 @@ export const getStudyChat = async (id: string): Promise<MessageResponse> => {
   const { token } = getToken();
 
   const { data } = await Axios.get(`${studyChatApiRoute}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+};
+
+export const updateStudyChat = async (id: string, body: UpdateStudyChat) => {
+  const { token } = getToken();
+
+  const { data } = await Axios.put(`${studyChatApiRoute}/${id}`, body, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

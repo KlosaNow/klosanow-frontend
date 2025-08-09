@@ -11,6 +11,7 @@ export interface StudyChatListData {
   photoUrl: string;
   title: string;
   updatedAt: string;
+  last_msg_time: string;
 }
 
 export interface ChatListData {
@@ -41,7 +42,6 @@ export interface Contact {
   notifications: Array<unknown>;
   createdAt: string;
   updatedAt: string;
-  image: string;
   __v: number;
 }
 
@@ -90,4 +90,12 @@ export interface MessageType {
   createdAt: string;
   updatedAt: string;
   __v: number;
+}
+
+export interface UpdateStudyChat {
+  members?: {
+    addMembers?: string[];
+    removeMembers?: string[];
+  };
+  photoUrl?: string;
 }

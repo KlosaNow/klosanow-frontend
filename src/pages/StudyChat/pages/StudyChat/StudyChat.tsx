@@ -19,6 +19,8 @@ import {
 import { ChatData, ChatListData } from "src/types";
 import { CHAT_CONTACT_KEY } from "src/data/constants";
 import { useSearchParams } from "react-router-dom";
+import { RemoveMemberModal } from "../../modals";
+import LeaveChatGroupModal from "../../modals/LeaveChatGroupModal";
 
 const StudyChat: React.FC = () => {
   const dispatch = useStoreDispatch();
@@ -92,6 +94,8 @@ const StudyChat: React.FC = () => {
         </Flex>
 
         <ChatDetailFlyout />
+        <RemoveMemberModal />
+        <LeaveChatGroupModal />
       </Box>
     </StudyChatContext.Provider>
   );
