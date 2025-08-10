@@ -139,7 +139,7 @@ const ContactsComp: React.FC<ContactsProps> = ({ contacts }) => {
           }
         >
           <AddPeopleIcon />
-          <Text as="span">Add people</Text>
+          <Text as="span">Add to group</Text>
         </Box>
       )}
 

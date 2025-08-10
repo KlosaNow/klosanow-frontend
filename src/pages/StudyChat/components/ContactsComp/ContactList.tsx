@@ -40,7 +40,7 @@ const ContactListItem: React.FC<ContactListItemProps> = ({
             onClick={!hideCheck ? () => null : () => addContact(contact)}
           >
             <Circle size="50px" bg="#b1b1b1" overflow="hidden">
-              <Image src={contact.image ?? defaultImg} />
+              <Image src={contact.photoURL ?? defaultImg} />
             </Circle>
 
             <Box w="100%">
