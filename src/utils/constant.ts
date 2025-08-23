@@ -1,4 +1,4 @@
-import { SignInToken } from "../types/generics";
+import { FileUrlKey, SignInToken } from "../types/generics";
 
 export const USER_KEY = "USER_KEY";
 
@@ -56,3 +56,12 @@ export const getDraftId = () => localStorage.getItem("draft_id");
 export const setDraftId = (id: string) => localStorage.setItem("draft_id", id);
 
 export const clearDraftId = () => localStorage.setItem("draft_id", "");
+
+export const getFileUrl = (fileKey: FileUrlKey) =>
+  localStorage.getItem(fileKey);
+
+export const setFileUrl = (fileKey: FileUrlKey, file_url: string) =>
+  localStorage.setItem(fileKey, file_url);
+
+export const clearFileUrl = (fileKey: FileUrlKey) =>
+  localStorage.setItem(fileKey, "");

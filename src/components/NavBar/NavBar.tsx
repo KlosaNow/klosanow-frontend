@@ -1,24 +1,29 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, Flex } from "@chakra-ui/react";
 import { Search } from "../Search/Search";
-
-import { BiBell } from "react-icons/bi";
-
 import { navBarProps } from "../../types/components/componetInterface";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { HiUserCircle } from "react-icons/hi";
+import { useLocation, useNavigate } from "react-router-dom";
+import { contactsPagePath, studyChatPageSlug } from "../../data/pageUrl";
+import {
+  ContactIcon,
+  NotificationFillIcon,
+  NotificationIcon,
+} from "../../assets/svgs";
 
-const NavBar = ({ notificationCtrl }: navBarProps) => {
+const NavBar = ({ notificationCtrl, notificationLength }: navBarProps) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const isStudyChatpage = location.pathname.includes(studyChatPageSlug);
+
   const user = useSelector((state: RootState) => state.user);
+  const hasNotification = notificationLength > 0;
+
   return (
     <>
       <Box
-        position="fixed"
-        top={0}
-        right={0}
-        left={0}
-        bottom={0}
-        marginLeft={"264px"}
         height="60px"
         display={["none", "flex"]}
         alignItems="center"
@@ -27,40 +32,32 @@ const NavBar = ({ notificationCtrl }: navBarProps) => {
         backgroundColor="#fff"
         padding={{ base: "0px 20px", lg: "0px 50px" }}
         zIndex="50"
+        w={"100%"}
       >
-        <Box mt={"1rem"}>
+        <Flex mt={"1rem"}>
           <Search />
-        </Box>
-        <Box display={"flex"} alignItems={"center"}>
-          <Box
-            style={{
-              position: "relative",
-              marginLeft: "5px",
-              cursor: "pointer",
-            }}
-            onClick={notificationCtrl}
-          >
-            <BiBell fontSize={25} onClick={notificationCtrl} />
-            <span
-              style={{
-                display: "flex",
-                position: "absolute",
-                width: "15px",
-                height: "15px",
-                backgroundColor: "red",
-                top: "0px",
-                right: "0px",
-                fontSize: "9px",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#fff",
-                borderRadius: "50%",
-              }}
-            >
-              2
-            </span>
-          </Box>
 
+          {isStudyChatpage && (
+            <Box
+              as="button"
+              onClick={() => navigate(contactsPagePath)}
+              ml="50px"
+              h="max-content"
+            >
+              <ContactIcon />
+            </Box>
+          )}
+        </Flex>
+
+        <Box display={"flex"} alignItems={"center"}>
+          {hasNotification ? (
+            <NotificationFillIcon
+              cursor={"pointer"}
+              onClick={notificationCtrl}
+            />
+          ) : (
+            <NotificationIcon cursor={"pointer"} />
+          )}
           <Text
             width={"0.1rem"}
             height={"2.7rem"}

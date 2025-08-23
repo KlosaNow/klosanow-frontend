@@ -9,6 +9,7 @@ import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
 import { useNavigate } from "react-router-dom";
 import { draftsPagePath } from "src/data/pageUrl";
 import OverlayLoader from "src/components/OverlayLoader";
+import { clearFileUrl } from "src/utils/constant";
 
 const Editor = React.lazy(() => import("./Editor"));
 
@@ -50,6 +51,7 @@ const ScrollLessonContent: React.FC = () => {
 
       if (!res) throw new Error("Unable to save draft");
       setLoading(false);
+      clearFileUrl("thumbnail_url");
       navigate(draftsPagePath);
     } catch (error: any) {
       setLoading(false);

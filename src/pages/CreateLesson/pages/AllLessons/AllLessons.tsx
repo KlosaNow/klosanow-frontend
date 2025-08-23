@@ -85,19 +85,13 @@ const AllLessons: React.FC = () => {
     }
   };
 
-  const handleShare = () => {
-    //Share action here
-    handleStateUpdate({ actonType: "share" });
-    console.log("share");
-  };
-
   useQuery({
     queryKey: ["lessons"],
     queryFn: () => dispatch(fetchLessons()),
   });
 
   return (
-    <Box>
+    <Box p={["10px 16px 100px", "24px 30px"]}>
       <OverlayLoader
         loading={state.loading}
         description={
@@ -114,7 +108,6 @@ const AllLessons: React.FC = () => {
         <Text
           fontSize={{
             base: "24px",
-            md: "32px",
           }}
           fontWeight="500"
         >
@@ -170,7 +163,6 @@ const AllLessons: React.FC = () => {
                 }
                 hasOptions
                 handleDelete={handleDelete}
-                handleShare={handleShare}
               />
             ))}
           </Flex>

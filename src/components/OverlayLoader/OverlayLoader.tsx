@@ -13,9 +13,11 @@ const OverlayLoader: React.FC<OverlayLoaderProps> = ({
   return (
     loading && (
       <Box
-        position={"fixed"}
+        position={"absolute"}
         bottom={0}
         zIndex={1}
+        right={0}
+        left={0}
         bg={"#fff"}
         h={"100vh"}
         w={"100%"}

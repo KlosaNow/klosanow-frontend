@@ -14,6 +14,7 @@ const LessonTemplate: React.FC = () => {
       updateCreateLessonFormValues({
         template: type,
         activeStep: CreateLessonFormStepsType.FormInfo,
+        hasFormStarted: true,
       });
     }
   };

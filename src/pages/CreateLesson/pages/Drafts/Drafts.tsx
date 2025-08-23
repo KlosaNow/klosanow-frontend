@@ -52,7 +52,7 @@ const Drafts: React.FC = () => {
   });
 
   return (
-    <Box>
+    <Box p={["10px 16px 100px", "24px 30px"]}>
       <OverlayLoader loading={loading} description="Deleting draft" />
       <Text
         fontWeight={{

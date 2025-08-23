@@ -11,6 +11,7 @@ import persistStore from "redux-persist/es/persistStore";
 import { PersistGate } from "redux-persist/integration/react";
 import ScrollToTop from "./hooks/useScrollToTop";
 import PageLoader from "./components/PageLoader";
+import "./styles/main.scss";
 
 const queryClient = new QueryClient();
 const persistor = persistStore(store);

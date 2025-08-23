@@ -16,10 +16,29 @@ import {
 } from "@chakra-ui/react";
 
 import { HiChevronDown } from "react-icons/hi";
-import { sampleNotifications } from "../../../pages/Notifications/Notifications";
 import { NotificationItem } from "../../";
+import { NotificationItemProps } from "src/types";
+import React from "react";
 
-const NotificationModal = ({ isOpen, onClose }: UseDisclosureProps) => {
+interface NotificationModalProps extends UseDisclosureProps {
+  notifications: NotificationItemProps[];
+}
+
+const NotificationModal: React.FC<NotificationModalProps> = ({
+  isOpen,
+  onClose,
+  notifications,
+}) => {
+  const notificationOptions = ["All", "Unread"];
+  const [notificationType, setNotificationType] = React.useState(
+    notificationOptions[0]
+  );
+
+  const activeNotifications =
+    notificationType === notificationOptions[0]
+      ? notifications
+      : notifications.filter((item) => !item.isRead);
+
   return (
     <Modal
       // @ts-ignore
@@ -63,8 +82,17 @@ const NotificationModal = ({ isOpen, onClose }: UseDisclosureProps) => {
                 All notifications
               </MenuButton>
               <MenuList>
-                <MenuItem bg="transparent">All Notifcations</MenuItem>
-                <MenuItem bg="transparent">Unread Notifcations</MenuItem>
+                {notificationOptions.map((option) => (
+                  <MenuItem
+                    bg="transparent"
+                    fontSize={14}
+                    key={option}
+                    onClick={() => setNotificationType(option)}
+                    _hover={{ bg: "#eee" }}
+                  >
+                    {option} Notifcations
+                  </MenuItem>
+                ))}
               </MenuList>
             </Menu>
 
@@ -81,7 +109,7 @@ const NotificationModal = ({ isOpen, onClose }: UseDisclosureProps) => {
 
         <ModalBody>
           <List>
-            {sampleNotifications.map((notificationItem, index) => (
+            {activeNotifications.map((notificationItem, index) => (
               <NotificationItem
                 key={index}
                 notificationItem={notificationItem}

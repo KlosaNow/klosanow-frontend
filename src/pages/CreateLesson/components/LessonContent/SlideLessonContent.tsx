@@ -17,6 +17,7 @@ import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
 import { draftsPagePath } from "src/data/pageUrl";
 import { useNavigate } from "react-router-dom";
 import OverlayLoader from "src/components/OverlayLoader";
+import { clearFileUrl } from "src/utils/constant";
 
 interface LessonDescriptionState {
   index: number;
@@ -116,6 +117,7 @@ const SlideLessonContent: React.FC = () => {
 
       if (!res) throw new Error("Unable to save draft");
       handleStateUpdate({ loading: false });
+      clearFileUrl("thumbnail_url");
       navigate(draftsPagePath);
     } catch (error: any) {
       handleStateUpdate({ loading: false });

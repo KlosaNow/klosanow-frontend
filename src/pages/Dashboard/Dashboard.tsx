@@ -70,7 +70,12 @@ const Dashboard: React.FC = () => {
   });
 
   return (
-    <Box width="full" paddingX={1} height="full" margin={["auto", "0px"]}>
+    <Box
+      width="full"
+      p={["10px 16px 100px", "24px 30px"]}
+      height="full"
+      margin={["auto", "0px"]}
+    >
       <DashboardHeaderMobile notificationLength={3} />
 
       <Text

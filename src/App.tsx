@@ -23,10 +23,73 @@ import {
   AccountInfo,
 } from "./pages";
 import ProtectedRoute from "./utils/ProtectedRoute";
-import { createLessonPagePath, dashboardPageSlug } from "./data/pageUrl";
+import {
+  createLessonPagePath,
+  dashboardPageSlug,
+  studyChatPagePath,
+} from "./data/pageUrl";
+import useChatWebSocket from "./hooks/useChatWebSocket";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import {
+  clearIncompleteStorageFile,
+  getStorageItem,
+  removeStorageItem,
+} from "./utils/generics";
+import { CHAT_CONTACT_KEY } from "./data/constants";
+import { useToast } from "@chakra-ui/react";
 
 function App() {
   const location = useLocation();
+  const { connectWebSocket, cleanUpSocketConnection } = useChatWebSocket();
+  const storageContact = getStorageItem(CHAT_CONTACT_KEY);
+  const toast = useToast();
+
+  // Remove chat from storage after 30 seconds
+  useEffect(() => {
+    if (!storageContact) return;
+    const timeout = setTimeout(() => {
+      removeStorageItem(CHAT_CONTACT_KEY);
+    }, 30000);
+
+    return () => clearInterval(timeout);
+  }, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      clearIncompleteStorageFile("chat-audio", (errMsg) => {
+        toast({
+          title: "Unable to delete file",
+          description: errMsg || "Failed to delete",
+        });
+      });
+
+      clearIncompleteStorageFile("chat-file", (errMsg) => {
+        toast({
+          title: "Unable to delete file",
+          description: errMsg || "Failed to delete",
+        });
+      });
+
+      clearIncompleteStorageFile("study_chat", (errMsg) => {
+        toast({
+          title: "Unable to delete file",
+          description: errMsg || "Failed to delete",
+        });
+      });
+    }, 60000);
+
+    return () => clearInterval(timeout);
+  }, []);
+
+  useQuery({
+    queryKey: ["chat-socket"],
+    queryFn: () => {
+      connectWebSocket();
+      return () => cleanUpSocketConnection();
+    },
+  });
+
   return (
     <>
       <AnimatePresence mode="wait">
@@ -47,7 +110,7 @@ function App() {
                 element={<CreateLesson />}
               />
 
-              <Route path="/studychat" element={<StudyChat />} />
+              <Route path={`${studyChatPagePath}/*`} element={<StudyChat />} />
               <Route path="/notifications" element={<Notifications />} />
               <Route
                 path="/settings/notifications"

@@ -10,9 +10,11 @@ import logout from "../../assets/SettingsPageImg/Log-out.png";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { HiUserCircle } from "react-icons/hi";
+import useChatWebSocket from "src/hooks/useChatWebSocket";
 
 const MobileSettings = () => {
   const user = useSelector((state: RootState) => state.user);
+  const { disconnectWebSocket } = useChatWebSocket();
   return (
     <Box
       backgroundColor="#f6f6f6"
@@ -80,7 +82,12 @@ const MobileSettings = () => {
           </Box>
 
           <Box mt="5" background="neutral.10" borderRadius="10" padding="10px">
-            <SettingsItem imageSrc={logout} text="Logout" link="/" />
+            <SettingsItem
+              imageSrc={logout}
+              action={() => disconnectWebSocket()}
+              text="Logout"
+              link="/"
+            />
           </Box>
         </Box>
       </Flex>

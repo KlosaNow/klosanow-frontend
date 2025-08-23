@@ -9,6 +9,7 @@ import { postLessons } from "src/api-endpoints/lessons";
 import { postUser } from "src/api-endpoints/user/user.api";
 import { deletedFile, FileUploadResponseStatus } from "src/utils/file-upload";
 import OverlayLoader from "src/components/OverlayLoader";
+import { clearFileUrl } from "src/utils/constant";
 
 const PreviewVideo = () => {
   const navigate = useNavigate();
@@ -78,6 +79,7 @@ const PreviewVideo = () => {
         duration: 2500,
         position: "top-right",
       });
+      clearFileUrl("video_url");
       handleStateUpdate(initialState);
       navigate(allLessonsPagePath);
     } catch (error: any) {
@@ -108,6 +110,7 @@ const PreviewVideo = () => {
           videoUrl: "",
           videoSize: 0,
         });
+      clearFileUrl("video_url");
     } catch (error: any) {
       handleStateUpdate(initialState);
       toast({

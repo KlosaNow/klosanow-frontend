@@ -1,5 +1,5 @@
+@use "./mxins.scss" as *;
 @import url("https://fonts.googleapis.com/css2?family=Encode+Sans:wght@300;400;500;600;700&display=swap");
-@import "./mxins.scss";
 
 * {
   margin: 0;
@@ -53,6 +53,26 @@ body {
 .file-btn {
   svg {
     font-size: 30px;
+  }
+}
+
+.scrollbar {
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-track {
+    width: 3px;
+    padding: 0 2px;
+    background: #d9d9d9;
+    border-radius: 50px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #000;
+    height: 15.2px;
+    width: 8px;
+    border-radius: 50px;
   }
 }
 
