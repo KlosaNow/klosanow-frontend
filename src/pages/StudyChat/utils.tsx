@@ -209,8 +209,9 @@ export const getChatListData = (
       name: recipient.name,
       img: recipient.photoURL,
       slug: transformNameToSlug(recipient.name),
-      last_msg_time: item.updatedAt,
+      last_msg_time: item.lastChatMessage[0].createdAt,
       type: ChatType.Single,
+      last_msg: item.lastChatMessage[0].text.substring(0, 20),
     };
   });
 };

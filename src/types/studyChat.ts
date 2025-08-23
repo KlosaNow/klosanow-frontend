@@ -58,6 +58,7 @@ export interface StudyGroupInfoLocation {
 export interface ChatData {
   createdAt: string;
   members: Array<Contact>;
+  lastChatMessage: Array<MessageType>;
   updatedAt: string;
   __v: number;
   _id: string;
