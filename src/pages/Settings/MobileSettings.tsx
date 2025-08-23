@@ -1,6 +1,5 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { Header, SettingsItem } from "../../components";
-import avatar from "../../assets/SettingsPageImg/Avatar.png";
 import group from "../../assets/SettingsPageImg/Terms.png";
 import cloud from "../../assets/SettingsPageImg/Upload.png";
 import userImg from "../../assets/SettingsPageImg/user.png";
@@ -11,9 +10,11 @@ import logout from "../../assets/SettingsPageImg/Log-out.png";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { HiUserCircle } from "react-icons/hi";
+import useChatWebSocket from "src/hooks/useChatWebSocket";
 
 const MobileSettings = () => {
   const user = useSelector((state: RootState) => state.user);
+  const { disconnectWebSocket } = useChatWebSocket();
   return (
     <Box
       backgroundColor="#f6f6f6"
@@ -81,7 +82,12 @@ const MobileSettings = () => {
           </Box>
 
           <Box mt="5" background="neutral.10" borderRadius="10" padding="10px">
-            <SettingsItem imageSrc={logout} text="Logout" link="/" />
+            <SettingsItem
+              imageSrc={logout}
+              action={() => disconnectWebSocket()}
+              text="Logout"
+              link="/"
+            />
           </Box>
         </Box>
       </Flex>

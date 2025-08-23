@@ -7,7 +7,6 @@ import {
   Icon,
   Text,
 } from "@chakra-ui/react";
-import { AiOutlineArrowLeft } from "react-icons/ai";
 import { GoDotFill } from "react-icons/go";
 import Header from "../Header/Header";
 

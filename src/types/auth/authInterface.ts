@@ -6,6 +6,8 @@ export interface UserDataI {
   savedLessons: any[];
   createdLessons: any[];
   notifications: any[];
+  bio: string;
+  _id: string;
 }
 export interface UserI {
   token: string;

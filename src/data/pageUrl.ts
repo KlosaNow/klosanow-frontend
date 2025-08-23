@@ -1,0 +1,20 @@
+// Study chart
+export const studyChatPageSlug = "study-chat";
+export const studyChatPagePath = `/${studyChatPageSlug}`;
+export const createStudyChatSlug = "create";
+export const createStudyChatPath = `${studyChatPagePath}/${createStudyChatSlug}`;
+export const contactsPageSlug = "contacts";
+export const contactsPagePath = `${studyChatPagePath}/${contactsPageSlug}`;
+// Dashboard routes
+export const dashboardPageSlug = "dashboard";
+export const dashboardPagePath = `/${dashboardPageSlug}`;
+
+// Create Lesson routes
+export const createLessonPageSlug = "lesson";
+export const createLessonPagePath = `/${createLessonPageSlug}`;
+export const createLessonFormPageSlug = "create";
+export const createLessonFormPagePath = `${createLessonPagePath}/${createLessonFormPageSlug}`;
+export const allLessonsPageSlug = "all";
+export const allLessonsPagePath = `${createLessonPagePath}/${allLessonsPageSlug}`;
+export const draftsPageSlug = "drafts";
+export const draftsPagePath = `${createLessonPagePath}/${draftsPageSlug}`;

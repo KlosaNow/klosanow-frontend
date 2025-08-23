@@ -15,36 +15,42 @@ export const sampleNotifications = [
     action: "added you to a group",
     time: "Just Now",
     backgroundImageUrl: backgroundImage1,
+    isRead: false,
   },
   {
     name: "Seun Daniel",
     action: "added you to a group",
     time: "Just Now",
     backgroundImageUrl: backgroundImage2,
+    isRead: false,
   },
   {
     name: "",
     action: "You subscribed to the basic plan",
     time: "3 days ago",
     backgroundImageUrl: backgroundImage3,
+    isRead: true,
   },
   {
     name: "Timi Crown",
     action: "added you to a group",
     time: "4 days ago",
     backgroundImageUrl: backgroundImage4,
+    isRead: false,
   },
   {
     name: "",
     action: "You changed your password",
     time: "5 days ago",
     backgroundImageUrl: backgroundImage5,
+    isRead: true,
   },
   {
     name: "Idowu Taiwo",
     action: "added you to a group",
     time: "5 days ago",
     backgroundImageUrl: backgroundImage6,
+    isRead: false,
   },
 ];
 

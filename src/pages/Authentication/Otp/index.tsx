@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { verifyOtpApi } from "../../../api-endpoints/auth/auth.api";
 import { getSingleUser } from "../../../api-endpoints/user/user.api";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   Box,
   HStack,
@@ -22,60 +22,55 @@ import { slides } from "../../Onboarding/utils/SlideData";
 import { OnboardingSlides } from "../..";
 import { AuthResponseI, UserI } from "../../../types/auth/authInterface";
 import toast from "react-hot-toast";
-import { RootState } from '../../../redux/store';
-import { updateToken, updateUserData } from "../../../redux/reducers/userReducer";
+import { updateUserData } from "../../../redux/reducers/userReducer";
 import { _token } from "../../../utils/axios";
 import { savedwithExp } from "../../../utils/constant";
 import { VerifyOtpResponse } from "../../../api-endpoints/auth/interface";
 
-
-type OtpT = Pick<AuthResponseI, "otp">
-
+type OtpT = Pick<AuthResponseI, "otp">;
 
 export default function Otp(): JSX.Element {
   const navigate = useNavigate();
   const [authResponse, setAuthResponse] = useState<AuthResponseI | null>(null);
-  const [otp, setOtp] = useState<OtpT | null>(null)
-  const [verifyRes, setVerifyRes] = useState<VerifyOtpResponse | null>(null)
-  const [isReady, setIsReady] = useState<boolean>(false)
+  const [_, setOtp] = useState<OtpT | null>(null);
+  const [verifyRes, setVerifyRes] = useState<VerifyOtpResponse | null>(null);
+  const [isReady, setIsReady] = useState<boolean>(false);
 
-  const dispatch = useDispatch()
-  const phoneNumber = localStorage.getItem("phoneNumber")
+  const dispatch = useDispatch();
+  const phoneNumber = localStorage.getItem("phoneNumber");
 
   // verify otp mutation
   const verifyMutation = useMutation(verifyOtpApi, {
     onSuccess: (data) => {
       if (data) {
-        setIsReady(true)
-        setVerifyRes(data)
-        savedwithExp({ ...data }, 1)
-
+        setIsReady(true);
+        setVerifyRes(data);
+        savedwithExp({ ...data }, 1);
       }
-      toast.success(data?.message || 'User returned successfully')
+      toast.success(data?.message || "User returned successfully");
     },
     onError: (error: AxiosError<{ message: string }>) => {
       if (error.response) {
-        toast.error(error?.response?.data?.message)
+        toast.error(error?.response?.data?.message);
       } else {
-        toast.error(error?.message)
+        toast.error(error?.message);
       }
-    }
-  })
+    },
+  });
 
   // get user  query
   useQuery({
-    queryKey: ['user'],
+    queryKey: ["user"],
     queryFn: () => {
-      return verifyRes && getSingleUser(verifyRes?.user?._id, verifyRes?.token)
+      return verifyRes && getSingleUser(verifyRes?.user?._id, verifyRes?.token);
     },
 
     onSuccess: (data: UserI) => {
-      dispatch(updateUserData(data))
-      navigate("/dashboard")
+      dispatch(updateUserData(data));
+      navigate("/dashboard");
     },
-    enabled: isReady
-  })
-
+    enabled: isReady,
+  });
 
   // Handle change event for the PinInputField
   const handlePinChange = (value: OtpT) => {
@@ -83,9 +78,9 @@ export default function Otp(): JSX.Element {
   };
 
   const handleOnSubmit = (e: React.FormEvent<HTMLInputElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     if (authResponse) {
-      verifyMutation.mutate(authResponse)
+      verifyMutation.mutate(authResponse);
     }
   };
 
@@ -181,7 +176,7 @@ export default function Otp(): JSX.Element {
             </Box>
             <Box mt="4rem">
               <Text textAlign="center" fontSize="sm" fontWeight="medium">
-                OTP has been sent to{" "} {"+"}
+                OTP has been sent to {"+"}
                 {phoneNumber ? phoneNumber : "your phone number"}
               </Text>
             </Box>
@@ -209,7 +204,11 @@ export default function Otp(): JSX.Element {
                   bgColor="primary.50"
                   type="submit"
                 >
-                  {verifyMutation.isLoading ? <Spinner size="sm" thickness='4px' /> : "Verify OTP"}
+                  {verifyMutation.isLoading ? (
+                    <Spinner size="sm" thickness="4px" />
+                  ) : (
+                    "Verify OTP"
+                  )}
                 </Button>
               </Box>
               <Text

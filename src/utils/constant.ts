@@ -1,3 +1,5 @@
+import { FileUrlKey, SignInToken } from "../types/generics";
+
 export const USER_KEY = "USER_KEY";
 
 export const USER = () => {
@@ -30,9 +32,36 @@ export function savedwithExp(
     expiry: now.getTime() + exp,
   };
 
+  console.log(item);
+
   if (storage === "sessionStorage") {
     sessionStorage.setItem(USER_KEY, JSON.stringify(value));
   } else {
     localStorage.setItem(USER_KEY, JSON.stringify(value));
   }
 }
+
+export const getToken = (key?: string): SignInToken => {
+  const userKey = key || "USER_KEY";
+
+  const signinResponse = localStorage.getItem(userKey);
+
+  const token = JSON.parse(signinResponse as string) as SignInToken;
+
+  return token;
+};
+
+export const getDraftId = () => localStorage.getItem("draft_id");
+
+export const setDraftId = (id: string) => localStorage.setItem("draft_id", id);
+
+export const clearDraftId = () => localStorage.setItem("draft_id", "");
+
+export const getFileUrl = (fileKey: FileUrlKey) =>
+  localStorage.getItem(fileKey);
+
+export const setFileUrl = (fileKey: FileUrlKey, file_url: string) =>
+  localStorage.setItem(fileKey, file_url);
+
+export const clearFileUrl = (fileKey: FileUrlKey) =>
+  localStorage.setItem(fileKey, "");

@@ -2,9 +2,6 @@ import { ListItem, Box, Text } from "@chakra-ui/react";
 import "../../styles/Notifications.scss";
 import { NotificationItemProps } from "../../types/components/componetInterface";
 
-const padding = "2em";
-const justifyContent = "start";
-
 export default function NotificationItem({
   notificationItem,
 }: {
@@ -28,7 +25,7 @@ export default function NotificationItem({
           <Text>
             <span className="notification-info-name">
               {notificationItem.name}
-            </span>
+            </span>{" "}
             {notificationItem.action}
           </Text>
           <Text fontSize="12px" fontWeight="400">
