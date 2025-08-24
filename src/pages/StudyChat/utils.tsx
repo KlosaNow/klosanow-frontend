@@ -12,6 +12,7 @@ import DummyFileIllustration from "./assets/images/file.png";
 import { DeleteIcon } from "./assets/svgs";
 import { BsFillSendFill } from "react-icons/bs";
 import { groupBy, uniqueId } from "lodash";
+import { formatISO } from "date-fns";
 
 export const getContactsListWithChar = (contacts: Contact[]) => {
   const sortedContacts = [...contacts].sort((a, b) => {
@@ -209,7 +210,8 @@ export const getChatListData = (
       name: recipient?.name,
       img: recipient?.photoURL,
       slug: transformNameToSlug(recipient.name),
-      last_msg_time: item?.lastChatMessage[0]?.createdAt,
+      last_msg_time:
+        item?.lastChatMessage[0]?.createdAt || formatISO(new Date()),
       type: ChatType.Single,
       last_msg: item?.lastChatMessage[0]?.text.substring(0, 20),
     };
