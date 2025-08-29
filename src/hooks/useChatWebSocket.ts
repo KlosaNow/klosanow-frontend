@@ -66,24 +66,6 @@ const useChatWebSocket = () => {
   };
 
   // Study chats
-  const createStudyChat = ({
-    title,
-    photoUrl,
-    members,
-  }: {
-    title: string;
-    photoUrl: string;
-    members: string[];
-  }) => {
-    socketRef.current?.emit(webSocketUrls.createStudyChatsWebSocketUrl, {
-      title,
-      photoUrl,
-      members,
-    });
-
-    return () =>
-      socketRef.current?.off(webSocketUrls.createStudyChatsWebSocketUrl);
-  };
 
   const deleteStudyChat = (studyChatId: string) =>
     socketRef.current?.emit(webSocketUrls.deleteStudyChatWebSocketUrl, {
@@ -140,7 +122,6 @@ const useChatWebSocket = () => {
     addStudyChatMember,
     updateStudyChatPhoto,
     sendStudyChatMessage,
-    createStudyChat,
     deleteStudyChat,
     disconnectWebSocket,
     cleanUpSocketConnection,

@@ -47,6 +47,21 @@ export const getStudyChat = async (id: string): Promise<MessageResponse> => {
   return data;
 };
 
+export const createStudyChat = async (body: {
+  title: string;
+  photoUrl: string;
+  members: string[];
+}) => {
+  const { token } = getToken();
+
+  const { data } = await Axios.post(studyChatApiRoute, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+};
+
 export const updateStudyChat = async (id: string, body: UpdateStudyChat) => {
   const { token } = getToken();
 
