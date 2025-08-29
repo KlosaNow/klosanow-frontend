@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { Header, SettingsItem } from "../../components";
 import group from "../../assets/SettingsPageImg/Terms.png";
 import cloud from "../../assets/SettingsPageImg/Upload.png";
@@ -35,14 +35,23 @@ const MobileSettings = () => {
           justifyContent="flex-start"
           width="100%"
         >
-          <HiUserCircle
-            fontSize="70px"
-            style={{
-              marginLeft: "20px",
-              marginRight: "10px",
-            }}
-          />
-          {/* <Image src={avatar} alt="lady" ml="9" boxSize="20%" /> */}
+          {user.data?.profilePhoto ? (
+            <Image
+              src={user.data?.profilePhoto}
+              alt="profilePhoto"
+              ml="9"
+              boxSize="20%"
+              borderRadius="full"
+            />
+          ) : (
+            <HiUserCircle
+              fontSize="70px"
+              style={{
+                marginLeft: "20px",
+                marginRight: "10px",
+              }}
+            />
+          )}
 
           <Box>
             <Text fontSize="xl">{user?.data?.name}</Text>

@@ -1,4 +1,4 @@
-import { Box, Text, Flex } from "@chakra-ui/react";
+import { Box, Text, Flex, Image } from "@chakra-ui/react";
 import { Search } from "../Search/Search";
 import { navBarProps } from "../../types/components/componetInterface";
 import { useSelector } from "react-redux";
@@ -65,19 +65,22 @@ const NavBar = ({ notificationCtrl, notificationLength }: navBarProps) => {
             mx={"0.8rem"}
           ></Text>
           <Box display={"flex"} alignItems={"center"}>
-            {/* <Image
-              borderRadius="full"
-              boxSize="45px"
-              src="https://bit.ly/dan-abramov"
-              alt="Klosanaw images"
-              mr={"0.8rem"}
-            /> */}
-            <HiUserCircle
-              fontSize="40px"
-              style={{
-                marginRight: "0.8rem",
-              }}
-            />
+            {user.data?.profilePhoto ? (
+              <Image
+                borderRadius="full"
+                boxSize="45px"
+                src={user.data?.profilePhoto}
+                alt="Klosanaw images"
+                mr={"0.8rem"}
+              />
+            ) : (
+              <HiUserCircle
+                fontSize="40px"
+                style={{
+                  marginRight: "0.8rem",
+                }}
+              />
+            )}
             <Box>
               <Text fontWeight={600} fontSize={"0.9rem"}>
                 {user.data?.name ? user.data?.name : "user"}

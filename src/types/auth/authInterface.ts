@@ -5,6 +5,7 @@ export interface UserDataI {
   role: string;
   savedLessons: any[];
   createdLessons: any[];
+  profilePhoto: string;
   notifications: any[];
   bio: string;
   _id: string;
