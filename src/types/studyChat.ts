@@ -11,6 +11,7 @@ export interface StudyChatListData {
   photoUrl: string;
   title: string;
   updatedAt: string;
+  last_msg_time: string;
 }
 
 export interface ChatListData {
@@ -34,13 +35,13 @@ export interface Contact {
   name: string;
   email: string;
   phoneNumber: string;
+  photoURL: string;
   role: string;
   createdLessons: Array<unknown>;
   savedLessons: Array<unknown>;
   notifications: Array<unknown>;
   createdAt: string;
   updatedAt: string;
-  image: string;
   __v: number;
 }
 
@@ -57,9 +58,16 @@ export interface StudyGroupInfoLocation {
 export interface ChatData {
   createdAt: string;
   members: Array<Contact>;
+  lastChatMessage: Array<MessageType>;
   updatedAt: string;
   __v: number;
   _id: string;
+}
+
+export interface StudyChatResponse {
+  message: string;
+  status: string;
+  data: Array<StudyChatListData>;
 }
 
 export interface ChatResponse {
@@ -83,4 +91,12 @@ export interface MessageType {
   createdAt: string;
   updatedAt: string;
   __v: number;
+}
+
+export interface UpdateStudyChat {
+  members?: {
+    addMembers?: string[];
+    removeMembers?: string[];
+  };
+  photoUrl?: string;
 }

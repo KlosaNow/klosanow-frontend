@@ -39,7 +39,7 @@ export const createButtonStyles = {
 
 export const flyoutActionsStyles = {
   color: colors.neutral[10],
-  fontSize: "18px",
+  fontSize: "14px",
   fontWeight: "500",
   lineHeight: "160%",
   letterSpacing: "-0.6px",

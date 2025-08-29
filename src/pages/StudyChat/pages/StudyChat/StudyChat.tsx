@@ -10,7 +10,7 @@ import {
 import { ChatDetailFlyout } from "../../flyouts";
 import useChatWebSocket from "src/hooks/useChatWebSocket";
 import { getChatListData, getStudyChatListData } from "../../utils";
-import { setChats, setStudyChats } from "src/api-endpoints/studyChat";
+import { fetchChats, fetchStudyChats } from "src/api-endpoints/studyChat";
 import { useStoreDispatch, useStoreSelector } from "src/redux/hooks";
 import {
   getStorageItem,
@@ -19,6 +19,8 @@ import {
 import { ChatData, ChatListData } from "src/types";
 import { CHAT_CONTACT_KEY } from "src/data/constants";
 import { useSearchParams } from "react-router-dom";
+import { RemoveMemberModal } from "../../modals";
+import LeaveChatGroupModal from "../../modals/LeaveChatGroupModal";
 
 const StudyChat: React.FC = () => {
   const dispatch = useStoreDispatch();
@@ -27,7 +29,7 @@ const StudyChat: React.FC = () => {
   const [searchParams] = useSearchParams();
   const slug = searchParams.get("slug");
 
-  const { getAllChats, getAllStudyChats, eventType } = useChatWebSocket();
+  const { eventType } = useChatWebSocket();
 
   const [state, setState] = React.useState<DefaultValuesProps>(DefaultValues);
 
@@ -37,12 +39,13 @@ const StudyChat: React.FC = () => {
   const storageChat = getStorageItem<ChatData>(CHAT_CONTACT_KEY);
 
   const studyChatList = React.useMemo(
-    () => getStudyChatListData(studyChats),
+    () => getStudyChatListData(studyChats.data),
     [studyChats]
   );
 
   const chatList = React.useMemo(() => {
-    const baseList = [...(storageChat ? [storageChat] : []), ...chats];
+    const chatData = chats.data ? chats.data : [];
+    const baseList = [...(storageChat ? [storageChat] : []), ...chatData];
     return removeDuplicatesPreferWithId(
       getChatListData(baseList, user.data?._id || "")
     );
@@ -65,20 +68,8 @@ const StudyChat: React.FC = () => {
 
   const handleFetchChats = React.useCallback(async () => {
     try {
-      await Promise.all([
-        new Promise((resolve) => {
-          getAllChats((res) => {
-            dispatch(setChats(res.status === "success" ? res.data : []));
-            resolve(null);
-          });
-        }),
-        new Promise((resolve) => {
-          getAllStudyChats((res) => {
-            dispatch(setStudyChats(res.status === "success" ? res.data : []));
-            resolve(null);
-          });
-        }),
-      ]);
+      dispatch(fetchChats());
+      dispatch(fetchStudyChats());
     } finally {
       handleStateUpdate({ isNewChat: false });
     }
@@ -103,6 +94,8 @@ const StudyChat: React.FC = () => {
         </Flex>
 
         <ChatDetailFlyout />
+        <RemoveMemberModal />
+        <LeaveChatGroupModal />
       </Box>
     </StudyChatContext.Provider>
   );

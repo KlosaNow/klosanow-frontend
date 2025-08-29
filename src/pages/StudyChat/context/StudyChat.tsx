@@ -6,6 +6,9 @@ export interface DefaultValuesProps {
   isChatDetailFlyout: boolean;
   loadingMessage: boolean;
   isNewChat: boolean;
+  activeStudyChat: ChatListData | null;
+  showRemoveMemberModal: boolean;
+  showLeaveGroupModal: boolean;
 }
 
 interface DefaultMethodProps {
@@ -17,6 +20,9 @@ export const DefaultValues: DefaultValuesProps = {
   isChatDetailFlyout: false,
   loadingMessage: false,
   isNewChat: false,
+  showRemoveMemberModal: false,
+  activeStudyChat: null,
+  showLeaveGroupModal: false,
 };
 
 export const DefaultMethods: DefaultMethodProps = {

@@ -10,13 +10,14 @@ import ChatFooter from "./ChatFooter";
 import useChatWebSocket from "src/hooks/useChatWebSocket";
 import { ChatListData, ChatType, MessageType } from "src/types";
 import { StudyChatContext } from "../../context/StudyChat";
+import { getChat, getStudyChat } from "src/api-endpoints/studyChat";
 
 interface ChatBoxProps {
   chat: ChatListData | null;
 }
 
 const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
-  const { getChat, getStudyChat, eventType } = useChatWebSocket();
+  const { eventType } = useChatWebSocket();
   const { loadingMessage, updateStudyChatValues } =
     React.useContext(StudyChatContext);
 
@@ -28,7 +29,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
     setIsSent(true);
   };
 
-  const handleFetchChat = React.useCallback(() => {
+  const handleFetchChat = React.useCallback(async () => {
     if (!chat?.id) {
       setMessages([]);
       return;
@@ -36,13 +37,11 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chat }) => {
 
     try {
       if (chat.type === ChatType.Single) {
-        getChat(chat.id, (messages) => {
-          setMessages(messages);
-        });
+        const res = await getChat(chat.id);
+        setMessages(res.data);
       } else if (chat.type === ChatType.Group) {
-        getStudyChat(chat.id, (messages) => {
-          setMessages(messages);
-        });
+        const studyChatRes = await getStudyChat(chat.id);
+        setMessages(studyChatRes.data);
       } else {
         setMessages([]);
       }

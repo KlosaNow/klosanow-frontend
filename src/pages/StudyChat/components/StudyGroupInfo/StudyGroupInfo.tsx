@@ -24,13 +24,13 @@ import { StudyGroupInfoLocation } from "../../../../types/studyChat";
 import { uniqueId } from "lodash";
 import { studyGroupInfoValidationSchema } from "../../validators";
 import { studyChatPagePath } from "../../../../data/pageUrl";
-import useChatWebSocket from "src/hooks/useChatWebSocket";
 import { clearFileUrl, setFileUrl } from "src/utils/constant";
 import {
   deletedFile,
   FileUploadResponseStatus,
   uploadFile,
 } from "src/utils/file-upload";
+import { createStudyChat } from "src/api-endpoints/studyChat";
 
 interface CreateStudyChatValue {
   title: string;
@@ -44,7 +44,6 @@ interface StudyGroupInfoState {
 }
 
 const StudyGroupInfo: React.FC = () => {
-  const { createStudyChat } = useChatWebSocket();
   const uploadImgRef = React.useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const toast = useToast();
@@ -69,13 +68,25 @@ const StudyGroupInfo: React.FC = () => {
     description: "",
   };
 
-  const handleSubmit = (values: typeof initialValues) => {
-    createStudyChat({
-      title: values.title,
-      photoUrl: state.imageUrl,
-      members: participantsId,
-    });
-    navigate(studyChatPagePath);
+  const handleSubmit = async (values: typeof initialValues) => {
+    try {
+      const res = await createStudyChat({
+        title: values.title,
+        photoUrl: state.imageUrl,
+        members: participantsId,
+      });
+
+      if (!res) throw new Error("Unable to create study chat");
+      else navigate(studyChatPagePath);
+    } catch (error: any) {
+      toast({
+        title: error.message ?? error.response ?? "Something went wrong",
+        description: "Try again later",
+        status: "error",
+        duration: 3000,
+        position: "top-right",
+      });
+    }
   };
 
   const handleFileUpload = async (e: React.FormEvent<HTMLInputElement>) => {
@@ -259,14 +270,14 @@ const StudyGroupInfo: React.FC = () => {
 
                 {contacts && (
                   <Grid templateColumns="repeat(4, 1fr)" gap="35px">
-                    {contacts.map(({ image, _id, name }) => (
+                    {contacts.map(({ photoURL, _id, name }) => (
                       <GridItem
                         key={uniqueId(`participants-${_id}`)}
                         placeItems="center"
                       >
                         <Circle size="60px" bg="#b1b1b1" overflow="hidden">
                           <Image
-                            src={image}
+                            src={photoURL}
                             alt={name}
                             objectFit="cover"
                             h="100%"

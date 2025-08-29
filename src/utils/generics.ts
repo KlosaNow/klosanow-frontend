@@ -33,7 +33,15 @@ export const removeDuplicatesPreferWithId = (
     }
   }
 
-  return Array.from(map.values());
+  const list = Array.from(map.values());
+  const sortedList = list.sort((a, b) => {
+    const aLastMsgTime = new Date(a.last_msg_time);
+    const bLastMsgTime = new Date(b.last_msg_time);
+
+    return bLastMsgTime.getTime() - aLastMsgTime.getTime();
+  });
+
+  return sortedList;
 };
 
 export const clearIncompleteStorageFile = async (

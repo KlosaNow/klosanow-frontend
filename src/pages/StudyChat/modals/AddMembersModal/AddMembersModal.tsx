@@ -12,9 +12,9 @@ import { uniqueId } from "lodash";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { studyChatPagePath } from "src/data/pageUrl";
-import useChatWebSocket from "src/hooks/useChatWebSocket";
 import { Contact } from "src/types";
 import { transformNameToSlug } from "../../utils";
+import { updateStudyChat } from "src/api-endpoints/studyChat";
 
 interface AddMembersModalProps {
   show: boolean;
@@ -32,12 +32,12 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
   chatGroupName,
 }) => {
   const navigate = useNavigate();
-  const { addStudyChatMember } = useChatWebSocket();
 
-  const handleAddlearners = () => {
-    addStudyChatMember({
-      studyChatId: chatGroupId,
-      members: members.map((item) => item._id),
+  const handleAddlearners = async () => {
+    await updateStudyChat(chatGroupId, {
+      members: {
+        addMembers: members.map((item) => item._id),
+      },
     });
     handleClose();
     navigate(`${studyChatPagePath}?slug=${transformNameToSlug(chatGroupName)}`);

@@ -12,6 +12,7 @@ import DummyFileIllustration from "./assets/images/file.png";
 import { DeleteIcon } from "./assets/svgs";
 import { BsFillSendFill } from "react-icons/bs";
 import { groupBy, uniqueId } from "lodash";
+import { formatISO } from "date-fns";
 
 export const getContactsListWithChar = (contacts: Contact[]) => {
   const sortedContacts = [...contacts].sort((a, b) => {
@@ -200,15 +201,17 @@ export const getChatListData = (
   return chats.map((item) => {
     const recipient = item.members.filter((item) => item._id !== userId)[0];
     return {
-      id: item._id,
-      createdAt: item.createdAt,
+      id: item?._id,
+      createdAt: item?.createdAt,
       admin: item.members.filter((item) => item._id === userId)[0],
       recipient,
-      name: recipient.name,
-      img: "",
+      name: recipient?.name,
+      img: recipient?.photoURL,
       slug: transformNameToSlug(recipient.name),
-      last_msg_time: item.updatedAt,
+      last_msg_time:
+        item?.lastChatMessage[0]?.createdAt || formatISO(new Date()),
       type: ChatType.Single,
+      last_msg: item?.lastChatMessage[0]?.text.substring(0, 20),
     };
   });
 };
@@ -221,14 +224,14 @@ export const getStudyChatListData = (
 
     return {
       id: item._id,
-      name: item.title,
-      img: item.photoUrl,
+      name: item?.title,
+      img: item?.photoUrl,
       slug: transformNameToSlug(item.title),
-      last_msg_time: item.createdAt,
+      last_msg_time: item?.createdAt,
       type: ChatType.Group,
       admin: owner,
-      members: item.members,
-      createdAt: item.createdAt,
+      members: item?.members,
+      createdAt: item?.createdAt,
     };
   });
 };

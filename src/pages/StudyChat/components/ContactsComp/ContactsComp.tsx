@@ -67,6 +67,7 @@ const ContactsComp: React.FC<ContactsProps> = ({ contacts }) => {
     const contactData: ChatData = {
       createdAt: formatISO(new Date()),
       updatedAt: formatISO(new Date()),
+      lastChatMessage: [],
       __v: 0,
       _id: "",
       members: [contact],
@@ -139,7 +140,7 @@ const ContactsComp: React.FC<ContactsProps> = ({ contacts }) => {
           }
         >
           <AddPeopleIcon />
-          <Text as="span">Add people</Text>
+          <Text as="span">Add to group</Text>
         </Box>
       )}
 
