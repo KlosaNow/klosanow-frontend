@@ -21,11 +21,27 @@ export interface AuthResponseI {
 }
 
 export interface SignUpValues {
-  name: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
   email: string;
   phoneNumber: string;
 }
 export interface SignInValues {
   email: string;
-  phoneNumber: string;
+  password: string;
+}
+export interface forgotValues {
+  email: string;
+}
+export interface ResetPasswordValues {
+  email: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+export interface AuthResponseInterface {
+  message: string;
+  data?: any;
 }

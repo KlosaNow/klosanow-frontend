@@ -1,73 +1,51 @@
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { signInApi } from "../../../api-endpoints/auth/auth.api";
-import { AxiosError } from "axios";
-import { useMutation } from "@tanstack/react-query";
-import { SignInValues } from "../../../types/auth/authInterface";
+import { forgotPasswordApi } from "../../../api-endpoints/auth/auth.api";
+import { forgotValues } from "../../../types/auth/authInterface";
 import {
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Text,
-  Link,
   Button,
-  Flex,
-  VStack,
-  Image,
   Spinner,
-  InputGroup,
-  InputRightElement,
+  FormControl,
+  Input,
+  FormLabel,
+  Flex,
+  Image,
+  VStack,
+  Text,
+  Box,
 } from "@chakra-ui/react";
+import { useFormik } from "formik";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
-import { Link as RouteLink, useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
 import { OnboardingSlides } from "../..";
-import { SignInSchema } from "../schema/auth.schema";
+import { ForgetPasswordSchema } from "../schema/auth.schema";
 import { InputError } from "../../../components";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-// import PhoneInput from "react-phone-input-2";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
-// import "react-phone-input-2/lib/style.css";
-import { useState } from "react";
-
-export default function SignIn() {
-  const [showPassword, setShowPassword] = useState(false);
+export default function ForgotPassword() {
   const navigate = useNavigate();
 
-  const { mutate, isLoading } = useMutation(signInApi, {
+  const { mutate, isLoading } = useMutation(forgotPasswordApi, {
     onSuccess: (data) => {
-      toast.success(data?.message);
-      const otpData = data?.data;
-      // set otp to local storage
-      // this otp should be sent to user registered phone number
-      localStorage.setItem("signinResponse", JSON.stringify(otpData));
-      navigate("/otp");
+      toast.success(
+        data?.message || "Email verified. Proceed to reset password."
+      );
+      localStorage.setItem("resetEmail", formik.values.email);
+      navigate("/reset-password");
     },
     onError: (error: AxiosError<{ message: string }>) => {
-      if (error.response) {
-        toast.error(error?.response?.data?.message);
-      } else {
-        toast.error(error?.message);
-      }
+      toast.error(error?.response?.data?.message || "Something went wrong");
     },
   });
 
-  const handleOnSubmit = (values: SignInValues) => {
-    localStorage.setItem("email", values?.email);
-
+  const handleOnSubmit = (values: forgotValues) => {
     mutate(values);
   };
 
   const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: SignInSchema,
+    initialValues: { email: "" },
+    validationSchema: ForgetPasswordSchema,
     onSubmit: handleOnSubmit,
   });
 
@@ -114,14 +92,15 @@ export default function SignIn() {
             <Box width="100%">
               <Text
                 color="secondary.50"
-                fontSize={{ lg: "1rem", base: "1.5rem" }}>
-                Welcome Back
+                fontSize={{ lg: "2.1rem", base: "1.5rem" }}>
+                Let's get you into your account
               </Text>
               <Text
-                fontSize={{ lg: "2.1rem", base: "1rem" }}
+                fontSize={{ lg: "1rem", base: "1rem" }}
                 fontFamily={{ lg: "primary" }}
+                fontWeight="200"
                 color="black.40">
-                Login To Your Account
+                Enter your email to receive your account
               </Text>
             </Box>
             <Box
@@ -153,50 +132,6 @@ export default function SignIn() {
                 ) : null}
               </FormControl>
 
-              <FormControl mb="1.5rem">
-                <FormLabel fontSize="sm" color="black.40">
-                  Password
-                </FormLabel>
-                <InputGroup>
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    id="password"
-                    fontSize="sm"
-                    padding="1.6rem 1rem"
-                    bg="#fff"
-                    borderColor="#ddd"
-                    placeholder="Enter your Password"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.password.trim()}
-                  />
-                  <InputRightElement h="100%" pr="1rem">
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => setShowPassword(!showPassword)}>
-                      {showPassword ? <ViewOffIcon /> : <ViewIcon />}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-                {formik.touched.password && formik.errors.password ? (
-                  <InputError error={formik.errors.password} />
-                ) : null}
-              </FormControl>
-
-              <Box display="flex" justifyContent="flex-end" mb="1rem">
-                <Link
-                  as={RouteLink}
-                  to="/forgot-password"
-                  color="primary.50"
-                  fontSize="sm"
-                  fontWeight="500"
-                  _hover={{ textDecoration: "underline" }}>
-                  Forgot password? Click here
-                </Link>
-              </Box>
-
               <Box display="flex" justifyContent="center">
                 <Button
                   width="100%"
@@ -209,18 +144,9 @@ export default function SignIn() {
                   {isLoading ? (
                     <Spinner size="sm" thickness="4px" />
                   ) : (
-                    "Sign In"
+                    "Continue"
                   )}
                 </Button>
-              </Box>
-
-              <Box mt="1rem">
-                <Text textAlign="center" fontWeight={500}>
-                  Don’t have an account?{" "}
-                  <Link as={RouteLink} to="/sign-up" color="primary.50">
-                    Sign up
-                  </Link>
-                </Text>
               </Box>
             </Box>
           </VStack>

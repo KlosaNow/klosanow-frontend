@@ -1,8 +1,8 @@
 // auth pages
 export { default as SignIn } from "./Authentication/SignIn";
 export { default as SignUp } from "./Authentication/SignUp";
-export { default as Otp } from "./Authentication/Otp";
-
+export { default as ForgotPassword } from "./Authentication/ForgotPassword";
+export { default as ResetPassword } from "./Authentication/ResetPassword";
 export { default as Dashboard } from "./Dashboard";
 export { default as Error } from "./Error/Error";
 export { default as CreateLesson } from "./CreateLesson";

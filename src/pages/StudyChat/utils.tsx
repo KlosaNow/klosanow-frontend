@@ -112,8 +112,7 @@ export const getUploadedDataPreview = (data: {
         bg="#eee"
         borderRadius="8px"
         key={uniqueId(`img-${url}`)}
-        onClick={() => handleView && handleView()}
-      >
+        onClick={() => handleView && handleView()}>
         <Image
           src={url}
           w="100%"
@@ -141,6 +140,7 @@ export const getUploadedDataPreview = (data: {
         key={uniqueId(`video-${url}`)}
         src={url}
         style={{ width: "100%", height: "100%", maxHeight: "156px" }}
+        preload="metadata"
         controls
       />
     );
@@ -152,8 +152,7 @@ export const getUploadedDataPreview = (data: {
         bg={colors.neutral[60]}
         w="70px"
         borderRadius="8px"
-        key={uniqueId(`doc-${url}`)}
-      >
+        key={uniqueId(`doc-${url}`)}>
         <Image
           src={DummyFileIllustration}
           w="100%"
@@ -171,8 +170,7 @@ export const getUploadedDataPreview = (data: {
         href={url.startsWith("http") ? url : `https://${url}`}
         target="_blank"
         rel="noopener noreferrer"
-        key={uniqueId(`link-${url}`)}
-      >
+        key={uniqueId(`link-${url}`)}>
         <u>{url}</u>
       </a>
     );

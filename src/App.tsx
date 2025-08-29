@@ -2,7 +2,6 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { Toaster } from "react-hot-toast";
 import { DashboardLayout } from "./components";
-
 import {
   Dashboard,
   StudyChat,
@@ -10,7 +9,8 @@ import {
   Settings,
   SignUp,
   SignIn,
-  Otp,
+  ForgotPassword,
+  ResetPassword,
   MailUs,
   Help,
   NotificationSettings,
@@ -95,11 +95,10 @@ function App() {
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Onboarding />} />
-
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/otp" element={<Otp />} />
-
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
               {/* dashboard routes */}
