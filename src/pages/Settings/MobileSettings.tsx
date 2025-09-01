@@ -68,21 +68,37 @@ const MobileSettings = () => {
             borderRadius="10"
             padding="10px"
           >
-            <SettingsItem imageSrc={userImg} text="Info" link="/info" />
+            <SettingsItem
+              imageSrc={userImg}
+              text="Info"
+              // link="/info"
+              link="#"
+            />
             <SettingsItem
               imageSrc={bell}
               text="Notification"
-              link="/settings/notifications"
+              link="#"
+              // link="/settings/notifications"
             />
           </Box>
 
           <Box mt="5" background="neutral.10" borderRadius="10" padding="10px">
             <SettingsItem imageSrc={wallet} text="Subscription" link="#" />
-            <SettingsItem imageSrc={cloud} text="Storage" link="/free" />
+            <SettingsItem
+              imageSrc={cloud}
+              text="Storage"
+              link="#"
+              // link="/free"
+            />
           </Box>
 
           <Box mt="5" background="neutral.10" borderRadius="10" padding="10px">
-            <SettingsItem imageSrc={help} text="Help" link="/help" />
+            <SettingsItem
+              imageSrc={help}
+              text="Help"
+              link="#"
+              // link="/help"
+            />
             <SettingsItem
               imageSrc={group}
               text="Terms and Condition"

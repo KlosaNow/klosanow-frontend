@@ -46,6 +46,7 @@ export default function ResetPassword() {
   });
   const handleOnSubmit = (values: Omit<ResetPasswordValues, "email">) => {
     const email = localStorage.getItem("resetEmail");
+    console.log(values);
 
     if (!email) {
       toast.error("Email not found. Please start password reset again.");
@@ -79,7 +80,8 @@ export default function ResetPassword() {
           height="160"
           viewBox="0 0 568 160"
           fill="none"
-          xmlns="http://www.w3.org/2000/svg">
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <ellipse
             cx="-14.5"
             cy="-240.5"
@@ -96,10 +98,12 @@ export default function ResetPassword() {
           hideBelow="lg"
           display="flex"
           py="2rem"
-          px="1rem">
+          px="1rem"
+        >
           <Box
             style={{ position: "absolute", top: "5%", left: "5%" }}
-            width="8rem">
+            width="8rem"
+          >
             <Image src={logo} alt="Dan Abramov" />
           </Box>
           <SlideTemplate {...resetSlide} />
@@ -111,11 +115,13 @@ export default function ResetPassword() {
             <Box width="100%">
               <Text
                 color="secondary.50"
-                fontSize={{ lg: "1rem", base: "1.5rem" }}></Text>
+                fontSize={{ lg: "1rem", base: "1.5rem" }}
+              ></Text>
               <Text
                 fontSize={{ lg: "1.5rem", base: "1.5rem" }}
                 fontFamily="primary"
-                color="black.50">
+                color="black.50"
+              >
                 Reset Password
               </Text>
             </Box>
@@ -124,7 +130,8 @@ export default function ResetPassword() {
               as="form"
               width="100%"
               py="2rem"
-              onSubmit={formik.handleSubmit}>
+              onSubmit={formik.handleSubmit}
+            >
               <FormControl mb="1.5rem">
                 <FormLabel fontSize="sm" color="black.40">
                   New Password
@@ -146,7 +153,8 @@ export default function ResetPassword() {
                     <Button
                       size="sm"
                       variant="ghost"
-                      onClick={() => setShowPassword(!showPassword)}>
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
                       {showPassword ? <ViewOffIcon /> : <ViewIcon />}
                     </Button>
                   </InputRightElement>
@@ -179,7 +187,8 @@ export default function ResetPassword() {
                       variant="ghost"
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
-                      }>
+                      }
+                    >
                       {showConfirmPassword ? <ViewOffIcon /> : <ViewIcon />}
                     </Button>
                   </InputRightElement>
@@ -197,7 +206,8 @@ export default function ResetPassword() {
                   color="neutral.50"
                   bgColor="primary.50"
                   type="submit"
-                  disabled={!(formik.dirty && formik.isValid)}>
+                  disabled={!(formik.dirty && formik.isValid)}
+                >
                   {isLoading ? (
                     <Spinner size="sm" thickness="4px" />
                   ) : (
