@@ -1,15 +1,15 @@
-import { useSelector } from 'react-redux'
-import { Navigate, Outlet } from 'react-router-dom'
-import { RootState } from '../redux/store';
-
+import { useSelector } from "react-redux";
+import { Navigate, Outlet } from "react-router-dom";
+import { RootState } from "../redux/store";
 
 const ProtectedRoute = () => {
-  const user = useSelector((state: RootState) => state.user?.data)
+  const user = useSelector((state: RootState) => state.user?.data);
 
-  return (
-    user ? <Outlet /> : <Navigate to="/sign-in" />
-  )
+  if (!user) {
+    console.log("No user yet, redirecting to /sign-in");
+    return <Navigate to="/sign-in" />;
+  }
+  return <Outlet />;
+};
 
-}
-
-export default ProtectedRoute
+export default ProtectedRoute;

@@ -1,6 +1,8 @@
 export interface SingleUserI {
   _id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  username: string;
   email: string;
   phoneNumber: string;
   role: string;

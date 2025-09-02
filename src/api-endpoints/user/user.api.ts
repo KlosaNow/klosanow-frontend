@@ -17,7 +17,7 @@ export const getSingleUser = async (
 };
 
 export const postUser = async (values: UpdateUserRequest) => {
-  const { token } = getToken();
+  const token = getToken();
   const { data } = await Axios.post(userRoute, values, {
     headers: {
       Authorization: `Bearer ${token}`,

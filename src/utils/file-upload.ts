@@ -64,7 +64,7 @@ export const validateFile = (file: File) => {
 
 export const uploadFile: UploadFileAction = async (mediaFile: File) => {
   const validator = validateFile(mediaFile);
-  const { token } = getToken();
+  const token = getToken();
 
   if (validator.status !== FileUploadResponseStatus.Success) {
     return {
@@ -90,7 +90,7 @@ export const uploadFile: UploadFileAction = async (mediaFile: File) => {
 };
 
 export const deletedFile = async (fileUrl: string) => {
-  const { token } = getToken();
+  const token = getToken();
   const result = await Axios.delete(`${mediaRoute}/?fileURL=${fileUrl}`, {
     headers: {
       Authorization: `Bearer ${token}`,

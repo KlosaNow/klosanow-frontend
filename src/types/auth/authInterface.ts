@@ -1,6 +1,8 @@
 export interface UserDataI {
   email: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  username: string;
   phoneNumber: string;
   role: string;
   savedLessons: any[];

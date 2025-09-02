@@ -1,8 +1,8 @@
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { signInApi } from "../../../api-endpoints/auth/auth.api";
 import { AxiosError } from "axios";
-import { useMutation } from "@tanstack/react-query";
-import { SignInValues } from "../../../types/auth/authInterface";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { SignInValues, UserI } from "../../../types/auth/authInterface";
 import {
   Box,
   FormControl,
@@ -33,19 +33,26 @@ import toast from "react-hot-toast";
 // const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 // import "react-phone-input-2/lib/style.css";
 import { useState } from "react";
-
+import { useDispatch } from "react-redux";
+import { getSingleUser } from "src/api-endpoints/user/user.api";
+// import { SingleUserI } from "src/api-endpoints/user/user.interface";
+import { updateUserData } from "src/redux/reducers/userReducer";
+import { savedwithExp } from "src/utils/constant";
+import { SignInResponse } from "src/api-endpoints/auth/interface";
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
+  const [verifyRes, setVerifyRes] = useState<SignInResponse | null>(null);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { mutate, isLoading } = useMutation(signInApi, {
     onSuccess: (data) => {
+      if (data) {
+        setVerifyRes(data);
+        savedwithExp({ ...data }, 1);
+      }
       toast.success(data?.message);
-      const otpData = data?.data;
-      // set otp to local storage
-      // this otp should be sent to user registered phone number
-      localStorage.setItem("signinResponse", JSON.stringify(otpData));
-      navigate("/dashboard");
     },
     onError: (error: AxiosError<{ message: string }>) => {
       if (error.response) {
@@ -56,12 +63,28 @@ export default function SignIn() {
     },
   });
 
+  //get user query
+  useQuery({
+    queryKey: ["user"],
+    queryFn: () => {
+      return (
+        verifyRes &&
+        getSingleUser(verifyRes?.data?.user?._id, verifyRes.data?.token)
+      );
+    },
+
+    onSuccess: (data: UserI) => {
+      dispatch(updateUserData(data));
+      navigate("/dashboard");
+    },
+    enabled: !!verifyRes,
+  });
+
   const handleOnSubmit = (values: SignInValues) => {
-    // console.log("The formik values are", values);
-
-    localStorage.setItem("email", values?.email);
-
-    mutate(values);
+    // instea
+    if (values) {
+      mutate(values);
+    }
   };
 
   const formik = useFormik({

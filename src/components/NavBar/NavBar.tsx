@@ -83,10 +83,9 @@ const NavBar = ({ notificationCtrl, notificationLength }: navBarProps) => {
             )}
             <Box>
               <Text fontWeight={600} fontSize={"0.9rem"}>
-                {user.data?.name ? user.data?.name : "user"}
+                {user.data?.username ? user.data?.username : "user"}
               </Text>
               <Text fontSize={"0.8rem"}>
-                {" "}
                 {user.data?.email ? user.data?.email : ""}
               </Text>
             </Box>

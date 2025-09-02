@@ -29,7 +29,7 @@ import {
   studyChatPagePath,
 } from "./data/pageUrl";
 import useChatWebSocket from "./hooks/useChatWebSocket";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import {
   clearIncompleteStorageFile,
@@ -41,7 +41,7 @@ import { useToast } from "@chakra-ui/react";
 
 function App() {
   const location = useLocation();
-  const { connectWebSocket, cleanUpSocketConnection } = useChatWebSocket();
+  useChatWebSocket();
   const storageContact = getStorageItem(CHAT_CONTACT_KEY);
   const toast = useToast();
 
@@ -53,7 +53,7 @@ function App() {
     }, 30000);
 
     return () => clearInterval(timeout);
-  }, []);
+  }, [storageContact]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -81,14 +81,6 @@ function App() {
 
     return () => clearInterval(timeout);
   }, []);
-
-  useQuery({
-    queryKey: ["chat-socket"],
-    queryFn: () => {
-      connectWebSocket();
-      return () => cleanUpSocketConnection();
-    },
-  });
 
   return (
     <>

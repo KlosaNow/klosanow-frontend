@@ -4,7 +4,7 @@ import { getToken } from "src/utils/constant";
 import { ContactPayload } from "./interface";
 
 export const getContacts = async (): Promise<ContactPayload["contacts"]> => {
-  const { token } = getToken();
+  const token = getToken();
   const { data } = await Axios.get(`/${userRoute}`, {
     headers: {
       Authorization: `Bearer ${token}`,

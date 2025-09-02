@@ -54,7 +54,7 @@ const MobileSettings = () => {
           )}
 
           <Box>
-            <Text fontSize="xl">{user?.data?.name}</Text>
+            <Text fontSize="xl">{user?.data?.firstName}</Text>
             <Text color="#667085" fontSize="12px">
               {user?.data?.email}
             </Text>

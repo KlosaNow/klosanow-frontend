@@ -85,7 +85,7 @@ const Dashboard: React.FC = () => {
         fontFamily="inherit"
         color={["#D9927B", "#000"]}
       >
-        Hello {user.data?.name},
+        Hello {user.data?.firstName},
       </Text>
       <Text color="#000" display={["none", "block"]} marginBottom="20px">
         Your latest lesson is here

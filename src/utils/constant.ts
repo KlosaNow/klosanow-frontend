@@ -1,4 +1,4 @@
-import { FileUrlKey, SignInToken } from "../types/generics";
+import { FileUrlKey } from "../types/generics";
 
 export const USER_KEY = "USER_KEY";
 
@@ -32,23 +32,33 @@ export function savedwithExp(
     expiry: now.getTime() + exp,
   };
 
-  console.log(item);
+  // console.log("At expiry savedwithExp", item);
 
   if (storage === "sessionStorage") {
-    sessionStorage.setItem(USER_KEY, JSON.stringify(value));
+    sessionStorage.setItem(USER_KEY, JSON.stringify(item));
   } else {
-    localStorage.setItem(USER_KEY, JSON.stringify(value));
+    localStorage.setItem(USER_KEY, JSON.stringify(item));
   }
 }
 
-export const getToken = (key?: string): SignInToken => {
+export const getToken = (key?: string): string | null => {
   const userKey = key || "USER_KEY";
 
-  const signinResponse = localStorage.getItem(userKey);
+  const stored =
+    localStorage.getItem(userKey) || sessionStorage.getItem(userKey);
 
-  const token = JSON.parse(signinResponse as string) as SignInToken;
+  if (!stored) return null;
+  try {
+    const parsed = JSON.parse(stored) as Record<string, any>;
 
-  return token;
+    const token = parsed.data?.token || null;
+
+    // console.log("Token returned by getToken():", token);
+    return token;
+  } catch (error) {
+    console.error("Error parsing token from storage:", error);
+    return null;
+  }
 };
 
 export const getDraftId = () => localStorage.getItem("draft_id");

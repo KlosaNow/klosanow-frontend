@@ -4,7 +4,7 @@ import { chatApiRoute, studyChatApiRoute } from "src/data/apiUrl";
 import { MessageResponse, UpdateStudyChat } from "src/types";
 
 export const getChats = async () => {
-  const { token } = getToken();
+  const token = getToken();
 
   const { data } = await Axios.get(chatApiRoute, {
     headers: {
@@ -15,7 +15,7 @@ export const getChats = async () => {
 };
 
 export const getChat = async (id: string): Promise<MessageResponse> => {
-  const { token } = getToken();
+  const token = getToken();
 
   const { data } = await Axios.get(`${chatApiRoute}/${id}`, {
     headers: {
@@ -26,7 +26,7 @@ export const getChat = async (id: string): Promise<MessageResponse> => {
 };
 
 export const getStudyChats = async () => {
-  const { token } = getToken();
+  const token = getToken();
 
   const { data } = await Axios.get(studyChatApiRoute, {
     headers: {
@@ -37,7 +37,7 @@ export const getStudyChats = async () => {
 };
 
 export const getStudyChat = async (id: string): Promise<MessageResponse> => {
-  const { token } = getToken();
+  const token = getToken();
 
   const { data } = await Axios.get(`${studyChatApiRoute}/${id}`, {
     headers: {
@@ -52,7 +52,7 @@ export const createStudyChat = async (body: {
   photoUrl: string;
   members: string[];
 }) => {
-  const { token } = getToken();
+  const token = getToken();
 
   const { data } = await Axios.post(studyChatApiRoute, body, {
     headers: {
@@ -63,7 +63,7 @@ export const createStudyChat = async (body: {
 };
 
 export const updateStudyChat = async (id: string, body: UpdateStudyChat) => {
-  const { token } = getToken();
+  const token = getToken();
 
   const { data } = await Axios.put(`${studyChatApiRoute}/${id}`, body, {
     headers: {
