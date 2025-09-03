@@ -1,3 +1,5 @@
+import { FileUrlKey } from "../types/generics";
+
 export const USER_KEY = "USER_KEY";
 
 export const USER = () => {
@@ -30,9 +32,46 @@ export function savedwithExp(
     expiry: now.getTime() + exp,
   };
 
+  // console.log("At expiry savedwithExp", item);
+
   if (storage === "sessionStorage") {
-    sessionStorage.setItem(USER_KEY, JSON.stringify(value));
+    sessionStorage.setItem(USER_KEY, JSON.stringify(item));
   } else {
-    localStorage.setItem(USER_KEY, JSON.stringify(value));
+    localStorage.setItem(USER_KEY, JSON.stringify(item));
   }
 }
+
+export const getToken = (key?: string): string | null => {
+  const userKey = key || "USER_KEY";
+
+  const stored =
+    localStorage.getItem(userKey) || sessionStorage.getItem(userKey);
+
+  if (!stored) return null;
+  try {
+    const parsed = JSON.parse(stored) as Record<string, any>;
+
+    const token = parsed.data?.token || null;
+
+    // console.log("Token returned by getToken():", token);
+    return token;
+  } catch (error) {
+    console.error("Error parsing token from storage:", error);
+    return null;
+  }
+};
+
+export const getDraftId = () => localStorage.getItem("draft_id");
+
+export const setDraftId = (id: string) => localStorage.setItem("draft_id", id);
+
+export const clearDraftId = () => localStorage.setItem("draft_id", "");
+
+export const getFileUrl = (fileKey: FileUrlKey) =>
+  localStorage.getItem(fileKey);
+
+export const setFileUrl = (fileKey: FileUrlKey, file_url: string) =>
+  localStorage.setItem(fileKey, file_url);
+
+export const clearFileUrl = (fileKey: FileUrlKey) =>
+  localStorage.setItem(fileKey, "");

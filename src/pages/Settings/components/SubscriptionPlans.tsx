@@ -6,8 +6,6 @@ import {
   CardFooter,
   CardHeader,
   FormControl,
-  Heading,
-  Input,
   List,
   Image,
   ListIcon,
@@ -15,21 +13,11 @@ import {
   Radio,
   RadioGroup,
   SimpleGrid,
-  Stack,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
   Text,
   VStack,
-  Center,
-  useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
 import MasterCard from "../../../assets/images/MasterCard.png";
 import { AddIcon } from "@chakra-ui/icons";
-import { MdCheckCircle } from "react-icons/md";
 import { GoCheckCircleFill } from "react-icons/go";
 import { PiDotsThreeOutlineVerticalBold } from "react-icons/pi";
 

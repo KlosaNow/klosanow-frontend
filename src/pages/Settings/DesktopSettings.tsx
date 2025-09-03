@@ -1,40 +1,19 @@
 import {
   Box,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  FormControl,
-  Heading,
-  Input,
-  List,
-  Image,
-  ListIcon,
-  ListItem,
-  Radio,
-  RadioGroup,
-  SimpleGrid,
-  Stack,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
   Text,
-  VStack,
-  Center,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
-import { MdCheckCircle } from "react-icons/md";
-import MasterCard from "../../assets/images/MasterCard.png";
+
 import SubscriptionModal from "../../components/Modals/SubscriptionModal/SubscriptionModal";
 import { useState } from "react";
 import SubscriptionPlans from "./components/SubscriptionPlans";
 
 const DesktopSettings = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const selectedStyle = {
     borderBottom: "3px solid #7B58F4",
@@ -47,61 +26,61 @@ const DesktopSettings = () => {
     padding: "0px 10px",
   };
 
-  const allPlans = [
-    {
-      id: "1",
-      plan: "Free Plan",
-      amount: "₦0",
-      benefits: [
-        "1.2GB storage",
-        "Create Open Study Group",
-        "Create & Receive Video Lessons",
-        "Create & Receive Video Lessons",
-      ],
-      status: "Subscribed",
-    },
-    {
-      id: "2",
-      plan: "Basic",
-      amount: "₦1,500",
-      benefits: [
-        "5GB storage",
-        "Create Open Study Group",
-        "Create & Receive Video Lessons",
-        "Create & Receive Video Lessons",
-      ],
-      status: "Choose Plan",
-    },
-    {
-      id: "3",
-      plan: "Premium",
-      amount: "₦5,000",
-      benefits: [
-        "Unlimited Storage",
-        "Create Open & Study Group",
-        "Create & Receive Video Lessons",
-        "Create Channels",
-      ],
-      status: "Choose Plan",
-    },
-  ];
+  // const allPlans = [
+  //   {
+  //     id: "1",
+  //     plan: "Free Plan",
+  //     amount: "₦0",
+  //     benefits: [
+  //       "1.2GB storage",
+  //       "Create Open Study Group",
+  //       "Create & Receive Video Lessons",
+  //       "Create & Receive Video Lessons",
+  //     ],
+  //     status: "Subscribed",
+  //   },
+  //   {
+  //     id: "2",
+  //     plan: "Basic",
+  //     amount: "₦1,500",
+  //     benefits: [
+  //       "5GB storage",
+  //       "Create Open Study Group",
+  //       "Create & Receive Video Lessons",
+  //       "Create & Receive Video Lessons",
+  //     ],
+  //     status: "Choose Plan",
+  //   },
+  //   {
+  //     id: "3",
+  //     plan: "Premium",
+  //     amount: "₦5,000",
+  //     benefits: [
+  //       "Unlimited Storage",
+  //       "Create Open & Study Group",
+  //       "Create & Receive Video Lessons",
+  //       "Create Channels",
+  //     ],
+  //     status: "Choose Plan",
+  //   },
+  // ];
 
-  const paymentMethods = [
-    {
-      id: "1",
-      name: "payment1",
-      number: "**** **** **** 8976",
-      expiry: "Expiry 10/24",
-      icon: MasterCard,
-    },
-    {
-      id: "2",
-      name: "payment2",
-      number: "**** **** **** 1234",
-      expiry: "Expiry 09/23",
-      icon: MasterCard,
-    },
-  ];
+  // const paymentMethods = [
+  //   {
+  //     id: "1",
+  //     name: "payment1",
+  //     number: "**** **** **** 8976",
+  //     expiry: "Expiry 10/24",
+  //     icon: MasterCard,
+  //   },
+  //   {
+  //     id: "2",
+  //     name: "payment2",
+  //     number: "**** **** **** 1234",
+  //     expiry: "Expiry 09/23",
+  //     icon: MasterCard,
+  //   },
+  // ];
 
   const openModal = () => {
     setIsModalOpen(true);

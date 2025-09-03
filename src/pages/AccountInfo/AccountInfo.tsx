@@ -1,6 +1,5 @@
-import { Box, Center, Image, Flex, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { FormControl, FormLabel, Input, Stack, Button } from "@chakra-ui/react";
-import arrow from "../../assets/SettingsPageImg/Arrow-left.png";
 import Header from "../../components/Header/Header";
 
 export default function AccountInfo(): JSX.Element {

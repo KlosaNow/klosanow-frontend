@@ -1,6 +1,8 @@
 export interface SingleUserI {
   _id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  username: string;
   email: string;
   phoneNumber: string;
   role: string;
@@ -16,4 +18,9 @@ export interface SingleUserResponse {
   status: string;
   message: string;
   data: SingleUserI;
+}
+
+export interface UpdateUserRequest {
+  name: string;
+  bio: string;
 }

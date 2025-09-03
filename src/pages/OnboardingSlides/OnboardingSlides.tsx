@@ -20,7 +20,7 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
   const navigate = useNavigate();
   const handleNextSlide = () => {
     if (currentIndex === slides.length - 1) {
-        navigate("/sign-up");
+      navigate("/sign-up");
     } else {
       setCurrentIndex(currentIndex + 1);
     }
@@ -58,15 +58,18 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
           height="100%"
           paddingY={{ sm: "10%", lg: "20%" }}
           direction="column"
-          justify={{ lg: "flex-start", base: "space-around" }}
-        >
+          justify={{ lg: "flex-start", base: "space-around" }}>
           <motion.div
             key={currentIndex}
             initial={{ translateX: 100, opacity: 0 }}
             animate={{ translateX: 0, opacity: 1, scale: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            transition={{ delay: 0, duration: 0.5, damping: 80, stiffness: 10 }}
-          >
+            transition={{
+              delay: 0,
+              duration: 0.5,
+              damping: 80,
+              stiffness: 10,
+            }}>
             <SlideTemplate {...slides[currentIndex]} />
           </motion.div>
 
@@ -74,16 +77,14 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
             direction={{ lg: "row", base: "column" }}
             my={10}
             justify="space-between"
-            align="center"
-          >
+            align="center">
             {mobBtn ? (
               <>
                 <Button
                   buttonStyle="btn--solid"
                   buttonSize="btn--medium"
                   action={handleNextSlide}
-                  width="100%"
-                >
+                  width="100%">
                   {currentIndex === slides.length - 1
                     ? "Create an account"
                     : "Next"}
@@ -92,8 +93,7 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
                   buttonStyle="btn--ghost"
                   buttonSize="btn--medium"
                   width="100%"
-                  action={() => navigate("/sign-in")}
-                >
+                  action={() => navigate("/sign-in")}>
                   {currentIndex === slides.length - 1
                     ? "Sign into your account"
                     : "Skip"}
@@ -105,16 +105,14 @@ const OnboardingSlides = ({ slides }: OnboardingSlidesProps) => {
                   buttonStyle="btn--desktop"
                   buttonSize="btn--small"
                   action={handlePrevSlide}
-                  width={btnWidth}
-                >
+                  width={btnWidth}>
                   Prev
                 </Button>
                 <Button
                   buttonStyle="btn--desktop"
                   buttonSize="btn--small"
                   width={btnWidth}
-                  action={handleNextSlide}
-                >
+                  action={handleNextSlide}>
                   Next
                 </Button>
               </>

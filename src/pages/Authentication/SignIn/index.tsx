@@ -1,7 +1,8 @@
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { signInApi } from "../../../api-endpoints/auth/auth.api";
 import { AxiosError } from "axios";
-import { useMutation } from "@tanstack/react-query";
-import { SignInValues } from '../../../types/auth/authInterface';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { SignInValues, UserI } from "../../../types/auth/authInterface";
 import {
   Box,
   FormControl,
@@ -14,6 +15,8 @@ import {
   VStack,
   Image,
   Spinner,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
@@ -24,50 +27,74 @@ import { SignInSchema } from "../schema/auth.schema";
 import { InputError } from "../../../components";
 import toast from "react-hot-toast";
 
-import PhoneInput from "react-phone-input-2";
+// import PhoneInput from "react-phone-input-2";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
-import "react-phone-input-2/lib/style.css";
-
-
+// const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
+// import "react-phone-input-2/lib/style.css";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { getSingleUser } from "src/api-endpoints/user/user.api";
+// import { SingleUserI } from "src/api-endpoints/user/user.interface";
+import { updateUserData } from "src/redux/reducers/userReducer";
+import { savedwithExp } from "src/utils/constant";
+import { SignInResponse } from "src/api-endpoints/auth/interface";
 export default function SignIn() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [verifyRes, setVerifyRes] = useState<SignInResponse | null>(null);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { mutate, isLoading } = useMutation(signInApi, {
-    onSuccess: data => {
-      toast.success(data?.message)
-      const otpData = data?.data;
-      // set otp to local storage
-      // this otp should be sent to user registered phone number
-      localStorage.setItem("signinResponse", JSON.stringify(otpData));
-      navigate("/otp");
-
+    onSuccess: (data) => {
+      if (data) {
+        setVerifyRes(data);
+        savedwithExp({ ...data }, 1);
+      }
+      toast.success(data?.message);
     },
     onError: (error: AxiosError<{ message: string }>) => {
       if (error.response) {
-        toast.error(error?.response?.data?.message)
+        toast.error(error?.response?.data?.message);
       } else {
-        toast.error(error?.message)
+        toast.error(error?.message);
       }
-    }
-  })
+    },
+  });
 
-  const handleOnSubmit = (values: SignInValues,) => {
-    localStorage.setItem("email", values?.email);
-    localStorage.setItem("phoneNumber", values?.phoneNumber)
-    mutate(values);
+  //get user query
+  useQuery({
+    queryKey: ["user"],
+    queryFn: () => {
+      return (
+        verifyRes &&
+        getSingleUser(verifyRes?.data?.user?._id, verifyRes.data?.token)
+      );
+    },
+
+    onSuccess: (data: UserI) => {
+      dispatch(updateUserData(data));
+      navigate("/dashboard");
+    },
+    enabled: !!verifyRes,
+  });
+
+  const handleOnSubmit = (values: SignInValues) => {
+    // submit form values
+    if (values) {
+      mutate(values);
+    }
   };
 
   const formik = useFormik({
     initialValues: {
       email: "",
-      phoneNumber: "",
+      password: "",
     },
     validationSchema: SignInSchema,
     onSubmit: handleOnSubmit,
   });
-
 
   return (
     <>
@@ -160,44 +187,49 @@ export default function SignIn() {
 
               <FormControl mb="1.5rem">
                 <FormLabel fontSize="sm" color="black.40">
-                  Phone Number{" "}
+                  Password
                 </FormLabel>
-                <MyPhoneInput
-                  country={"ng"}
-                  enableAreaCodeStretch
-                  regions={["africa"]}
-                  containerStyle={{
-                    display: "flex",
-                    gap: "1rem",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "row-reverse",
-                  }}
-                  inputStyle={{
-                    width: "100%",
-                    height: "2.5rem",
-                    outline: "transparent solid 2px",
-                    padding: "1.6rem 1rem",
-                    borderColor: "#ddd",
-                  }}
-                  buttonStyle={{
-                    position: "static",
-                    height: "100%",
-                    padding: "1.6rem",
-                    backgroundColor: "#fff",
-                    borderRadius: "5px",
-                    borderColor: "#ddd",
-                  }}
-                  value={formik.values.phoneNumber}
-                  onChange={(e: () => void) =>
-                    formik.setFieldValue("phoneNumber", e)
-                  }
-                  onBlur={formik.handleBlur("phoneNumber")}
-                />
-                {formik.touched && formik.errors.phoneNumber ? (
-                  <InputError error={formik.errors.phoneNumber} />
+                <InputGroup>
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    id="password"
+                    fontSize="sm"
+                    padding="1.6rem 1rem"
+                    bg="#fff"
+                    borderColor="#ddd"
+                    placeholder="Enter your Password"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.password.trim()}
+                  />
+                  <InputRightElement h="100%" pr="1rem">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+                {formik.touched.password && formik.errors.password ? (
+                  <InputError error={formik.errors.password} />
                 ) : null}
               </FormControl>
+
+              <Box display="flex" justifyContent="flex-end" mb="1rem">
+                <Link
+                  as={RouteLink}
+                  to="/forgot-password"
+                  color="primary.50"
+                  fontSize="sm"
+                  fontWeight="500"
+                  _hover={{ textDecoration: "underline" }}
+                >
+                  Forgot password? Click here
+                </Link>
+              </Box>
 
               <Box display="flex" justifyContent="center">
                 <Button
@@ -209,7 +241,11 @@ export default function SignIn() {
                   type="submit"
                   disabled={!(formik.dirty && formik.isValid)}
                 >
-                  {isLoading ? <Spinner size="sm" thickness='4px' /> : "Sign In"}
+                  {isLoading ? (
+                    <Spinner size="sm" thickness="4px" />
+                  ) : (
+                    "Sign In"
+                  )}
                 </Button>
               </Box>
 

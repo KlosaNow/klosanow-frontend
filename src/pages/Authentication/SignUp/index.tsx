@@ -1,4 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { useState } from "react";
 import {
   Box,
   Text,
@@ -11,15 +13,17 @@ import {
   Image,
   Flex,
   Spinner,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { Link as RouteLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { SignUpSchema } from "../schema/auth.schema";
 import { InputError } from "../../../components";
 import { signUpApi } from "../../../api-endpoints/auth/auth.api";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-import { SignUpValues } from '../../../types/auth/authInterface';
+import { SignUpValues } from "../../../types/auth/authInterface";
 import { OnboardingSlides } from "../..";
 import logo from "../../../assets/SplashScreenImg/SplashLogo.png";
 import { slides } from "../../Onboarding/utils/SlideData";
@@ -30,34 +34,40 @@ import PhoneInput from "react-phone-input-2";
 const MyPhoneInput = PhoneInput.default ? PhoneInput.default : PhoneInput;
 import "react-phone-input-2/lib/style.css";
 
-
-
 export default function SignUp() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
-  const { mutate, isLoading } = useMutation(signUpApi, {
-    onSuccess: data => {
-      toast.success(data?.message)
-      navigate("/sign-in")
 
+  const { mutate, isLoading } = useMutation(signUpApi, {
+    onSuccess: (data) => {
+      toast.success(data?.message);
+      navigate("/sign-in");
     },
     onError: (error: AxiosError<{ message: string }>) => {
       if (error.response) {
-        toast.error(error?.response?.data?.message)
+        toast.error(error?.response?.data?.message);
       } else {
-        toast.error(error?.message) 
+        toast.error(error?.message);
       }
-    }
-  })
+    },
+  });
 
   const handleOnSubmit = (values: SignUpValues) => {
+    // console.log("The values going to the backend are", values);
+
     mutate(values);
     localStorage.setItem("phoneNumber", values?.phoneNumber);
   };
 
   const formik = useFormik({
     initialValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
+      username: "",
       email: "",
+      password: "",
+      confirmPassword: "",
       phoneNumber: "",
     },
     validationSchema: SignUpSchema,
@@ -130,11 +140,55 @@ export default function SignUp() {
             >
               <FormControl mb="1.5rem">
                 <FormLabel fontSize="sm" color="black.40">
+                  First Name
+                </FormLabel>
+                <Input
+                  type="text"
+                  name="firstName"
+                  id="firstname"
+                  fontSize="sm"
+                  padding="1.6rem 1rem"
+                  bg="#fff"
+                  borderColor="#ddd"
+                  placeholder="Enter Firstname"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.firstName.trim()}
+                />
+                {formik.touched.firstName && formik.errors.firstName ? (
+                  <InputError error={formik.errors.firstName} />
+                ) : null}
+              </FormControl>
+
+              <FormControl mb="1.5rem">
+                <FormLabel fontSize="sm" color="black.40">
+                  Last Name
+                </FormLabel>
+                <Input
+                  type="text"
+                  name="lastName"
+                  id="lastname"
+                  fontSize="sm"
+                  padding="1.6rem 1rem"
+                  bg="#fff"
+                  borderColor="#ddd"
+                  placeholder="Enter Lastname"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.lastName.trim()}
+                />
+                {formik.touched.lastName && formik.errors.lastName ? (
+                  <InputError error={formik.errors.lastName} />
+                ) : null}
+              </FormControl>
+
+              <FormControl mb="1.5rem">
+                <FormLabel fontSize="sm" color="black.40">
                   Username
                 </FormLabel>
                 <Input
                   type="text"
-                  name="name"
+                  name="username"
                   id="name"
                   fontSize="sm"
                   padding="1.6rem 1rem"
@@ -143,10 +197,10 @@ export default function SignUp() {
                   placeholder="Enter Username"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.name.trim()}
+                  value={formik.values.username.trim()}
                 />
-                {formik.touched.name && formik.errors.name ? (
-                  <InputError error={formik.errors.name} />
+                {formik.touched.username && formik.errors.username ? (
+                  <InputError error={formik.errors.username} />
                 ) : null}
               </FormControl>
 
@@ -169,6 +223,75 @@ export default function SignUp() {
                 />
                 {formik.touched.email && formik.errors.email ? (
                   <InputError error={formik.errors.email} />
+                ) : null}
+              </FormControl>
+
+              <FormControl mb="1.5rem">
+                <FormLabel fontSize="sm" color="black.40">
+                  Password
+                </FormLabel>
+                <InputGroup>
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    id="password"
+                    fontSize="sm"
+                    padding="1.6rem 1rem"
+                    bg="#fff"
+                    borderColor="#ddd"
+                    placeholder="Enter your Password"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.password.trim()}
+                  />
+                  <InputRightElement h="100%" pr="1rem">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+                {formik.touched.password && formik.errors.password ? (
+                  <InputError error={formik.errors.password} />
+                ) : null}
+              </FormControl>
+
+              <FormControl mb="1.5rem">
+                <FormLabel fontSize="sm" color="black.40">
+                  Confirm Password
+                </FormLabel>
+                <InputGroup>
+                  <Input
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    id="confirmpassword"
+                    fontSize="sm"
+                    padding="1.6rem 1rem"
+                    bg="#fff"
+                    borderColor="#ddd"
+                    placeholder="Re-enter your Password"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.confirmPassword.trim()}
+                  />
+                  <InputRightElement h="100%" pr="1rem">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                    >
+                      {showConfirmPassword ? <ViewOffIcon /> : <ViewIcon />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+                {formik.touched.confirmPassword &&
+                formik.errors.confirmPassword ? (
+                  <InputError error={formik.errors.confirmPassword} />
                 ) : null}
               </FormControl>
 
@@ -208,7 +331,7 @@ export default function SignUp() {
                   }
                   onBlur={formik.handleBlur("phoneNumber")}
                 />
-                {formik.touched && formik.errors.phoneNumber ? (
+                {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
                   <InputError error={formik.errors.phoneNumber} />
                 ) : null}
               </FormControl>
@@ -222,7 +345,11 @@ export default function SignUp() {
                   type="submit"
                   disabled={!(formik.dirty && formik.isValid)}
                 >
-                  {isLoading ? <Spinner size="sm" thickness='4px' /> : "Sign up"}
+                  {isLoading ? (
+                    <Spinner size="sm" thickness="4px" />
+                  ) : (
+                    "Sign up"
+                  )}
                 </Button>
               </Box>
               <Box mt="1rem">

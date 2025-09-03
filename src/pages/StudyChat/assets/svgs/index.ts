@@ -1,0 +1,16 @@
+export { ReactComponent as AddPeopleIcon } from "./add-people.svg";
+export { ReactComponent as AddLearnersIcon } from "./add-learners.svg";
+export { ReactComponent as BackButtonIcon } from "./back-button.svg";
+export { ReactComponent as CaretForwardIcon } from "./caret-forward.svg";
+export { ReactComponent as CloseIcon } from "./close.svg";
+export { ReactComponent as EmojiIcon } from "./emoji.svg";
+export { ReactComponent as InfoIcon } from "./info.svg";
+export { ReactComponent as InsertIcon } from "./insert.svg";
+export { ReactComponent as LeaveIcon } from "./leave.svg";
+export { ReactComponent as LockIcon } from "./lock.svg";
+export { ReactComponent as MicIcon } from "./mic.svg";
+export { ReactComponent as OptionIcon } from "./option.svg";
+export { ReactComponent as ReportIcon } from "./report.svg";
+export { ReactComponent as SearchIcon } from "./search.svg";
+export { ReactComponent as UploadIcon } from "./upload.svg";
+export { ReactComponent as DeleteIcon } from "./delete.svg";

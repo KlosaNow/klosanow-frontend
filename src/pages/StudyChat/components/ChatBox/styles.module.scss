@@ -1,0 +1,11 @@
+.ChatFooter {
+  &_form {
+    width: 100%;
+  }
+
+  &_picker {
+    position: absolute !important;
+    top: -450px;
+    right: 0;
+  }
+}
