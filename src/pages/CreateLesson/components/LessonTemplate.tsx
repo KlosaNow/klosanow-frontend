@@ -24,8 +24,7 @@ const LessonTemplate: React.FC = () => {
       <Text
         fontSize={["18px", "32px"]}
         fontWeight={["600", "500"]}
-        textColor={["primary.50", "black.100"]}
-      >
+        textColor={["primary.50", "black.100"]}>
         Choose a Template
       </Text>
 

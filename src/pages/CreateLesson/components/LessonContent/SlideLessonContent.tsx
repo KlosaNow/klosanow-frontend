@@ -162,8 +162,7 @@ const SlideLessonContent: React.FC = () => {
         flexDir={{
           base: "column-reverse",
           md: "row",
-        }}
-      >
+        }}>
         <Editor
           value={state.value}
           placeholder="Your lesson content goes in here..."
@@ -179,8 +178,7 @@ const SlideLessonContent: React.FC = () => {
             isDisabled={state.value === ""}
             _disabled={{
               cursor: "not-allowed",
-            }}
-          >
+            }}>
             {state.isEditing ? "Update" : "Add"} Slide
           </Button>
 
@@ -201,8 +199,7 @@ const SlideLessonContent: React.FC = () => {
                   borderRadius="8px"
                   padding="8px 16px"
                   align="center"
-                  justify="space-between"
-                >
+                  justify="space-between">
                   <Text>
                     Slide {index < 10 ? "0" : ""}
                     {index + 1}
@@ -231,8 +228,7 @@ const SlideLessonContent: React.FC = () => {
             bg="#eee"
             p="7px"
             borderRadius="4px"
-            maxW="200px"
-          >
+            maxW="200px">
             <Text fontSize="12px">Slides should be at least two,</Text>
             <Text fontSize="12px">use scroll template for one content</Text>
           </Box>

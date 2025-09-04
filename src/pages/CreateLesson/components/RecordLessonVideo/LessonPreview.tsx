@@ -20,15 +20,15 @@ const LessonPreview: React.FC = () => {
 
   const initialSlide = `
     <p style='font-size: 32px; font-weight: 500'>${capitalize(
-      form_info.title
+      form_info?.title || ""
     )}</p>
     <p style='font-size: 18px; margin-top: 12px'>
-      ${form_info.description}
+      ${form_info?.description || ""}
     </p>
     <div class='slide-img-container'>
       <img
-        src=${form_info.thumbnailUrl}
-        alt=${form_info.title}
+        src=${form_info?.thumbnailUrl || ""}
+        alt=${form_info?.title || ""}
         class='slide-img'
       />
     </div>
@@ -49,14 +49,12 @@ const LessonPreview: React.FC = () => {
         justify="space-between"
         as="div"
         position="relative"
-        overflow="hidden"
-      >
+        overflow="hidden">
         <Box
           h="100%"
           padding="16px 24px"
           overflow="scroll"
-          className="hide-scroll"
-        >
+          className="hide-scroll">
           {template === LessonTemplateType.Slide ? (
             <div
               className={"slide"}
@@ -117,8 +115,7 @@ const LessonPreview: React.FC = () => {
             updateCreateLessonFormValues({
               activeStep: CreateLessonFormStepsType.Content,
             })
-          }
-        >
+          }>
           Back
         </Button>
 
@@ -130,8 +127,7 @@ const LessonPreview: React.FC = () => {
           _hover={{ color: "none" }}
           onClick={() =>
             updateCreateLessonFormValues({ showRecordLessonModal: true })
-          }
-        >
+          }>
           Start record
         </Button>
       </Flex>

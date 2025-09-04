@@ -1,0 +1,13 @@
+#record-slide-container {
+  position: relative;
+  z-index: 1;
+}
+
+#marker-layer {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.1
+  ); /* slight tint to confirm it's clickable */
+}

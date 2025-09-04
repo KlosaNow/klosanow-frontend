@@ -1,9 +1,7 @@
 import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { Search } from "../../components/Search/Search";
-
 import { EmptyState, LessonCard } from "../../components";
-
 import DashboardHeaderMobile from "./components/DashboardHeaderMobile";
 import LessonTabHeader from "./components/LessonTabHeader";
 import { uniqueId } from "lodash";
@@ -43,7 +41,7 @@ const Dashboard: React.FC = () => {
   const createdLesson = lessons.data || [];
 
   const lessonData = {
-    [LessonType.Created]: createdLesson,
+    [LessonType.Created]: [...createdLesson].reverse(),
     [LessonType.Saved]: [],
   }[state.lessonType].slice(0, 5);
 

@@ -15,21 +15,19 @@ const OverlayLoader: React.FC<OverlayLoaderProps> = ({
       <Box
         position={"absolute"}
         bottom={0}
-        zIndex={1}
+        zIndex={100}
         right={0}
         left={0}
         bg={"#fff"}
         h={"100vh"}
-        w={"100%"}
-      >
+        w={"100%"}>
         <Box
           display={"flex"}
           alignItems={"center"}
           justifyContent={"center"}
           flexDir={"column"}
           w="100%"
-          h="100%"
-        >
+          h="100%">
           <Spinner
             boxSize={16}
             borderWidth="4px"

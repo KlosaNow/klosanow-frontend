@@ -7,21 +7,20 @@ export const slides = [
     image: teacher,
     title: "Create your lesson within minutes",
     description:
-      "Use our easy-to-use workspace tools to make engaging learning contents for your learners",
+      "Our easy-to-use platform allows tutors create learning contents with ease ",
     id: "1",
   },
   {
     image: chatting,
     title: "Form an Interactive Academic Community",
     description:
-      "Maintain 24/7 interaction with your tutors/learners via messaging, Voice notes and Group chats",
+      "Maintain 24/7 interaction with your tutors/learners via the study chats",
     id: "2",
   },
   {
     image: location,
-    title: " Save Video lessons offline ",
-    description:
-      "Learners can save data by downloading video lessons to watch offline",
+    title: " Share Video Lessons with Ease ",
+    description: "Created lessons are shared with learners on the platform",
     id: "3",
   },
 ];

@@ -18,7 +18,7 @@ import { copyText } from "src/pages/StudyChat/utils";
 interface LessonCardProps {
   lesson: Lesson;
   handleWatch: (x: Lesson) => void;
-  handleDelete?: (id: string) => void;
+  handleDelete?: (lesson: Lesson) => void;
   handleView?: (x: Lesson) => void;
   hasOptions?: boolean;
   descriptionLength?: number;
@@ -96,8 +96,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
       border={"1px solid #eee"}
       borderRadius={12}
       overflow={"hidden"}
-      onClick={() => (hasWatch ? () => null : handleWatch(lesson))}
-    >
+      onClick={() => (hasWatch ? () => null : handleWatch(lesson))}>
       <Box position="relative">
         <Image
           width="full"
@@ -147,8 +146,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
                   }
                   _hover={{
                     bg: "#eee",
-                  }}
-                >
+                  }}>
                   Share
                 </Box>
                 <Box
@@ -158,8 +156,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
                   onClick={() => handleView && handleView(lesson)}
                   _hover={{
                     bg: "#eee",
-                  }}
-                >
+                  }}>
                   View
                 </Box>
                 <Box
@@ -167,11 +164,12 @@ const LessonCard: React.FC<LessonCardProps> = ({
                   fontSize="12px"
                   padding="4px 6px"
                   marginTop={"8px"}
-                  onClick={() => handleDelete && handleDelete(lesson._id)}
+                  color="red"
+                  onClick={() => handleDelete && handleDelete(lesson)}
                   _hover={{
-                    bg: "#eee",
-                  }}
-                >
+                    bg: "red",
+                    color: "white",
+                  }}>
                   Delete
                 </Box>
               </PopoverContent>
@@ -188,8 +186,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
             bottom="8px"
             right="7px"
             padding="1px 8px"
-            borderRadius="4px"
-          >
+            borderRadius="4px">
             {duration}
           </Text>
         )}
@@ -221,8 +218,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
             _hover={{
               opacity: 0.8,
             }}
-            onClick={() => handleWatch(lesson)}
-          >
+            onClick={() => handleWatch(lesson)}>
             Watch now
           </Button>
         )}

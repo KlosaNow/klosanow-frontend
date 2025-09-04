@@ -8,6 +8,14 @@ import {
   PopoverTrigger,
   Text,
   useToast,
+  Button,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { capitalize, uniqueId } from "lodash";
@@ -46,12 +54,22 @@ const AllLessons: React.FC = () => {
   };
 
   const [state, setState] = React.useState(initialState);
+  const [lessonToDelete, setLessonToDelete] = React.useState<Lesson | null>(
+    null
+  );
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef<HTMLButtonElement>(null);
+
+  const promptDeleteLesson = (lesson: Lesson) => {
+    setLessonToDelete(lesson);
+    onOpen();
+  };
 
   const handleStateUpdate = (newState: Partial<AllLessonsState>) =>
     setState((state) => ({ ...state, ...newState }));
 
   const lessonData = {
-    [LessonType.Created]: lessons.data || [],
+    [LessonType.Created]: [...(lessons.data || [])].reverse(),
     [LessonType.Saved]: [],
   }[state.type];
 
@@ -103,14 +121,12 @@ const AllLessons: React.FC = () => {
         mb={{
           base: "56px",
           md: "70px",
-        }}
-      >
+        }}>
         <Text
           fontSize={{
             base: "24px",
           }}
-          fontWeight="500"
-        >
+          fontWeight="500">
           {capitalize(state.type)} lessons
         </Text>
 
@@ -130,8 +146,7 @@ const AllLessons: React.FC = () => {
               padding="12px 24px"
               _hover={{
                 bg: "#eee",
-              }}
-            >
+              }}>
               {capitalize(lessonText)} lessons
             </Box>
           </PopoverContent>
@@ -149,8 +164,7 @@ const AllLessons: React.FC = () => {
             }}
             align="center"
             flexWrap="wrap"
-            gap="24px"
-          >
+            gap="24px">
             {lessonData.map((lesson) => (
               <LessonCard
                 lesson={lesson}
@@ -162,7 +176,7 @@ const AllLessons: React.FC = () => {
                   handleStateUpdate({ showFlyout: true, activeLesson })
                 }
                 hasOptions
-                handleDelete={handleDelete}
+                handleDelete={promptDeleteLesson}
               />
             ))}
           </Flex>
@@ -180,6 +194,42 @@ const AllLessons: React.FC = () => {
         handleClose={() => handleStateUpdate({ showFlyout: false })}
         lesson={state.activeLesson}
       />
+
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}>
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Delete Lesson
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure you want to delete this lesson? This action cannot be
+              undone.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                No
+              </Button>
+              <Button
+                colorScheme="red"
+                onClick={() => {
+                  if (lessonToDelete?._id) {
+                    handleDelete(lessonToDelete._id);
+                    onClose();
+                    setLessonToDelete(null);
+                  }
+                }}
+                ml={3}>
+                Yes, delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Box>
   );
 };

@@ -17,7 +17,7 @@ import {
 import { Formik } from "formik";
 
 import { colors } from "src/data/colors";
-import dummyImg from "src/assets/images/dummy image.png";
+import dummyImg from "src/assets/images/avatar.jpg";
 import { saveToDrafts, updateDraft } from "src/api-endpoints/lessons";
 import { CreateLessonFormStepsType } from "src/types";
 import { draftsPagePath } from "src/data/pageUrl";
@@ -183,8 +183,7 @@ const LessonFormInfo: React.FC = () => {
       <Formik
         initialValues={form_info}
         onSubmit={handleNext}
-        validationSchema={createLessonValidationSchema}
-      >
+        validationSchema={createLessonValidationSchema}>
         {({
           values,
           touched,
@@ -203,14 +202,12 @@ const LessonFormInfo: React.FC = () => {
               flexDir={{
                 base: "column",
                 md: "row",
-              }}
-            >
+              }}>
               <Box
                 w={"250px"}
                 h={"170px"}
                 borderRadius={"0.2rem"}
-                overflow="hidden"
-              >
+                overflow="hidden">
                 <Image
                   src={state.mediaFile || dummyImg}
                   alt="Klosanaw"
@@ -255,8 +252,7 @@ const LessonFormInfo: React.FC = () => {
                             }
                           })
                         : inputRef.current?.click()
-                    }
-                  >
+                    }>
                     {state.mediaFile ? "Delete" : "Upload"} image
                     <Input
                       type="file"
@@ -293,8 +289,7 @@ const LessonFormInfo: React.FC = () => {
               </FormControl>
 
               <FormControl
-                isInvalid={touched.description && !!errors.description}
-              >
+                isInvalid={touched.description && !!errors.description}>
                 <FormLabel {...labelStyles}>Description</FormLabel>
                 <Textarea
                   placeholder="Tell us about your lesson"
@@ -310,8 +305,7 @@ const LessonFormInfo: React.FC = () => {
               </FormControl>
 
               <FormControl
-                isInvalid={touched.tutor_name && !!errors.tutor_name}
-              >
+                isInvalid={touched.tutor_name && !!errors.tutor_name}>
                 <FormLabel {...labelStyles}>Tutors name</FormLabel>
                 <Input
                   fontSize="16px"
@@ -350,8 +344,7 @@ const LessonFormInfo: React.FC = () => {
                   updateCreateLessonFormValues({ canUpdate: !canUpdate })
                 }
                 w="max-content"
-                fontSize="14px"
-              >
+                fontSize="14px">
                 Update Bio
               </Text>
             </Stack>
@@ -364,15 +357,13 @@ const LessonFormInfo: React.FC = () => {
               flexDir={{
                 base: "column",
                 md: "row",
-              }}
-            >
+              }}>
               <Button
                 {...btnStyles()}
                 _hover={{ color: "none" }}
                 onClick={() => handleDraft(values)}
                 type="button"
-                isLoading={state.loading && state.loadingType === "draft"}
-              >
+                isLoading={state.loading && state.loadingType === "draft"}>
                 Save to drafts
               </Button>
 
@@ -385,8 +376,7 @@ const LessonFormInfo: React.FC = () => {
                 flexDir={{
                   base: "column",
                   md: "row",
-                }}
-              >
+                }}>
                 <Button
                   {...btnStyles()}
                   type="button"
@@ -395,8 +385,7 @@ const LessonFormInfo: React.FC = () => {
                     updateCreateLessonFormValues({
                       activeStep: CreateLessonFormStepsType.Template,
                     })
-                  }
-                >
+                  }>
                   Back
                 </Button>
 
@@ -412,8 +401,7 @@ const LessonFormInfo: React.FC = () => {
                     bg: "#E5DEFD",
                     borderColor: "#E5DEFD",
                     cursor: "not-allowed",
-                  }}
-                >
+                  }}>
                   Next
                 </Button>
               </Flex>

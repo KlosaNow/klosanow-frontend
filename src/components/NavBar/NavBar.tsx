@@ -32,8 +32,7 @@ const NavBar = ({ notificationCtrl, notificationLength }: navBarProps) => {
         backgroundColor="#fff"
         padding={{ base: "0px 20px", lg: "0px 50px" }}
         zIndex="50"
-        w={"100%"}
-      >
+        w={"100%"}>
         <Flex mt={"1rem"}>
           <Search />
 
@@ -42,8 +41,7 @@ const NavBar = ({ notificationCtrl, notificationLength }: navBarProps) => {
               as="button"
               onClick={() => navigate(contactsPagePath)}
               ml="50px"
-              h="max-content"
-            >
+              h="max-content">
               <ContactIcon />
             </Box>
           )}
@@ -62,8 +60,7 @@ const NavBar = ({ notificationCtrl, notificationLength }: navBarProps) => {
             width={"0.1rem"}
             height={"2.7rem"}
             bg={"#CCCCCC"}
-            mx={"0.8rem"}
-          ></Text>
+            mx={"0.8rem"}></Text>
           <Box display={"flex"} alignItems={"center"}>
             {user.data?.profilePhoto ? (
               <Image
