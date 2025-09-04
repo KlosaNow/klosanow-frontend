@@ -25,7 +25,7 @@ interface ModalProps {
 
 function SubscriptionModal({ isOpen, onClose }: ModalProps) {
   const [formValue, setFormValue] = React.useState({
-    name: "",
+    username: "",
     cardNumber: "",
     expiryDate: "",
     cvv: "",
@@ -58,7 +58,8 @@ function SubscriptionModal({ isOpen, onClose }: ModalProps) {
                 Card Holder Name:
               </Text>
               <Input
-                value={formValue.name}
+                name="username"
+                value={formValue.username}
                 onChange={handleChange}
                 placeholder="Name"
                 size="sm"
@@ -69,6 +70,7 @@ function SubscriptionModal({ isOpen, onClose }: ModalProps) {
                 Card Number:
               </Text>
               <Input
+                name="cardNumber"
                 value={formValue.cardNumber}
                 onChange={handleChange}
                 placeholder="XXXX XXXX XXXX XXXX"
@@ -86,6 +88,7 @@ function SubscriptionModal({ isOpen, onClose }: ModalProps) {
                   Expiry Date:
                 </Text>
                 <Input
+                  name="expiryDate"
                   value={formValue.expiryDate}
                   onChange={handleChange}
                   placeholder="MM/YY"

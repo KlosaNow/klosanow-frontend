@@ -53,10 +53,25 @@ const PreviewVideo = () => {
 
       if (canUpdate) {
         const userData = {
-          name: form_info.tutor_name,
+          username: form_info.tutor_name,
           bio: form_info.tutor_bio,
         };
-        const res = await postUser(userData);
+
+        const storedString = localStorage.getItem("USER_KEY");
+
+        if (!storedString) {
+          throw new Error("USER_KEY not found in localstorage");
+        }
+        let stored;
+        try {
+          stored = JSON.parse(storedString);
+        } catch (e) {
+          throw new Error("Failed to parse USER_KEY");
+        }
+
+        const userId: string | null = stored?.data?.user?._id;
+        console.log("userid", userId);
+        const res = await postUser(userData, userId);
         if (!res) throw new Error("Failed to update user details");
         toast({
           title: "User details updated successfully",
@@ -83,6 +98,7 @@ const PreviewVideo = () => {
       handleStateUpdate(initialState);
       navigate(allLessonsPagePath);
     } catch (error: any) {
+      console.error("Full error:", error);
       handleStateUpdate({ loading: false, message: "" });
       toast({
         title: error.message ?? error.response ?? "Something went wrong",

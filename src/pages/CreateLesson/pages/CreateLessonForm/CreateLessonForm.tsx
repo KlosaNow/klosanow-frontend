@@ -46,7 +46,7 @@ const CreateLessonForm: React.FC = () => {
       title: draftData?.title || "",
       description: draftData?.about || "",
       thumbnailUrl: draftData?.thumbnailUrl || "",
-      tutor_name: user?.name || "",
+      tutor_name: user?.username || "",
       tutor_bio: user?.bio || "",
       thumbnailSize: draftData?.thumbnailSize || 0,
     },

@@ -35,8 +35,10 @@ export function savedwithExp(
   // console.log("At expiry savedwithExp", item);
 
   if (storage === "sessionStorage") {
+    sessionStorage.removeItem(USER_KEY);
     sessionStorage.setItem(USER_KEY, JSON.stringify(item));
   } else {
+    localStorage.removeItem(USER_KEY);
     localStorage.setItem(USER_KEY, JSON.stringify(item));
   }
 }
