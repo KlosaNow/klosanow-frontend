@@ -12,7 +12,6 @@ const DashboardHeaderMobile: React.FC<DashboardHeaderMobileProps> = ({
 }) => {
   return (
     <Flex justify={"space-between"} align={"center"} display={["flex", "none"]}>
-      {/* <HiUserCircle fontSize="70px" /> */}
       <Avatar name="KlosaNow" src="/avatar.jpg" size="lg" />
 
       <Link to="/notifications" style={{ position: "relative" }}>
@@ -31,7 +30,8 @@ const DashboardHeaderMobile: React.FC<DashboardHeaderMobileProps> = ({
             justifyContent: "center",
             color: "#fff",
             borderRadius: "50%",
-          }}>
+          }}
+        >
           {notificationLength}
         </Text>
       </Link>

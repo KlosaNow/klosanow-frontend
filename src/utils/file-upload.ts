@@ -85,8 +85,6 @@ export const uploadFile: UploadFileAction = async (mediaFile: File) => {
 
     if (!res || !res.data) return;
 
-    console.log("response at file upload", res.data);
-
     return res.data;
   }
 };
