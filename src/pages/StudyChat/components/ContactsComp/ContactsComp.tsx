@@ -80,7 +80,7 @@ const ContactsComp: React.FC<ContactsProps> = ({ contacts }) => {
     state.searchValue === ""
       ? state.selectedContacts
       : contacts.filter((item) =>
-          item.name.toLowerCase().includes(state.searchValue.toLowerCase())
+          item?.name?.toLowerCase()?.includes(state?.searchValue?.toLowerCase())
         );
 
   const groupedContacts = getContactsListWithChar(contactList);

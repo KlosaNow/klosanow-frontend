@@ -104,7 +104,8 @@ const ChatBody: React.FC<ChatBodyProps> = ({
       flexDir={"column-reverse"}
       gap="10px"
       w="100%"
-      zIndex={1000}>
+      zIndex={1000}
+    >
       {!loading && messages?.length > 0
         ? reversedMessages?.map((item) => {
             const urls = extractURLs(item.text) || [];
@@ -114,7 +115,8 @@ const ChatBody: React.FC<ChatBodyProps> = ({
               <Box
                 key={item._id}
                 alignSelf={isSender ? "flex-start" : "flex-end"}
-                maxW="60%">
+                maxW="60%"
+              >
                 <Flex gap="4px">
                   {isSender && (
                     <Circle size="20px" bg="#eee" overflow="hidden">
@@ -134,7 +136,8 @@ const ChatBody: React.FC<ChatBodyProps> = ({
                     minW={50}
                     padding={"4px 8px"}
                     flexDir={"column"}
-                    gap={"4px"}>
+                    gap={"4px"}
+                  >
                     {urls.map((url) => {
                       const cachedPreview = mediaCacheRef.current[url];
                       if (cachedPreview !== undefined) {
@@ -175,9 +178,9 @@ const ChatBody: React.FC<ChatBodyProps> = ({
         </ModalContent>
       </Modal>
 
-      {!loading && !messages && (
+      {!loading && messages.length === 0 && (
         <Box textAlign={"center"}>
-          <Text>Start sending message to group</Text>
+          <Text>Start sending message to {activeChat?.name}</Text>
         </Box>
       )}
 
