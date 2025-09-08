@@ -11,5 +11,7 @@ export const getContacts = async (): Promise<ContactPayload["contacts"]> => {
     },
   });
 
+  console.log("data from getContacts", data);
+
   return data;
 };

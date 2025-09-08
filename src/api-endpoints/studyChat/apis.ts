@@ -11,6 +11,8 @@ export const getChats = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
+  console.log("data from getChats", data);
+
   return data;
 };
 
@@ -33,6 +35,9 @@ export const getStudyChats = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
+
+  console.log("data from getStudyChats", data);
+
   return data;
 };
 
@@ -59,6 +64,7 @@ export const createStudyChat = async (body: {
       Authorization: `Bearer ${token}`,
     },
   });
+  console.log("data from createStudyChat", data);
   return data;
 };
 
@@ -70,5 +76,6 @@ export const updateStudyChat = async (id: string, body: UpdateStudyChat) => {
       Authorization: `Bearer ${token}`,
     },
   });
+  console.log("data from updateStudyChat", data);
   return data;
 };

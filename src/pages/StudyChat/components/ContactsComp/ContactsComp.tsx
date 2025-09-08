@@ -73,14 +73,19 @@ const ContactsComp: React.FC<ContactsProps> = ({ contacts }) => {
       members: [contact],
     };
     setStorageItem(CHAT_CONTACT_KEY, JSON.stringify(contactData));
-    navigate(`${studyChatPagePath}?slug=${transformNameToSlug(contact.name)}`);
+    navigate(
+      `${studyChatPagePath}?slug=${transformNameToSlug(`${contact.firstName ?? ""} ${contact.lastName ?? ""}`.trim())}`
+    );
   };
 
   const contactList =
     state.searchValue === ""
-      ? state.selectedContacts
+      ? contacts
       : contacts.filter((item) =>
-          item?.name?.toLowerCase()?.includes(state?.searchValue?.toLowerCase())
+          `${item.firstName ?? ""} ${item.lastName ?? ""}`
+            .trim()
+            .toLowerCase()
+            .includes(state?.searchValue?.toLowerCase())
         );
 
   const groupedContacts = getContactsListWithChar(contactList);

@@ -32,7 +32,9 @@ export interface ChatListData {
 
 export interface Contact {
   _id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  username: string;
   email: string;
   phoneNumber: string;
   photoURL: string;

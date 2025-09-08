@@ -16,8 +16,10 @@ import { formatISO } from "date-fns";
 
 export const getContactsListWithChar = (contacts: Contact[]) => {
   const sortedContacts = [...contacts].sort((a, b) => {
-    const nameA = a.name[0].toLowerCase();
-    const nameB = b.name[0].toLowerCase();
+    const nameA =
+      `${a.firstName ?? ""} ${a.lastName ?? ""}`.trim()[0]?.toLowerCase() ?? "";
+    const nameB =
+      `${b.firstName ?? ""} ${b.lastName ?? ""}`.trim()[0]?.toLowerCase() ?? "";
 
     if (nameA < nameB) {
       return -1;
@@ -29,8 +31,12 @@ export const getContactsListWithChar = (contacts: Contact[]) => {
     return 0;
   });
 
-  const groupedContacts = groupBy(sortedContacts, (item) =>
-    item.name[0].toUpperCase()
+  const groupedContacts = groupBy(
+    sortedContacts,
+    (item) =>
+      `${item.firstName ?? ""} ${item.lastName ?? ""}`
+        .trim()[0]
+        ?.toUpperCase() ?? ""
   );
 
   const grouped = Object.keys(groupedContacts).map((value, keyIndex) => {
@@ -112,7 +118,8 @@ export const getUploadedDataPreview = (data: {
         bg="#eee"
         borderRadius="8px"
         key={uniqueId(`img-${url}`)}
-        onClick={() => handleView && handleView()}>
+        onClick={() => handleView && handleView()}
+      >
         <Image
           src={url}
           w="100%"
@@ -152,7 +159,8 @@ export const getUploadedDataPreview = (data: {
         bg={colors.neutral[60]}
         w="70px"
         borderRadius="8px"
-        key={uniqueId(`doc-${url}`)}>
+        key={uniqueId(`doc-${url}`)}
+      >
         <Image
           src={DummyFileIllustration}
           w="100%"
@@ -170,7 +178,8 @@ export const getUploadedDataPreview = (data: {
         href={url.startsWith("http") ? url : `https://${url}`}
         target="_blank"
         rel="noopener noreferrer"
-        key={uniqueId(`link-${url}`)}>
+        key={uniqueId(`link-${url}`)}
+      >
         <u>{url}</u>
       </a>
     );
@@ -205,9 +214,11 @@ export const getChatListData = (
       createdAt: item?.createdAt,
       admin: item.members.filter((item) => item._id === userId)[0],
       recipient,
-      name: recipient?.name,
+      name: `${recipient?.firstName ?? ""} ${recipient?.lastName ?? ""}`.trim(),
       img: recipient?.photoURL,
-      slug: transformNameToSlug(recipient.name),
+      slug: transformNameToSlug(
+        `${recipient?.firstName ?? ""} ${recipient?.lastName ?? ""}`.trim()
+      ),
       last_msg_time:
         item?.lastChatMessage[0]?.createdAt || formatISO(new Date()),
       type: ChatType.Single,

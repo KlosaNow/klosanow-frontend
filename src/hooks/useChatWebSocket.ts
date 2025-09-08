@@ -50,8 +50,13 @@ const useChatWebSocket = () => {
     };
   }, [url, token]);
 
-  const emit = (event: string, data: any) =>
+  const emit = (event: string, data?: any) =>
     socketRef.current?.emit(event, data);
+
+  const on = (event: string, cb: (data: any) => void) => {
+    socketRef.current?.on(event, cb);
+    return () => socketRef.current?.off(event, cb);
+  };
 
   const disconnectWebSocket = () => {
     if (socketRef.current) {
@@ -64,8 +69,23 @@ const useChatWebSocket = () => {
     isConnected,
     eventType,
     disconnectWebSocket,
+
+    // ---- Chat methods ----
+    getAllChats: (cb: (chats: any) => void) => {
+      emit(webSocketUrls.allChatsWebSocketUrl);
+      return on(webSocketUrls.allChatsWebSocketUrl, cb);
+    },
+
+    getChat: (chatId: string, cb: (messages: any) => void) => {
+      emit(webSocketUrls.singleChatWebSocketUrl, { chatId });
+      return on(webSocketUrls.singleChatWebSocketUrl, (res: any) =>
+        cb(res.data)
+      );
+    },
+
     deleteChat: (chatId: string) =>
       emit(webSocketUrls.deleteChatWebSocketUrl, { chatId }),
+
     sendChatMessage: ({
       recipientId,
       message,
@@ -73,8 +93,38 @@ const useChatWebSocket = () => {
       recipientId: string;
       message: string;
     }) => emit(webSocketUrls.sendChatWebSocketUrl, { recipientId, message }),
+
+    // ---- Study Chat methods ----
+    getAllStudyChats: (cb: (chats: any) => void) => {
+      emit(webSocketUrls.allStudyChatsWebSocketUrl);
+      return on(webSocketUrls.allStudyChatsWebSocketUrl, cb);
+    },
+
+    getStudyChat: (studyChatId: string, cb: (messages: any) => void) => {
+      emit(webSocketUrls.singleStudyChatWebSocketUrl, { studyChatId });
+      return on(webSocketUrls.singleStudyChatWebSocketUrl, (res: any) =>
+        cb(res.data)
+      );
+    },
+
+    createStudyChat: ({
+      title,
+      photoUrl,
+      members,
+    }: {
+      title: string;
+      photoUrl: string;
+      members: string[];
+    }) =>
+      emit(webSocketUrls.createStudyChatsWebSocketUrl, {
+        title,
+        photoUrl,
+        members,
+      }),
+
     deleteStudyChat: (studyChatId: string) =>
       emit(webSocketUrls.deleteStudyChatWebSocketUrl, { studyChatId }),
+
     addStudyChatMember: ({
       studyChatId,
       members,
@@ -86,6 +136,7 @@ const useChatWebSocket = () => {
         studyChatId,
         members,
       }),
+
     updateStudyChatPhoto: ({
       studyChatId,
       photoUrl,
@@ -97,6 +148,7 @@ const useChatWebSocket = () => {
         studyChatId,
         photoUrl,
       }),
+
     sendStudyChatMessage: ({
       studyChatId,
       message,
