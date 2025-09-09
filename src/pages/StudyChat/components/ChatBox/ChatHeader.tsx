@@ -88,7 +88,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ data }) => {
             }
           >
             <Text fontSize="14px" fontWeight="500" mb="8px">
-              {data?.name}
+              {data?.username || data?.name}
             </Text>
 
             {data?.members ? (
@@ -98,9 +98,9 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ data }) => {
                 textOverflow="ellipsis"
                 overflow="hidden"
               >
-                {data.members.map(({ name, _id }, index, arr) => (
+                {data.members.map(({ username, name, _id }, index, arr) => (
                   <Text key={uniqueId("header-contact-list")} fontSize="14px">
-                    {user.data?._id === _id ? "You" : name}
+                    {user.data?._id === _id ? "You" : username || name}
                     {index !== arr.length - 1 ? "," : "."}
                   </Text>
                 ))}

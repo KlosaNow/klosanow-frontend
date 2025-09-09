@@ -49,7 +49,7 @@ const ChatDetailFlyout: React.FC = () => {
 
     updateStudyChatValues({ isChatDetailFlyout: false });
     navigate(
-      `${contactsPagePath}?add=${activeChat.id}&name=${activeChat.name}`
+      `${contactsPagePath}?add=${activeChat.id}&name=${activeChat.username || activeChat.name}`
     );
   };
 
@@ -96,7 +96,7 @@ const ChatDetailFlyout: React.FC = () => {
             >
               <Image
                 src={activeChat?.img}
-                alt={activeChat?.name}
+                alt={activeChat?.username || activeChat?.name}
                 w="100%"
                 h="100%"
                 objectFit="cover"
@@ -106,7 +106,7 @@ const ChatDetailFlyout: React.FC = () => {
             {isGroupChat && (
               <Box maxW="238px" textAlign="center">
                 <Text fontSize="20px" fontWeight="500">
-                  {activeChat?.name}
+                  {activeChat?.username || activeChat?.name}
                 </Text>
                 <Box
                   mt="12px"
@@ -129,7 +129,7 @@ const ChatDetailFlyout: React.FC = () => {
             {!isGroupChat && (
               <Box textAlign="center">
                 <Text fontSize="20px" fontWeight="500">
-                  {activeChat?.name}{" "}
+                  {activeChat?.username || activeChat?.name}
                 </Text>
               </Box>
             )}
@@ -189,7 +189,7 @@ const ChatDetailFlyout: React.FC = () => {
                       lineHeight="17.5px"
                       marginBottom="5px"
                     >
-                      {activeChat?.admin?.name}
+                      {activeChat?.admin?.username || activeChat?.admin?.name}
                     </Text>
                   </Flex>
                 </Flex>
@@ -201,29 +201,31 @@ const ChatDetailFlyout: React.FC = () => {
                 </Text>
 
                 <Flex flexDir="column" gap="28px" mt="20px">
-                  {activeChat?.members?.map(({ name, photoURL, _id }) => (
-                    <Flex
-                      alignItems="center"
-                      gap="8px"
-                      key={uniqueId(`learner-${_id}`)}
-                    >
-                      <Circle size="50px" bg="#b1b1b1" overflow="hidden">
-                        <Image src={photoURL} />
-                      </Circle>
+                  {activeChat?.members?.map(
+                    ({ username, photoURL, _id, name }) => (
+                      <Flex
+                        alignItems="center"
+                        gap="8px"
+                        key={uniqueId(`learner-${_id}`)}
+                      >
+                        <Circle size="50px" bg="#b1b1b1" overflow="hidden">
+                          <Image src={photoURL} />
+                        </Circle>
 
-                      <Flex justifyContent="center" flexDir="column">
-                        <Text
-                          fontSize={14}
-                          fontWeight={500}
-                          color="#2A2A2A"
-                          lineHeight="17.5px"
-                          marginBottom="5px"
-                        >
-                          {user.data?._id === _id ? "You" : name}
-                        </Text>
+                        <Flex justifyContent="center" flexDir="column">
+                          <Text
+                            fontSize={14}
+                            fontWeight={500}
+                            color="#2A2A2A"
+                            lineHeight="17.5px"
+                            marginBottom="5px"
+                          >
+                            {user.data?._id === _id ? "You" : username || name}
+                          </Text>
+                        </Flex>
                       </Flex>
-                    </Flex>
-                  ))}
+                    )
+                  )}
                 </Flex>
               </Box>
 

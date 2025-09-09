@@ -158,9 +158,13 @@ const ChatFooter: React.FC<ChatFooterProps> = ({
   const handleAudioUpload = async (blob: Blob) => {
     try {
       handleStateUpdate({ uploadingMedia: true });
-      const file = new File([blob], `${activeChat.name}-${uniqueId("audio")}`, {
-        type: "audio/mp3",
-      });
+      const file = new File(
+        [blob],
+        `${activeChat.username}-${uniqueId("audio")}`,
+        {
+          type: "audio/mp3",
+        }
+      );
       const res = await uploadFile(file);
 
       if (!res || !res.data || res.status !== FileUploadResponseStatus.Success)

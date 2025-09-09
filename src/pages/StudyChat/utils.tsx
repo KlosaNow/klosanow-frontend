@@ -16,10 +16,8 @@ import { formatISO } from "date-fns";
 
 export const getContactsListWithChar = (contacts: Contact[]) => {
   const sortedContacts = [...contacts].sort((a, b) => {
-    const nameA =
-      `${a.firstName ?? ""} ${a.lastName ?? ""}`.trim()[0]?.toLowerCase() ?? "";
-    const nameB =
-      `${b.firstName ?? ""} ${b.lastName ?? ""}`.trim()[0]?.toLowerCase() ?? "";
+    const nameA = getContactDisplayName(a).trim()[0]?.toLowerCase() ?? "";
+    const nameB = getContactDisplayName(b).trim()[0]?.toLowerCase() ?? "";
 
     if (nameA < nameB) {
       return -1;
@@ -56,6 +54,19 @@ export const getContactsListWithChar = (contacts: Contact[]) => {
   return grouped;
 };
 
+export const getContactDisplayName = (contact: Contact): string => {
+  if (!contact) return "";
+
+  if (contact.username) return contact.username;
+
+  if (contact.firstName || contact.lastName) {
+    return `${contact.firstName ?? ""} ${contact.lastName ?? ""}`.trim();
+  }
+
+  if ((contact as any).name) return (contact as any).name;
+
+  return "";
+};
 const getTypeFromUrl = (
   value: string,
   type?: string
@@ -214,10 +225,11 @@ export const getChatListData = (
       createdAt: item?.createdAt,
       admin: item.members.filter((item) => item._id === userId)[0],
       recipient,
-      name: `${recipient?.firstName ?? ""} ${recipient?.lastName ?? ""}`.trim(),
+      name: `${recipient?.name ?? ""} `.trim(),
+      username: `${recipient?.username ?? ""} `.trim(),
       img: recipient?.photoURL,
       slug: transformNameToSlug(
-        `${recipient?.firstName ?? ""} ${recipient?.lastName ?? ""}`.trim()
+        `${recipient?.username ?? recipient?.name ?? ""}`.trim()
       ),
       last_msg_time:
         item?.lastChatMessage[0]?.createdAt || formatISO(new Date()),
@@ -235,7 +247,8 @@ export const getStudyChatListData = (
 
     return {
       id: item._id,
-      name: item?.title,
+      name: item?.title ?? owner?.username,
+      username: item?.title ?? owner?.username,
       img: item?.photoUrl,
       slug: transformNameToSlug(item.title),
       last_msg_time: item?.createdAt,

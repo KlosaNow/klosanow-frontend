@@ -97,7 +97,7 @@ const RemoveMemberModal: React.FC = () => {
           <Text fontWeight={600} fontSize="16px">
             Remove members from{" "}
             <Box as="span" color="#9174F6">
-              {activeStudyChat?.name}
+              {activeStudyChat?.username || activeStudyChat?.name}
             </Box>
           </Text>
         </ModalHeader>
@@ -120,7 +120,7 @@ const RemoveMemberModal: React.FC = () => {
             {activeStudyChat?.members &&
               activeStudyChat.members
                 .filter((item) => item._id !== user.data?._id)
-                .map(({ _id, name, email, photoURL }) => (
+                .map(({ _id, username, name, email, photoURL }) => (
                   <ListItem
                     key={`member-${_id}`}
                     p="12px"
@@ -131,14 +131,14 @@ const RemoveMemberModal: React.FC = () => {
                   >
                     <Flex gap="12px" align="center">
                       <Circle size="40px" bg="#b1b1b1" overflow="hidden">
-                        <Image src={photoURL} alt={name} />
+                        <Image src={photoURL} alt={username || name} />
                       </Circle>
 
                       <Box flex="1">
                         <Flex justify="space-between" align="center">
                           <Box>
                             <Text fontSize="14px" fontWeight="500" color="#000">
-                              {name}
+                              {username || name}
                             </Text>
                             <Text fontSize="12px" color="#555" mt="4px">
                               {email}

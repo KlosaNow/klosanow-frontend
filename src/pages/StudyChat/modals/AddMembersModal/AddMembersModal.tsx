@@ -62,7 +62,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
           flexDir={"column"}
           marginTop={"24px"}
         >
-          {members.map(({ _id, name, email }, idx) => (
+          {members.map(({ _id, username, name, email }, idx) => (
             <ListItem
               key={uniqueId(`members-${_id}`)}
               padding={"12px"}
@@ -70,7 +70,7 @@ const AddMembersModal: React.FC<AddMembersModalProps> = ({
                 members.length - 1 === idx ? "none" : "1px solid #eee"
               }
             >
-              <Text textTransform={"capitalize"}>{name}</Text>
+              <Text textTransform={"capitalize"}>{username || name}</Text>
 
               <Text fontSize={"12px"} color={"#000000aa"}>
                 {email}

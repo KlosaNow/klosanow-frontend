@@ -2,7 +2,11 @@ import React from "react";
 import { Box, Divider, Flex, Text } from "@chakra-ui/react";
 import { AddPeopleIcon } from "../../assets/svgs";
 import ContactList from "./ContactList";
-import { getContactsListWithChar, transformNameToSlug } from "../../utils";
+import {
+  getContactDisplayName,
+  getContactsListWithChar,
+  transformNameToSlug,
+} from "../../utils";
 import { ChatData, Contact } from "../../../../types/studyChat";
 import { uniqueId } from "lodash";
 import ContactSearch from "../ContactSearch";
@@ -74,7 +78,7 @@ const ContactsComp: React.FC<ContactsProps> = ({ contacts }) => {
     };
     setStorageItem(CHAT_CONTACT_KEY, JSON.stringify(contactData));
     navigate(
-      `${studyChatPagePath}?slug=${transformNameToSlug(`${contact.firstName ?? ""} ${contact.lastName ?? ""}`.trim())}`
+      `${studyChatPagePath}?slug=${transformNameToSlug(getContactDisplayName(contact))}`
     );
   };
 
@@ -82,8 +86,7 @@ const ContactsComp: React.FC<ContactsProps> = ({ contacts }) => {
     state.searchValue === ""
       ? contacts
       : contacts.filter((item) =>
-          `${item.firstName ?? ""} ${item.lastName ?? ""}`
-            .trim()
+          getContactDisplayName(item)
             .toLowerCase()
             .includes(state?.searchValue?.toLowerCase())
         );

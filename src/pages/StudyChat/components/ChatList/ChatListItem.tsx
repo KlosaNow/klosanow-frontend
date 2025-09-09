@@ -4,6 +4,7 @@ import { ChatListData } from "../../../../types/studyChat";
 import { useSearchParams } from "react-router-dom";
 import { StudyChatContext } from "../../context/StudyChat";
 import { formatDistanceToNow } from "date-fns";
+import { getContactDisplayName } from "../../utils";
 
 interface ChatListItemProps {
   data: ChatListData | null;
@@ -47,7 +48,7 @@ const ChatListItem: React.FC<ChatListItemProps> = ({ data }) => {
               lineHeight="17.5px"
               marginBottom="5px"
             >
-              {data?.name}
+              {getContactDisplayName(data as any)}
             </Text>
 
             {data?.last_msg && (

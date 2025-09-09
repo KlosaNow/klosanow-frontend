@@ -72,8 +72,10 @@ const LeaveChatGroupModal: React.FC = () => {
       <ModalContent padding={"16px"}>
         <ModalHeader padding={0}>
           <Text fontWeight={600} fontSize={16}>
-            Leave{" "}
-            <span style={{ color: "#9174F6" }}>{activeStudyChat?.name}</span>
+            Leave
+            <span style={{ color: "#9174F6" }}>
+              {activeStudyChat?.username || activeStudyChat?.name}
+            </span>
           </Text>
           <Text fontWeight={400} fontSize={13}>
             Are you sure you want to leave this group?

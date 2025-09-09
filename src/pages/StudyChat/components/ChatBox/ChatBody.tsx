@@ -12,6 +12,7 @@ import {
 import { ChatListData, ChatType, MessageType } from "src/types";
 import { getUploadedDataPreview } from "../../utils";
 import { useStoreSelector } from "src/redux/hooks";
+import { getContactDisplayName } from "../../utils";
 
 interface ChatBodyProps {
   messages: Array<MessageType>;
@@ -154,7 +155,9 @@ const ChatBody: React.FC<ChatBodyProps> = ({
                     </Text>
 
                     {isSender && activeChat.type === ChatType.Group && (
-                      <Text fontSize="9px">{item.sender?.name}</Text>
+                      <Text fontSize="9px">
+                        {getContactDisplayName(item.sender)}
+                      </Text>
                     )}
                   </Flex>
                 </Flex>
@@ -180,7 +183,9 @@ const ChatBody: React.FC<ChatBodyProps> = ({
 
       {!loading && messages.length === 0 && (
         <Box textAlign={"center"}>
-          <Text>Start sending message to {activeChat?.name}</Text>
+          <Text>
+            Start sending message to {getContactDisplayName(activeChat as any)}
+          </Text>
         </Box>
       )}
 

@@ -270,7 +270,7 @@ const StudyGroupInfo: React.FC = () => {
 
                 {contacts && (
                   <Grid templateColumns="repeat(4, 1fr)" gap="35px">
-                    {contacts.map(({ photoURL, _id, name }) => (
+                    {contacts.map(({ photoURL, _id, username, name }) => (
                       <GridItem
                         key={uniqueId(`participants-${_id}`)}
                         placeItems="center"
@@ -278,7 +278,7 @@ const StudyGroupInfo: React.FC = () => {
                         <Circle size="60px" bg="#b1b1b1" overflow="hidden">
                           <Image
                             src={photoURL}
-                            alt={name}
+                            alt={username || name}
                             objectFit="cover"
                             h="100%"
                             w="100%"
@@ -289,7 +289,7 @@ const StudyGroupInfo: React.FC = () => {
                           fontSize="14px"
                           fontWeight="400"
                         >
-                          {name}
+                          {username || name}
                         </Text>
                       </GridItem>
                     ))}

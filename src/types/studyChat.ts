@@ -16,7 +16,10 @@ export interface StudyChatListData {
 
 export interface ChatListData {
   id: string;
-  name: string;
+  firstName?: string;
+  lastName?: string;
+  username: string;
+  name?: string;
   slug: string;
   img: string;
   last_msg_time: string;
@@ -35,6 +38,7 @@ export interface Contact {
   firstName: string;
   lastName: string;
   username: string;
+  name?: string;
   email: string;
   phoneNumber: string;
   photoURL: string;

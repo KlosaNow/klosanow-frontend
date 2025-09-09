@@ -47,7 +47,7 @@ const ContactListItem: React.FC<ContactListItemProps> = ({
               <Flex justifyContent="space-between" alignItems="center">
                 <Box>
                   <Text fontSize="18px" fontWeight="500" color="#000000">
-                    {contact.name}
+                    {contact.username || contact.name}
                   </Text>
 
                   <Text fontSize="14px" color="#555555" mt="4px">
