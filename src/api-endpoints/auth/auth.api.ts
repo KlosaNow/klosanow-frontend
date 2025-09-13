@@ -43,7 +43,7 @@ export const verifyOtpApi = async ({
 }: {
   token: string;
 }): Promise<VerifyOtpResponse> => {
-  const { data } = await Axios.get(`/auth/verify-otp/${token}`);
+  const { data } = await Axios.get(`/auth/verify-email/${token}`);
 
   return data.data;
 };
@@ -53,7 +53,7 @@ export const resetOtpApi = async ({
 }: {
   token: string;
 }): Promise<VerifyOtpResponse> => {
-  const { data } = await Axios.get(`/auth/reset-otp/${token}`);
+  const { data } = await Axios.get(`/auth/reset-password/${token}`);
 
   return data.data;
 };
