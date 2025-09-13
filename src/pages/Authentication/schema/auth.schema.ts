@@ -24,15 +24,16 @@ const SignInSchema = yup.object().shape({
     .required("Password is required"),
 });
 const ResetPasswordSchema = yup.object().shape({
-  newPassword: yup
+  password: yup
     .string()
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("newPassword"), ""], "Password must match")
+    .oneOf([yup.ref("password")], "Password must match")
     .required("Confirm password is required"),
 });
+
 const ForgetPasswordSchema = yup.object().shape({
   email: yup.string().email().required("Email is required"),
 });

@@ -29,9 +29,9 @@ export const forgotPasswordApi = async (
 export const ResetPasswordApi = async (
   ResetPayload: ResetPasswordValues
 ): Promise<AuthResponseInterface> => {
-  const { token, newPassword, confirmPassword } = ResetPayload;
+  const { token, password, confirmPassword } = ResetPayload;
   const { data } = await Axios.post(`/auth/reset-password/${token}`, {
-    newPassword,
+    password,
     confirmPassword,
   });
   return data;
@@ -48,7 +48,7 @@ export const verifyOtpApi = async ({
 }: {
   token: string;
 }): Promise<VerifyOtpResponse> => {
-  const { data } = await Axios.get(`/auth/verify-email/${token}`);
+  const { data } = await Axios.post(`/auth/verify-email/${token}`);
 
-  return data.data;
+  return data;
 };

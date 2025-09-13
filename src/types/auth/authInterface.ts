@@ -41,7 +41,7 @@ export interface forgotValues {
 }
 export interface ResetPasswordValues {
   token: string;
-  newPassword: string;
+  password: string;
   confirmPassword: string;
 }
 export interface AuthResponseInterface {

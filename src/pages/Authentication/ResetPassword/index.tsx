@@ -66,7 +66,7 @@ export default function ResetPassword() {
 
     const payload: ResetPasswordValues = {
       token,
-      newPassword: values.newPassword,
+      password: values.password,
       confirmPassword: values.confirmPassword,
     };
 
@@ -75,7 +75,7 @@ export default function ResetPassword() {
 
   const formik = useFormik({
     initialValues: {
-      newPassword: "",
+      password: "",
       confirmPassword: "",
     },
     validationSchema: ResetPasswordSchema,
@@ -150,7 +150,7 @@ export default function ResetPassword() {
                 <InputGroup>
                   <Input
                     type={showPassword ? "text" : "password"}
-                    name="newPassword"
+                    name="password"
                     fontSize="sm"
                     padding="1.6rem 1rem"
                     bg="#fff"
@@ -158,7 +158,7 @@ export default function ResetPassword() {
                     placeholder="Enter new password"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.newPassword}
+                    value={formik.values.password}
                   />
                   <InputRightElement h="100%" pr="1rem">
                     <Button
@@ -170,8 +170,8 @@ export default function ResetPassword() {
                     </Button>
                   </InputRightElement>
                 </InputGroup>
-                {formik.touched.newPassword && formik.errors.newPassword ? (
-                  <InputError error={formik.errors.newPassword} />
+                {formik.touched.password && formik.errors.password ? (
+                  <InputError error={formik.errors.password} />
                 ) : null}
               </FormControl>
 
