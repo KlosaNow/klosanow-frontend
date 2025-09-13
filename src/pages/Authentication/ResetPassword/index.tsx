@@ -31,6 +31,7 @@ import { useState } from "react";
 export default function ResetPassword() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const resetSlide = slides[2];

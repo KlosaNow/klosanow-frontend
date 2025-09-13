@@ -29,10 +29,11 @@ export default function ForgotPassword() {
   const { mutate, isLoading } = useMutation(forgotPasswordApi, {
     onSuccess: (data) => {
       toast.success(
-        data?.message || "Email verified. Proceed to reset password."
+        data?.message ||
+          "Email verified. Password reset link has been sent to your email"
       );
       localStorage.setItem("resetEmail", formik.values.email);
-      navigate("/reset-password");
+      navigate("/reset-verify");
     },
     onError: (error: AxiosError<{ message: string }>) => {
       toast.error(error?.response?.data?.message || "Something went wrong");
@@ -58,7 +59,8 @@ export default function ForgotPassword() {
           height="160"
           viewBox="0 0 568 160"
           fill="none"
-          xmlns="http://www.w3.org/2000/svg">
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <ellipse
             cx="-14.5"
             cy="-240.5"
@@ -75,10 +77,12 @@ export default function ForgotPassword() {
           hideBelow="lg"
           display="flex"
           py="2rem"
-          px="1rem">
+          px="1rem"
+        >
           <Box
             style={{ position: "absolute", top: "5%", left: "5%" }}
-            width="8rem">
+            width="8rem"
+          >
             <Image src={logo} alt="Dan Abramov" />
           </Box>
           <OnboardingSlides slides={slides} />
@@ -87,19 +91,22 @@ export default function ForgotPassword() {
           w={{ base: "100%", lg: "50%" }}
           bg={{ lg: "#fafafa" }}
           py="2rem"
-          px="1rem">
+          px="1rem"
+        >
           <VStack width={{ md: "100%", lg: "70%" }} margin="auto">
             <Box width="100%">
               <Text
                 color="secondary.50"
-                fontSize={{ lg: "2.1rem", base: "1.5rem" }}>
+                fontSize={{ lg: "2.1rem", base: "1.5rem" }}
+              >
                 Let's get you into your account
               </Text>
               <Text
                 fontSize={{ lg: "1rem", base: "1rem" }}
                 fontFamily={{ lg: "primary" }}
                 fontWeight="200"
-                color="black.40">
+                color="black.40"
+              >
                 Enter your email to receive your account
               </Text>
             </Box>
@@ -107,7 +114,8 @@ export default function ForgotPassword() {
               as="form"
               py="1rem"
               width="100%"
-              onSubmit={formik.handleSubmit}>
+              onSubmit={formik.handleSubmit}
+            >
               <FormControl mb="1.5rem">
                 <FormLabel fontSize="sm" color="black.40">
                   Email
@@ -140,7 +148,8 @@ export default function ForgotPassword() {
                   color="neutral.50"
                   bgColor="primary.50"
                   type="submit"
-                  disabled={!(formik.dirty && formik.isValid)}>
+                  disabled={!(formik.dirty && formik.isValid)}
+                >
                   {isLoading ? (
                     <Spinner size="sm" thickness="4px" />
                   ) : (
@@ -162,14 +171,16 @@ export default function ForgotPassword() {
           overflow: "hidden",
           width: "50%",
           height: "5rem",
-        }}>
+        }}
+      >
         <svg
           style={{ position: "absolute", bottom: "-20px" }}
           width="708"
           height="85"
           viewBox="0 0 708 85"
           fill="none"
-          xmlns="http://www.w3.org/2000/svg">
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <ellipse cx="353.5" cy="400.5" rx="582.5" ry="400.5" fill="#E5DEFD" />
         </svg>
       </Box>

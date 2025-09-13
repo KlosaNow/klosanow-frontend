@@ -5,7 +5,11 @@ import {
   forgotValues,
   ResetPasswordValues,
 } from "../../types/auth/authInterface";
-import { AuthResponseInterface, SignInResponse } from "./interface";
+import {
+  AuthResponseInterface,
+  SignInResponse,
+  VerifyOtpResponse,
+} from "./interface";
 
 export const signUpApi = async (
   signUpPayload: SignUpValues
@@ -32,4 +36,24 @@ export const signInApi = async (
 ): Promise<SignInResponse> => {
   const { data } = await Axios.post("/auth/sign-in", signInPayload);
   return data;
+};
+
+export const verifyOtpApi = async ({
+  token,
+}: {
+  token: string;
+}): Promise<VerifyOtpResponse> => {
+  const { data } = await Axios.get(`/auth/verify-otp/${token}`);
+
+  return data.data;
+};
+
+export const resetOtpApi = async ({
+  token,
+}: {
+  token: string;
+}): Promise<VerifyOtpResponse> => {
+  const { data } = await Axios.get(`/auth/reset-otp/${token}`);
+
+  return data.data;
 };

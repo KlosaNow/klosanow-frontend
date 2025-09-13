@@ -42,7 +42,8 @@ export default function SignUp() {
   const { mutate, isLoading } = useMutation(signUpApi, {
     onSuccess: (data) => {
       toast.success(data?.message);
-      navigate("/sign-in");
+
+      navigate("/please-verify");
     },
     onError: (error: AxiosError<{ message: string }>) => {
       if (error.response) {
@@ -57,7 +58,7 @@ export default function SignUp() {
     // console.log("The values going to the backend are", values);
 
     mutate(values);
-    localStorage.setItem("phoneNumber", values?.phoneNumber);
+    localStorage.setItem("email", values?.email);
   };
 
   const formik = useFormik({

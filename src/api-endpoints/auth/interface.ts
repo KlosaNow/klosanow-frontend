@@ -16,3 +16,13 @@ export interface SignInResponse {
     token: string;
   };
 }
+
+export interface VerifyOtpResponse {
+  status: string;
+  message: string;
+}
+
+export interface ResetOtpResponse {
+  status: string;
+  message: string;
+}
