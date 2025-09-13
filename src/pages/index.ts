@@ -5,7 +5,6 @@ export { default as VerifySplash } from "./Authentication/VerifySplash";
 export { default as VerifyOtp } from "./Authentication/VerifyOtp";
 export { default as ForgotPassword } from "./Authentication/ForgotPassword";
 export { default as ResetSplash } from "./Authentication/ResetSplash";
-export { default as ResetOtp } from "./Authentication/ResetOtp";
 export { default as ResetPassword } from "./Authentication/ResetPassword";
 export { default as Dashboard } from "./Dashboard";
 export { default as Error } from "./Error/Error";

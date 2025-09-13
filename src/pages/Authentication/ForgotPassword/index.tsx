@@ -32,7 +32,7 @@ export default function ForgotPassword() {
         data?.message ||
           "Email verified. Password reset link has been sent to your email"
       );
-      localStorage.setItem("resetEmail", formik.values.email);
+
       navigate("/reset-verify");
     },
     onError: (error: AxiosError<{ message: string }>) => {

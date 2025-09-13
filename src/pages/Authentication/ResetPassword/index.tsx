@@ -19,7 +19,7 @@ import { ResetPasswordApi } from "../../../api-endpoints/auth/auth.api";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { ResetPasswordValues } from "../../../types/auth/authInterface";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { InputError } from "../../../components";
 import { SlideTemplate } from "src/pages/OnboardingSlides/SlideTemplate";
@@ -31,31 +31,38 @@ import { useState } from "react";
 export default function ResetPassword() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-
+  const { token } = useParams<{ token: string }>();
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const resetSlide = slides[2];
 
   const { mutate, isLoading } = useMutation(ResetPasswordApi, {
     onSuccess: (data) => {
+      console.log("Verification Response", data);
       toast.success(data?.message || "Password reset successfully");
-      navigate("/sign-in");
+      setTimeout(() => {
+        navigate("/sign-in");
+      }, 2000);
     },
     onError: (error: AxiosError<{ message: string }>) => {
-      toast.error(error?.response?.data?.message || "Something went wrong");
+      if (error.response) {
+        toast.error(error?.response?.data?.message || "Something went wrong");
+      } else {
+        toast.error(error?.message);
+      }
     },
   });
-  const handleOnSubmit = (values: Omit<ResetPasswordValues, "email">) => {
-    const email = localStorage.getItem("resetEmail");
+
+  const handleOnSubmit = (values: Omit<ResetPasswordValues, "token">) => {
     console.log(values);
 
-    if (!email) {
-      toast.error("Email not found. Please start password reset again.");
+    if (!token) {
+      toast.error("Invalid token");
       return;
     }
 
     const payload: ResetPasswordValues = {
-      email,
+      token,
       newPassword: values.newPassword,
       confirmPassword: values.confirmPassword,
     };

@@ -40,7 +40,7 @@ export interface forgotValues {
   email: string;
 }
 export interface ResetPasswordValues {
-  email: string;
+  token: string;
   newPassword: string;
   confirmPassword: string;
 }

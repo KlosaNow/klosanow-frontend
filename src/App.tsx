@@ -24,7 +24,6 @@ import {
   VerifyOtp,
   VerifySplash,
   ResetSplash,
-  ResetOtp,
 } from "./pages";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import {
@@ -100,11 +99,11 @@ function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-verify" element={<ResetSplash />} />
+
           <Route
             path="/api/v1/auth/reset-password/:token"
-            element={<ResetOtp />}
+            element={<ResetPassword />}
           />
-          <Route path="/reset-password" element={<ResetPassword />} />
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
               {/* dashboard routes */}
