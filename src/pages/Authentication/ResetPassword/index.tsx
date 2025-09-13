@@ -32,7 +32,10 @@ export default function ResetPassword() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const { token } = useParams<{ token: string }>();
+
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  console.log(token);
 
   const resetSlide = slides[2];
 
