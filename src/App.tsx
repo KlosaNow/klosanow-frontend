@@ -93,11 +93,17 @@ function App() {
           <Route path="/" element={<Onboarding />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/please-verify" element={<VerifySplash />} />
-          <Route path="/auth/verify-otp/:token" element={<VerifyOtp />} />
+          <Route
+            path="/api/v1/auth/verify-email/:token"
+            element={<VerifyOtp />}
+          />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-verify" element={<ResetSplash />} />
-          <Route path="/auth/reset-otp/:token" element={<ResetOtp />} />
+          <Route
+            path="/api/v1/auth/reset-password/:token"
+            element={<ResetOtp />}
+          />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
